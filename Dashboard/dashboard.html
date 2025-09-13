@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearEntry</title>
+    <link href="dashboard.css" rel="stylesheet" type="text/css">
+    <link href="../newtradedetection.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="SideBar">
+        <a href="../Landing/home.html" class="SideBar_Title inter-text">
+            ClearEntry
+        </a>
+        <ul class="SideBar_List">
+            <a class="anchor" href="../Profile/profile.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Profile
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Dashboard/dashboard.html">
+                <li class="SideBar_List_ListItem selected-item">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Dashboard
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Entries/entires.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Entries
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Chat/chat.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        ClearEntry AI 
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Journal/journal.html">
+                <li class="SideBar_List_ListItem">
+
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Journal
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Emotions/emotions.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Emotions
+                    </p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="MainFrame">
+        <div id="TradeEntry" class="MainFrame_TradeEntryFrame">
+            <div class="MainFrame_TradeEntryFrame_TradeFrame">
+                <p class="inter-text MainFrame_TradeEntryFrame_TradeFrame_Title">
+                    Trade Entry
+                </p>
+
+                <div id="TradeOpen_Entry" class="MainFrame_TradeEntryFrame_TradeFrame_Frame">
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame">
+                        <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text inter-text">
+                            Entry Open Title: 
+                        </p>
+                        <input id="Title-Text" style="text-transform: none;" placeholder="Title" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input">
+                    </div>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame">
+                        <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text inter-text">
+                            Entry Open Emotion: 
+                        </p>
+                        <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv">
+                            <button buttontype="emotion" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button">Emotion &#8628</button>
+                            <ul listtype="emotion" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List">
+                            </ul>
+                        </div>
+                        <button buttontype="emotion" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Button">+</button>
+                        <input placeholder="Name" style="text-transform: none;"  class="add-item MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input">
+                    </div>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame">
+                        <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text inter-text">
+                            Entry Open Strategy: 
+                        </p>
+                        <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv">
+                            <button buttontype="strategy" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button">Strategy &#8628</button>
+                            <ul listtype="strategy" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List">
+                            </ul>
+                        </div>
+                        <button buttontype="strategy" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Button">+</button>
+                        <input placeholder="Name" style="text-transform: none;" class="add-item MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input">
+                    </div>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame">
+                        <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text inter-text">
+                            Entry Open Symbol: 
+                        </p>
+                        <input id="Symbol-Text" placeholder="EX: TSLA" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input">
+                    </div>
+                    <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_Text inter-text">
+                        Entry Open Notes:
+                    </p>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame">
+                        <textarea class="MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame_TextArea inter-text"></textarea>
+                    </div>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame">
+                        <button class="MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame_Button Continue_Button Continue-Button">Continue</button>
+                        <button class="MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame_Button Cancel-Button">Cancel</button>
+                    </div>
+                </div>
+                <div id="TradeClose_Entry" class="MainFrame_TradeEntryFrame_TradeFrame_Frame">
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_ImgFrame">
+                        <label for="fileInput" id="img_Input" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_ImgInput inter-text">
+                            Upload Img
+                        </label>
+                        <input type="file" id="fileInput">
+                        <img id="img_Frame" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_ImgInput inter-text">
+                    </div>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame">
+                        <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text inter-text">
+                            Entry Close Trade: 
+                        </p>
+                        <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv">
+                            <button buttontype="trade" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button">Trade &#8628</button>
+                            <ul listtype="trade" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame">
+                        <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text inter-text">
+                            Entry Close Emotion: 
+                        </p>
+                        <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv">
+                            <button buttontype="emotion" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button">Emotion &#8628</button>
+                            <ul listtype="emotion" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List">
+                            </ul>
+                        </div>
+                        <button buttontype="emotion" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Button">+</button>
+                        <input placeholder="Name" style="text-transform: none;" class="add-item MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input">
+                    </div>
+
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame">
+                        <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text inter-text">
+                            Entry Close Prof/Loss: 
+                        </p>
+                        <input id="PL-Text" placeholder="EX: 120" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input">
+                    </div>
+                    <p class="MainFrame_TradeEntryFrame_TradeFrame_Frame_Text inter-text">
+                        Entry Close Notes:
+                    </p>
+                    <div style="height: 20%;" class="MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame">
+                        <textarea class="MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame_TextArea inter-text"></textarea>
+                    </div>
+                    <div class="MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame">
+                        <button class="MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame_Button Continue-Button">Continue</button>
+                        <button class="MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame_Button Cancel-Button">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="EntryAIPrompt" class="MainFrame_EntryAIPrompt">
+            <div id="AIPromptQuestion" class="MainFrame_EntryAIPrompt_QuestionPrompt">
+                <p class="MainFrame_EntryAIPrompt_QuestionPrompt_Text inter-text">
+                    Would you like to recieve personalized AI feedback regarding your trade?
+                </p>
+                <div class="MainFrame_EntryAIPrompt_QuestionPrompt_ButtonDiv">
+                    <button style="background-color: #358b38; color: white;" class="MainFrame_EntryAIPrompt_QuestionPrompt_ButtonDiv_Button inter-text">
+                        Continue
+                    </button>
+                    <button class="MainFrame_EntryAIPrompt_QuestionPrompt_ButtonDiv_Button inter-text">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+            <div id="AIPromptResponse" class="MainFrame_EntryAIPrompt_AIResponseFrame">
+                <p class="MainFrame_EntryAIPrompt_AIResponseFrame_Text inter-text">
+                    Here is your personalized AI feedback:
+                </p>
+                <p id="AIResponseText" class="MainFrame_EntryAIPrompt_AIResponseFrame_Text prompt-div inter-text">
+                    Generating...
+                </p>
+                <div class="MainFrame_EntryAIPrompt_AIResponseFrame_ButtonDiv">
+                    <button style="background-color: #358b38; color: white;" class="MainFrame_EntryAIPrompt_AIResponseFrame_Button">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="MainFrame_HeadFrame">
+            <p class="MainFrame_Title inter-text">
+                Dashboard
+            </p>
+            <div class="MainFrame_HeadFrame_ButtonsDiv">
+                <button id="TradeOpen_Button" class="MainFrame_HeadFrame_ButtonsDiv_Button inter-text">
+                    Trade Opened
+                </button>
+                <button id="TradeClose_Button" class="MainFrame_HeadFrame_ButtonsDiv_Button inter-text">
+                    Trade Closed
+                </button>
+            </div>
+        </div>
+        <div class="MainFrame_StatFrame1">
+            <div class="MainFrame_StatFrame1_Stat">
+                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
+                    Total P/L
+                </p>
+                <p id="plTotal_Text" class="MainFrame_StatFrame1_Stat_Text inter-text">
+                </p>
+            </div>
+            <div class="MainFrame_StatFrame1_Stat">
+                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
+                    Win Rate
+                </p>
+                <p id="winRate_Text" class="MainFrame_StatFrame1_Stat_Text inter-text"></p>
+            </div>
+            <div class="MainFrame_StatFrame1_Stat">
+                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
+                    Avg Hold Time
+                </p>
+                <p id="avgHoldTime_Text" class="MainFrame_StatFrame1_Stat_Text inter-text"></p>
+            </div>
+            <div class="MainFrame_StatFrame1_Stat">
+                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
+                    avg Emotion
+                </p>
+                <p id="avgEmotion_Text" class="MainFrame_StatFrame1_Stat_Text inter-text"></p>
+            </div>
+        </div>
+        <div class="MainFrame_StatFrame2">
+            <div class="MainFrame_StatFrame2_Stat">
+                <p class="MainFrame_StatFrame2_Stat_Title inter-text">
+                    PL Curve
+                </p>
+                <div style="width: 100%; height: 80%; align-items: center;">
+                    <canvas style="width: 100%; height: 100%;" id="plCurve"></canvas>
+                </div>
+            </div>
+            <div class="MainFrame_StatFrame2_Stat">
+                <p class="MainFrame_StatFrame2_Stat_Title inter-text">
+                    Daily Reflection
+                </p>
+                <p id="DailyReflectionText" class="MainFrame_StatFrame2_Stat_Text inter-text">
+                </p>
+            </div>
+        </div>
+        <div class="MainFrame_StatFrame3">
+            <div class="MainFrame_StatFrame3_Stat">
+                <p class="MainFrame_StatFrame3_Stat_Title inter-text">
+                    Recent Trades
+                </p>
+                <div id="TradeFrame" class="MainFrame_StatFrame3_Stat_TradesFrame">
+                    <div class="MainFrame_StatFrame3_Stat_TradesFrame_Trade">
+                        <p style="color: rgb(177, 177, 177);" class="MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date inter-text">
+                            Date
+                        </p>
+                        <p style="color: rgb(177, 177, 177);" class="MainFrame_StatFrame3_Stat_TradesFrame_Trade_Symbol inter-text">
+                            Symbol
+                        </p>
+                        <p style="color: rgb(177, 177, 177);" class="MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date_PL inter-text">
+                            P/L
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="MainFrame_StatFrame3_Stat">
+                <p class="MainFrame_StatFrame3_Stat_Title inter-text">
+                    Emotion Rate
+                </p>
+                <div style="width: 100%; height: 80%; align-items: center;">
+                    <canvas style="width: 100%; height: 100%;" id="emotionRate"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="../tradedetection.js"></script>
+</body>
+</html>

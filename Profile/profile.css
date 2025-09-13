@@ -1,0 +1,320 @@
+.inter-text {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #21252b;
+    width: 15%;
+    height: 100%;
+    border-right: 1px solid rgb(92, 92, 92);
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 2.2vw;
+    font-weight: 700;
+
+    margin-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+
+    display: block;
+    text-decoration: none;
+
+    padding-bottom: 20px;
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+    
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    height: 10%;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #4ecf524b;
+    cursor: pointer;
+}
+
+
+.selected-item {
+    background-color: #4ecf524b;
+    border-right: 1px solid #4ecf53;
+
+    color: white;
+}
+
+.selected-item p {
+
+    color: white;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 2.4vh;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 85%;
+    height: 100%;
+    background-color: #1e1e24;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 2.5vw;
+    font-weight: 700;
+    color: white;
+
+    width: 68%;
+    padding-left: 2.3%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv {
+    display: flex;
+    gap: 2%;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 30%;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button {
+    height: 57%;
+    width: 40%;
+    display: inline-block;
+
+    border: 1px solid #312e2e;
+
+    background-color: #21252bce;
+    color: white;
+
+    font-size: 1.2vw;
+    font-weight: 600;
+
+    transition: 250ms;
+
+    border-radius: 8px;
+}
+#TradeOpen_Button {
+    color: rgb(243, 233, 233);
+    background-color: #358b38;
+}
+
+#TradeClose_Button {
+    color: rgb(243, 233, 233);
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+
+.MainFrame_ProfileFrame {
+    width: 100%;
+    height: 15%;
+
+    justify-items: center;
+    margin-top: 20px;
+}
+
+.MainFrame_ProfileFrame_Frame {
+    display: flex;
+
+    width: 50%;
+
+}
+
+.MainFrame_ProfileFrame_Frame_Img {
+    width: 130px;
+    height: 130px;
+
+    fill: white;
+
+    border: 2px solid white;
+    border-radius: 100%;
+
+    padding-top: 5px;
+}
+
+.MainFrame_ProfileFrame_Frame_Data {
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.MainFrame_ProfileFrame_Frame_Data_Name {
+    margin-top: 0;
+    margin-bottom: 0;
+    
+    color: white;
+    font-size: 1.7vw;
+    font-weight: 700;
+}
+
+.MainFrame_ProfileFrame_Frame_Data_Text {
+    margin-top: 10px;
+    margin-bottom: 0;
+
+    color: white;
+    font-size: 1vw;
+    font-weight: 600;
+}
+
+.MainFrame_ProfileDataFrame {
+    width: 100%;
+    height: 30%;
+
+ 
+    justify-items: center;
+    margin-top: 0;
+}
+
+.MainFrame_ProfileDataFrame_Frame {
+    width: 50%;
+    height: 100%;
+}
+
+.MainFrame_ProfileDataFrame_Frame_Title {
+    margin-top: 20px;
+    margin-bottom: 0;
+
+    color: white;
+    font-size: 1vw;
+    font-weight: 400;
+
+}
+
+.MainFrame_ProfileDataFrame_Frame_Input {
+    width: 90%;
+    height: 14%;
+    margin-top: 5px;
+
+    padding-left: 10px;
+
+    align-content: center;
+
+
+    background-color: #21252bce;
+    border: 1px solid #0050049f;
+    
+    border-radius: 10px;
+
+    
+    color: white;
+    font-size: .9vw;
+    font-weight: 400;
+
+    resize: none;
+    outline: none;
+}
+
+
+.MainFrame_SaveFrame {
+    width: 100%;
+    height: 10%;
+
+    margin-top: 80px;
+
+    align-content: center;
+    justify-items: center;
+
+}
+
+.MainFrame_SaveFrame_Frame {
+    width: 50%;
+    height: 80%;
+    align-content: center;
+}
+
+.MainFrame_SaveFrame_Frame_text {
+    color: rgb(255, 255, 255);
+    font-size: 1.4vw;
+    font-weight: 400;
+
+    width: 10%;
+    height: fit-content;
+
+
+    text-align: center;
+    justify-items: center;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    padding-left: 25px;
+    padding-right: 25px;
+
+    border-radius: 10px;
+
+    background-color: #21252bce;
+    border: 1px solid #0050049f;
+    
+    transition: 250ms;
+}
+
+.MainFrame_SaveFrame_Frame_text:hover {
+    cursor: pointer;
+
+    transform: scale(1.02);
+}

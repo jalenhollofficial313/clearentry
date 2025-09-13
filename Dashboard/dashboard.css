@@ -1,0 +1,376 @@
+.inter-text {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #21252b;
+    width: 15%;
+    height: 100%;
+    border-right: 1px solid rgb(92, 92, 92);
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 2.2vw;
+    font-weight: 700;
+
+    margin-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+
+    display: block;
+    text-decoration: none;
+
+    padding-bottom: 20px;
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+    
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    height: 10%;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #4ecf524b;
+    cursor: pointer;
+}
+
+
+.selected-item {
+    background-color: #4ecf524b;
+    border-right: 1px solid #4ecf53;
+
+    color: white;
+}
+
+.selected-item p {
+
+    color: white;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 2.4vh;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 85%;
+    height: 100%;
+    background-color: #1e1e24;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 2.5vw;
+    font-weight: 700;
+    color: white;
+
+    width: 68%;
+    padding-left: 2.3%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv {
+    display: flex;
+    gap: 2%;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 30%;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button {
+    height: 57%;
+    width: 40%;
+    display: inline-block;
+
+    border: 1px solid #312e2e;
+
+    background-color: #21252bce;
+    color: white;
+
+    font-size: 1.2vw;
+    font-weight: 600;
+
+    transition: 250ms;
+
+    border-radius: 8px;
+}
+#TradeOpen_Button {
+    color: rgb(243, 233, 233);
+    background-color: #358b38;
+}
+
+#TradeClose_Button {
+    color: rgb(243, 233, 233);
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+.MainFrame_StatFrame1{
+    width: 100%;
+    height: 17%;
+
+    margin-top: 10px;
+    margin-bottom: 0;
+
+    gap: 1%;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+.MainFrame_StatFrame1_Stat {
+    background-color: #21252bce;
+    border: 1px solid #0050049f;
+    border-radius: 8px;
+
+    width: 23%;
+    height: 85%;
+
+    align-content: center;
+    transition: 250ms;
+}
+
+.MainFrame_StatFrame1_Stat:hover{
+    box-shadow: 0px 4px 12px  -5px #0050049f;
+}
+
+.MainFrame_StatFrame1_Stat_Title {
+    width: 100%;
+
+    color: rgb(177, 177, 177);
+    font-size: 1.1vw;
+    font-weight: 700;
+
+    margin-left: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.green-text {
+    color: green;
+}
+
+.red-text {
+    color: red;
+}
+
+.MainFrame_StatFrame1_Stat_Text {
+    color: white;
+
+    margin-top: 10px;
+    margin-bottom: 0;
+
+    width: 100%;
+
+    padding-left: 25px;
+
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+#avgEmotion_Text {
+    font-size: 2vw;
+    font-weight: 800;
+}
+
+.MainFrame_StatFrame2{
+    width: 100%;
+    height: 36%;
+
+
+    display: flex;
+    gap: 1%;
+    justify-content: center;
+} 
+
+.MainFrame_StatFrame2_Stat {
+    background-color: #21252bce;
+    border: 1px solid #0050049f;
+    border-radius: 8px;
+
+    width: 47.1%;
+    height: 95%;
+
+    transition: 250ms;
+}
+
+.MainFrame_StatFrame2_Stat:hover{
+    box-shadow: 0px 4px 12px  -5px #0050049f;
+}
+
+.MainFrame_StatFrame2_Stat_Title {
+    width: 100%;
+
+    color: white;
+    font-size: 1.2vw;
+    font-weight: 700;
+
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+
+.MainFrame_StatFrame2_Stat_Text {
+    color: white;
+    font-size: .81vw;
+    font-weight: 500;
+
+    margin-top: 5px;
+    margin-left: 20px;
+
+    width: 92%;
+    height: 70%;
+}
+
+.MainFrame_StatFrame3 {
+    width: 100%;
+    height: 36%;
+
+    margin-top: 5px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.MainFrame_StatFrame3_Stat {
+    background-color: #21252bce;
+    border: 1px solid #0050049f;
+    border-radius: 8px;
+
+    width: 47.1%;
+    height: 95%;
+
+    margin-left: 12px;
+    margin-right: 12px;
+
+    transition: 250ms;
+}
+
+.MainFrame_StatFrame3_Stat:hover{
+    box-shadow: 0px 4px 12px  -5px #0050049f;
+}
+
+.MainFrame_StatFrame3_Stat_Title {
+    width: 100%;
+
+    color: white;
+    font-size: 1.5vw;
+    font-weight: 700;
+
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.MainFrame_StatFrame3_Stat_TradesFrame {
+    width: 100%;
+    height: 72%;
+    justify-items: center;
+    margin-top: 6px;
+
+}
+
+.MainFrame_StatFrame3_Stat_TradesFrame_Trade {
+    display: flex;
+
+
+    width: 90%;
+    height: 20%;
+
+    align-items: center;
+
+    margin-top: 5px;
+
+    border-bottom: 1px solid rgb(177, 177, 177);
+}
+
+.MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date{
+    color: white;
+    font-size: .9vw;
+    font-weight: 500;
+
+    width: 20%;
+}
+
+.MainFrame_StatFrame3_Stat_TradesFrame_Trade_Symbol {
+    margin-left: 90px;
+    width: 20%;
+    color: white;
+    font-size: .9vw;
+    font-weight: 500;
+}
+
+.MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date_PL {
+    margin-left: 120px;
+    width: 20%;
+    color: white;
+    font-size: .9vw;
+    font-weight: 500;
+}

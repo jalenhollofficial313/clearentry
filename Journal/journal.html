@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearEntry</title>
+    <link href="journal.css" rel="stylesheet" type="text/css">
+    <link href="../newtradedetection.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="SideBar">
+        <a href="../Landing/home.html" class="SideBar_Title inter-text">
+            ClearEntry
+        </a>
+        <ul class="SideBar_List">
+            <a class="anchor" href="../Profile/profile.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Profile
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Dashboard/dashboard.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Dashboard
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Entries/entires.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Entries
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Chat/chat.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        ClearEntry AI 
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Journal/journal.html">
+                <li class="SideBar_List_ListItem selected-item">
+
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Journal
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Emotions/emotions.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Emotions
+                    </p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="MainFrame">
+        <div class="MainFrame_NotesFrame">
+            <div class="MainFrame_NotesFrame_SideBar">
+                <p class="MainFrame_NotesFrame_SideBar_Title inter-text">
+                    Notes
+                </p>
+                <div class="MainFrame_NotesFrame_SideBar_Title_Notes">
+                </div>
+                <div class="MainFrame_NotesFrame_SideBar_Title_TitleDiv">
+                    <input id="addNoteTitle" class="MainFrame_NotesFrame_SideBar_Title_TitleDiv_Input inter-text" placeholder="Title">
+                </div>
+                <p id="addNote" class="MainFrame_NotesFrame_SideBar_Title_AddNote inter-text">
+                    + Add Note
+                </p>
+            </div> 
+            <div class="MainFrame_NotesFrame_MainFrame">
+                <p id="NotesTitle" class="MainFrame_NotesFrame_MainFrame_Title inter-text">
+                    New Note
+                </p>
+                <p id="NotesDate" class="MainFrame_NotesFrame_MainFrame_Date inter-text">
+                    July 1st, 2025
+                </p>
+                <div class="MainFrame_NotesFrame_MainFrame_TextAreaDiv">
+                    <textarea id="NotesText" placeholder="Type in note" class=" MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea inter-text"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="journal.js"></script>
+</body>
+</html>

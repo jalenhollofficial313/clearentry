@@ -1,0 +1,318 @@
+.inter-text {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #21252b;
+    width: 15%;
+    height: 100%;
+    border-right: 1px solid rgb(92, 92, 92);
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 2.2vw;
+    font-weight: 700;
+
+    margin-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+
+    display: block;
+    text-decoration: none;
+
+    padding-bottom: 20px;
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+    
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    height: 10%;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #4ecf524b;
+    cursor: pointer;
+}
+
+
+.selected-item {
+    background-color: #4ecf524b;
+    border-right: 1px solid #4ecf53;
+
+    color: white;
+}
+
+.selected-item p {
+
+    color: white;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 2.4vh;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 85%;
+    height: 100%;
+    background-color: #1e1e24;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 2.5vw;
+    font-weight: 700;
+    color: white;
+
+    width: 68%;
+    padding-left: 2.3%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+.MainFrame_NotesFrame {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.MainFrame_NotesFrame_SideBar {
+    width: 20%;
+    height: 100%;
+
+    background-color: #2c323ace;
+    border-right: 1px solid rgb(92, 92, 92);
+}
+
+
+.MainFrame_NotesFrame_SideBar_Title {
+    width: 100%;
+    height: 10%;
+    margin-top: 0;
+    margin-bottom: 0;
+    align-content: center;
+
+    padding-left: 35px;
+    font-size: 2.2vw;
+    font-weight: 600;
+    color: white;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_Notes {
+
+    height: 75%;
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+
+    justify-items: center;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame {
+    width: 92%;
+    height: 10%;
+
+    border-radius: 10px;
+    color: transparent;
+
+    margin-top: 5px;
+
+    transition: 250ms;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame:hover {
+    background-color: rgb(52, 53, 53);
+    cursor: pointer;
+}
+
+.note-selected {
+    background-color: rgb(52, 53, 53);
+}
+
+.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Title {
+    padding-left: 25px;
+    padding-top: 7px;
+    font-size: 1.3vw;
+    font-weight: 600;
+    color: white;
+
+    margin: 0;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Date {
+    padding-left: 25px;
+    padding-top: 2px;
+    font-size: .7vw;
+    font-weight: 600;
+    color: rgb(134, 134, 134);
+
+    margin: 0;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_AddNote {
+    padding-left: 35px;
+    padding-top: 2px;
+    font-size: 1.5vw;
+    font-weight: 600;
+    color: rgb(177, 177, 177);
+    align-content: center;
+
+    height: 7%;
+    margin: 0;
+    margin-top: 6px;
+
+    transition: 250ms;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_AddNote:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+
+.MainFrame_NotesFrame_MainFrame {
+    width: 80%;
+    height: 100%;
+
+}
+
+.MainFrame_NotesFrame_MainFrame_Title {
+    padding-left: 80px;
+    font-size: 2.5vw;
+    font-weight: 600;
+    color: white;
+
+    width:90%;
+    height: 6%;
+
+    margin-bottom: 0;
+
+    padding-bottom: 0;
+
+    align-content: center;
+}
+
+.MainFrame_NotesFrame_MainFrame_Date {
+    padding-left: 80px;
+    font-size: 1vw;
+    font-weight: 500;
+    color: rgb(124, 124, 124);
+
+    width: 90%;
+    height: 2%;
+
+    margin-top: 5px;
+
+    align-content: center;
+}
+
+.MainFrame_NotesFrame_MainFrame_TextAreaDiv {
+    width: 100%;
+    height: 80%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea {
+    width: 87%;
+    height: 100%;
+
+    font-size: .9vw;
+    font-weight: 500;
+    color: white;
+    background-color: transparent;
+
+    outline: none;
+    border: none;
+    resize: none;
+}
+
+.MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea:focus {
+    border: none;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_TitleDiv {
+    height: 5%;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+}
+
+.MainFrame_NotesFrame_SideBar_Title_TitleDiv_Input {
+    background-color: transparent;
+
+    width: 85%;
+    height: 89%;
+    outline: none;
+    border: none;
+
+    background-color: #21252bce;
+    border: 1px solid rgba(92, 92, 92, 0.226);
+
+    padding-left: 15px;
+
+    font-size: 1vw;
+    font-weight: 500;
+
+    border-radius: 12px;
+}

@@ -1,0 +1,358 @@
+.inter-text {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #21252b;
+    width: 15%;
+    height: 100%;
+    border-right: 1px solid rgb(92, 92, 92);
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 2.2vw;
+    font-weight: 700;
+
+    margin-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+
+    display: block;
+    text-decoration: none;
+
+    padding-bottom: 20px;
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+    
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    height: 10%;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #4ecf524b;
+    cursor: pointer;
+}
+
+
+.selected-item {
+    background-color: #4ecf524b;
+    border-right: 1px solid #4ecf53;
+
+    color: white;
+}
+
+.selected-item p {
+
+    color: white;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 2.4vh;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 85%;
+    height: 100%;
+    background-color: #1e1e24;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 2.5vw;
+    font-weight: 700;
+    color: white;
+
+    width: 68%;
+    padding-left: 2.3%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv {
+    display: flex;
+    gap: 2%;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 30%;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button {
+    height: 57%;
+    width: 40%;
+    display: inline-block;
+
+    border: 1px solid #312e2e;
+
+    background-color: #21252bce;
+    color: white;
+
+    font-size: 1.2vw;
+    font-weight: 600;
+
+    transition: 250ms;
+
+    border-radius: 8px;
+}
+#TradeOpen_Button {
+    color: rgb(243, 233, 233);
+    background-color: #358b38;
+}
+
+#TradeClose_Button {
+    color: rgb(243, 233, 233);
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+.MainFrame_ChatFrame {
+    width: 100%;
+    height: 86%;
+
+
+    justify-items: center;
+}
+
+.MainFrame_ChatFrame_MessagesFrame {
+    width: 76%;
+    height: 85%;
+    margin-top: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    scrollbar-color: transparent transparent;
+    overflow-y: scroll;
+
+    
+
+    gap: 1.2% 1%;
+}
+
+.MainFrame_ChatFrame_MessagesFrame_MessageFrame {
+    width: 100%;
+    height: auto;
+
+    
+    margin: 0;
+
+    border-radius: 10px;
+
+    color: white;
+}
+
+.MainFrame_ChatFrame_MessagesFrame_MessageFrame_Message {
+    display: inline-block;      
+    max-width: 40%;             
+    word-wrap: break-word;      
+    overflow-wrap: break-word; 
+      
+    
+    padding: 5px 10px;
+    margin: 0;
+
+
+
+    background-color: #21252bce;
+    border: 2px solid #0050049f;
+    border-radius: 10px;
+    color: white;
+    font-size: 1vw;
+    font-weight: 600;
+}
+
+.MainFrame_ChatFrame_MessagesFrame_MessageFrame_Message:hover {
+    box-shadow: 0px 4px 12px  -5px #0050049f;
+}
+
+.left-message {
+    float: left;
+}
+
+.right-message {
+    float: right;
+}
+
+.MainFrame_ChatFrame_InputFrame {
+    width: 100%;
+    height: 10%;
+    margin-top: 15px;
+
+    justify-items: center;
+    align-content: center;
+}
+
+.MainFrame_ChatFrame_InputFrame_Frame {
+    width: 80%;
+    height: 60%;
+
+    background-color: #21252bce;
+    border: 1px solid #0050049f;
+    border-radius: 20px;
+
+    display: flex;
+    align-items: center;
+}
+
+.MainFrame_ChatFrame_InputFrame_Frame_Button {
+    width: 7%;
+    height: 70%;
+    text-align: center;
+
+    border: 1px solid #0050049f;
+    background-color: #21252bce;
+    color: rgb(177, 177, 177);
+
+    margin: 0;
+    margin-left: 15px;
+
+    font-weight: 600;
+    font-size: .9vw;
+
+    white-space: nowrap;       /* keep text on one line */
+    overflow: hidden;          /* hide overflow */
+    text-overflow: ellipsis;
+
+    transition: 250ms;
+
+    border-radius: 12px;
+}
+.MainFrame_ChatFrame_InputFrame_Frame_Button:hover {
+    cursor: pointer;
+    box-shadow: 0px 4px 12px  -5px #0050049f;
+    transform: scale(1.02);
+}
+
+.MainFrame_ChatFrame_InputFrame_Frame_TextArea {
+    margin: 0;
+}
+
+.MainFrame_ChatFrame_InputFrame_Frame_TextArea {
+    width: 82%;
+    margin-left: 10px;
+    
+    background-color: transparent;
+    outline: none;
+    border: none;
+    resize: none;
+
+
+    overflow-y: scroll;
+    scrollbar-color: transparent transparent;
+
+    color: white;
+    align-content: center;
+
+    font-size: 1vw;
+    font-weight: 500;
+}
+
+.green-button {
+    background-color: #358b38;
+    color: white;
+}
+
+.MainFrame_ChatFrame_InputFrame_Frame_EntriesFrame {
+    position: absolute;
+    width: fit-content;
+    height: 15%;
+
+    border: 1px solid #0050049f;
+    background-color: #21252bce;
+    color: rgb(177, 177, 177);
+    border-radius: 10px;
+    
+    margin-bottom: 24vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    /* Hide scrollbar – old IE/Edge */
+    -ms-overflow-style: none;
+
+    display: none;
+
+    list-style-type: none;
+    padding: 0;
+
+}
+
+.MainFrame_ChatFrame_InputFrame_Frame_EntriesFrame_Entry {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+
+    transition: 250ms;
+}
+
+.MainFrame_ChatFrame_InputFrame_Frame_EntriesFrame_Entry:hover {
+    background-color: rgb(44, 44, 44);
+    cursor: pointer;
+}
