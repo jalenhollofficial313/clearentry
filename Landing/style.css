@@ -1,3 +1,20 @@
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: none; /* hides scrollbar */
+}
+
+/* Prevent overflow weirdness */
+body {
+  -ms-overflow-style: none;  /* IE/Edge legacy */
+  overflow-y: scroll;        /* keep scroll working, just no bar */
+}
+
 .inter-text {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
@@ -11,6 +28,7 @@
 
 body {
     margin: 0;
+
 }
 
 .flex-box{
@@ -91,6 +109,7 @@ body {
 .body-frame {
     height: fit-content;
     width: 100%;
+
 
     background-color: #09090e;
 
@@ -325,12 +344,13 @@ body {
 
     .header-title {
         width: 100%;
+        text-align: center;
+        margin-left: 0;
     }
 
 
     .body-title {
-        font-size: 50px;
-        
+        font-size: 45px;
     }
 
     .body-text {
@@ -352,7 +372,7 @@ body {
 
     .feature-box {
         height: 250px;
-        width: 200px;
+        width: 65%;
     }
 
     .icon {
@@ -368,7 +388,7 @@ body {
     }
 
     .CTA-Title {
-        font-size: 30px;
+        font-size: 25px;
     }
 
     .cta-button-div {
