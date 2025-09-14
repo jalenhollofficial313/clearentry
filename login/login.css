@@ -15,6 +15,8 @@ body, html {
     width: 100%;
     height: 100%;
 
+    background-color: #09090e;
+
 
     align-content: center;
     justify-items: center;
@@ -32,6 +34,8 @@ body, html {
     margin-top: 0;
     margin-bottom: 10px;
 
+    color: white;
+
     font-size: calc(2.7vw + 1vh);
     font-weight: 600;
 }
@@ -46,12 +50,19 @@ body, html {
     outline: none;
     border: none;
 
+    background-color: transparent;
+    color: white;
+
+
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.5);
+    border: 1px solid #48c45c;
     border-radius: 10px;
     padding-left: 15px;
 
     display: block;
 }
+
+
 
 .body_loginFrame_Frame_continue {
     font-size: calc(1.35vw + .5vh);
@@ -61,50 +72,23 @@ body, html {
     width: fit-content;
 
     border-radius: 12px;
-    background: linear-gradient(
-        to bottom, 
-        rgb(2, 103, 255), 
-        rgb(120, 201, 255)
-    );
-    color: white;
+    background-color: #48c45c;
+    color: black;
 
     position: relative;
     cursor: pointer;
     overflow: hidden;
 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: 250ms;
 
     padding: 10px 15px;
 }
 
-.body_loginFrame_Frame_continue::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    border-radius: 10px;
-    background: linear-gradient(to bottom, rgb(2, 103, 255), rgb(120, 201, 255));
-}
 
 
-.body_loginFrame_Frame_continue::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: 10px;
-    background: linear-gradient(to bottom, rgb(2, 76, 189), rgb(90, 151, 192));
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-
-.body_loginFrame_Frame_continue:hover::before {
-    opacity: 1;
-}
 
 .body_loginFrame_Frame_continue:hover {
-    transform: translateY(3px);
+    transform: translateY(2px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -115,7 +99,7 @@ body, html {
 
 .body_loginFrame_Frame_ChangeFrame_text {
 
-    color: black;
+    color: white;
 
     margin-top: 15px;
     margin-bottom: 0;
@@ -128,9 +112,13 @@ body, html {
 .sign-up {
     text-decoration: underline;
     cursor: pointer;
+
+    color: #48c45c;
 }
 
 .body_loginFrame_Frame_text {
+
+    color: white;
     font-size: calc(0.81vw + .3vh);
     font-weight: 400;
     margin-left: 5px;

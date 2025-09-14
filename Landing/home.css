@@ -1,3 +1,8 @@
+html, body {
+    scroll-behavior: smooth;
+    scroll-behavior: smooth;
+}
+
 .inter-text {
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
@@ -8,6 +13,8 @@
 body, html {
     margin: 0;
     height: 100%;
+
+    background-color: #1e1e24;
 }
 
 .body_Header {
@@ -20,6 +27,7 @@ body, html {
 .body_DIV {
     width: 33.33333333333333%;
     height: 100%;
+
 
     margin: 0;
 }
@@ -50,7 +58,7 @@ body, html {
 .body_Header_Nav_Item {
     text-decoration: none;
 
-    color: black;
+    color: white;
 
     font-size: calc(0.945vw + .35vh);
     font-weight: 500;
@@ -73,7 +81,7 @@ body, html {
 }
 
 .body_Header_SL_Login {
-    color: black;
+    color: white;
     margin-left: calc(1.08vw + 0.4vh);
     margin-right: calc(1.08vw + 0.4vh);
 
@@ -149,7 +157,7 @@ body, html {
     height: 88%;
     width: 100%;
 
-    background-color: white;
+    background-color: #1e1e24;
 }
 
 .body_Body_TitleDiv {
@@ -164,7 +172,7 @@ body, html {
 
 .body_Body_TitleDiv_Title {
 
-    color: black;
+    color: white;
     font-size: calc(3.375vw + 1.25vh);
     font-weight: 700;
 
@@ -190,7 +198,7 @@ body, html {
     margin-right: calc(0.81vw + 0.3vh);
 
     text-decoration: none;
-    color: black;
+    color: white;
 
 
     font-size: calc(1.35vw + .5vh);
@@ -317,7 +325,7 @@ body, html {
     align-content: center;
     text-align: center;
 
-    color: black;
+    color: white;
     font-size: calc(2.7vw + 1vh);
     font-weight: 700;
 
@@ -357,7 +365,7 @@ body, html {
 .body_Body_Platform_SectionDiv_Textdiv_Title {
 
     align-content: center;
-    color: black;
+    color: white;
     font-size: calc(1.89vw + .8vh);
     font-weight: 700;
     margin-bottom: 5px;
@@ -370,7 +378,7 @@ body, html {
 
 .body_Body_Platform_SectionDiv_Textdiv_Text {
     align-content: center;
-    color: black;
+    color: white;
     font-size: calc(0.945vw + .35vh);
     font-weight: 500;
 

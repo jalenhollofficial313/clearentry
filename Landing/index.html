@@ -3,236 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clear Entry</title>
-    <link href="home.css" type="text/css" rel="stylesheet">
-
+    <title>ClearEntry</title>
+    
+    <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="body_Header">
-        <a href="../Landing/home.html" class="body_Header_Title inter-text body_DIV">
+    <header class="flex-box header-frame">
+        <p class="header-title inter-text v-align">
             ClearEntry
+        </p>
+        <a href="../signup/signup.html" class="header-button inter-text bg-green">
+            Sign Up
         </a>
-        <div class="body_DIV body_Header_Nav">
-            <a href="#Platform" class="body_Header_Nav_Item inter-text">
-                Platform
-            </a>
-            <a class="body_Header_Nav_Item inter-text">
-                Resources
-            </a>
-            <a href="#Pricing" class="body_Header_Nav_Item inter-text">
-                Pricing
+        <a href="../login/login.html" class="header-button inter-text bg-black">
+            Login
+        </a>
+
+        <a style="display: none;" class="header-button inter-text bg-green">
+            Sign Out
+        </a>
+        <a style="display: none;" href="../Dashboard/dashboard.html" class="header-button inter-text bg-black">
+            Dashboard
+        </a>
+    </header>
+    <div class="body-frame v-align x-align">
+        <p data-aos="fade-down" class="body-title inter-text gradient-text">
+            Clear Entry
+        </p>
+        <p data-aos="fade-down" class="inter-text body-text">
+            Master Your Trades. Master Your Mind.
+        </p>
+        <div class="flex-box button-div">
+            <a data-aos="fade-down" href="#about" class="body-button inter-text bg-green">
+                Learn More
             </a>
         </div>
-        <div class="body_DIV body_Header_SL">
-            <a id="LoginButton" style="display: none;" href="../login/login.html" class="body_Header_SL_Login inter-text">
-                Login
+
+        <p data-aos="fade-down" id="about" class="inter-text about-title">
+            About Clear Entry
+        </p>
+        <p data-aos="fade-down" class="inter-text body-text about-text">
+            Clear Entry is a next-generation trading journal built for modern traders. We go beyond just tracking numbers — we help you understand the <span style="color: #48c45c;">why</span> behind your trades. Clear Entry combines psychological insights with AI analytics so you can trade smarter, stay disciplined, and grow consistently.
+        </p>
+    </div>
+    <div class="features-frame v-align x-align">
+        <p data-aos="fade-down" class="inter-text features-title">Feature Highlights</p>
+
+        <div data-aos="fade-down" class="flex-box feature-frame">
+            <div class="feature-box">
+                <div class="flex-box title-frame">
+                    <i data-lucide="brain" class="icon"></i>
+                    <p class="feature-title inter-text">
+                        Psychological Analysis
+                    </p>
+                </div>
+                <p class="inter-text feature-text">
+                    Track your emotions before, during, and after each trade. Identify patterns in confidence, fear, or hesitation so you can strengthen your mental game.
+                </p>
+            </div>
+            <div class="feature-box">
+                <div class="flex-box title-frame">
+                    <i data-lucide="Bot" class="icon"></i>
+                    <p class="feature-title inter-text">
+                        AI-Powered Trade Feedback
+                    </p>
+                </div>
+                <p class="inter-text feature-text">
+                    Get instant feedback on your logged trades. Our AI analyzes your entries, notes, and outcomes, then suggests ways to refine your strategy.
+                </p>
+            </div>
+            <div class="feature-box">
+                <div class="flex-box title-frame">
+                    <i data-lucide="trending-up" class="icon"></i>
+                    <p class="feature-title inter-text">
+                        Easy Trade Entry Logging
+                    </p>
+                </div>
+                <p class="inter-text feature-text">
+                    Log trades with a single click when you open and close positions. Add notes, emotions, and screenshots to capture the full story behind every decision.
+                </p>
+            </div>
+            <div class="feature-box">
+                <div class="flex-box title-frame">
+                    <i data-lucide="Book-Open" class="icon"></i>
+                    <p class="feature-title inter-text">
+                        Organized Trading Journal
+                    </p>
+                </div>
+                <p class="inter-text feature-text">
+                    Keep all your trades, strategies, and notes in one place. Search, filter, and revisit past trades to continuously improve your approach.
+                </p>
+            </div>
+            <div class="feature-box">
+                <div class="flex-box title-frame">
+                    <i data-lucide="Message-Circle" class="icon"></i>
+                    <p class="feature-title inter-text">
+                        Personalized AI Chat
+                    </p>
+                </div>
+                <p class="inter-text feature-text">
+                    Ask questions directly to your trading assistant. Whether it's clarifying your past performance, suggesting strategy improvements, or breaking down market psychology, Clear Entry is always ready to help.
+                </p>
+            </div>
+            <div class="feature-box">
+                <div class="flex-box title-frame">
+                    <i data-lucide="chart-no-axes-combined" class="icon"></i>
+                    <p class="feature-title inter-text">
+                        Emotional & Strategic Statistics
+                    </p>
+                </div>
+                <p class="inter-text feature-text">
+                    Track your PL and other data based on your emotions aswell as the strategy used for your trade.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="CTA-frame x-align">
+        <p data-aos="fade-down" class="inter-text CTA-Title">
+            Take control of your trades today.
+        </p>
+        <div class="cta-button-div flex-box">
+            <a href="../signup/signup.html" class="CTA-button inter-text bg-green">
+                Sign Up
             </a>
-            <a id="SignUpButton" style="display: none;" href="../signup/signup.html" class="body_Header_SL_SignUp inter-text">
-                Create Account
+            <a href="../login/login.html" class="CTA-button inter-text bg-black">
+                LogIn
             </a>
-            <a id="SignOutButton" style="display: none;" class="body_Header_SL_Login inter-text">
+            <a style="display: none;" class="CTA-button inter-text bg-green">
                 Sign Out
             </a>
-            <a id="DashBoardButton" style="display: none;" href="../Dashboard/dashboard.html" class="body_Header_SL_SignUp inter-text">
+            <a style="display: none;" href="../Dashboard/dashboard.html" class="CTA-button inter-text bg-black">
                 Dashboard
             </a>
         </div>
     </div>
-    <div class="body_Body">
-        <div class="body_Body_TitleDiv">
-            <p class="body_Body_TitleDiv_Title inter-text">
-                Accelerate Your Trading Growth ✨ with AI-Powered Emotion Tracking, Instant Feedback, and Advanced Journaling.
-            </p>
-        </div>
-        <div class="body_Body_Nav">
-            <a href="../signup/signup.html" class="body_Body_Nav_Item body_Body_Nav_Item_1 inter-text">
-                Try it for free &#10140;
-            </a>
-            <a href="#Prices" class="body_Body_Nav_Item body_Body_Nav_Item_2 inter-text">
-                Purchasing Plan
-            </a>
-        </div>
-        <div class="body_Body_ImgFrame">
-            <img class="body_Body_ImgFrame_Img" src="Dashboard.png">
-            <div class="body_Body_ImgFrame_Img_Shadow">   </div>
-        </div>
-        <div id="Platform" class="body_Body_Platform">
-            <p class="body_Body_Title2 inter-text">
-                A Smarter Platform for Smarter Traders
-            </p>
-            <div class="body_Body_Platform_SectionDiv">
-                <div class="body_Body_Platform_SectionDiv_Textdiv body_Body_Platform_SectionDiv_div">
-                    <p class="body_Body_Platform_SectionDiv_Textdiv_Title inter-text">
-                        Trade Smarter with AI-Powered Analytics 📈✨
-                    </p>
-                    <p class="body_Body_Platform_SectionDiv_Textdiv_Text inter-text">
-                        Our AI-powered trading analytics track your Profit & Loss (P&L) alongside your emotional state, visualize your P&L curve over time, analyze your win rate, and monitor hold times — helping you understand how emotions impact your trading performance for smarter decisions.
-                    </p>
-                </div>
-                <div class="body_Body_Platform_SectionDiv_div flexbox">
-                    <img class="body_Body_Platform_SectionDiv_div_Img" src="tradesimg.png">
-                </div>
-            </div>
-            <div class="body_Body_Platform_SectionDiv">
-                <div class="body_Body_Platform_SectionDiv_div div_Left flexbox">
-                    <img class="body_Body_Platform_SectionDiv_div_Img img_Left" src="emotionsimg.png">
-                </div>
-                <div class="body_Body_Platform_SectionDiv_Textdiv TextDiv_Left body_Body_Platform_SectionDiv_div">
-                    <p class="body_Body_Platform_SectionDiv_Textdiv_Title inter-text">
-                        Master Your Mindset with Real-Time Emotion Analytics 🧠📊
-                    </p>
-                    <p class="body_Body_Platform_SectionDiv_Textdiv_Text inter-text">
-                        Track your emotional state during each trade, uncover patterns between feelings and performance, and gain insights to build discipline, reduce impulsive decisions, and trade with confidence.
-                    </p>
-                </div>
-            </div>
-            <div class="body_Body_Platform_SectionDiv">
-                <div class="body_Body_Platform_SectionDiv_Textdiv body_Body_Platform_SectionDiv_div">
-                    <p class="body_Body_Platform_SectionDiv_Textdiv_Title inter-text">
-                        Capture Every Trade with AI-Powered Journaling 📝
-                    </p>
-                    <p class="body_Body_Platform_SectionDiv_Textdiv_Text inter-text">
-                        Effortlessly log your trades with emotion tags, screenshots, and notes. Spot patterns, improve strategy, and build consistency through data-backed self-reflection.
-                    </p>
-                </div>
-                <div class="body_Body_Platform_SectionDiv_div flexbox">
-                    <img class="body_Body_Platform_SectionDiv_div_Img" src="journalimg.png">
-                </div>
-            </div>
-        </div>
-        <div id="Pricing" class="body_Body_Pricing">
-            <h1 class="body_Body_Title2 inter-text">
-                Purchasing Plans
-            </h1>
-            <div class="body_Body_Pricing_Div">
-                <div class="body_Body_Pricing_Div_PlanDiv">
-                    <p class="body_Body_Pricing_Div_PlanDiv_Title inter-text">
-                        Free
-                    </p>
-                    <div class="body_Body_Pricing_Div_PlanDiv_ListDiv">
-                        <ul class="body_Body_Pricing_Div_PlanDiv_ListDiv_List">
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                        </ul>
-                        <ul class="body_Body_Pricing_Div_PlanDiv_ListDiv_List">
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                               <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="body_Body_Pricing_Div_PlanDiv_PurchaseDiv">
-                        <a href="../signup/signup.html" class="body_Body_Pricing_Div_PlanDiv_PurchaseDiv_Button inter-text">
-                            FREE
-                        </a>
-                    </div>
-                </div>
-                <div class="body_Body_Pricing_Div_PlanDiv">
-                    <p class="body_Body_Pricing_Div_PlanDiv_Title inter-text">
-                        Premium
-                    </p>
-                    <div class="body_Body_Pricing_Div_PlanDiv_ListDiv">
-                        <ul class="body_Body_Pricing_Div_PlanDiv_ListDiv_List">
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                        </ul>
-                        <ul class="body_Body_Pricing_Div_PlanDiv_ListDiv_List">
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                               <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="body_Body_Pricing_Div_PlanDiv_PurchaseDiv">
-                        <a href="../signup/signup.html" class="body_Body_Pricing_Div_PlanDiv_PurchaseDiv_Button inter-text">
-                            FREE
-                        </a>
-                    </div>
-                </div>
-                <div class="body_Body_Pricing_Div_PlanDiv">
-                    <p class="body_Body_Pricing_Div_PlanDiv_Title inter-text">
-                        Standard
-                    </p>
-                    <div class="body_Body_Pricing_Div_PlanDiv_ListDiv">
-                        <ul class="body_Body_Pricing_Div_PlanDiv_ListDiv_List">
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: rgb(14, 233, 14);">&#10004;</span> Thing
-                            </li>
-                        </ul>
-                        <ul class="body_Body_Pricing_Div_PlanDiv_ListDiv_List">
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                               <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                            <li class="body_Body_Pricing_Div_PlanDiv_ListDiv_List_ListItem inter-text">
-                                <span style="color: red;">&#10008;</span> Thing
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="body_Body_Pricing_Div_PlanDiv_PurchaseDiv">
-                        <a href="../signup/signup.html" class="body_Body_Pricing_Div_PlanDiv_PurchaseDiv_Button inter-text">
-                            FREE
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="home.js">
+    <script src="script.js"></script>
+    <script>
 
+        lucide.createIcons();
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1200,   
+            delay: 300,       
+            offset: 120,      
+
+            once: false,     
+            mirror: true,    
+        });
     </script>
 </body>
 </html>
