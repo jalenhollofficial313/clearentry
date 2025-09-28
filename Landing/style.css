@@ -337,6 +337,20 @@ body {
     opacity: .8;
 }
 
+.video-frame {
+    width: 100%;
+    height: fit-content;
+
+    justify-content: center;
+
+    margin-bottom: 20px;
+}
+
+.video-div {
+    width: 70%;
+    height: 80%;
+}
+
 @media (max-width: 768px) {
     .header-button {
         display: none;
