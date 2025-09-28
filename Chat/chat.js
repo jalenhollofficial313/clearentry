@@ -101,7 +101,7 @@ submitButton.addEventListener("click", async function() {
             EntryButton.innerHTML = "+ Entry"
 
             generating = false
-            await sleep(150)
+            await sleep(200)
             chat.innerHTML = ""
             for (let k in AIResponse) {
                 chat.innerHTML = chat.innerHTML + AIResponse[k]
@@ -113,17 +113,31 @@ submitButton.addEventListener("click", async function() {
     }
 })
 
+async function getTradesOrder(table) {
+
+    let tableArray = Object.entries(table).map(([key, value]) => {
+        return { ...value, id: key }; 
+    });
+
+
+    tableArray.sort((a, b) => b['date'] - a['date']);
+    console.log(tableArray)
+    return tableArray;
+}
+
 async function loadEntries() {
-    for (let k in clientData['trades']) {
+    const trades = await getTradesOrder(clientData['trades'])
+    for (let trade in trades) {
         let li = document.createElement("li")
         li.classList.add("MainFrame_ChatFrame_InputFrame_Frame_EntriesFrame_Entry")
         li.classList.add("inter-text")
-        li.innerHTML = clientData['trades'][k]['title']
+        li.innerHTML = trades[trade]['symbol']
         entriesList.appendChild(li)
 
         li.addEventListener("click", async function() {
-            currentEntry = k 
-            EntryButton.innerHTML = "+ " + clientData['trades'][k]['title']
+            currentEntry = trades[trade]['id'] 
+            console.log(trades[trade]['symbol'])
+            EntryButton.innerHTML = "+ " + trades[trade]['symbol']
             entriesList.style.display = "none"
         })
     }
@@ -136,6 +150,34 @@ EntryButton.addEventListener("click", async function(params) {
         entriesList.style.display = "block"
     }
 })
+
+window.addEventListener("DOMContentLoaded", async () => {
+  const trade_id = localStorage.getItem("handoff");
+  if (trade_id) {
+    localStorage.removeItem("handoff"); // one-time use
+    console.log(trade_id)
+
+    generating = true
+
+    let chat = await createChatFrame(true)
+    textAnimation(chat)
+
+
+    let AIResponse = await send_Chat(localStorage.getItem("token"), "", trade_id)
+    if (AIResponse != "") {
+        generating = false
+        await sleep(200)
+        chat.innerHTML = ""
+        for (let k in AIResponse) {
+            chat.innerHTML = chat.innerHTML + AIResponse[k]
+            await sleep(25)
+        }
+    } else {
+        location.reload()
+    }
+  }
+});
+
 
 async function init() {
     await getData(localStorage.getItem("token"))

@@ -17,10 +17,10 @@ body {
 }
 
 .SideBar {
-    background-color: #21252b;
+    background-color: #1b1d22;
     width: 15%;
     height: 100%;
-    border-right: 1px solid rgb(92, 92, 92);
+    border-right: 2px solid #2d3139;
 
 }
 
@@ -33,6 +33,8 @@ body {
     margin-bottom: 0;
     width: 100%;
     text-align: center;
+
+    border-bottom: 2px solid #2d3139;
 
     display: block;
     text-decoration: none;
@@ -48,7 +50,7 @@ body {
 .SideBar_List {
     text-decoration: none;
     list-style: none;
-    
+
     height: 60%;
 
     padding: 0;
@@ -60,23 +62,35 @@ body {
     align-items: center;
     padding-left: 30px;
     margin-bottom: 0;
-    margin-top: 0;
+    margin-top: 5px;
 
-    height: 10%;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 9px;
+
+    width: 80%;
+
+    height: 9%;
     transition: 350ms;
 }
 
 .SideBar_List_ListItem:hover {
-    background-color: #4ecf524b;
+    background-color: #31363f;
     cursor: pointer;
 }
 
+.SideBar_List_ListItem:hover p {
+    color: white;
+}
+
+
 
 .selected-item {
-    background-color: #4ecf524b;
-    border-right: 1px solid #4ecf53;
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
 
-    color: white;
+
 }
 
 .selected-item p {
@@ -97,7 +111,7 @@ body {
 
 .SideBar_List_ListItem_Text {
     color: rgb(177, 177, 177);
-    font-size: 2.4vh;
+    font-size: 2.2vh;
     font-weight: 500;
 }
 
@@ -108,7 +122,7 @@ body {
 .MainFrame {
     width: 85%;
     height: 100%;
-    background-color: #1e1e24;
+    background-color: #14161a;
 }
 
 .MainFrame_HeadFrame {
@@ -141,28 +155,32 @@ body {
 
 .MainFrame_HeadFrame_ButtonsDiv_Button {
     height: 57%;
-    width: 40%;
+    width: 50%;
     display: inline-block;
 
-    border: 1px solid #312e2e;
 
     background-color: #21252bce;
     color: white;
 
-    font-size: 1.2vw;
+    font-size: .9vw;
     font-weight: 600;
+    border: none;
 
     transition: 250ms;
 
     border-radius: 8px;
 }
 #TradeOpen_Button {
-    color: rgb(243, 233, 233);
-    background-color: #358b38;
-}
+    color: rgb(255, 255, 255);
+    
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
 
+}
 #TradeClose_Button {
     color: rgb(243, 233, 233);
+    
+    border: 1px solid #312e2e;
 }
 
 .MainFrame_HeadFrame_ButtonsDiv_Button:hover {
@@ -252,8 +270,9 @@ body {
     width: 80%;
     height: 60%;
 
-    background-color: #21252bce;
-    border: 1px solid #0050049f;
+    background-color: #1b1d22;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
+    border: none;
     border-radius: 20px;
 
     display: flex;
@@ -265,8 +284,8 @@ body {
     height: 70%;
     text-align: center;
 
-    border: 1px solid #0050049f;
-    background-color: #21252bce;
+    border: 1px solid #2d3139;
+    background-color: #1b1d22;
     color: rgb(177, 177, 177);
 
     margin: 0;
@@ -285,7 +304,7 @@ body {
 }
 .MainFrame_ChatFrame_InputFrame_Frame_Button:hover {
     cursor: pointer;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
+
     transform: scale(1.02);
 }
 
@@ -314,8 +333,10 @@ body {
 }
 
 .green-button {
-    background-color: #358b38;
-    color: white;
+    color: rgb(255, 255, 255);
+    border: none;
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
 }
 
 .MainFrame_ChatFrame_InputFrame_Frame_EntriesFrame {

@@ -1,7 +1,17 @@
-const TradeOpen_Button = document.getElementById("TradeOpen_Button");
-const TradeClose_Button = document.getElementById("TradeClose_Button");
-
+const EntryButton = document.getElementById("TradeOpen_Button")
 const TradeEntryFrame = document.getElementById("TradeEntry")
+
+const TradeContinueButton = document.getElementById("Continue_button");
+const TradeClose_Button = document.getElementById("Cancel_button");
+
+
+const emotionedit = document.getElementById("emotion-edit")
+const strategyedit = document.getElementById("strategy-edit")
+const managerListFrames = document.getElementsByClassName("MainFrame_ManageFrame_div_div_listframe")
+const managerFrame = document.getElementById("manage-frame")
+const emotionManager = document.getElementById("Emotion-Manage")
+const strategyManager = document.getElementById("Strategy-Manage")
+
 
 const TradeEntryOpenFrame = document.getElementById("TradeOpen_Entry");
 const TradeEntryCloseFrame = document.getElementById("TradeClose_Entry")
@@ -15,259 +25,59 @@ const CancelButtons = document.getElementsByClassName("Cancel-Button")
 
 const PLText = document.getElementById("PL-Text")
 const SymbolText = document.getElementById("Symbol-Text")
-const TitleText = document.getElementById("Title-Text")
+const NotesText = document.getElementById("Notes-Text")
 
-const NotesAreas = document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame_TextArea")
+const tradedropDownButtons = document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_div_dropdownbutton")
+const dropDownButtonText = document.getElementsByClassName("select-text")
 
-const dropDownButtons = document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button")
-const dropDownList = document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List")
+const ManagerClosebuttons = document.getElementsByClassName("MainFrame_ManageFrame_div_bottomdiv_button");
 
-const entryList = document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List")
+const entryList = document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_div_dropdown")
 
 const imgInput = document.getElementById("img_Input")
 const imgFrame = document.getElementById("img_Frame")
 
-const fileInput = document.getElementById("fileInput")
+const fileInput = document.getElementById("tradeImageInput")
 
-const addButtons = document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Button")
-const addInputFrames = document.getElementsByClassName("add-item")
+const promptFrame = document.getElementById("PromptFrame")
+const continuePrompt = document.getElementById("Continue_prompt")
+const closePrompt = document.getElementById("Close_prompt")
 
-const AIPromptFrame = document.getElementById("EntryAIPrompt")
-const AIQuestionPromptFrame = document.getElementById("AIPromptQuestion")
-const QuestionPromptButtons = document.getElementsByClassName("MainFrame_EntryAIPrompt_QuestionPrompt_ButtonDiv_Button")
 
-const AIResponseFrame = document.getElementById("AIPromptResponse")
-const AIResponseButton = document.getElementsByClassName("MainFrame_EntryAIPrompt_AIResponseFrame_Button")
-const AIResponseText = document.getElementById("AIResponseText")
+let tradeLogged = false
+let tradeEntry = {
+    ['id']: "",
+    ['emotion']: "",
+    ['strategy']: "",
+    ['symbol']: "",
+    ['notes']: "",
+    ['pl']: "",
+    ['img']: ""
+}
 
-let currentEmotion = ""
-let currentStrategy = ""
-let currentSymbol = ""
-let currentNotes = ""
-let currentPL = ""
-let currentTitle = ""
-let tradeId = ""
-
-let OpenEntry = false
 let debounce = false
-
-let tradeClientData
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function getData(token) {
-    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token
-        })
-    })
-
-    clientData = await response.json()
-    console.log(clientData)
-
-}
-
-const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-});
-
-async function log_Trade(token, tradeOpen) {
-
-    let imgFile = ""
-    if (fileInput.files.length > 0) {
-        imgFile = await toBase64(fileInput.files[0])
-    }
-
-
+async function log_Trade(token) {
     const response = await fetch("https://log-trade-b52ovbio5q-uc.a.run.app", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             token: token,
-            trade_open: tradeOpen,
-            trade_title: currentTitle,
-            trade_id: tradeId,
-            emotion: currentEmotion,
-            strategy: currentStrategy,
-            symbol: currentSymbol,
-            trade_notes: currentNotes,
-            PL: currentPL,
-            img: imgFile 
+            emotion: tradeEntry['emotion'],
+            strategy: tradeEntry['strategy'],
+            symbol: tradeEntry['symbol'],
+            trade_notes: tradeEntry['notes'],
+            PL: tradeEntry['pl'],
+            img: tradeEntry['img'] 
         })
     });
 
-    const worked = await response.text();
-    return worked
+    return await response.text()
 }
-
-
-TradeOpen_Button.addEventListener("click", async function() {
-    if (!clientData) {
-        await sleep(1500)
-    }
-    OpenEntry = true
-
-    TradeOpen_Button.style.display = "none";
-    TradeEntryFrame.style.display = "unset";
-    TradeEntryCloseFrame.style.display = "none";
-    TradeEntryOpenFrame.style.display = "block";
-})
-
-TradeClose_Button.addEventListener("click",  async function(){
-    if (!clientData) {
-        await sleep(1500)
-    }
-    OpenEntry = false
-
-    TradeClose_Button.style.display = "none";
-    TradeEntryFrame.style.display = "unset";
-    TradeEntryOpenFrame.style.display = "none";
-    TradeEntryCloseFrame.style.display = "block";
-})
-
-
-for (let i = 0; i < dropDownButtons.length; i++) {
-    dropDownButtons[i].addEventListener("click", function(){
-        if (dropDownList[i].style.display != "block") {
-            dropDownList[i].style.display = "block"
-            dropDownList[i].style.opacity = "1"
-        } else {
-            dropDownList[i].style.display = "none"
-            dropDownList[i].style.opacity = "0"
-        }
-    })
-}
-
-async function resetEntry(refresh) {
-    TradeClose_Button.style.display = "block";
-    TradeOpen_Button.style.display = "block";
-    TradeEntryFrame.style.display = "none";
-    TradeEntryCloseFrame.style.display = "none";
-    TradeEntryOpenFrame.style.display = "none";
-
-
-    currentEmotion = ""
-    currentStrategy = ""
-    currentSymbol = ""
-    currentNotes = ""
-    currentPL = ""
-    currentTitle = ""
-    tradeId = ""
-    OpenEntry = false
-
-    for (let button = 0; button < dropDownButtons.length; button++) {
-        if (dropDownButtons[button].getAttribute("buttontype") == "emotion") {
-            dropDownButtons[button].innerHTML = "Emotion" + " &#8628"
-        } else if (dropDownButtons[button].getAttribute("buttontype") == "trade") {
-            dropDownButtons[button].innerHTML = "Trade" + " &#8628"
-        } else if (dropDownButtons[button].getAttribute("buttontype") == "strategy") {
-            dropDownButtons[button].innerHTML = "Strategy" + " &#8628"
-        }
-    }
-
-    for (let i = 0; i < NotesAreas.length; i++) {
-        NotesAreas[i].value = ""
-    }
-
-    SymbolText.value = ""
-    TitleText.value = ""
-    PLText.value = ""
-    if (refresh == true) {
-        location.reload();
-    }
-}
-
-for (let i = 0; i < CancelButtons.length; i++) {
-    CancelButtons[i].addEventListener("click", async function(){
-        resetEntry(true)
-    })
-}
-
-
-async function loadList() {
-    for (let list = 0; list < entryList.length; list++) {
-        if (entryList[list].getAttribute('listtype') == "emotion") {
-            for (let i = 0; i < clientData['emotions'].length; i++) {
-                let emotionItem = document.createElement("li")
-                emotionItem.innerHTML = clientData['emotions'][i]
-                emotionItem.classList.add("MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List_ListItem")
-                emotionItem.classList.add("inter-text")
-                emotionItem.classList.add("Emotion-Item")
-
-                emotionItem.addEventListener("click", async function() {
-                    for (let button = 0; button < dropDownButtons.length; button++) {
-                        if (dropDownButtons[button].getAttribute("buttontype") == "emotion") {
-                            dropDownButtons[button].innerHTML = clientData['emotions'][i] + " &#8628"
-                        }
-                    }
-                    currentEmotion = clientData['emotions'][i]
-                })
-
-                entryList[list].appendChild(emotionItem)
-            }
-        } else if (entryList[list].getAttribute('listtype') == "strategy") {
-            for (let i = 0; i < clientData['strategies'].length; i++) {
-                let strategyItem = document.createElement("li")
-                strategyItem.innerHTML = clientData['strategies'][i]
-                strategyItem.classList.add("MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List_ListItem")
-                strategyItem.classList.add("inter-text")
-                strategyItem.classList.add("Emotion-Item")
-
-                strategyItem.addEventListener("click", async function() {
-                    for (let button = 0; button < dropDownButtons.length; button++) {
-                        if (dropDownButtons[button].getAttribute("buttontype") == "strategy") {
-                            dropDownButtons[button].innerHTML = clientData['strategies'][i] + " &#8628"
-                        }
-                    }
-                    currentStrategy = clientData['strategies'][i]
-                })
-
-                entryList[list].appendChild(strategyItem)
-            }
-        } else if (entryList[list].getAttribute('listtype') == "trade") {
-            console.log("Check")
-            for (let i in clientData['trades']) {
-                if (clientData['trades'][i]['open'] == false) {
-                    continue
-                }
-                let tradeItem = document.createElement("li")
-                tradeItem.innerHTML = clientData['trades'][i]['title']
-                tradeItem.classList.add("MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List_ListItem")
-                tradeItem.classList.add("inter-text")
-                tradeItem.classList.add("Trade-Item")
-
-                tradeItem.addEventListener("click", async function() {
-                    for (let button = 0; button < dropDownButtons.length; button++) {
-                        if (dropDownButtons[button].getAttribute("buttontype") == "trade") {
-                            dropDownButtons[button].innerHTML = clientData['trades'][i]['title'] + " &#8628"
-                        }
-                    }
-                    tradeId = i
-                })
-
-                entryList[list].appendChild(tradeItem)
-            }
-        }
-    }
-}
-
-fileInput.addEventListener("change", function() {
-    const file = fileInput.files[0];
-    if (!file) return;
-
-    imgInput.style.display = "none"
-    imgFrame.style.display = "block";
-    imgFrame.src = URL.createObjectURL(file);
-});
 
 async function add_Emotion(token, emotionvalue) {
      const response = await fetch("https://add-emotion-b52ovbio5q-uc.a.run.app", {
@@ -297,146 +107,364 @@ async function add_Strategy(token, strategyValue) {
     console.log(worked);
 }
 
-async function getTradeAI(token) {
-    const response = await fetch("https://trade-airequest-b52ovbio5q-uc.a.run.app", {
+
+
+async function getData(token) {
+    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify({
-            token: token,
-            trade_id: tradeId,
+            token: token
         })
-    });
-
-    return response.text();
-}
-
-async function AIResponsePrompt() {
-    AIPromptFrame.style.display = "block";
-    AIQuestionPromptFrame.style.display = "none";
-    AIResponseFrame.style.display = "block";
-    debounce = false;
-
-
-    let loading = true;
-    showLoadingAnimation(() => loading);
-
-
-    let response = await getTradeAI(localStorage.getItem("token"));
-
-
-    loading = false;
-
-    console.log(response);
-    if (response != "Invalid" && response != null) {
-        AIResponseText.innerHTML = "";
-        for (let i = 0; i < response.length; i++) {
-            AIResponseText.innerHTML += response[i];
-            await sleep(20);
-        }
-    }
-    debounce = false
-}
-
-
-function showLoadingAnimation(isLoading) {
-    let dots = 0;
-    AIResponseText.innerHTML = "Generating"; 
-    const interval = setInterval(() => {
-        if (!isLoading()) {
-            clearInterval(interval);
-            return;
-        }
-        dots = (dots + 1) % 4;
-        AIResponseText.innerHTML = "Generating" + ".".repeat(dots);
-    }, 500);
-}
-
-async function AIPrompt() {
-    AIPromptFrame.style.display = "block"
-    AIQuestionPromptFrame.style.display = "block"
-    console.log("Prompted")
-}
-
-for (let i = 0; i < QuestionPromptButtons.length; i++) {
-    QuestionPromptButtons[i].addEventListener("click", async function() {
-        if (tradeId != "" && debounce == false) {
-            debounce = true
-            if (i == 0) {
-                AIResponsePrompt()
-            } else if(i == 1) {
-                AIPromptFrame.style.display = "none"
-                resetEntry(true)
-            }
-        }
     })
+
+    clientData = await response.json()
+    console.log(clientData)
+
 }
 
-AIResponseButton[0].addEventListener("click", async function () {
-    resetEntry(true)
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+});
+
+
+TradeContinueButton.addEventListener("click", async function() {
+    if (Number(PLText.value) != null) {
+        tradeEntry['pl'] = Number(PLText.value)
+    }
+    tradeEntry['symbol'] = SymbolText.value
+    tradeEntry['notes'] = NotesText.value
+    tradeEntry['id'] = await log_Trade(localStorage.getItem("token"))
+    tradeLogged = true
+    promptFrame.style.display = "block"
+})
+
+continuePrompt.addEventListener("click", async function(params) {
+    if (tradeLogged && tradeEntry['id'] != null) {
+        localStorage.setItem("handoff", tradeEntry['id'])
+        location.href = "../Chat/chat.html"
+    } else {
+        location.reload()
+    }
+})
+
+closePrompt.addEventListener("click", async function(params) {
+    location.reload()
+})
+
+TradeClose_Button.addEventListener("click",  async function(){
+    location.reload()
 })
 
 
 
-for (let i = 0; i < addButtons.length; i++){
-    addButtons[i].addEventListener("click", async function() {
-        if (addInputFrames[i].style.display == "unset") {
-            if (addButtons[i].getAttribute("buttontype") == "emotion") {
-                if (addInputFrames[i].value != "") {
-                    await add_Emotion(localStorage.getItem("token"), addInputFrames[i].value)
-                    location.reload();
-                }
-            } else if (addButtons[i].getAttribute("buttontype") == "strategy") {
-                console.log("Check")
-                if (addInputFrames[i].value != "") {
-                    await add_Strategy(localStorage.getItem("token"), addInputFrames[i].value)
-                    location.reload();
-                }
+function loadList() {
+    for (let emotion in clientData['emotions']) {
+        let li = document.createElement("li")
+        li.innerHTML = emotion
+        li.classList.add("MainFrame_TradeEntryFrame_TradeFrame_div_dropdown_text")
+        li.classList.add("inter-text")
+
+        li.addEventListener("click", async function(){
+            tradeEntry['emotion'] = emotion
+            dropDownButtonText[0].textContent  = emotion
+        })
+
+        entryList[0].appendChild(li)
+    }
+
+    for (let strategy in clientData['strategies']) {
+        console.log(strategy)
+        let li = document.createElement("li")
+        li.innerHTML = strategy
+        li.classList.add("MainFrame_TradeEntryFrame_TradeFrame_div_dropdown_text")
+        li.classList.add("inter-text")
+
+        li.addEventListener("click", async function(){
+            tradeEntry['strategy'] = strategy
+            dropDownButtonText[1].textContent  = strategy
+        })
+       entryList[1].appendChild(li)
+    }
+}
+
+async function addEmotionFrames(emotion) {
+    let listNode = document.createElement("div")
+    listNode.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem")
+
+    let listTitle = document.createElement("p")
+    listTitle.classList.add("inter-text")
+    listTitle.innerHTML = emotion
+    listTitle.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_title")
+
+    let listButton = document.createElement("button")
+    listButton.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_button")
+    listTitle.classList.add("inter-text")
+    listButton.innerHTML = "Delete"
+
+    listButton.addEventListener("click", async function (params) {
+        const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                emotion: emotion,
+            })
+        })
+        listNode.remove()
+    })
+
+    listNode.appendChild(listTitle)
+    listNode.appendChild(listButton)
+    
+    managerListFrames[0].appendChild(listNode)
+
+    let li = document.createElement("li")
+    li.innerHTML = emotion
+    li.classList.add("MainFrame_TradeEntryView_TradeFrame_div_dropdown_text")
+    li.classList.add("inter-text")
+
+    li.addEventListener("click", async function(){
+        entryEmotion = emotion
+        entryView.querySelector(".select-text-emotion").textContent  = emotion
+    })
+
+    entryViewList[1].appendChild(li)
+}
+
+async function addStrategyFrame(strategy) {
+    let listNode = document.createElement("div")
+    listNode.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem")
+
+    let listTitle = document.createElement("p")
+    listTitle.classList.add("inter-text")
+    listTitle.innerHTML = strategy
+    listTitle.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_title")
+
+    let listButton = document.createElement("button")
+    listButton.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_button")
+    listTitle.classList.add("inter-text")
+    listButton.innerHTML = "Delete"
+
+    listButton.addEventListener("click", async function (params) {
+        const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                strategy: strategy,
+            })
+        })
+        listNode.remove()
+    })
+
+    listNode.appendChild(listTitle)
+    listNode.appendChild(listButton)
+    
+    managerListFrames[1].appendChild(listNode)
+
+    let li = document.createElement("li")
+    li.innerHTML = strategy
+    li.classList.add("MainFrame_TradeEntryView_TradeFrame_div_dropdown_text")
+    li.classList.add("inter-text")
+
+    li.addEventListener("click", async function(){
+        entryStrategy = strategy
+        entryView.querySelector(".select-text-strategy").textContent  = strategy
+    })
+
+    entryViewList[1].appendChild(li)
+}
+
+async function loadManager(params) {
+    console.log("Check")
+    for (let emotion in clientData.emotions) {
+        let listNode = document.createElement("div")
+        listNode.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem")
+
+        let listTitle = document.createElement("p")
+        listTitle.classList.add("inter-text")
+        listTitle.innerHTML = emotion
+        listTitle.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_title")
+
+        let listButton = document.createElement("button")
+        listButton.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_button")
+        listTitle.classList.add("inter-text")
+        listButton.innerHTML = "Delete"
+
+        listButton.addEventListener("click", async function (params) {
+            const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
+                    emotion: emotion,
+                })
+            })
+            console.log(await response.text())
+            listNode.remove()
+        })
+
+        listNode.appendChild(listTitle)
+        listNode.appendChild(listButton)
+        
+        managerListFrames[0].appendChild(listNode)
+    }   
+
+    for (let strategy in clientData.strategies) {
+        let listNode = document.createElement("div")
+        listNode.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem")
+
+        let listTitle = document.createElement("p")
+        listTitle.classList.add("inter-text")
+        listTitle.innerHTML = strategy
+        listTitle.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_title")
+
+        let listButton = document.createElement("button")
+        listButton.classList.add("MainFrame_ManageFrame_div_div_listframe_listitem_button")
+        listTitle.classList.add("inter-text")
+        listButton.innerHTML = "Delete"
+
+        listButton.addEventListener("click", async function (params) {
+            const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
+                    strategy: strategy
+                })
+            })
+            listNode.remove()
+        })
+
+        listNode.appendChild(listTitle)
+        listNode.appendChild(listButton)
+        
+        managerListFrames[1].appendChild(listNode)
+    }   
+
+    emotionManager.querySelector(".MainFrame_ManageFrame_div_div_button").addEventListener("click", async function() {
+        const response = await fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                emotion_Title: emotionManager.querySelector(".MainFrame_ManageFrame_div_div_input").value,
+                emotion_Description: emotionManager.querySelector(".MainFrame_ManageFrame_div_div_textarea").value,
+            })
+        })
+        
+        addEmotionFrames(emotionManager.querySelector(".MainFrame_ManageFrame_div_div_input").value)
+    })
+
+    strategyManager.querySelector(".MainFrame_ManageFrame_div_div_button").addEventListener("click", async function(params) {
+        const response = await fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                strategy_Title: strategyManager.querySelector(".MainFrame_ManageFrame_div_div_input").value,
+                strategy_Description: strategyManager.querySelector(".MainFrame_ManageFrame_div_div_textarea").value,
+            })
+        })
+        
+        addStrategyFrame(strategyManager.querySelector(".MainFrame_ManageFrame_div_div_input").value)
+    })
+
+
+    document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_div_dropdownedit")[0].addEventListener("click", function(){
+        managerFrame.style.display = "block"
+        emotionManager.style.display = "block"
+        strategyManager.style.display = "none"
+
+    })
+    document.getElementsByClassName("MainFrame_TradeEntryFrame_TradeFrame_div_dropdownedit")[1].addEventListener("click", function(){
+        managerFrame.style.display = "block"
+        emotionManager.style.display = "none"
+        strategyManager.style.display = "block"
+    })
+
+
+    for (let i = 0; i < ManagerClosebuttons.length; i++) {
+        ManagerClosebuttons[i].addEventListener("click", () => {
+            managerFrame.style.display = "none";
+            emotionManager.style.display = "none";
+            strategyManager.style.display = "none";
+
+            strategyManager.querySelector(".MainFrame_ManageFrame_div_div_input").value = ""
+            strategyManager.querySelector(".MainFrame_ManageFrame_div_div_textarea").value = ""
+
+            emotionManager.querySelector(".MainFrame_ManageFrame_div_div_input").value = ""
+            emotionManager.querySelector(".MainFrame_ManageFrame_div_div_textarea").value = ""
+        });
+    }
+
+
+}
+
+for (let i = 0; i < tradedropDownButtons.length; i++) {
+    tradedropDownButtons[i].addEventListener("click", async function(e){
+        for (let p = 0; p < entryList.length; p++) {
+            if (p == i) {
+                continue
             }
-            addInputFrames[i].style.display = "none"
-        } else {
-            addInputFrames[i].style.display = "unset"
+            entryList[p].style.display = "none";
+            entryList[p].setAttribute("open", "false");
         }
+
+        if (entryList[i].getAttribute("open") == "false") {
+            console.log("Check")
+            entryList[i].setAttribute("open", "true")
+            entryList[i].style.display = "block"
+        } else if (entryList[i].getAttribute("open") == "true") {
+            entryList[i].setAttribute("open", "false")
+            entryList[i].style.display = "none"
+        }
+
     })
 }
 
-for (let i =0; i < ContinueButton.length; i++) {
-    ContinueButton[i].addEventListener("click", async function() {
-        if (debounce == true) {
-            return
-        }
-        debounce = true
-        if (OpenEntry == true) {
-            currentSymbol = SymbolText.value
-            currentNotes = NotesAreas[0].value
-            currentTitle = TitleText.value
-        } else {
-            currentPL = PLText.value
-            currentNotes = NotesAreas[1].value
-        }
 
-        TradeClose_Button.style.display = "block";
-        TradeOpen_Button.style.display = "block";
-        TradeEntryFrame.style.display = "none";
-        TradeEntryCloseFrame.style.display = "none";
-        TradeEntryOpenFrame.style.display = "none";
+fileInput.addEventListener("change", async function() {
+    const file = fileInput.files[0];
+    if (!file) return;
 
-        let sucsess = await log_Trade(localStorage.getItem("token"), OpenEntry)
-        if (sucsess != null) {
-            if (OpenEntry == false) {
-                AIPrompt()
-            } else {
-                location.reload()
-            }
-        } else {
-            location.reload()
-        }
-        debounce = false
-    })
-}
+
+    imgInput.style.display = "none"
+    imgFrame.style.display = "block";
+    imgFrame.src = URL.createObjectURL(file);
+
+    if (fileInput.files.length > 0) {
+        tradeEntry['img'] = await toBase64(fileInput.files[0])
+    }
+});
+
+EntryButton.addEventListener("click", async function() {
+    TradeEntryFrame.style.display = "block"
+})
+
 
 async function init() {
-    await sleep(2000)
+    await sleep(3000)
     await loadList()
+    loadManager()
 }
 
 init()

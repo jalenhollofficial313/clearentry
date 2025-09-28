@@ -17,10 +17,10 @@ body {
 }
 
 .SideBar {
-    background-color: #21252b;
+    background-color: #1b1d22;
     width: 15%;
     height: 100%;
-    border-right: 1px solid rgb(92, 92, 92);;
+    border-right: 2px solid #2d3139;
 
 }
 
@@ -33,6 +33,8 @@ body {
     margin-bottom: 0;
     width: 100%;
     text-align: center;
+
+    border-bottom: 2px solid #2d3139;
 
     display: block;
     text-decoration: none;
@@ -48,7 +50,7 @@ body {
 .SideBar_List {
     text-decoration: none;
     list-style: none;
-    
+
     height: 60%;
 
     padding: 0;
@@ -60,23 +62,35 @@ body {
     align-items: center;
     padding-left: 30px;
     margin-bottom: 0;
-    margin-top: 0;
+    margin-top: 5px;
 
-    height: 10%;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 9px;
+
+    width: 80%;
+
+    height: 9%;
     transition: 350ms;
 }
 
 .SideBar_List_ListItem:hover {
-    background-color: #4ecf524b;
+    background-color: #31363f;
     cursor: pointer;
 }
 
+.SideBar_List_ListItem:hover p {
+    color: white;
+}
+
+
 
 .selected-item {
-    background-color: #4ecf524b;
-    border-right: 1px solid #4ecf53;
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
 
-    color: white;
+
 }
 
 .selected-item p {
@@ -97,7 +111,7 @@ body {
 
 .SideBar_List_ListItem_Text {
     color: rgb(177, 177, 177);
-    font-size: 2.4vh;
+    font-size: 2.2vh;
     font-weight: 500;
 }
 
@@ -108,7 +122,7 @@ body {
 .MainFrame {
     width: 85%;
     height: 100%;
-    background-color: #1e1e24;
+    background-color: #14161a;
 }
 
 .MainFrame_HeadFrame {
@@ -141,28 +155,32 @@ body {
 
 .MainFrame_HeadFrame_ButtonsDiv_Button {
     height: 57%;
-    width: 40%;
+    width: 50%;
     display: inline-block;
 
-    border: 1px solid #312e2e;
 
     background-color: #21252bce;
     color: white;
 
-    font-size: 1.2vw;
+    font-size: .9vw;
     font-weight: 600;
+    border: none;
 
     transition: 250ms;
 
     border-radius: 8px;
 }
 #TradeOpen_Button {
-    color: rgb(243, 233, 233);
-    background-color: #358b38;
-}
+    color: rgb(255, 255, 255);
+    
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
 
+}
 #TradeClose_Button {
     color: rgb(243, 233, 233);
+    
+    border: 1px solid #312e2e;
 }
 
 .MainFrame_HeadFrame_ButtonsDiv_Button:hover {
@@ -178,7 +196,14 @@ body {
 
 .MainFrame_EntriesFrame_Entries {
     width: 95%;
-    height: 100%;
+    height: 97%;
+
+
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
 
     margin-left: auto;
     margin-right: auto;
@@ -190,34 +215,126 @@ body {
 
     overflow-y: scroll;
     
-    gap: 3% 1%;
+    gap: 3% 2%;
 }
 
 .MainFrame_EntriesFrame_Entries::-webkit-scrollbar{
     display: none;
 }
 
+
+
+#Clone-Entry {
+    display: none;
+}
+
 .MainFrame_EntriesFrame_Entries_Entry {
-    background-color: #21252bce;
-    width: 24%;
-    height: 35%;
+    width: 27%;
+    height: 58%;
 
 
-    border: 1px solid #0050049f;
-    border-radius: 8px;
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
 
     transition: 250ms;
 }
 
-.entry-hover {
-    cursor: pointer;
-    transform: scale(1.02);
-    box-shadow: 0px 4px 12px  -5px #0050049f;
+
+
+.MainFrame_EntriesFrame_Entries_Entry_Header {
+    width: 100%;
+    height: 14%;
+    margin-top: 10px;
+
+    align-items: center;
+
+    display: flex;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_HeaderLeft {
+    display: flex;
+    width: 50%;
+    height: 100%;
+
+    align-items: center;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_HeaderRight {
+    display: flex;
+    width: 50%;
+    height: 100%;
+
+    align-items: center;
+    justify-content: right;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_Title {
+    color: white;
+
+    font-size: 1.4vw;
+    font-weight: 800;
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    width: fit-content;
+
+
+    padding-left: 25px;
+    padding-right: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+
+    transition: 250ms;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox {
+    color: white;
+
+
+    font-size: .7vw;
+    font-weight: 700;
+
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 5px;
+
+
+    width: fit-content;
+    height: fit-content;
+
+
+    padding: 4px 13px;
+    border-radius: 10px;
+
+    transition: 250ms;
+}
+
+.opened-entry {
+    background-color: #14b04d;
+}
+
+.closed-entry {
+    border: 1px solid #2d3139;
+}
+
+.long-entry {
+    background-color: #14b04d;
+}
+
+.short-entry {
+    background-color: #d37426;
+}
+
+.Open-Type {
+    margin-left: 0;
+    margin-right: 19px;
 }
 
 .MainFrame_EntriesFrame_Entries_Entry_ImgFrame {
     width: 100%;
-    height: 60%;
+    height: 42%;
 
     display: flex;
     justify-content: center;
@@ -226,37 +343,114 @@ body {
 .MainFrame_EntriesFrame_Entries_Entry_ImgFrame_Img {
     width: 90%;
     height: 100%;
-    margin-top: 15px;
+    box-shadow: 0 5px 10px rgb(46, 46, 46);
 
-box-shadow: 0px 0px 5px 2px rgba(66, 66, 66, 0.137);
-    border-radius: 8px;
-
-    
+    border-radius: 15px;
 }
 
-.MainFrame_EntriesFrame_Entries_Entry_Title {
-    margin-left: 6%;
-    margin-top: 35px;
+.MainFrame_EntriesFrame_Entries_Entry_DataFrame {
+    width: 100%;
+    
+    height: 29%;
+
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #2d3139;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_DataFrame_div {
+
+    display: flex;
+    width: 100%;
+    height: 54%;
+
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_DataFrame_div_div {
+    width: 50%;
+    height: 100%;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_DataFrame_div_div_nameText {
+    font-size: .9vw;
+    font-weight: 600;
+    color: #707581;
+
+    align-items: center;
+
+    display: flex;
+
+    margin-top: 10px;
     margin-bottom: 0;
 
+    padding-left: 30px;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_DataFrame_div_div_icon {
+    height: 18px;
+    width: fit-content;
+
+
+    margin-right: 2px;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_DataFrame_div_div_dataText {
+    padding-left: 35px;
+    font-size: 1vw;
+    font-weight: 700;
     color: white;
 
-    font-size: 1.25vw;
-    font-weight: 700;
+    margin-top: 8px;
+
 }
 
-.MainFrame_EntriesFrame_Entries_Entry_Date{
-    margin-left: 7%;
-    margin-top: 5px;
-    margin-bottom: 0;
+.green-text {
+    color: #24c55f;
+}
+
+.red-text {
+    color: #c01c10;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_MiscFrame {
+    width: 100%;
+    height: 10%;
+
+
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_MiscFrame_Button {
+    width: 17%;
+    height: 57%;
+    
+
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
 
     color: rgb(177, 177, 177);
 
-    font-size: 1vw;
+    font-size: .8vw;
     font-weight: 600;
+
+    border-radius: 8px;
+    transition: 250ms;
+
+    margin-right: 5px;
 }
 
-.MainFrame_EntryView {
+
+.MainFrame_EntriesFrame_Entries_Entry_MiscFrame_Button:hover {
+    cursor: pointer;
+}
+
+
+.MainFrame_TradeEntryView {
     width: 84.8%;
     height: 100%;
 
@@ -271,227 +465,302 @@ box-shadow: 0px 0px 5px 2px rgba(66, 66, 66, 0.137);
     justify-items: center;
 }
 
-.MainFrame_EntryView_Entry {
+.MainFrame_TradeEntryView_TradeFrame {
+    width: 39%;
+    height: 96%;
 
-    width: 45%;
-    height: 90%;
 
-    overflow-y: scroll;
-    scrollbar-color: #21252bce transparent;
-
-    z-index: 3;
-
-    background-color: #1e1e24;
-    border: 1px solid #0050049f;
+    background-color: #1b1d22;
+    border: 2px solid #2d3139;
     border-radius: 18px;
 
     transition: 250ms;
 }
 
-.MainFrame_EntryView_Entry_Title {
+
+
+.MainFrame_TradeEntryView_TradeFrame_Title {
+    display: block;
+
+    border-bottom: 2px solid #2d3139;;
+
     color: white;
-    font-size: 2.4vw;
+    font-size: 2vw;
     font-weight: 700;
     text-align: center;
 
-    margin-top: 2%;
-    margin-bottom: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0;
+    margin-bottom: 15px;
 }
 
-.MainFrame_EntryView_Entry_ImgDiv {
+
+
+
+.MainFrame_TradeEntryView_TradeFrame_div {
     width: 100%;
-    height: 40%;
+    height: fit-content;
+
+    margin-bottom: 15px;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_imgdiv {
+    width: 100%; 
+    height: 260px;
+
 
     display: flex;
-
     justify-content: center;
 }
 
-.MainFrame_EntryView_Entry_ImgDiv_Div {
-    display: flex;
-    align-items: center;    
-    justify-content: center;
-
-    width: 90%;
+.MainFrame_TradeEntryView_TradeFrame_div_imgdiv_img {
+    width: 85%;
     height: 100%;
+    display: none;
 
-
-    text-transform: uppercase;
-
-    background-color: #43494ece;
-    border: 3px solid #0050049f;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
     border-radius: 8px;
+}
 
-    color: rgb(177, 177, 177);
-    font-size: 1vw;
+.MainFrame_TradeEntryView_TradeFrame_div_text {
+    color: white;
+    font-size: 13px;
     font-weight: 600;
-
-    text-align: center;
-    align-content: center;
+    display: block;
+    width: 90%;
 
     margin: 0;
 
-
-    transition: 250ms;
+    padding-left: 45px;
 }
 
-.MainFrame_EntryView_Entry_ImgDiv_Img {
+.MainFrame_TradeEntryView_TradeFrame_div_dropdowndiv {
+    display: flex;
+
+    align-items: center;
+
+    margin-top: 12px;
+
+    width: 100%;
+    height: 45%;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_dropdownedit {
+    width: 20px;
+    height: 20px;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    color: white;
+    border-radius: 8px;
+    padding: 7px 7px;
+
+    z-index: 4;
+
+
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_dropdownbutton{
+    width: 83%;
+    height: 35px;
+    
+    margin: 0;
+    z-index: 1;
+
+    padding-left: 20px;
+
+    color: white;
+    font-size: 16px;
+    display: flex;
+
+    align-items: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_dropdownbutton:hover {
+    cursor: pointer;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_dropdown_icon {
+    width: 20px;
+    height: 20px;
+    color: rgb(212, 212, 212);
+
+    margin-left: auto;
+    margin-right: 5px;
+    
+}
+
+
+.MainFrame_TradeEntryView_TradeFrame_div_dropdown {
+    width: 33.6%;
+    height: fit-content;
+    
+
+    padding: 0;
+    padding-bottom: 4px;
+
+    position: absolute;
+
+    display: none;
+
+
+
+    max-height: 200px;
+    margin: 0;
+    margin-top: 5px;
+    margin-left: 46px;
+
+
+    list-style-type: none;
+    
+
+
+    justify-items: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
+
+
+    overflow-y: auto;
+
+    z-index: 1;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_dropdown::-webkit-scrollbar {
     display: none;
 }
 
-.MainFrame_EntryView_Entry_ImgDiv_InfoDiv {
-
-    height: 20%;
-    width: 100%;
-
-    justify-items: center;
-    margin-top: 25px;
+.default-dropdown {
 
 }
 
-.MainFrame_EntryView_Entry_ImgDiv_InfoDiv_Div {
+.MainFrame_TradeEntryView_TradeFrame_div_dropdown_text {
+    color: rgb(212, 212, 212);
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 5px;
+    margin-left: 0;
+
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
 
-    height: 100%;
-    width: 90%;
-
-    gap: 5% 2%;
-    align-content: flex-start;
-}
-
-.MainFrame_EntryView_Entry_ImgDiv_InfoDiv_Div_Info {
-    color: rgb(177, 177, 177);
-    height: 32%;
-    width: 26%;
-
-    margin-top: 0;
-    margin-bottom: 0;
-
-    background-color: #21252bce;
-    border: 2px solid #0050049f;
-
+    width: 97%;
     border-radius: 8px;
-
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-top: 1%;
-    padding-bottom: 1%;
-
-    transition: 250ms;
-}
-
-.MainFrame_EntryView_Entry_ImgDiv_InfoDiv_Div_Info:hover {
-    box-shadow: 0px 4px 12px  -5px #0050049f;
-}
-
-
-.MainFrame_EntryView_Entry_ImgDiv_InfoDiv_Div_Info_Text {
-    color: rgb(177, 177, 177);
-
-    font-size: 1vw;
-    font-weight: 600;
-
-    margin-top: 0;
-    margin-bottom: 0;
-
-
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-top: 1%;
-    padding-bottom: 1%;
-
-    transition: 250ms;
-}
-
-.info-value {
-    font-size: 1vw;
-    font-weight: 600;
-    color: white;
-}
-
-.MainFrame_EntryView_Entry_NotesDiv {
-    width: 100%;
-    height: 22%;
-
-
-
-}
-
-.MainFrame_EntryView_Entry_Text {
-    color: rgb(177, 177, 177);
-
-    font-size: 1vw;
-    font-weight: 600;
-
-    margin-top: 0;
-    margin-bottom: 0;
-
-    margin-left: 5%;
-
-
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-top: 1%;
-    padding-bottom: 1%;
-
-    transition: 250ms;
-}
-
-.MainFrame_EntryView_Entry_TextNotes {
-    height: 70%;
-    width: 88%;
-
-    margin-top: 0;
-    margin-bottom: 0;
-
-    padding-left: 6px;
+    height: fit-content;
+    padding-bottom: 5px;
     padding-top: 5px;
-
-    color: white;
-
-
-    margin-left: auto;
-    margin-right: auto;
-
-    border-radius: 8px;
-    background-color: #21252bce;
-    border: 2px solid #0050049f;
-
+    padding-left: 7px;
+    transition: 250ms;
 }
 
-.MainFrame_EntryView_Entry_CloseDiv {
-    width: 100%;
-    height: 10%;
+.MainFrame_TradeEntryView_TradeFrame_div_dropdown_text:hover {
+    cursor: pointer;
+    color: #2e2f31;
 
+    background-color: #14b04d;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_input {
+    width: 83%;
+    height: 30px;
+
+    text-transform: uppercase;
+
+    padding-left: 20px;
+    margin-left: 44px;
+    margin-top: 12px;
+
+
+    color: white;
+    font-size: 16px;
+
+
+    align-items: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_input:focus {
+    outline: 1px solid  #14b04d7a;
+}
+
+.MainFrame_TradeEntryView_TradeFrame_div_textarea {
+    width: 85%;
+    height: 100px;
+
+    padding-left: 10px;
+    margin-left: 44px;
+    margin-top: 12px;
+
+    resize: none;
+
+    color: white;
+    font-size: 14px;
+
+    scrollbar-color: rgb(22, 22, 22) transparent;
+    scrollbar-width: 5px;
+
+
+    align-items: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_textarea:focus {
+    outline: 1px solid  #14b04d7a;
+}
+
+
+.MainFrame_TradeEntryView_TradeFrame_div_buttondiv {
+    width: 100%;
+    height: fit-content;
 
     display: flex;
     justify-content: center;
-    align-items: center;
+    justify-items: center;
 
+    gap: 15px;
 }
 
-.MainFrame_EntryView_Entry_CloseDiv_Button {
-    width: 20%;
-    height: 60%;
-    text-align: center;
+.MainFrame_TradeEntryView_TradeFrame_div_buttondiv_button {
+    height: 50px;
+    width: 150px;
 
-
-    border: 1px solid #312e2e;
-
-    color: rgb(243, 233, 233);
-    background-color: #358b38;
-
-    font-size: 1.3vw;
-    font-weight: 600;
-
-    transition: 250ms;
+    font-size: 20px;
+    font-weight: 700;
 
     border-radius: 8px;
+    border: none;
+
+    transition: 250ms;
+}
+.MainFrame_TradeEntryView_TradeFrame_div_buttondiv_button:hover {
+    cursor: pointer;
+    transform: scale(1.02);
 }
 
-.MainFrame_EntryView_Entry_CloseDiv_Button:hover {
-    transform: scale(1.02);
-    cursor: pointer;
+#Save_button {
+    color: rgb(255, 255, 255);
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
 }
+
+#Close_button {
+    border: 2px solid #2d3139;
+    background-color: #212329;
+
+    color: rgb(177, 177, 177);
+}
+

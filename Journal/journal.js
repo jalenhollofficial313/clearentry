@@ -44,6 +44,60 @@ async function getNotesOrder(table) {
     return tableArray;
 }
 
+async function removeNotes() {
+    let noteFrame = document.getElementsByClassName("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
+    while (noteFrame.length > 0) {
+        notesFrame[0].removeChild(noteFrame[0])
+    }
+
+    return true
+}
+
+
+async function logNote(token) {
+    const response = await fetch("https://log-note-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: token,
+            noteIndex: currentNoteIndex,
+            text: notesText.value,
+        })
+    })
+
+    const sucsess = await response.text()
+
+    return sucsess
+}
+
+async function notesCheck() {
+    if (currentNoteIndex) {
+        clientData = await getData(localStorage.getItem("token"))
+        if (notesText.value != clientData['notes'][currentNoteIndex]['text']) {
+            logged = await logNote(localStorage.getItem("token"))
+        }
+    }
+}
+
+async function add_Note(token) {
+    const response = await fetch("https://add-note-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: token,
+            title: addNoteTitle.value,
+        })
+    })
+
+    const sucsess = await response.text()
+
+    return sucsess
+}
+
 
 
 async function loadNotes() {
@@ -76,7 +130,8 @@ async function loadNotes() {
         journalDate.innerHTML = convertUnixToFullDate(table[i]['date'])
         journalButtonFrame.appendChild(journalDate)
 
-        journalButtonFrame.addEventListener("click", function(){
+        journalButtonFrame.addEventListener("click", async function(){
+            notesCheck() 
             document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
             journalButtonFrame.classList.add("note-selected")
             notesTitle.innerHTML = table[i]['title']
@@ -90,66 +145,17 @@ async function loadNotes() {
     }
 }
 
-async function logNote(token) {
-    const response = await fetch("https://log-note-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token,
-            noteIndex: currentNoteIndex,
-            text: notesText.value,
-        })
-    })
+window.addEventListener("beforeunload", function (e) {
 
-    const sucsess = await response.text()
+    e.preventDefault();              // Needed for some browsers
+    e.returnValue = "";              // Standard way to trigger prompt
+    notesCheck()
+});
 
-    return sucsess
-}
-
-async function notesCheck() {
-    while (true) {
-        if (currentNoteIndex) {
-            clientData = await getData(localStorage.getItem("token"))
-            if (notesText.value != clientData['notes'][currentNoteIndex]['text']) {
-                logged = await logNote(localStorage.getItem("token"))
-            }
-        }
-
-        await sleep(5000)
-    }
-}
-
-async function add_Note(token) {
-    const response = await fetch("https://add-note-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token,
-            title: addNoteTitle.value,
-        })
-    })
-
-    const sucsess = await response.text()
-
-    return sucsess
-}
 
 async function journalINIT(params) {
     loaded = await loadNotes()
     notesCheck()
-}
-
-async function removeNotes() {
-    let noteFrame = document.getElementsByClassName("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
-    while (noteFrame.length > 0) {
-        notesFrame[0].removeChild(noteFrame[0])
-    }
-
-    return true
 }
 
 

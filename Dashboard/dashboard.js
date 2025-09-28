@@ -104,10 +104,10 @@ async function getavgEmotion() {
 
     let Emotions = clientData["emotions"]
     
-    for (let emotion of Emotions) {
+    for (let emotion in Emotions) {
         let emotionAmount = 0
         for (let trade in clientData['trades']) {
-            if (clientData['trades'][trade]['emotion_Start'] == emotion) {
+            if (clientData['trades'][trade]['emotion'] == emotion) {
                 emotionAmount += 1
             }
         }
@@ -168,7 +168,7 @@ async function setTrades() {
         tradePL.classList.add("inter-text")
         if (tradeTable[trade]['PL'] > 0) {
             tradePL.innerHTML = "+$" + Math.abs(tradeTable[trade]['PL'])
-            tradePL.style.color = "green"
+            tradePL.style.color = "#1fd866"
         } else if (tradeTable[trade]['PL'] < 0) {
             tradePL.innerHTML = "-$" + Math.abs(tradeTable[trade]['PL'])
             tradePL.style.color = "red"
@@ -198,14 +198,23 @@ async function setData(userData) {
 
 async function getTradesEmotion(Emotion) {
     emotionArray = []
+    let lastemotion = ""
+    let index = 0
 
-    for (let i = 0; i < clientData['emotions'].length; i++) {
+    for (let emotion in clientData['emotions']) {
+        if (lastemotion == "") {
+            lastemotion = emotion
+        }
         for (let trade in clientData['trades']) {
-            if (clientData['trades'][trade]['emotion_Start'] == clientData['emotions'][i]) {
-                if (emotionArray[i]) {
-                    emotionArray[i]++
+            if (clientData['trades'][trade]['emotion'] == emotion) {
+                if (lastemotion != emotion) {
+                    index++
+                    lastemotion = emotion
+                }
+                if (emotionArray[index]) {
+                    emotionArray[index]++
                 } else {
-                    emotionArray[i] = 1
+                    emotionArray[index] = 1
                 }
             }
         }
@@ -252,7 +261,20 @@ async function getTradePL(targetMonth) {
 
     const avgMonthPL = tradeCount > 0 ? totalPL / tradeCount : 0;
 
-    return avgMonthPL;
+    console.log(totalPL)
+
+    return totalPL;
+}
+
+async function getEmotionsList() {
+    newarray = []
+    for (let emotion in clientData['emotions']) {
+        newarray.push(emotion)
+    }
+
+
+    console.log(newarray)
+    return newarray
 }
 
 
@@ -260,14 +282,14 @@ async function loadGraphs(params) {
     new Chart(emotionRate, {
         type: 'bar',
         data: {
-        labels: clientData['emotions'],
+        labels: await getEmotionsList(),
         datasets: [{
 
             label: '# of Votes',
             data: await getTradesEmotion(),
             borderWidth: 1,
-            borderColor: '#358b38',
-            backgroundColor: '#358b38'
+            borderColor: '#19c257',
+            backgroundColor: '#19c257'
         }]
         },
         options: {
@@ -301,8 +323,8 @@ async function loadGraphs(params) {
                 ],
 
             borderWidth: 1,
-            borderColor: '#358b38',
-            backgroundColor: '#358b38'
+            borderColor: '#19c257',
+            backgroundColor: '#19c257'
         }]
     }
     }); 

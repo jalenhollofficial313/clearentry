@@ -16,440 +16,482 @@
 }
 
 .MainFrame_TradeEntryFrame_TradeFrame {
-    background-color: gray;
-    width: 45%;
-    height: 80%;
-    z-index: 3;
+    width: 39%;
+    height: 96%;
 
-    background-color: #1e1e24;
-    border: 1px solid #0050049f;
+
+    background-color: #1b1d22;
+    border: 2px solid #2d3139;
     border-radius: 18px;
 
     transition: 250ms;
 }
 
-.MainFrame_TradeEntryFrame_TradeFrame:hover {
-    box-shadow: 0px 4px 12px  -3px #006b059f;
-}
 
-#TradeOpen_Entry {
-
-}
-
-#TradeClose_Entry {
-    display: none;
-}
 
 .MainFrame_TradeEntryFrame_TradeFrame_Title {
+    display: block;
+
+    border-bottom: 2px solid #2d3139;;
+
     color: white;
-    font-size: 2.4vw;
+    font-size: 2vw;
     font-weight: 700;
     text-align: center;
 
-    margin-top: 3%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0;
     margin-bottom: 15px;
 }
 
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame {
+
+
+.MainFrame_TradeEntryFrame_TradeFrame_div {
     width: 100%;
-    height: 80%;
+    height: fit-content;
 
-
+    margin-bottom: 15px;
 }
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame {
-    
-    width: auto;
-    height: 8%;
-
-    align-content: center;
-
-    padding-left: 30px;
-
-    display: flex;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Text {
+.MainFrame_TradeEntryFrame_TradeFrame_div_text {
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    display: block;
+    width: 90%;
 
     margin: 0;
 
-    width: 38%;
-    height: 10%;
+    padding-left: 45px;
+}
 
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdowndiv {
+    display: flex;
+
+    align-items: center;
+
+    margin-top: 12px;
+
+    width: 100%;
+    height: 45%;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdownedit {
+    width: 20px;
+    height: 20px;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
     color: white;
-    font-size: 1.3vw;
-    font-weight: 600;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv {
-    width: 23%;
-    height: 70%;
-
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Button {
-    width: 4%;
-    height: 55%;
-
-    display: inline-block;
-
-    display: flex;               /* enable flexbox */
-    align-items: center;         /* vertical alignment */
-    justify-content: center;
+    border-radius: 8px;
+    padding: 7px 7px;
 
 
     margin-left: 5px;
     margin-right: 5px;
-    margin-top: .5%;
-
-    padding: 0;
-
-    padding-top: .2%;
-
-
-    background-color: #21252bce;
-    border: 1px solid #0050049f;
-    border-radius: 100%;
-
-    color: rgb(177, 177, 177);
-    font-size: .9vw;
-    font-weight: 600;
-
-    transition: 250ms;
+    margin-top: 0;
 }
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Button:hover {
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdownedit:hover {
     cursor: pointer;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
 }
 
-.add-item {
-    display: none;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button {
-    width: 100%;
-    height: 100%;
-
-
-    background-color: #21252bce;
-    border: 1px solid #0050049f;
-    border-radius: 8px;
-
-    color: rgb(177, 177, 177);
-    font-size: 1vw;
-    font-weight: 600;
-
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdownbutton{
+    width: 83%;
+    height: 35px;
+    
     margin: 0;
 
-    transition: 250ms;
+    padding-left: 20px;
+
+    color: white;
+    font-size: 16px;
+    display: flex;
+
+    align-items: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
 }
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button:hover {
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdownbutton:hover {
     cursor: pointer;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
 }
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_Button:hover ~ .MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List {
-    display: block;
-    opacity: 1;
-}
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdown_icon {
+    width: 20px;
+    height: 20px;
+    color: rgb(212, 212, 212);
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List {
-    margin-top: 1px;
-    width: 9.8%;
-    height: fit-content;
-
-    display: none;
-    opacity: 0;
-
-    padding-top: 5px;
-    padding-left: 0;
-    padding-bottom: 15px;
-    list-style-type: none;
-    margin-top: 2px;
-
-    background-color: #21252b;
-    border: 1px solid #0050049f;
-    border-radius: 8px;
+    margin-left: auto;
+    margin-right: 5px;
     
+}
+
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdown {
+    width: 33.6%;
+    height: fit-content;
+    
+
+    padding: 0;
+    padding-bottom: 4px;
 
     position: absolute;
 
-    transition: 250ms;
-}
+    display: none;
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List:hover {
-    box-shadow: 0px 4px 12px  -5px #0050049f;
-}
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List_ListItem {
+
+    max-height: 200px;
+    margin: 0;
     margin-top: 5px;
-    padding-left: 15px;
-
-    color: rgb(177, 177, 177);
-    font-size: 1vw;
-    font-weight: 600;
-    padding-top: 1px;
-    padding-bottom: 1px;
-
-    align-items: center;
-
-    transition: 250ms;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_DropDownDiv_List_ListItem:hover {
-    background-color: #4ecf524b;
-    cursor: pointer;
-}
+    margin-left: 46px;
 
 
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input {
-    width: 21%;
-    height: 70%;
-
-    text-transform: uppercase;
-
-    background-color: #21252bce;
-    border: 1px solid #0050049f;
-    border-radius: 8px;
-
-    color: rgb(177, 177, 177);
-    font-size: 1vw;
-    font-weight: 600;
-
-    padding-left: 10px;
-
-    margin: 0;
-
-    transition: 250ms;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input:focus {
-    background-color: #21252bce;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_Input:hover {
-    box-shadow: 0px 4px 12px  -5px #0050049f;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_Text {
+    list-style-type: none;
     
-    margin: 0;
-    margin-bottom: 10px;
 
-    width: 30%;
-    height: auto;
-
-    padding-left: 31px;
-
-    color: white;
-    font-size: 1.3vw;
-    font-weight: 600;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame {
-    width: 100%;
-    height: 40%;
-
-    margin-top: 0;
-
-    display: flex;
-    justify-content: center;
-    align-content: center;
-
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame_TextArea {
-    margin-top: 0;
-    width: 90%;
-    resize: none;
-    outline: none;
-
-    padding-left: 1%;
-    padding-top: 1%;
-
-    color: rgb(177, 177, 177);
-    font-size: .8vw;
-    font-weight: 600;
-    
-    
-    background-color: #21252bce;
-    border: 1px solid #0050049f;
-    border-radius: 8px;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_TextAreaFrame_TextArea:hover {
-    box-shadow: 0px 4px 12px  -5px #0050049f;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame {
-    height: 15%;
-    width: 100%;
-
-    margin-top: 2%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 1%;
-}
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame_Button {
-    width: 20%;
-    height: 60%;
-    text-align: center;
-
-
-    border: 1px solid #312e2e;
-
-    background-color: #21252bce;
-    color: rgb(177, 177, 177);
-
-    font-size: 1.3vw;
-    font-weight: 600;
-
-    transition: 250ms;
-
-    border-radius: 8px;
-
-}
-
-.Continue_Button {
-    color: rgb(243, 233, 233);
-    background-color: #358b38;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_ButtonFrame_Button:hover {
-    transform: scale(1.02);
-    cursor: pointer;
-}
-
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_ImgFrame {
-    width: 100%;
-    height: 36%;
-
-    display: flex;
-    justify-content: center;
-
-    margin-top: 0;
-    margin-bottom: 5%;
 
     justify-items: center;
-    align-content: center;
 
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
+
+
+    overflow-y: auto;
+
+    z-index: 1;
 }
 
-#img_Frame {
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdown::-webkit-scrollbar {
     display: none;
 }
 
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_ImgInput {
+.default-dropdown {
+
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdown_text {
+    color: rgb(212, 212, 212);
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 5px;
+    margin-left: 0;
+
     display: flex;
-    align-items: center;    
-    justify-content: center;
+    align-items: center;
 
-    width: 90%;
-    height: 100%;
+    width: 97%;
+    border-radius: 8px;
+    height: fit-content;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 7px;
+    transition: 250ms;
+}
 
+.MainFrame_TradeEntryFrame_TradeFrame_div_dropdown_text:hover {
+    cursor: pointer;
+    color: #2e2f31;
+
+    background-color: #14b04d;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_input {
+    width: 83%;
+    height: 30px;
 
     text-transform: uppercase;
 
-    background-color: #43494ece;
-    border: 3px solid #0050049f;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
+    padding-left: 20px;
+    margin-left: 44px;
+    margin-top: 12px;
+
+
+    color: white;
+    font-size: 16px;
+
+
+    align-items: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_input:focus {
+    outline: 1px solid  #14b04d7a;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_textarea {
+    width: 85%;
+    height: 100px;
+
+    padding-left: 10px;
+    margin-left: 44px;
+    margin-top: 12px;
+
+    resize: none;
+
+    color: white;
+    font-size: 14px;
+
+    scrollbar-color: rgb(22, 22, 22) transparent;
+    scrollbar-width: 5px;
+
+
+    align-items: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 10px;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_textarea:focus {
+    outline: 1px solid  #14b04d7a;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv {
+    width: 100%; 
+    height: 260px;
+
+
+    display: flex;
+    justify-content: center;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_img {
+    width: 85%;
+    height: 100%;
+    display: none;
+
+    border-radius: 8px;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_imgframe {
+    width: 85%;
+    height: 100%;
     border-radius: 8px;
 
-    color: rgb(177, 177, 177);
-    font-size: 1vw;
-    font-weight: 600;
+    border: 2px dashed #2d3139;
+    transition: 450ms;
 
-    text-align: center;
-    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    margin: 0;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_imgframe:hover {
+    border: 2px dashed #14b04d7a;
+    cursor: pointer;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_imgframe_icon {
+    width: 30px;
+    height: 30px;
+
+    border: 2px solid #2d3139;
+    background-color: #212329;
+    padding: 20px 20px;
+    border-radius: 100%;
+    color: rgb(212, 212, 212);
+
+}
+.MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_imgframe_text {
+    color: rgb(212, 212, 212);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_buttondiv {
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+
+    gap: 15px;
+}
+
+.MainFrame_TradeEntryFrame_TradeFrame_div_buttondiv_button {
+    height: 50px;
+    width: 150px;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    border-radius: 8px;
+    border: none;
 
     transition: 250ms;
 }
-.MainFrame_TradeEntryFrame_TradeFrame_Frame_InputFrame_ImgInput:hover {
+.MainFrame_TradeEntryFrame_TradeFrame_div_buttondiv_button:hover {
+    cursor: pointer;
     transform: scale(1.02);
-    cursor: pointer; 
 }
 
-#fileInput {
-    display: none;
-
+#Continue_button {
+    color: rgb(255, 255, 255);
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
 }
 
-.MainFrame_EntryAIPrompt {
+#Cancel_button {
+    border: 2px solid #2d3139;
+    background-color: #212329;
+
+    color: rgb(177, 177, 177);
+}
+
+.MainFrame_ManageFrame {
     width: 84.8%;
     height: 100%;
-
-    display: none;
 
     background-color: rgba(255, 255, 255, 0.089); /* Semi-transparent background */
     backdrop-filter: blur(10px);
 
-
     position: absolute;
+
+    display: none;
 
     justify-items: center;
 }
 
-.MainFrame_EntryAIPrompt_QuestionPrompt {
+.MainFrame_ManageFrame_div {
+    width: 33%;
+    height: 76%;
 
-    width: 45%;
-    height: 15%;
-    z-index: 3;
 
-    background-color: #21252b;
-    border: 1px solid #0050049f;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
+    margin-top: 3%;
+
+    background-color: #1b1d22;
+    border: 2px solid #2d3139;
     border-radius: 18px;
 
-    display: none;
-
-    transition: 550ms;
+    transition: 250ms;
 }
 
-.MainFrame_EntryAIPrompt_QuestionPrompt_Text {
+.MainFrame_ManageFrame_div_headerdiv {
+    height: fit-content;
+    padding-bottom: 10px;
+    width: 100%;
 
-    display: block;
-    margin: 0;
-    margin-bottom: 10px;
-    margin-top: 13px;
+    margin-top: 15px;
+    justify-content: center;
 
-    height: auto;
+    border-bottom: 1px solid #2d3139;
+}
 
-    padding-left: 31px;
+.MainFrame_ManageFrame_div_headerdiv_title {
+    font-size: 30px;
+    font-weight: 700;
 
     color: white;
-    font-size: 1.2vw;
-    font-weight: 600;
+    padding-left: 15px;
+    margin: 0;
 }
-.MainFrame_EntryAIPrompt_QuestionPrompt_ButtonDiv{
-    display: flex;
-    gap: 15px;
-    width: 100%;
-    height: 50%;
-    
+
+.MainFrame_ManageFrame_div_headerdiv_text {
+    margin: 0;
+    margin-top: 3px;
+
+    font-size: 15px;
+    font-weight: 400;
+    padding-left: 15px;
+
+    color: gray;
+}
+
+.MainFrame_ManageFrame_div_div {
+    margin-top: 20px;
+    height: 30%;
+
+}
+
+.MainFrame_ManageFrame_div_div_title {
+    font-size: 20px;
+    font-weight: 500; 
+
+    padding-left: 15px;
+
+    margin: 0;
+
+    color: white;
+}
+
+.MainFrame_ManageFrame_div_div_input {
+    width: 83%;
+    height: 15%;
+
+    transform: uppercase;
+    padding-left: 15px;
+    margin-top: 10px;
+    margin-left: 15px;
+
+
+    color: white;
+    font-size: 16px;
+
+
     align-items: center;
-    justify-content: center;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
 }
 
-.MainFrame_EntryAIPrompt_QuestionPrompt_ButtonDiv_Button {
-    width: 20%;
-    height: 60%;
-    text-align: center;
+.MainFrame_ManageFrame_div_div_input:focus {
+    outline: 1px solid #14b04d;
+}
+
+.MainFrame_ManageFrame_div_div_textarea {
+    width: 83%;
+    height: 35%;
+
+    transform: uppercase;
+    padding-left: 15px;
+    margin-top: 10px;
+    margin-left: 15px;
+
+    resize: none;
+
+    color: white;
+    font-size: 16px;
 
 
-    border: 1px solid #0050049f;
-    background-color: #21252bce;
-    color: rgb(177, 177, 177);
+    align-items: center;
 
-    font-size: 1.3vw;
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+}
+.MainFrame_ManageFrame_div_div_textarea:focus {
+    outline: 1px solid #14b04d;
+}
+.MainFrame_ManageFrame_div_div_button {
+    height: 20%;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: inline-block;
+
+    margin-left: 15px;
+    margin-top: 10px;
+
+    color: white;
+    border: none;
+    background-color: #14b04d;
+    box-shadow: 0 0 4px rgba(34, 197, 94, 0.8);
+
+    font-size: 15px;
     font-weight: 600;
 
     transition: 250ms;
@@ -457,84 +499,250 @@
     border-radius: 8px;
 }
 
-.MainFrame_EntryAIPrompt_QuestionPrompt_ButtonDiv_Button:hover {
-    transform: scale(1.02);
+.MainFrame_ManageFrame_div_div_button:hover {
     cursor: pointer;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
+    transform: scale(1.01);
 }
 
-.MainFrame_EntryAIPrompt_AIResponseFrame {
-    
-    width: 45%;
+.MainFrame_ManageFrame_div_div_listframe {
+    height: 85%;
+    width: 86%;
+
+    background-color: #23252b;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+    scrollbar-color: rgb(58, 57, 57) transparent;
+
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+.MainFrame_ManageFrame_div_div_listframe_listitem {
+    width: 95%;
+    height: 50px;
+
+    display: flex;
+
+    margin-top: 7px;
+    margin-left: 5px;
+
+    align-items: center;
+
+
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+}
+
+.MainFrame_ManageFrame_div_div_listframe_listitem_title {
+    font-size: 22px;
+    font-weight: 500; 
+
+    padding-left: 15px;
+
+    margin: 0;
+    width: 88%;
+
+    color: white;
+}
+
+.MainFrame_ManageFrame_div_div_listframe_listitem_title_icon {
+    width: 25px;
+    height: 25px;
+    color: rgb(212, 212, 212);
+
+    border: 1px solid #2d3139;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.MainFrame_ManageFrame_div_div_listframe_listitem_button {
     height: fit-content;
-    z-index: 3;
+    width: fit-content;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding: 5px 10px;
+    display: inline-block;
+
+
+
+    color: gray;
+
+    background-color: #1a1b1f;
+    border: 1px solid #2d3139;
+
+
+    font-size: 18px;
+    font-weight: 400;
+    margin-right: 10px;
+
+    transition: 250ms;
+
+    border-radius: 8px;
+}
+
+.MainFrame_ManageFrame_div_div_listframe_listitem_button:hover {
+    cursor: pointer;
+}
+.MainFrame_ManageFrame_div_bottomdiv {
+    width: 100%;
+    height: 10%;
+
+    margin-top: 10px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.MainFrame_ManageFrame_div_bottomdiv_button {
+    width: 27%;
+    height: 67%;
+    
+
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
+
+    color: rgb(177, 177, 177);
+
+    font-size: 25px;
+    font-weight: 600;
+
+    border-radius: 8px;
+    transition: 250ms;
+
+    margin-right: 5px;
+}
+
+.MainFrame_ManageFrame_div_bottomdiv_button:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+}
+
+.green-button {
+    color: white;
+    border: none;
+    background-color: #14b04d;
+    box-shadow: 0 0 4px rgba(34, 197, 94, 0.8);
+}
+
+#Emotion-Manage {
+    display: block;
+}
+
+#Strategy-Manage {
+    display: none;
+}
+
+.MainFrame_PromptFrame {
+    width: 84.8%;
+    height: 100%;
+
+    background-color: rgba(255, 255, 255, 0.089); 
+    backdrop-filter: blur(10px);
+
+    position: absolute;
 
     display: none;
 
-    background-color: #21252b;
-    border: 1px solid #0050049f;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
+
+    justify-items: center;
+}
+
+.MainFrame_PromptFrame_Frame {
+    width: 39%;
+    height: fit-content;
+
+
+    margin-top: 30px;
+    padding-bottom: 20px;
+
+    background-color: #1b1d22;
+    border: 2px solid #2d3139;
     border-radius: 18px;
 
-    margin-top: 40px;
-
-
-    transition: 550ms;
+    transition: 250ms;
 }
 
-.MainFrame_EntryAIPrompt_AIResponseFrame_Text {
+.MainFrame_PromptFrame_Frame_Title {
     display: block;
-    margin: 0;
-    margin-bottom: 10px;
-    margin-top: 13px;
 
-    word-wrap: break-word;
-
-    height: auto;
-
-    padding-left: 31px;
-    padding-right: 10px;
+    border-bottom: 2px solid #2d3139;;
 
     color: white;
-    font-size: 1.2vw;
-    font-weight: 600;
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+    margin-bottom: 5px;
 }
 
-.prompt-div {
-    height: 60%;
+.MainFrame_PromptFrame_Frame_text {
+    display: block;
+
+
+    color: gray;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+    margin-bottom: 15px;
 }
 
-.MainFrame_EntryAIPrompt_AIResponseFrame_ButtonDiv {
-    display: flex;
-    gap: 15px;
+.MainFrame_PromptFrame_Frame_ButtonDiv {
     width: 100%;
     height: 20%;
-    margin-bottom: 15px;
-    
-    align-items: center;
+    margin-top: 10px;
+
+    display: flex;
+    gap: 10px;
     justify-content: center;
+    align-items: center;
+
 }
 
-.MainFrame_EntryAIPrompt_AIResponseFrame_Button {
-    width: 17%;
-    height: 50%;
-    text-align: center;
+.MainFrame_PromptFrame_Frame_ButtonDiv_button {
+    height: 50px;
+    width: 150px;
 
-
-    border: 1px solid #0050049f;
-    background-color: #21252bce;
-    color: rgb(177, 177, 177);
-
-    font-size: 1.3vw;
-    font-weight: 600;
-
-    transition: 250ms;
+    font-size: 20px;
+    font-weight: 700;
 
     border-radius: 8px;
+    border: none;
+
+
+    transition: 250ms;
 }
 
-.MainFrame_EntryAIPrompt_AIResponseFrame_Button:hover {
-    transform: scale(1.02);
+.MainFrame_PromptFrame_Frame_ButtonDiv_button:hover {
     cursor: pointer;
-    box-shadow: 0px 4px 12px  -5px #0050049f;
+    transform: scale(1.02);
+}
+
+#Continue_prompt {
+    color: rgb(255, 255, 255);
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
+}
+
+#Close_prompt {
+    border: 2px solid #2d3139;
+    background-color: #212329;
+
+    color: rgb(177, 177, 177);
 }

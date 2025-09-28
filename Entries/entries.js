@@ -1,20 +1,26 @@
 const entriesFrame = document.getElementById("EntriesFrame");
 
-const entryTitle = document.getElementById("Entry-Title")
-const entryView = document.getElementById("Entry-View")
-const info_values = document.getElementsByClassName("info-value")
-const entryNotes = document.getElementsByClassName("MainFrame_EntryView_Entry_TextNotes")
-const entryImg = document.getElementById("entry-img")
-const entryImgDiv = document.getElementById("img-div")
-const closeButton = document.getElementById("close-button")
+const tradeExample = document.getElementById("Clone-Entry")
+const EntriesFrame = document.getElementById("EntriesFrame")
+
+const entryView = document.getElementById("TradeView")
+const entryViewList = document.getElementsByClassName("MainFrame_TradeEntryView_TradeFrame_div_dropdown")
+const entrydropDownButtons = document.getElementsByClassName("MainFrame_TradeEntryView_TradeFrame_div_dropdownbutton")
+
+
+let entryEmotion = ""
+let entryStrategy = ""
+let entryID = ""
 
 let clientData
+let tradeData
 
 function convertUnixToMonthDayYear(timestamp) {
   const date = new Date(timestamp * 1000); 
-  const options = { month: 'long', day: 'numeric', year: 'numeric' };
+  const options = { month: 'short', day: 'numeric', year: 'numeric' };
   return date.toLocaleDateString(undefined, options); 
 }
+
 
 function formatTime(seconds) {
     const hours = Math.floor(seconds / 3600);
@@ -41,19 +47,14 @@ function sleep(ms) {
 
 async function getTradesOrder(table) {
 
-    const tableArray = Object.entries(table).map(([key, value]) => {
+    let tableArray = Object.entries(table).map(([key, value]) => {
         return { ...value, id: key }; 
     });
 
-    let newArray = []
 
-    for (let i = 0 ; i < tableArray.length; i++) {
-        newArray.push(tableArray[i])
-    }
-
-    newArray.sort((a, b) => b['date'] - a['date']);
-    console.log(newArray)
-    return newArray;
+    tableArray.sort((a, b) => b['date'] - a['date']);
+    console.log(tableArray)
+    return tableArray;
 }
 
 
@@ -72,93 +73,181 @@ async function getData(token) {
 }
 
 
-async function loadTrades(params) {
-    let tradeTable = await getTradesOrder(clientData['trades'])
-    for (let trade in tradeTable) {
-        let entryFrame = document.createElement("div")
-        entryFrame.classList.add("MainFrame_EntriesFrame_Entries_Entry")
+async function loadTrades() {
+  const frag = document.createDocumentFragment();
 
-        let imgFrame = document.createElement("div")
-        imgFrame.classList.add("MainFrame_EntriesFrame_Entries_Entry_ImgFrame")
-        entryFrame.appendChild(imgFrame)
+  for (let i = 0; i < tradeData.length; i++) {
+    const t = tradeData[i];
+    const clone = tradeExample.cloneNode(true);
+    clone.style.display = "block";
 
-        let img = document.createElement("img")
-        img.classList.add("MainFrame_EntriesFrame_Entries_Entry_ImgFrame_Img")
-        if (tradeTable[trade]['img'] == "") {
-            img.style.visibility = "hidden"
-        } else {
-            img.src = tradeTable[trade]['img'] 
-        }
-        imgFrame.appendChild(img)
+    // Fill inside the clone (not the whole document)
+    clone.querySelector(".strategy-text").textContent = t.strategy ?? "";
+    clone.querySelector(".emotion-text").textContent = t.emotion ?? "";
 
-        let title = document.createElement("p")
-        title.classList.add("MainFrame_EntriesFrame_Entries_Entry_Title")
-        title.classList.add("inter-text")
-        title.innerHTML = tradeTable[trade]['title']
-        entryFrame.appendChild(title)
+    // P/L
+    const plEl = clone.querySelector(".PL-text");
+    const value = Number(t.PL) || 0;
+    plEl.classList.remove("green-text", "red-text");
+    if (value > 0) {
+      plEl.textContent = `+$${Math.abs(value)}`;
+      plEl.classList.add("green-text");
+    } else if (value < 0) {
+      plEl.textContent = `-$${Math.abs(value)}`;
+      plEl.classList.add("red-text");
+    } else {
+      plEl.textContent = "$0";
+    }
 
-        let date = document.createElement("p")
-        date.classList.add("MainFrame_EntriesFrame_Entries_Entry_Date")
-        date.classList.add("inter-text")
-        date.innerHTML = convertUnixToMonthDayYear(tradeTable[trade]['date'])
-        entryFrame.appendChild(date)
+    const entryTitle = clone.querySelector(".entry-title")
+    entryTitle.innerHTML = t.symbol
 
-        entryFrame.addEventListener("mouseenter", async function() {
-            entryFrame.classList.add("entry-hover")
+    const entryIMG = clone.querySelector(".entry-img")
+    entryIMG.src = t.img != "" && t.img != null ? t.img : ""
+    entryIMG.style.display = t.img != "" && t.img != null ? "block" : "none"
+
+    // Date (your timestamps look like seconds with decimals)
+    const dateEl = clone.querySelector(".date-text");
+    dateEl.textContent = convertUnixToMonthDayYear(Math.floor(Number(t.date)));
+
+    // Open/Closed
+    const entryEl = clone.querySelector(".entry-type");
+    const isOpen = t.open === true || t.open === "true";
+    entryEl.textContent = isOpen ? "Open" : "Closed";
+    entryEl.classList.toggle("opened-entry", isOpen);
+    entryEl.classList.toggle("closed-entry", !isOpen);
+
+    const closeButton = clone.querySelector(".trade-close-button");
+    closeButton.style.display = t.open == true ? "block" : "none"
+    closeButton.addEventListener("click", async function() {
+        const response = await fetch("https://close-trade-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                trade_id: t.id
+            })
+        })
+        location.reload()
+    })
+
+    const viewButton = clone.querySelector(".trade-view-button");
+    viewButton.addEventListener('click', async function() {
+        entryView.style.display = "block"
+
+        entryEmotion = t.emotion
+        entryStrategy = t.strategy
+        entryID = t.id
+
+        const viewIMG = entryView.querySelector(".MainFrame_TradeEntryView_TradeFrame_div_imgdiv_img")
+        viewIMG.src = t.img
+        viewIMG.style.display = t.img != "" && t.img != null ? "block" : "none"
+
+        const viewEmotion = entryView.querySelector(".select-text-emotion")
+        viewEmotion.innerHTML = t.emotion
+
+        const viewStrategy = entryView.querySelector(".select-text-strategy")
+        viewStrategy.innerHTML = t.strategy
+
+        const viewSymbol = entryView.querySelector("#view-symbol")
+        viewSymbol.value = t.symbol
+
+        const viewPL = entryView.querySelector("#view-PL")
+        viewPL.value = t.PL
+
+        const viewNotes= entryView.querySelector("#view-Notes")
+        viewNotes.value = t.notes
+    })
+
+    frag.appendChild(clone);
+  }
+
+  // Append once, preserves order
+  EntriesFrame.appendChild(frag);
+}
+
+async function loadDropDown() {
+    for (let emotion = 0; emotion < clientData['emotions'].length; emotion++) {
+        let li = document.createElement("li")
+        li.innerHTML = clientData['emotions'][emotion]
+        li.classList.add("MainFrame_TradeEntryView_TradeFrame_div_dropdown_text")
+        li.classList.add("inter-text")
+
+        li.addEventListener("click", async function(){
+            entryEmotion = clientData['emotions'][emotion]
+            entryView.querySelector(".select-text-emotion").textContent  = clientData['emotions'][emotion] 
         })
 
-        entryFrame.addEventListener("mouseleave", async function() {
-            entryFrame.classList.remove("entry-hover")
-        })
-        
-        entryFrame.addEventListener("click", async function() {
-            entryFrame.classList.remove("entry-hover")
-            await sleep(250)
+        entryViewList[1].appendChild(li)
+    }
 
-            entryTitle.innerHTML = tradeTable[trade]['title']
+    for (let strategy = 0; strategy < clientData['strategies'].length; strategy++) {
+       let li = document.createElement("li")
+       li.innerHTML = clientData['strategies'][strategy]
+       li.classList.add("MainFrame_TradeEntryView_TradeFrame_div_dropdown_text")
+       li.classList.add("inter-text")
 
-            if (tradeTable[trade]['img'] != "") {
-                entryImg.src = tradeTable[trade]['img']
-                entryImg.style.display = "unset"
-                entryImgDiv.style.display = "none"
-            } else {
-                entryImg.style.display = "none"
-                entryImgDiv.style.display = "unset"
-            }
+       li.addEventListener("click", async function(){
+            entryStrategy = clientData['strategies'][strategy]
+            entryView.querySelector(".select-text-strategy").textContent  = clientData['strategies'][strategy] 
+       })
 
-            info_values[0].innerHTML = tradeTable[trade]['strategy']
-            info_values[1].innerHTML = "0min"
-            if (tradeTable[trade]['open'] == false) {
-                info_values[1].innerHTML = formatTime(tradeTable[trade]['t_Log'])
-            }
-            info_values[2].innerHTML = tradeTable[trade]['symbol']
-            info_values[3].innerHTML = tradeTable[trade]['emotion_Start']
-            info_values[4].innerHTML = tradeTable[trade]['emotion_End']
-            if (tradeTable[trade]['PL'] > 0) {
-                info_values[5].innerHTML = "+$" + tradeTable[trade]['PL']
-            } else if (tradeTable[trade]['PL'] < 0) {
-                info_values[5].innerHTML = "-$" + tradeTable[trade]['PL']
-            } else {
-                info_values[5].innerHTML = "$" + tradeTable[trade]['PL']
-            }
-
-            entryNotes[0].innerHTML = tradeTable[trade]['open_Notes']
-            entryNotes[1].innerHTML = tradeTable[trade]['close_Notes']
-
-            entryView.style.display = "unset"
-
-        })
-
-        entriesFrame.appendChild(entryFrame)
+       entryViewList[0].appendChild(li)
     }
 }
-closeButton.addEventListener("click", async function () {
-    entryView.style.display = "none"
+
+for (let i = 0; i < entrydropDownButtons.length; i++) {
+    entrydropDownButtons[i].addEventListener("click", async function(e){
+        for (let p = 0; p < entryViewList.length; p++) {
+            if (p == i) {
+                continue
+            }
+            entryViewList[p].style.display = "none";
+            entryViewList[p].setAttribute("open-view", "false");
+        }
+
+        if (entryViewList[i].getAttribute("open-view") == "false") {
+            console.log("Check")
+            entryViewList[i].setAttribute("open-view", "true")
+            entryViewList[i].style.display = "block"
+        } else if (entryViewList[i].getAttribute("open-view") == "true") {
+            entryViewList[i].setAttribute("open-view", "false")
+            entryViewList[i].style.display = "none"
+        }
+
+    })
+}
+
+
+
+document.getElementById("Save_button").addEventListener("click", async function() {
+    const response = await fetch("https://edit-trade-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            trade_id: entryID,
+            PL: entryView.querySelector("#view-PL").value,
+            emotion: entryEmotion,
+            notes: entryView.querySelector("#view-Notes").value,
+            strategy: entryStrategy,
+            symbol: entryView.querySelector("#view-symbol").value,
+        })
+    })
+    location.reload()
 })
+
+
 
 async function init() {
     await getData(localStorage.getItem("token"))
-    await loadTrades()
+    tradeData = await getTradesOrder(clientData['trades'])
+    loadTrades()
+    loadDropDown()
 }
 
 init()
