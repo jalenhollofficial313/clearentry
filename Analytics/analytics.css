@@ -1,0 +1,411 @@
+.inter-text {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #1b1d22;
+    width: 15%;
+    height: 100%;
+    border-right: 2px solid #2d3139;
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 2.2vw;
+    font-weight: 700;
+
+    margin-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+
+    border-bottom: 2px solid #2d3139;
+
+    display: block;
+    text-decoration: none;
+
+    padding-bottom: 20px;
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 5px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 9px;
+
+    width: 80%;
+
+    height: 9%;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #31363f;
+    cursor: pointer;
+}
+
+.SideBar_List_ListItem:hover p {
+    color: white;
+}
+
+
+
+.selected-item {
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
+
+
+}
+
+.selected-item p {
+
+    color: white;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 2.2vh;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 85%;
+    height: 100%;
+    background-color: #14161a;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 2.5vw;
+    font-weight: 700;
+    color: white;
+
+    width: 68%;
+    padding-left: 2.3%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv {
+    display: flex;
+    gap: 2%;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 30%;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button {
+    height: 57%;
+    width: 50%;
+    display: inline-block;
+
+
+    background-color: #21252bce;
+    color: white;
+
+    font-size: .9vw;
+    font-weight: 600;
+    border: none;
+
+    transition: 250ms;
+
+    border-radius: 8px;
+}
+#TradeOpen_Button {
+    color: rgb(255, 255, 255);
+    
+    background-color: #14b04d;
+    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
+
+}
+#TradeClose_Button {
+    color: rgb(243, 233, 233);
+    
+    border: 1px solid #312e2e;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+.MainFrame_Frame {
+    width: 100%;
+    height: 87%;
+
+    justify-items: center;
+}
+
+
+.MainFrame_Frame_Frame {
+    width: 97%;
+    height: 100%;
+
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+
+}
+
+
+
+.MainFrame_Frame_Frame_TopStats {
+    display: flex;
+    gap: 2%;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: fit-content;
+
+    padding: 10px 0;
+
+
+}
+
+.MainFrame_Frame_Frame_TopStats_Stat {
+    width: 23%;
+    height: 100%;
+
+
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+
+}
+
+.MainFrame_Frame_Frame_TopStats_Stat_Title {
+    width: 100%;
+
+    color: rgb(177, 177, 177);
+    font-size: 18px;
+    font-weight: 700;
+
+    margin-left: 20px;
+    margin-top: 0;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.MainFrame_Frame_Frame_TopStats_Stat_text {
+    width: 100%;
+
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+
+    margin-left: 25px;
+    margin-top: 0;
+    margin-top: 10px;
+    margin-bottom: 15px;
+
+}
+
+.MainFrame_Frame_Frame_MainStats {
+
+    display: flex;
+    gap: 2%;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 80%;
+
+    padding: 10px 0;
+
+}
+
+.MainFrame_Frame_Frame_MainStats_CalenderFrame {
+    width: 73%;
+    height: 100%;
+
+
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+}
+
+.MainFrame_Frame_Frame_MainStats_StatsFrame {
+    width: 23%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4%;
+}
+
+.MainFrame_Frame_Frame_MainStats_StatsFrame_Stat {
+    width: 100%;
+    height: fit-content;
+    padding: 5px 0;
+
+
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+}
+
+.MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title {
+    width: 100%;
+
+    color: rgb(177, 177, 177);
+    font-size: 18px;
+    font-weight: 700;
+
+    margin-left: 20px;
+    margin-top: 0;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text {
+    width: 100%;
+
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+
+    margin-left: 25px;
+    margin-top: 0;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.MainFrame_Frame_Frame_MainStats_CalenderFrame_Title {
+    width: 100%;
+
+
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    font-weight: 700;
+
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.MainFrame_Frame_Frame_MainStats_Calender {
+    width: 98%;
+    height: 89%;
+
+    margin-left: 2%;
+
+    margin-top: 5px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 0;
+    scrollbar-width: none;
+    overflow-y: scroll;
+
+    align-content: start;
+}
+
+.MainFrame_Frame_Frame_MainStats_Calender_div {
+    height: 25%;
+    width: 17%;
+
+    margin-left: 10px;
+    margin-right: 10px;
+
+    margin-left: 10px;
+    margin-right: 10px;
+
+    background-color: #1b1d22;
+    border: 1px solid #2d3139;
+    border-radius: 8px;
+}
+
+.MainFrame_Frame_Frame_MainStats_Calender_div_Date {
+    width: 95%;
+    text-align: right;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.MainFrame_Frame_Frame_MainStats_Calender_div_Date_Text {
+
+    text-align: center;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    margin: 0;
+    margin-top: 5px;
+}
+
+.green-text {
+    color: #14b04d;
+}
+
+.red-text {
+    color: red;
+}

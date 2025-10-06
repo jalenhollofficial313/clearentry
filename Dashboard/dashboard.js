@@ -190,8 +190,23 @@ async function setData(userData) {
     }
     avgHoldTime.innerHTML = formatTime(await getHoldTime()) || "N/A";
     avgEmotion.innerHTML = await getavgEmotion()
-    DailyReflectionText.innerHTML = userData['dailyReflection']
     loaded = setTrades()
+
+    DailyReflectionText.innerHTML = userData['dailyReflection']
+    if ((Date.now() / 1000) - userData['dayLog'] > 86400) {
+        DailyReflectionText.innerHTML = "Generating..."
+        const response = await fetch("https://ai-reflection-request-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token")
+            })
+        })
+
+        DailyReflectionText.innerHTML = await response.text()
+    }
 
     return true
 }

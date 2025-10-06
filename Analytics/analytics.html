@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
-    <link href="chat.css" rel="stylesheet" type="text/css">
+    <link href="analytics.css" rel="stylesheet" type="text/css">
     <link href="../newtradedetection.css" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,8 +40,8 @@
                     </p>
                 </li>
             </a>
-            <a class="anchor" href="../Trades/trades.html">
-                <li class="SideBar_List_ListItem selected-item">
+            <a class="anchor" href="../Chat/chat.html">
+                <li class="SideBar_List_ListItem">
                     <p class="SideBar_List_ListItem_Text inter-text">
                         ClearEntry AI 
                     </p>
@@ -56,7 +56,7 @@
                 </li>
             </a>
             <a class="anchor" href="../Analytics/analytics.html">
-                <li class="SideBar_List_ListItem">
+                <li class="SideBar_List_ListItem selected-item">
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Analytics
                     </p>
@@ -65,7 +65,7 @@
         </ul>
     </div>
     <div class="MainFrame">
-        <div id="TradeEntry" class="MainFrame_TradeEntryFrame">
+                <div id="TradeEntry" class="MainFrame_TradeEntryFrame">
             <div class="MainFrame_TradeEntryFrame_TradeFrame">
                 <p class="inter-text MainFrame_TradeEntryFrame_TradeFrame_Title">
                     Trade Entry
@@ -184,7 +184,6 @@
                     </div>
                 </div>
                 <div class="MainFrame_ManageFrame_div_bottomdiv">
-        
                     <button class="MainFrame_ManageFrame_div_bottomdiv_button inter-text">Close</button>
                 </div>
             </div>
@@ -209,7 +208,7 @@
         </div>
         <div class="MainFrame_HeadFrame">
             <p class="MainFrame_Title inter-text">
-                ClearEntry AI
+                Analytics
             </p>
             <div class="MainFrame_HeadFrame_ButtonsDiv">
                 <button id="TradeOpen_Button" class="MainFrame_HeadFrame_ButtonsDiv_Button inter-text">
@@ -218,28 +217,103 @@
             </div>
         </div>
 
-        <div class="MainFrame_ChatFrame">
-            <div class="MainFrame_ChatFrame_MessagesFrame">
-            </div>
-            <div class="MainFrame_ChatFrame_InputFrame">
-                <div class="MainFrame_ChatFrame_InputFrame_Frame">
-                    <ul id="EntriesList" class="MainFrame_ChatFrame_InputFrame_Frame_EntriesFrame">
+        <div class="MainFrame_Frame">
+            <div class="MainFrame_Frame_Frame">
+                <div class="MainFrame_Frame_Frame_TopStats">
+                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
+                            Total P/L
+                        </p>
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
 
-                    </ul>
-                    <button id="EntryButton" class="MainFrame_ChatFrame_InputFrame_Frame_Button">
-                        + Entry
-                    </button>
-                    <textarea id="UserText" class="MainFrame_ChatFrame_InputFrame_Frame_TextArea inter-text"></textarea>
-                    <button id="SubmitButton" class="green-button MainFrame_ChatFrame_InputFrame_Frame_Button">
-                        Submit
-                    </button>
+                        </p>
+                    </div>
+                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
+                            WR
+                        </p>
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
+
+                        </p>
+                    </div>
+                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
+                            Profit Factor
+                        </p>
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
+
+                        </p>
+                    </div>
+                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
+                            Expectancy (Return)
+                        </p>
+                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
+
+                        </p>
+                    </div>
+                </div>
+                <div class="MainFrame_Frame_Frame_MainStats">
+                    <div class="MainFrame_Frame_Frame_MainStats_CalenderFrame">
+                        <p class="MainFrame_Frame_Frame_MainStats_CalenderFrame_Title inter-text">
+                            October
+                        </p>
+                        <div class="MainFrame_Frame_Frame_MainStats_Calender">
+                            <div class="MainFrame_Frame_Frame_MainStats_Calender">
+                                <div class="MainFrame_Frame_Frame_MainStats_Calender">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame">
+                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                                Most Frequent State
+                            </p>
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+
+                            </p>
+                        </div>
+                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                                Most Profitable State
+                            </p>
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+
+                            </p>
+                        </div>
+                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                                Mental Consistancy
+                            </p>
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+
+                            </p>
+                        </div>
+                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                                Best Trading Time
+                            </p>
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+
+                            </p>
+                        </div>
+                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                                Most Profitable Strategy
+                            </p>
+                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-       
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="chat.js"></script>
+    <script src="analytics.js"></script>
     <script src="../tradedetection.js"></script>
     <script>
 

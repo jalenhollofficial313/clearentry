@@ -6,6 +6,10 @@ const addNote = document.getElementById("addNote")
 const addNoteTitle = document.getElementById("addNoteTitle")
 
 let currentNoteIndex
+let lastNoteIndex = ""
+let lastNoteI = 0
+let lastText = ""
+let newTrade = false
 
 function convertUnixToFullDate(timestamp) {
   const date = new Date(timestamp * 1000); // Convert seconds → milliseconds
@@ -55,6 +59,7 @@ async function removeNotes() {
 
 
 async function logNote(token) {
+
     const response = await fetch("https://log-note-b52ovbio5q-uc.a.run.app", {
         method: "POST",
         headers: {
@@ -62,8 +67,8 @@ async function logNote(token) {
         },
         body: JSON.stringify({
             token: token,
-            noteIndex: currentNoteIndex,
-            text: notesText.value,
+            noteIndex: lastNoteIndex,
+            text: lastText,
         })
     })
 
@@ -73,10 +78,16 @@ async function logNote(token) {
 }
 
 async function notesCheck() {
-    if (currentNoteIndex) {
+    if (lastNoteIndex) {
         clientData = await getData(localStorage.getItem("token"))
-        if (notesText.value != clientData['notes'][currentNoteIndex]['text']) {
+
+        if (lastText != clientData['notes'][lastNoteIndex]['text']) {
+
             logged = await logNote(localStorage.getItem("token"))
+        } else {
+            if (!clientData['notes'][lastNoteIndex]) {
+                logged = await logNote(localStorage.getItem("token"))
+            }
         }
     }
 }
@@ -114,6 +125,7 @@ async function loadNotes() {
             notesTitle.innerHTML = table[i]['title']
             notesDate.innerHTML = convertUnixToFullDate(table[i]['date'])
             notesText.value = table[i]['text']
+            lastNoteI = i
 
             currentNoteIndex = table[i]["id"]
         }
@@ -131,7 +143,13 @@ async function loadNotes() {
         journalButtonFrame.appendChild(journalDate)
 
         journalButtonFrame.addEventListener("click", async function(){
+            lastNoteIndex = currentNoteIndex
+            lastText = await notesText.value
+            table[lastNoteI]["text"] = await lastText
             notesCheck() 
+
+            lastNoteI = i
+        
             document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
             journalButtonFrame.classList.add("note-selected")
             notesTitle.innerHTML = table[i]['title']
@@ -145,27 +163,29 @@ async function loadNotes() {
     }
 }
 
-window.addEventListener("beforeunload", function (e) {
-
-    e.preventDefault();              // Needed for some browsers
-    e.returnValue = "";              // Standard way to trigger prompt
-    notesCheck()
+window.addEventListener("beforeunload", async function (e) {
+    if (newTrade == false){
+        e.preventDefault(); 
+        e.returnValue = "";             
+    }
+    lastText = notesText.value
+    await notesCheck()
 });
 
 
 async function journalINIT(params) {
     loaded = await loadNotes()
+    lastNoteIndex = currentNoteIndex
+    lastText = notesText.value
     notesCheck()
 }
 
 
 
 addNote.addEventListener("click", async function(){
-    sucsess = await add_Note(localStorage.getItem("token"))
-    if (sucsess) {
-        removed = await removeNotes()
-        loaded = await loadNotes()
-    }
+    tradeID = await add_Note(localStorage.getItem("token"))
+    newTrade = true
+    location.reload()
 })
 
 journalINIT()
