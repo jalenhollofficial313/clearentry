@@ -5,6 +5,20 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function logOut(token) {
+    const response = await fetch("https://logout-request-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: token
+        })
+    })
+
+    return await response.text()
+}
+
 async function init() {
     console.log(window.innerWidth)
     if (window.innerWidth < 768) {
@@ -26,11 +40,17 @@ async function init() {
 }
 
 buttons1[2].addEventListener("click", async function(params) {
+    if (localStorage.getItem("token") != null) {
+        await logOut(localStorage.getItem("token"))
+    }
     await localStorage.removeItem("token");
     location.reload();
 })
 
 buttons2[2].addEventListener("click", async function(params) {
+    if (localStorage.getItem("token") != null) {
+        await logOut(localStorage.getItem("token"))
+    }
     await localStorage.removeItem("token");
     location.reload();
 })
