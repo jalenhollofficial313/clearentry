@@ -2,8 +2,9 @@ const ContinueButton = document.getElementById("ContinueButton")
 const EmailInput = document.getElementById("EmailInput")
 const PasswordInput = document.getElementById("PasswordInput")
 const NameInput = document.getElementById("NameInput")
+const ReferalInput = document.getElementById("ReferalInput")
 
-async function signup_request(Name, Email, Password) {
+async function signup_request(Name, Email, Password, ReferalCode) {
     const response = await fetch("https://add-account-b52ovbio5q-uc.a.run.app", {
         method: "POST",
         headers: {
@@ -12,7 +13,8 @@ async function signup_request(Name, Email, Password) {
         body: JSON.stringify({
             name: Name,
             email: Email,
-            password: Password
+            password: Password,
+            referal: ReferalCode
         })
     });
 
@@ -28,15 +30,11 @@ async function signup_request(Name, Email, Password) {
 }
 
 ContinueButton.addEventListener("click",  async function(){
-    let token = localStorage.getItem("token")
-    if (token != null){
-        return
-    }
-
     let Name = NameInput.value
     let Email = EmailInput.value 
     let Password = PasswordInput.value 
-    let Token = await signup_request(Name, Email, Password)
+    let referal = ReferalInput.value
+    let Token = await signup_request(Name, Email, Password, referal)
     if (Token != null && Token != "Invalid Email" && Token != "Invalid Password") {
         localStorage.setItem("token", Token)
         console.log(localStorage.getItem("token"))
