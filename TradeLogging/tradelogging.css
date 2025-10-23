@@ -513,7 +513,7 @@ body {
     position: absolute;
     display: inline-block;
 
-    justify-items: center;
+
     align-content: center;
 
     width: 100%;
@@ -525,7 +525,11 @@ body {
     background-color: #1f1f1f;
     border: 1px solid #333333;
 
+    display: block;
     border-radius: 18px;
+
+    margin-left: auto;
+    margin-right: auto;
 
     width: 500px;
     height: 500px;
