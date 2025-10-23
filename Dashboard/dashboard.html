@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
     <link href="dashboard.css" rel="stylesheet" type="text/css">
-    <link href="../newtradedetection.css" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body>
     <div class="SideBar">
@@ -33,17 +33,17 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../TradeLogging/tradelogging.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Trade Logging
+                    </p>
+                </li>
+            </a>
             <a class="anchor" href="../Entries/entires.html">
                 <li class="SideBar_List_ListItem">
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Entries
-                    </p>
-                </li>
-            </a>
-            <a class="anchor" href="../Chat/chat.html">
-                <li class="SideBar_List_ListItem">
-                    <p class="SideBar_List_ListItem_Text inter-text">
-                        ClearEntry AI 
                     </p>
                 </li>
             </a>
@@ -65,236 +65,108 @@
         </ul>
     </div>
     <div class="MainFrame">
-        <div id="TradeEntry" class="MainFrame_TradeEntryFrame">
-            <div class="MainFrame_TradeEntryFrame_TradeFrame">
-                <p class="inter-text MainFrame_TradeEntryFrame_TradeFrame_Title">
-                    Trade Entry
-                </p>
-                <div class="MainFrame_TradeEntryFrame_TradeFrame_div">
-                    <div class="MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv">
-                        <input type="file" check="hello" id="tradeImageInput" accept=".jpg,.jpeg,.png" hidden />
-                        <img id="img_Frame" class="MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_img" src="" alt="Trade Chart Preview" />
-                        <label id="img_Input" for="tradeImageInput" class="MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_imgframe">
-                            <i class="MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_imgframe_icon" data-lucide="upload"></i>
-                            <p class="inter-text MainFrame_TradeEntryFrame_TradeFrame_div_imgdiv_imgframe_text">Click to upload IMG</p>
-                        </label>
-                    </div>
-
-                </div>
-                <div class="MainFrame_TradeEntryFrame_TradeFrame_div">
-                    <p class="MainFrame_TradeEntryFrame_TradeFrame_div_text inter-text">Entry Mental State:</p>
-                    <div class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdowndiv">
-                        <i id="emotion-edit" class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdownedit" data-lucide="square-pen"></i>
-                        <p class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdownbutton inter-text">
-                            <span class="select-text">State</span>
-                            <i class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdown_icon" data-lucide="chevron-down"></i>
-                        </p>
-                    </div>
-                    <ul open="false" class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdown">
-                    </ul>
-                </div>
-
-                
-                <div class="MainFrame_TradeEntryFrame_TradeFrame_div">
-                    <p class="MainFrame_TradeEntryFrame_TradeFrame_div_text inter-text">Entry Strategy:</p>
-                    <div class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdowndiv">
-                        <i id="strategy-edit" class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdownedit" data-lucide="square-pen"></i>
-                        <p class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdownbutton inter-text">
-                            <span class="select-text">Strategy</span>
-                            <i class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdown_icon" data-lucide="chevron-down"></i>
-                        </p>
-                    </div>
-                    <ul open="false" class="MainFrame_TradeEntryFrame_TradeFrame_div_dropdown">
-                    </ul>
-                </div>
-            
-                <div class="MainFrame_TradeEntryFrame_TradeFrame_div">
-                    <p class="MainFrame_TradeEntryFrame_TradeFrame_div_text inter-text">Entry Symbol:</p>
-                    <input id="Symbol-Text" class="MainFrame_TradeEntryFrame_TradeFrame_div_input inter-text" placeholder="EX: TSLA">
-                </div>
-                <div class="MainFrame_TradeEntryFrame_TradeFrame_div">
-                    <p class="MainFrame_TradeEntryFrame_TradeFrame_div_text inter-text">Entry PL:</p>
-                    <input id="PL-Text" class="MainFrame_TradeEntryFrame_TradeFrame_div_input inter-text" placeholder="EX: 120">
-                </div>
-                <div class="MainFrame_TradeEntryFrame_TradeFrame_div">
-                    <p class="MainFrame_TradeEntryFrame_TradeFrame_div_text inter-text">Entry Notes:</p>
-                    <textarea id="Notes-Text" class="MainFrame_TradeEntryFrame_TradeFrame_div_textarea inter-text" placeholder="Describe your trade..."></textarea>
-                </div>
-                <div class="MainFrame_TradeEntryFrame_TradeFrame_div">
-                    <div class="MainFrame_TradeEntryFrame_TradeFrame_div_buttondiv">
-                        <button id="Continue_button" class="MainFrame_TradeEntryFrame_TradeFrame_div_buttondiv_button">
-                            Continue
-                        </button>
-                        <button id="Cancel_button" class="MainFrame_TradeEntryFrame_TradeFrame_div_buttondiv_button">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="manage-frame" class="MainFrame_ManageFrame">
-            <div id="Emotion-Manage" class="MainFrame_ManageFrame_div">
-                <div class="MainFrame_ManageFrame_div_headerdiv">
-                    <p class="inter-text MainFrame_ManageFrame_div_headerdiv_title">
-                        Manage Emotions
-                    </p>
-                    <p class="inter-text MainFrame_ManageFrame_div_headerdiv_text">Create, edit, or remove emotions you use for trade logging.</p>
-                </div>
-                <div class="MainFrame_ManageFrame_div_div">
-                    <p class="MainFrame_ManageFrame_div_div_title inter-text">
-                        Create New Emotion
-                    </p>
-                    <input placeholder="Title" class="MainFrame_ManageFrame_div_div_input inter-text">
-                    <textarea placeholder="Description" class="MainFrame_ManageFrame_div_div_textarea inter-text"></textarea>
-                    <button class="MainFrame_ManageFrame_div_div_button inter-text">+ Create Emotion</button>
-                </div>
-                <div class="MainFrame_ManageFrame_div_div">
-                    <p class="MainFrame_ManageFrame_div_div_title inter-text">
-                        Your Emotions
-                    </p>
-                    <div class="MainFrame_ManageFrame_div_div_listframe">
-                        
-                    </div>
-                </div>
-                <div class="MainFrame_ManageFrame_div_bottomdiv">
-                    
-                    <button class="MainFrame_ManageFrame_div_bottomdiv_button inter-text">Close</button>
-                </div>
-            </div>
-            <div id="Strategy-Manage" class="MainFrame_ManageFrame_div">
-                <div class="MainFrame_ManageFrame_div_headerdiv">
-                    <p class="inter-text MainFrame_ManageFrame_div_headerdiv_title">
-                        Manage Strategies
-                    </p>
-                    <p class="inter-text MainFrame_ManageFrame_div_headerdiv_text">Create, edit, or remove strategies you use for trade logging.</p>
-                </div>
-                <div class="MainFrame_ManageFrame_div_div">
-                    <p class="MainFrame_ManageFrame_div_div_title inter-text">
-                        Create New Strategy
-                    </p>
-                    <input placeholder="Title" class="MainFrame_ManageFrame_div_div_input inter-text">
-                    <textarea placeholder="Description" class="MainFrame_ManageFrame_div_div_textarea inter-text"></textarea>
-                    <button class="MainFrame_ManageFrame_div_div_button inter-text">+ Create Strategy</button>
-                </div>
-                <div class="MainFrame_ManageFrame_div_div">
-                    <p class="MainFrame_ManageFrame_div_div_title inter-text">
-                        Your Strategies
-                    </p>
-                    <div class="MainFrame_ManageFrame_div_div_listframe">
-                    </div>
-                </div>
-                <div class="MainFrame_ManageFrame_div_bottomdiv">
-        
-                    <button class="MainFrame_ManageFrame_div_bottomdiv_button inter-text">Close</button>
-                </div>
-            </div>
-        </div>
-        <div id="PromptFrame" class="MainFrame_PromptFrame">
-            <div class="MainFrame_PromptFrame_Frame">
-                <p class="MainFrame_PromptFrame_Frame_Title inter-text">
-                    Generate AI Mentorship
-                </p>
-                <p class="inter-text MainFrame_PromptFrame_Frame_text">
-                    AI-powered trade review: get insights on your last trade with performance analysis, emotional factors, and actionable optimization steps. 
-                </p>
-                <div class="MainFrame_PromptFrame_Frame_ButtonDiv">
-                    <button id="Continue_prompt" class="inter-text MainFrame_PromptFrame_Frame_ButtonDiv_button">
-                        Continue
-                    </button>
-                    <button id="Close_prompt" class="inter-text MainFrame_PromptFrame_Frame_ButtonDiv_button">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <div class="MainFrame_HeadFrame">
             <p class="MainFrame_Title inter-text">
                 Dashboard
             </p>
-            <div class="MainFrame_HeadFrame_ButtonsDiv">
-                <button id="TradeOpen_Button" class="MainFrame_HeadFrame_ButtonsDiv_Button inter-text">
-                    + New Trade Entry
-                </button>
-            </div>
         </div>
-        <div class="MainFrame_StatFrame1">
-            <div class="MainFrame_StatFrame1_Stat">
-                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
-                    Total P/L
+        <div class="MainFrame_Frame">
+            <div style="margin-left: 30px;" class="MainFrame_Frame_HalfFrame MainFrame_StatsFrame">
+                <p class="inter-text StatsFrame_Title">
+                    Jalen Hollaway
                 </p>
-                <p id="plTotal_Text" class="MainFrame_StatFrame1_Stat_Text inter-text">
-                </p>
-            </div>
-            <div class="MainFrame_StatFrame1_Stat">
-                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
-                    Win Rate
-                </p>
-                <p id="winRate_Text" class="MainFrame_StatFrame1_Stat_Text inter-text"></p>
-            </div>
-            <div class="MainFrame_StatFrame1_Stat">
-                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
-                    Avg Hold Time
-                </p>
-                <p id="avgHoldTime_Text" class="MainFrame_StatFrame1_Stat_Text inter-text"></p>
-            </div>
-            <div class="MainFrame_StatFrame1_Stat">
-                <p class="MainFrame_StatFrame1_Stat_Title inter-text">
-                    avg Emotion
-                </p>
-                <p id="avgEmotion_Text" class="MainFrame_StatFrame1_Stat_Text inter-text"></p>
-            </div>
-        </div>
-        <div class="MainFrame_StatFrame2">
-            <div class="MainFrame_StatFrame2_Stat">
-                <p class="MainFrame_StatFrame2_Stat_Title inter-text">
-                    PL Curve
-                </p>
-                <div style="width: 100%; height: 80%; align-items: center;">
-                    <canvas style="width: 100%; height: 100%;" id="plCurve"></canvas>
-                </div>
-            </div>
-            <div class="MainFrame_StatFrame2_Stat">
-                <p class="MainFrame_StatFrame2_Stat_Title inter-text">
-                    Daily Reflection
-                </p>
-                <p id="DailyReflectionText" class="MainFrame_StatFrame2_Stat_Text inter-text">
-                </p>
-            </div>
-        </div>
-        <div class="MainFrame_StatFrame3">
-            <div class="MainFrame_StatFrame3_Stat">
-                <p class="MainFrame_StatFrame3_Stat_Title inter-text">
-                    Recent Trades
-                </p>
-                <div id="TradeFrame" class="MainFrame_StatFrame3_Stat_TradesFrame">
-                    <div class="MainFrame_StatFrame3_Stat_TradesFrame_Trade">
-                        <p style="color: rgb(177, 177, 177);" class="MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date inter-text">
-                            Date
+                <div class="flex-box">
+                    <div class="stats_halfdiv">
+                        <p class="stats-title inter-text">
+                            Total Balance
                         </p>
-                        <p style="color: rgb(177, 177, 177);" class="MainFrame_StatFrame3_Stat_TradesFrame_Trade_Symbol inter-text">
-                            Symbol
-                        </p>
-                        <p style="color: rgb(177, 177, 177);" class="MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date_PL inter-text">
-                            P/L
+                        <p id="total_Balance" class="stats-text inter-text">
+
                         </p>
                     </div>
-
+                    <div class="stats_halfdiv">
+                        <p class="stats-title inter-text">
+                            Total Profit
+                        </p>
+                        <p id="total_Profit" class="green-text stats-text inter-text">
+                        </p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 40px;" class="flex-box">
+                    <div class="stats_halfdiv">
+                        <p class="stats-title inter-text">
+                            Win/Loss Ratio
+                        </p>
+                        <div id="WLRChart"></div>
+                    </div>
+                    <div class="stats_halfdiv">
+                        <p class="stats-title inter-text">
+                            Profit/Loss Ratio
+                        </p>
+                        <div id="PLChart"></div>
+                    </div>
+                </div>
+                <p id="emotion_Text" class="inter-text bar-text">
+                    0/10
+                </p>
+                <p class="stats-title inter-text">
+                    Psychological State
+                </p>
+                <div class="bar">
+                    <div id="emotion_Bar" class="bar-fill">
+                    </div>
                 </div>
             </div>
-            <div class="MainFrame_StatFrame3_Stat">
-                <p class="MainFrame_StatFrame3_Stat_Title inter-text">
-                    Emotion Rate
+            <div style="margin-right: 30px;" class="MainFrame_Frame_HalfFrame">\
+
+                <p style="margin-bottom: 0;" class="inter-text StatsFrame_Title">
+                    Performance Over Time
                 </p>
-                <div style="width: 100%; height: 80%; align-items: center;">
-                    <canvas style="width: 100%; height: 100%;" id="emotionRate"></canvas>
+                <p style="margin-top: 0;" class="stats-title inter-text">
+                    Weekly equity curve
+                </p>
+                <div id="weekPL">
+                    
                 </div>
+            </div>
+        </div>
+        <div class="MainFrame_Frame2">
+            <div id="trades_Div" class="trades-div">
+                <p style="margin-bottom: 0;" class="inter-text StatsFrame_Title">
+                    Recent Trades
+                </p>
+                <p style="margin-top: 0;" class="stats-title inter-text">
+                    Here are some of this weeks trades:
+                </p>
+                <div class="flex-box trade-frame">
+                    <p class="inter-text trade-text example-text">
+                        Date
+                    </p>
+                    <p class="inter-text trade-text example-text">
+                        Symbol
+                    </p>
+                    <p class="inter-text trade-text example-text">
+                        Setup
+                    </p>
+                    <p class="inter-text trade-text example-text">
+                        Result
+                    </p>
+                    <p class="inter-text trade-text example-text">
+                        P/L
+                    </p>
+                    <p class="inter-text trade-text example-text">
+                        Notes
+                    </p>
+                    <p class="inter-text trade-text example-text">
+                        Emotion
+                    </p>
+                </div>    
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../dataHandler.js"></script>
     <script src="dashboard.js"></script>
-    <script src="../tradedetection.js"></script>
     <script>
 
         lucide.createIcons();

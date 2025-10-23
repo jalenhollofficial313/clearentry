@@ -1,7 +1,9 @@
 // Example trade data (replace this with your actual data)
-let clientData
 let tradeData
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 // Utility: convert day → start/end timestamps
 function getDayRange(year, month, day) {
   const start = new Date(year, month, day, 0, 0, 0);
@@ -129,6 +131,7 @@ async function analyzeTradesByDay(trades) {
                 }
             }
 
+
             tradesEmotion.innerHTML = mostFrequentEmotion
 
             // Tooltip (hover info)
@@ -136,6 +139,12 @@ async function analyzeTradesByDay(trades) {
         }
     }
 }
+
+function roundTo(num, decimals = 0) {
+  const factor = Math.pow(10, decimals);
+  return Math.round(num * factor) / factor;
+}
+
 
 async function loadData() {
     wins = 0
@@ -152,25 +161,25 @@ async function loadData() {
 
     let totalemotionAmounts = 0
 
-    let Emotions = clientData["emotions"]
+    let Emotions = clientData.result["emotions"]
     let EmotionPL = []
     
     for (let emotion in Emotions) {
         let emotionAmount = 0
-        for (let trade in clientData['trades']) {
-            if (clientData['trades'][trade]['emotion'] == emotion) {
+        for (let trade in clientData.result['trades']) {
+            if (clientData.result['trades'][trade]['emotion'] == Emotions[emotion]) {
                 totalemotionAmounts += 1
                 emotionAmount += 1
-                if (EmotionPL[emotion] != null) {
-                    EmotionPL[emotion] += clientData['trades'][trade]['PL']
+                if (EmotionPL[Emotions[emotion]] != null) {
+                    EmotionPL[Emotions[emotion]] += clientData.result['trades'][trade]['PL']
                 } else {
-                    EmotionPL[emotion] = clientData['trades'][trade]['PL']
+                    EmotionPL[Emotions[emotion]] = clientData.result['trades'][trade]['PL']
                 }
             }
         }
         if (emotionAmount > mostEmotionAmount) {
             mostEmotionAmount = emotionAmount
-            mostEmotion = emotion
+            mostEmotion = Emotions[emotion]
         }
     }
 
@@ -184,16 +193,16 @@ async function loadData() {
     }
 
 
-    let Strategies = clientData["strategies"]
+    let Strategies = clientData.result["strategies"]
     let StrategyPL = []
     
     for (let strategy in Strategies) {
-        for (let trade in clientData['trades']) {
-            if (clientData['trades'][trade]['strategy'] == strategy) {
-                if (StrategyPL[strategy] != null) {
-                    StrategyPL[strategy] += clientData['trades'][trade]['PL']
+        for (let trade in clientData.result['trades']) {
+            if (clientData.result['trades'][trade]['strategy'] == Strategies[strategy]) {
+                if (StrategyPL[Strategies[strategy]] != null) {
+                    StrategyPL[Strategies[strategy]] += clientData.result['trades'][trade]['PL']
                 } else {
-                    StrategyPL[strategy] = clientData['trades'][trade]['PL']
+                    StrategyPL[Strategies[strategy]] = clientData.result['trades'][trade]['PL']
                 }
             }
         }
@@ -210,13 +219,13 @@ async function loadData() {
 
     let totalSeconds = 0
 
-    for (let trade in clientData['trades']) {
+    for (let trade in clientData.result['trades']) {
         tradeAmount += 1
-        totalPL += clientData['trades'][trade]['PL']
-        if (clientData['trades'][trade]['PL'] > 0 ) {
-            totalWinPL += clientData['trades'][trade]['PL']
+        totalPL += clientData.result['trades'][trade]['PL']
+        if (clientData.result['trades'][trade]['PL'] > 0 ) {
+            totalWinPL += clientData.result['trades'][trade]['PL']
             wins += 1
-            const date = new Date(clientData['trades'][trade]['date'] * 1000); // convert UNIX (seconds) → ms
+            const date = new Date(clientData.result['trades'][trade]['date'] * 1000); // convert UNIX (seconds) → ms
 
             // get hours/minutes/seconds of day     
             const hours = date.getHours();
@@ -229,8 +238,8 @@ async function loadData() {
             // add to total
             totalSeconds += timeOfDaySeconds;
         }
-        if (clientData['trades'][trade]['PL'] < 0 ) {
-            totalLossPL += clientData['trades'][trade]['PL']
+        if (clientData.result['trades'][trade]['PL'] < 0 ) {
+            totalLossPL += clientData.result['trades'][trade]['PL']
             losses += 1
         }
     }
@@ -240,7 +249,7 @@ async function loadData() {
 
     let WinRate = Math.floor((wins / tradeAmount) * 100)
     let LossRate = (losses / tradeAmount) * 100
-    let ProfitFactor = totalWinPL / Math.abs(totalLossPL)
+    let ProfitFactor = roundTo(totalWinPL / Math.abs(totalLossPL), 1)
     let Expectancy = Math.floor(((WinRate/100) * avgWin) - ((LossRate/100) * avgLoss))
     let EmotionalConsistency =  Math.floor((mostEmotionAmount / totalemotionAmounts) * 100)
     let bestTime = totalSeconds / wins
@@ -326,27 +335,16 @@ async function getTradesOrder(table) {
 }
 
 
-async function getData(token) {
-    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token
-        })
-    })
-
-    clientData = await response.json()
-}
 
 
 
 // Run when DOM is ready
 document.addEventListener("DOMContentLoaded", async function() {
-    await getData(localStorage.getItem("token"))
-    await loadDate()
-    tradeData = await getTradesOrder(clientData['trades'])
-    await analyzeTradesByDay(tradeData)
-    await loadData()
+    await getClientData()
+    await sleep(100)
+
+    loadDate()
+    tradeData = await getTradesOrder(clientData.result['trades'])
+    analyzeTradesByDay(tradeData)
+    loadData()
 });

@@ -31,17 +31,17 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../TradeLogging/tradelogging.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Trade Logging
+                    </p>
+                </li>
+            </a>
             <a class="anchor" href="../Entries/entires.html">
                 <li class="SideBar_List_ListItem">
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Entries
-                    </p>
-                </li>
-            </a>
-            <a class="anchor" href="../Chat/chat.html">
-                <li class="SideBar_List_ListItem">
-                    <p class="SideBar_List_ListItem_Text inter-text">
-                        ClearEntry AI 
                     </p>
                 </li>
             </a>
@@ -87,9 +87,14 @@
                 <div class="MainFrame_NotesFrame_MainFrame_TextAreaDiv">
                     <textarea id="NotesText" placeholder="Type in note" class=" MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea inter-text"></textarea>
                 </div>
+                <div class="flex-box bottom-div">
+                    <button id="save-button" class="inter-text bottom-buttons green-button">Save</button>
+                    <button id="delete-button" class="inter-text bottom-buttons"> Delete</button>
+                </div>
             </div>
         </div>
     </div>
+    <script src="../dataHandler.js"></script>
     <script src="journal.js"></script>
 </body>
 </html>

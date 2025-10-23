@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearEntry</title>
+    <link href="tradelogging.css" rel="stylesheet" type="text/css">
+    <link href="../newtradedetection.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+
+    <div id="settings-div" style="display: none;" class="MainFrame_Settings flex-box">
+        <div id="mental-settings" style="display: none;" class="settings-div">
+            <p class="inter-text entry-title"> 
+                Manage Mental States
+                <span class="dropdown-icon close-settingsbutton">
+                    <i class="icon2 close-icon" data-lucide="x"></i>
+                </span>
+            </p>
+            <p class="entry-description inter-text">
+                Add or remove mental state options
+            </p>
+            <div>
+                <input id="emotion-input" placeholder="Add new state..." class="settings-input">
+                <span id="emotion-add">
+                    <i class="settings-icon" data-lucide="plus"></i>
+                </span>
+            </div>
+            <div id="mental-settings-dropdown" class="settings-list">
+            </div>
+        </div>
+        <div id="strategy-settings" style="display: none;" class="settings-div">
+            <p class="inter-text entry-title"> 
+                Manage Strategies
+                <span class="dropdown-icon close-settingsbutton">
+                    <i class="icon2 close-icon" data-lucide="x"></i>
+                </span>
+            </p>
+            <p class="entry-description inter-text">
+                Add or remove strategy options
+            </p>
+            <div>
+                <input id="strategy-input" placeholder="Add new strategy..." class="settings-input">
+                <span id="strategy-add">
+                    <i class="settings-icon" data-lucide="plus"></i>
+                </span>
+            </div>
+            <div id="strategy-settings-dropdown" class="settings-list">
+            </div>
+        </div>
+    </div>
+    <div class="SideBar">
+        <a href="../Landing/index.html" class="SideBar_Title inter-text">
+            ClearEntry
+        </a>
+        <ul class="SideBar_List">
+            <a class="anchor" href="../Profile/profile.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Profile
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Dashboard/dashboard.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Dashboard
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../TradeLogging/tradelogging.html">
+                <li class="SideBar_List_ListItem selected-item">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Trade Logging
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Entries/entires.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Entries
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Journal/journal.html">
+                <li class="SideBar_List_ListItem">
+
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Journal
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Analytics/analytics.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Analytics
+                    </p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    
+    <div class="MainFrame">
+        <p class="MainFrame_Title inter-text">
+            Trade Logging
+        </p>
+        <p class="MainFrame_description inter-text">
+            Log your trade details and track your performance
+        </p>
+        <div class="log_frame">
+            <p class="inter-text entry-title">
+                Trade Screenshot
+            </p>
+
+
+            <label id="img_Input" for="tradeImageInput" class="img-frame">
+                <i class="upload-icon" data-lucide="upload"></i>
+                <p class="inter-text upload-img">Click to upload IMG</p>
+                <p class="inter-text upload-description">PNG, JPG up to 10MB</p>
+            </label>
+            <input type="file" check="" id="tradeImageInput" accept=".jpg,.jpeg,.png" hidden />
+            <img id="img_Frame" class="img-frame" src="" alt="Trade Chart Preview" style="display: none;" />
+
+
+            <div class="flex-box entry-flexdiv">
+                <div class="flexbox-div">
+                    <p class="inter-text entry-title2">
+                        Entry Mental State
+                                                
+                        <span id="mental-settings-button" class="edit-icon">
+                            <i class="icon" data-lucide="settings-2"></i>
+                        </span>
+                    </p>
+                    <p id="state-dropdown-button" class="dropdown-button inter-text">
+                        State
+                        <span class="dropdown-icon">
+                            <i class="icon2" data-lucide="chevron-down"></i>
+                        </span>
+                    </p>
+                    <div id="mental-dropdown" class="dropdown-div">
+                    </div>
+                </div>
+                <div class="flexbox-div">
+                    <p class="inter-text entry-title2">
+                        Entry Strategy                       
+                        <span id="strategy-settings-button" class="edit-icon">
+                            <i class="icon" data-lucide="settings-2"></i>
+                        </span>
+                    </p>
+                    <p id="strategy-dropdown-button" class="dropdown-button inter-text">
+                        Strategy
+                        <span class="dropdown-icon">
+                            <i class="icon2" data-lucide="chevron-down"></i>
+                        </span>
+                    </p>
+                    <div id="strategy-dropdown" class="dropdown-div">
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 15px;" class="inter-text entry-title">
+                Entry Symbol
+            </p>
+            <input id="entry-symbol" placeholder="EX: AAPL" class="inter-text entry-input">
+            <p style="margin-top: 5px;" class="inter-text entry-title">
+                Entry P/L
+            </p>
+            <input id="entry-pl" placeholder="EX: 120" class="inter-text entry-input">
+
+            <p style="margin-top: 5px;" class="inter-text entry-title">
+                Entry Notes
+            </p>
+            <textarea id="entry-notes" placeholder="Describe your trade..." class="inter-text entry-textarea"></textarea>
+            <div class="flex-box bottom-div">
+                <button id="continue-button" class="inter-text bottom-buttons green-button">Continue</button>
+                <button id="cancel-button" class="inter-text bottom-buttons"> Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../dataHandler.js"></script>
+    <script src="tradelogging.js"></script>
+    <script>
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

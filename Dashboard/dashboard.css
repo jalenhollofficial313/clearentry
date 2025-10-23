@@ -14,32 +14,33 @@ body {
     display: flex;
     height: 100vh;
     width: 100vw;
+
 }
 
 .SideBar {
-    background-color: #1b1d22;
-    width: 15%;
+    background-color: #121212;
+    width: 260px;
     height: 100%;
-    border-right: 2px solid #2d3139;
+    border-right: 1px solid #252525;
 
 }
 
 .SideBar_Title {
     color: white;
-    font-size: 2.2vw;
+    font-size: 35px;
     font-weight: 700;
 
-    margin-top: 20px;
-    margin-bottom: 0;
-    width: 100%;
-    text-align: center;
 
-    border-bottom: 2px solid #2d3139;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    padding-left: 30px;
 
     display: block;
     text-decoration: none;
 
-    padding-bottom: 20px;
+
 
 }
 
@@ -69,9 +70,9 @@ body {
 
     border-radius: 9px;
 
-    width: 80%;
+    width: 160px;
 
-    height: 9%;
+    height: 40px;
     transition: 350ms;
 }
 
@@ -87,15 +88,12 @@ body {
 
 
 .selected-item {
-    background-color: #14b04d;
-    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
-
-
+    background-color: #00ff99;
 }
 
 .selected-item p {
 
-    color: white;
+    color: black;
 }
 
 .SideBar_List_ListItem_Img {
@@ -111,7 +109,7 @@ body {
 
 .SideBar_List_ListItem_Text {
     color: rgb(177, 177, 177);
-    font-size: 2.2vh;
+    font-size: 15px;
     font-weight: 500;
 }
 
@@ -120,9 +118,11 @@ body {
 }
 
 .MainFrame {
-    width: 85%;
+    width: 100%;
     height: 100%;
-    background-color: #14161a;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+    background-color: #121212;
 }
 
 .MainFrame_HeadFrame {
@@ -143,251 +143,220 @@ body {
     margin-bottom: 2px;
 }
 
-.MainFrame_HeadFrame_ButtonsDiv {
-    display: flex;
-    gap: 2%;
 
-    justify-content: center;
-    align-items: center;
 
-    width: 30%;
+.MainFrame_Frame {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 30px;
+
+  width: 100%;
+  height: 400px;
+
+  margin-top: 10px;
 }
 
-.MainFrame_HeadFrame_ButtonsDiv_Button {
-    height: 57%;
-    width: 50%;
-    display: inline-block;
+.MainFrame_Frame2 {
+    width: 100%;
+    height: 400px;
+
+    margin-top: 40px;
+    padding-bottom: 140px;
+}
+
+.MainFrame_Frame_HalfFrame {
+    border-radius: 10px;
+
+    background-color: #181818;
+    border: 1px solid #252525 ;
 
 
-    background-color: #21252bce;
+  /* no explicit width/height needed */
+}
+
+
+
+.StatsFrame_Title {
     color: white;
-
-    font-size: .9vw;
+    font-size: 26px;
     font-weight: 600;
-    border: none;
-
-    transition: 250ms;
-
-    border-radius: 8px;
-}
-#TradeOpen_Button {
-    color: rgb(255, 255, 255);
-    
-    background-color: #14b04d;
-    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
-
-}
-#TradeClose_Button {
-    color: rgb(243, 233, 233);
-    
-    border: 1px solid #312e2e;
-}
-
-.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
-    cursor: pointer;
-    transform: scale(1.03);
-}
-.MainFrame_StatFrame1{
-    width: 100%;
-    height: 17%;
-
-    margin-top: 10px;
-    margin-bottom: 0;
-
-    gap: 1%;
-
-    display: flex;
-    justify-content: center;
-}
-
-
-.MainFrame_StatFrame1_Stat {
-    background-color: #1b1d22;
-    border: 1px solid #2d3139;
-    border-radius: 8px;
-
-    width: 23%;
-    height: 85%;
-
-    align-content: center;
-    transition: 250ms;
-}
-
-.MainFrame_StatFrame1_Stat:hover{
-    box-shadow: 0px 4px 12px  -5px #0050049f;
-}
-
-.MainFrame_StatFrame1_Stat_Title {
-    width: 100%;
-
-    color: rgb(177, 177, 177);
-    font-size: 1.1vw;
-    font-weight: 700;
+    margin-top: 15px;
+    width: fit-content;
+    height: fit-content;
 
     margin-left: 20px;
+    margin-bottom: 0;
+}
+
+.StatsFrame_text {
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+
+    width: fit-content;
+    height: fit-content;
+
+
+    margin-left: 20px;
+}
+
+.StatsFrame_textTitle {
+    text-decoration: underline;
+}
+
+.ChartFrame {
+    margin-top: auto; 
+    margin-bottom: auto; 
+
+    height: 100%; 
+    width: 20%;
+
+    align-content: center;
+}
+
+.Doughnut_Chart {
+    width: 100%; 
+    height: 100%;
+
+}
+
+.flex-box {
+    display: flex;
+}
+
+.stats_halfdiv {
+    width: 50%;
+
+}
+
+.stats-title {
+    padding-left: 20px;
+
+    margin-bottom: 0;
+    color: gray;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.stats-text {
+    padding-left: 20px;
+
+    color: white;
+    margin-top: 10px;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+#WLRChart {
+
+    margin-bottom: -10px;
+    margin-left: 10px;
+    margin-top: 6px;
+    width: fit-content;
+    height: fit-content;
+}
+
+#PLChart {
+
+    margin-bottom: -10px;
+    margin-left: 10px;
+    margin-top: 6px;
+    width: fit-content;
+    height: fit-content;
+}
+
+
+
+.bar {
+    width: 95%;
+    height: 10px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 10px;
+    background-color: #262626;
+    border-radius: 10px;
+}
+
+.bar-fill {
+    width: 50%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #00ff99;
+}
+
+.bar-text {
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+
+    padding-right: 25px;
+
+    float: right;
+    margin-bottom: 0;
+    margin-top: 5px;
+
+
+}
+
+.trades-div {
+    height: 500px;
+    width: 96%;
+
+    border-radius: 10px;
+
+    margin-top: 30px;
+
+    background-color: #181818;
+    border: 1px solid #252525 ;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.trade-frame {
+    width: 97%;
+    height: 60px;
+
+    border-bottom: 1px solid #31363f;
+
+    margin-left: auto;
+    margin-right: auto;
+
+
+    gap: 3px;
+    
+}
+
+.trade-text {
+    padding-left: 15px;
+    width: 14.285714285714285714285714285714%;
+
     margin-top: 0;
     margin-bottom: 0;
+
+    align-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.example-text {
+    color: gray;
 }
 
 .green-text {
-    color: green;
+    color: #00ff99;
 }
 
 .red-text {
-    color: red;
+    color: #ff4747;
 }
 
-.MainFrame_StatFrame1_Stat_Text {
-    color: white;
-
-    margin-top: 10px;
-    margin-bottom: 0;
-
-    width: 100%;
-
-    padding-left: 25px;
-
-    font-size: 2vw;
-    font-weight: 600;
-}
-
-#avgEmotion_Text {
-    font-size: 2vw;
-    font-weight: 800;
-}
-
-.MainFrame_StatFrame2{
-    width: 100%;
-    height: 36%;
-
-
-    display: flex;
-    gap: 1%;
-    justify-content: center;
-} 
-
-.MainFrame_StatFrame2_Stat {
-    background-color: #1b1d22;
-    border: 1px solid #2d3139;
-    border-radius: 8px;
-
-    width: 47.1%;
-    height: 95%;
-
-    transition: 250ms;
-}
-
-.MainFrame_StatFrame2_Stat:hover{
-    box-shadow: 0px 4px 12px  -5px #0050049f;
-}
-
-.MainFrame_StatFrame2_Stat_Title {
-    width: 100%;
-
-    color: white;
-    font-size: 1.2vw;
-    font-weight: 700;
-
-    margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 0;
-}
-
-
-.MainFrame_StatFrame2_Stat_Text {
-    color: white;
-    font-size: .81vw;
-    font-weight: 500;
-
-    margin-top: 5px;
-    margin-left: 20px;
-
-    width: 92%;
-    height: 70%;
-}
-
-.MainFrame_StatFrame3 {
-    width: 100%;
-    height: 36%;
-
-    margin-top: 5px;
-
-    display: flex;
-    justify-content: center;
-}
-
-.MainFrame_StatFrame3_Stat {
-    background-color: #1b1d22;
-    border: 1px solid #2d3139;
-    border-radius: 8px;
-
-    width: 47.1%;
-    height: 95%;
-
-    margin-left: 12px;
-    margin-right: 12px;
-
-    transition: 250ms;
-}
-
-.MainFrame_StatFrame3_Stat:hover{
-    box-shadow: 0px 4px 12px  -5px #0050049f;
-}
-
-.MainFrame_StatFrame3_Stat_Title {
-    width: 100%;
-
-    color: white;
-    font-size: 1.5vw;
-    font-weight: 700;
-
-    margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 0;
-}
-
-.MainFrame_StatFrame3_Stat_TradesFrame {
-    width: 100%;
-    height: 72%;
-    justify-items: center;
-    margin-top: 6px;
-
-}
-
-.MainFrame_StatFrame3_Stat_TradesFrame_Trade {
-    display: flex;
-
-
-    width: 90%;
-    height: 20%;
-
-    align-items: center;
-
-    margin-top: 5px;
-
-    border-bottom: 1px solid rgb(177, 177, 177);
-}
-
-.MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date{
-    color: white;
-    font-size: .9vw;
-    font-weight: 500;
-
-    width: 20%;
-}
-
-.MainFrame_StatFrame3_Stat_TradesFrame_Trade_Symbol {
-    margin-left: 90px;
-    width: 20%;
-    color: white;
-    font-size: .9vw;
-    font-weight: 500;
-}
-
-.MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date_PL {
-    margin-left: 120px;
-    width: 20%;
-    color: white;
-    font-size: .9vw;
-    font-weight: 500;
+.truncate {
+  overflow: hidden;          /* hides extra text */
+  text-overflow: ellipsis;   /* adds "..." at the end */
+  white-space: nowrap;       /* prevents text wrapping */
 }

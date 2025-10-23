@@ -16,179 +16,6 @@ body {
     width: 100vw;
 }
 
-.SideBar {
-    background-color: #1b1d22;
-    width: 15%;
-    height: 100%;
-    border-right: 2px solid #2d3139;
-
-}
-
-.SideBar_Title {
-    color: white;
-    font-size: 2.2vw;
-    font-weight: 700;
-
-    margin-top: 20px;
-    margin-bottom: 0;
-    width: 100%;
-    text-align: center;
-
-    border-bottom: 2px solid #2d3139;
-
-    display: block;
-    text-decoration: none;
-
-    padding-bottom: 20px;
-
-}
-
-.SideBar_Title:hover {
-    cursor: pointer;
-}
-
-.SideBar_List {
-    text-decoration: none;
-    list-style: none;
-
-    height: 60%;
-
-    padding: 0;
-    margin: 0;
-}
-
-.SideBar_List_ListItem {
-    display: flex;
-    align-items: center;
-    padding-left: 30px;
-    margin-bottom: 0;
-    margin-top: 5px;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    border-radius: 9px;
-
-    width: 80%;
-
-    height: 9%;
-    transition: 350ms;
-}
-
-.SideBar_List_ListItem:hover {
-    background-color: #31363f;
-    cursor: pointer;
-}
-
-.SideBar_List_ListItem:hover p {
-    color: white;
-}
-
-
-
-.selected-item {
-    background-color: #14b04d;
-    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
-
-
-}
-
-.selected-item p {
-
-    color: white;
-}
-
-.SideBar_List_ListItem_Img {
-    width: 12.5%;
-    height: 60%;
-    margin-right: 10px;
-}
-
-.align-center {
-    align-content: center;
-    justify-items: center;
-}
-
-.SideBar_List_ListItem_Text {
-    color: rgb(177, 177, 177);
-    font-size: 2.2vh;
-    font-weight: 500;
-}
-
-.anchor {
-    text-decoration: none;
-}
-
-.MainFrame {
-    width: 85%;
-    height: 100%;
-    overflow-y: auto;
-    scrollbar-color: gray transparent;
-    background-color: #14161a;
-}
-
-.MainFrame_HeadFrame {
-    width: 100%;
-    display: flex;
-}
-
-.MainFrame_Title {
-
-    font-size: 2.5vw;
-    font-weight: 700;
-    color: white;
-
-    width: 68%;
-    padding-left: 2.3%;
-
-    margin-top: 20px;
-    margin-bottom: 2px;
-}
-
-.MainFrame_HeadFrame_ButtonsDiv {
-    display: flex;
-    gap: 2%;
-
-    justify-content: center;
-    align-items: center;
-
-    width: 30%;
-}
-
-.MainFrame_HeadFrame_ButtonsDiv_Button {
-    height: 57%;
-    width: 50%;
-    display: inline-block;
-
-
-    background-color: #21252bce;
-    color: white;
-
-    font-size: .9vw;
-    font-weight: 600;
-    border: none;
-
-    transition: 250ms;
-
-    border-radius: 8px;
-}
-#TradeOpen_Button {
-    color: rgb(255, 255, 255);
-    
-    background-color: #14b04d;
-    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
-
-}
-#TradeClose_Button {
-    color: rgb(243, 233, 233);
-    
-    border: 1px solid #312e2e;
-}
-
-.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
-    cursor: pointer;
-    transform: scale(1.03);
-}
 
 .MainFrame_Frame {
     width: 100%;
@@ -230,8 +57,8 @@ body {
     height: 100%;
 
 
-    background-color: #1b1d22;
-    border: 1px solid #2d3139;
+    background-color: #181818;
+    border: 1px solid #252525 ;
     border-radius: 8px;
 
 }
@@ -283,8 +110,8 @@ body {
     height: 700px;
 
 
-    background-color: #1b1d22;
-    border: 1px solid #2d3139;
+    background-color: #181818;
+    border: 1px solid #252525 ;
     border-radius: 8px;
 }
 
@@ -303,8 +130,9 @@ body {
     padding: 5px 0;
 
 
-    background-color: #1b1d22;
-    border: 1px solid #2d3139;
+
+    background-color: #181818;
+    border: 1px solid #252525 ;
     border-radius: 8px;
 }
 
@@ -374,8 +202,9 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 
-    background-color: #1b1d22;
-    border: 1px solid #2d3139;
+
+    background-color: #181818;
+    border: 1px solid #252525 ;
     border-radius: 8px;
 }
 
@@ -410,4 +239,141 @@ body {
 
 .red-text {
     color: red;
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #121212;
+    width: 260px;
+    height: 100%;
+    border-right: 1px solid #252525;
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 35px;
+    font-weight: 700;
+
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    padding-left: 30px;
+
+    display: block;
+    text-decoration: none;
+
+
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 5px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 9px;
+
+    width: 160px;
+
+    height: 40px;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #31363f;
+    cursor: pointer;
+}
+
+.SideBar_List_ListItem:hover p {
+    color: white;
+}
+
+
+
+.selected-item {
+    background-color: #00ff99;
+}
+
+.selected-item p {
+
+    color: black;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+    background-color: #121212;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 2.5vw;
+    font-weight: 700;
+    color: white;
+
+    width: 68%;
+    padding-left: 2.3%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
 }

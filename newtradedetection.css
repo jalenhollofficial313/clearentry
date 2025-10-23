@@ -627,13 +627,6 @@
     transform: scale(1.01);
 }
 
-.green-button {
-    color: white;
-    border: none;
-    background-color: #14b04d;
-    box-shadow: 0 0 4px rgba(34, 197, 94, 0.8);
-}
-
 #Emotion-Manage {
     display: block;
 }

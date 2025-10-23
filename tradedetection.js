@@ -447,9 +447,9 @@ fileInput.addEventListener("change", async function() {
     if (!file) return;
 
 
-    imgInput.style.display = "none"
-    imgFrame.style.display = "block";
-    imgFrame.src = URL.createObjectURL(file);
+    document.querySelector("#img_Input").style.display = "none"
+    document.querySelector("#img_Frame").style.display = "block";
+    document.querySelector("#img_Frame").src = URL.createObjectURL(file);
 
     if (fileInput.files.length > 0) {
         tradeEntry['img'] = await toBase64(fileInput.files[0])
@@ -459,6 +459,7 @@ fileInput.addEventListener("change", async function() {
 EntryButton.addEventListener("click", async function() {
     TradeEntryFrame.style.display = "block"
 })
+
 
 
 async function init() {

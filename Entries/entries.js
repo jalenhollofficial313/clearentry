@@ -12,8 +12,6 @@ let entryEmotion = ""
 let entryStrategy = ""
 let entryID = ""
 
-let clientData
-let tradeData
 
 function convertUnixToMonthDayYear(timestamp) {
   const date = new Date(timestamp * 1000); 
@@ -57,25 +55,10 @@ async function getTradesOrder(table) {
     return tableArray;
 }
 
-
-async function getData(token) {
-    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token
-        })
-    })
-
-    clientData = await response.json()
-}
-
-
 async function loadTrades() {
   const frag = document.createDocumentFragment();
 
+  const tradeData = await getTradesOrder(clientData.result['trades'])
   for (let i = 0; i < tradeData.length; i++) {
     const t = tradeData[i];
     const clone = tradeExample.cloneNode(true);
@@ -141,23 +124,23 @@ async function loadTrades() {
         entryStrategy = t.strategy
         entryID = t.id
 
-        const viewIMG = entryView.querySelector(".MainFrame_TradeEntryView_TradeFrame_div_imgdiv_img")
+        const viewIMG = entryView.querySelector("#img_Frame")
         viewIMG.src = t.img
-        viewIMG.style.display = t.img != "" && t.img != null ? "block" : "none"
+        viewIMG.style.visibility = t.img != "" && t.img != null ? "visible" : "hidden"
 
-        const viewEmotion = entryView.querySelector(".select-text-emotion")
-        viewEmotion.innerHTML = t.emotion
+        const viewEmotion = entryView.querySelector("#state-dropdown-button")
+        viewEmotion.childNodes[0].textContent = t.emotion
 
-        const viewStrategy = entryView.querySelector(".select-text-strategy")
-        viewStrategy.innerHTML = t.strategy
+        const viewStrategy = entryView.querySelector("#strategy-dropdown-button")
+        viewStrategy.childNodes[0].textContent = t.strategy
 
-        const viewSymbol = entryView.querySelector("#view-symbol")
+        const viewSymbol = entryView.querySelector("#entry-symbol")
         viewSymbol.value = t.symbol
 
-        const viewPL = entryView.querySelector("#view-PL")
+        const viewPL = entryView.querySelector("#entry-pl")
         viewPL.value = t.PL
 
-        const viewNotes= entryView.querySelector("#view-Notes")
+        const viewNotes= entryView.querySelector("#entry-notes")
         viewNotes.value = t.notes
     })
 
@@ -168,61 +151,65 @@ async function loadTrades() {
   EntriesFrame.appendChild(frag);
 }
 
-async function loadDropDown() {
-    for (let emotion = 0; emotion < clientData['emotions'].length; emotion++) {
-        let li = document.createElement("li")
-        li.innerHTML = clientData['emotions'][emotion]
-        li.classList.add("MainFrame_TradeEntryView_TradeFrame_div_dropdown_text")
-        li.classList.add("inter-text")
+async function reloadPage() {
+    
+    const children = Array.from(document.querySelector("#mental-dropdown").children);
+    const children2 = Array.from(document.querySelector("#strategy-dropdown").children);
 
-        li.addEventListener("click", async function(){
-            entryEmotion = clientData['emotions'][emotion]
-            entryView.querySelector(".select-text-emotion").textContent  = clientData['emotions'][emotion] 
+    for (let child of children) {
+        child.remove();
+    }
+    for (let child of children2) {
+        child.remove();
+    }
+
+    const emotions = clientData.result['emotions']
+    for (let emotion in emotions) {
+        const button = document.createElement("button")
+        button.innerHTML = emotions[emotion]
+        button.classList.add("dropdown-item")
+        button.classList.add("inter-text")
+
+        button.addEventListener("click", function() {
+            entryEmotion = emotions[emotion]
+            document.querySelector("#state-dropdown-button").childNodes[0].textContent = emotions[emotion]
         })
-
-        entryViewList[1].appendChild(li)
+        document.querySelector("#mental-dropdown").appendChild(button)
     }
 
-    for (let strategy = 0; strategy < clientData['strategies'].length; strategy++) {
-       let li = document.createElement("li")
-       li.innerHTML = clientData['strategies'][strategy]
-       li.classList.add("MainFrame_TradeEntryView_TradeFrame_div_dropdown_text")
-       li.classList.add("inter-text")
+    const strategies = clientData.result['strategies']
+    for (let strategy in strategies) {
+        const button = document.createElement("button")
+        button.innerHTML = strategies[strategy]
+        button.classList.add("dropdown-item")
+        button.classList.add("inter-text")
 
-       li.addEventListener("click", async function(){
-            entryStrategy = clientData['strategies'][strategy]
-            entryView.querySelector(".select-text-strategy").textContent  = clientData['strategies'][strategy] 
-       })
-
-       entryViewList[0].appendChild(li)
+        button.addEventListener("click", function() {
+            entryStrategy = strategies[strategy]
+            document.querySelector("#strategy-dropdown-button").childNodes[0].textContent = strategies[strategy]
+        })
+        document.querySelector("#strategy-dropdown").appendChild(button)
     }
 }
 
-for (let i = 0; i < entrydropDownButtons.length; i++) {
-    entrydropDownButtons[i].addEventListener("click", async function(e){
-        for (let p = 0; p < entryViewList.length; p++) {
-            if (p == i) {
-                continue
-            }
-            entryViewList[p].style.display = "none";
-            entryViewList[p].setAttribute("open-view", "false");
-        }
+document.querySelector("#state-dropdown-button").addEventListener("click", async function() {
+    if (document.querySelector("#mental-dropdown").style.display == "block") {
+        document.querySelector("#mental-dropdown").style.display = "none"
+    } else {
+        document.querySelector("#mental-dropdown").style.display = "block"
+    }
+})
 
-        if (entryViewList[i].getAttribute("open-view") == "false") {
-            console.log("Check")
-            entryViewList[i].setAttribute("open-view", "true")
-            entryViewList[i].style.display = "block"
-        } else if (entryViewList[i].getAttribute("open-view") == "true") {
-            entryViewList[i].setAttribute("open-view", "false")
-            entryViewList[i].style.display = "none"
-        }
-
-    })
-}
+document.querySelector("#strategy-dropdown-button").addEventListener("click", async function() {
+    if (document.querySelector("#strategy-dropdown").style.display == "block") {
+        document.querySelector("#strategy-dropdown").style.display = "none"
+    } else {
+        document.querySelector("#strategy-dropdown").style.display = "block"
+    }
+})
 
 
-
-document.getElementById("Save_button").addEventListener("click", async function() {
+document.getElementById("save-button").addEventListener("click", async function() {
     const response = await fetch("https://edit-trade-b52ovbio5q-uc.a.run.app", {
         method: "POST",
         headers: {
@@ -231,23 +218,28 @@ document.getElementById("Save_button").addEventListener("click", async function(
         body: JSON.stringify({
             token: localStorage.getItem("token"),
             trade_id: entryID,
-            PL: entryView.querySelector("#view-PL").value,
+            PL: entryView.querySelector("#entry-pl").value,
             emotion: entryEmotion,
-            notes: entryView.querySelector("#view-Notes").value,
+            notes: entryView.querySelector("#entry-notes").value,
             strategy: entryStrategy,
-            symbol: entryView.querySelector("#view-symbol").value,
+            symbol: entryView.querySelector("#entry-symbol").value,
         })
     })
     location.reload()
 })
 
+document.getElementById("close-button").addEventListener("click", async function() {
+    entryView.style.display = "none"
+})
+
 
 
 async function init() {
-    await getData(localStorage.getItem("token"))
-    tradeData = await getTradesOrder(clientData['trades'])
+    await getClientData()
+    await sleep(100)
+    
     loadTrades()
-    loadDropDown()
+    reloadPage()
 }
 
 init()

@@ -6,135 +6,8 @@
 }
 
 
-html, body {
-    margin: 0;
-}
-
-body {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-}
-
-.SideBar {
-    background-color: #1b1d22;
-    width: 15%;
-    height: 100%;
-    border-right: 2px solid #2d3139;
-
-}
-
-.SideBar_Title {
-    color: white;
-    font-size: 2.2vw;
-    font-weight: 700;
-
-    margin-top: 20px;
-    margin-bottom: 0;
-    width: 100%;
-    text-align: center;
-
-    border-bottom: 2px solid #2d3139;
-
-    display: block;
-    text-decoration: none;
-
-    padding-bottom: 20px;
-
-}
-
-.SideBar_Title:hover {
-    cursor: pointer;
-}
-
-.SideBar_List {
-    text-decoration: none;
-    list-style: none;
-
-    height: 60%;
-
-    padding: 0;
-    margin: 0;
-}
-
-.SideBar_List_ListItem {
-    display: flex;
-    align-items: center;
-    padding-left: 30px;
-    margin-bottom: 0;
-    margin-top: 5px;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    border-radius: 9px;
-
-    width: 80%;
-
-    height: 9%;
-    transition: 350ms;
-}
-
-.SideBar_List_ListItem:hover {
-    background-color: #31363f;
-    cursor: pointer;
-}
-
-.SideBar_List_ListItem:hover p {
-    color: white;
-}
-
-
-
-.selected-item {
-    background-color: #14b04d;
-    box-shadow: 0 0 7px rgba(34, 197, 94, 0.8);
-
-
-}
-
-.selected-item p {
-
-    color: white;
-}
-
-.SideBar_List_ListItem_Img {
-    width: 12.5%;
-    height: 60%;
-    margin-right: 10px;
-}
-
-.align-center {
-    align-content: center;
-    justify-items: center;
-}
-
-.SideBar_List_ListItem_Text {
-    color: rgb(177, 177, 177);
-    font-size: 2.2vh;
-    font-weight: 500;
-}
-
 .anchor {
     text-decoration: none;
-}
-
-.MainFrame {
-    width: 85%;
-    height: 100%;
-    background-color: #14161a;
-}
-.MainFrame_Title {
-
-    font-size: 2.5vw;
-    font-weight: 700;
-    color: white;
-
-    width: 68%;
-    padding-left: 2.3%;
-
-    margin-top: 20px;
-    margin-bottom: 2px;
 }
 
 
@@ -142,13 +15,14 @@ body {
     display: flex;
     width: 100%;
     height: 100%;
+
 }
 
 .MainFrame_NotesFrame_SideBar {
     width: 20%;
     height: 100%;
     
-    background-color: #1b1d22;
+    background-color: #121212;
     border-right: 1px solid rgb(92, 92, 92);
 }
 
@@ -241,16 +115,21 @@ body {
     width: 80%;
     height: 100%;
 
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+    background-color: #121212;
 }
 
 .MainFrame_NotesFrame_MainFrame_Title {
-    padding-left: 80px;
-    font-size: 2.5vw;
+    padding-left: 70px;
+    font-size: 40px;
     font-weight: 600;
     color: white;
 
-    width:90%;
-    height: 6%;
+    width:auto;
+    height: fit-content;
+
+
 
     margin-bottom: 0;
 
@@ -260,32 +139,35 @@ body {
 }
 
 .MainFrame_NotesFrame_MainFrame_Date {
-    padding-left: 80px;
-    font-size: 1vw;
+    padding-left: 70px;
+    font-size: 16px;
     font-weight: 500;
     color: rgb(124, 124, 124);
 
-    width: 90%;
-    height: 2%;
+    width: auto;
+    height: fit-content;
 
-    margin-top: 5px;
+    margin-top: 0px;
 
     align-content: center;
 }
 
 .MainFrame_NotesFrame_MainFrame_TextAreaDiv {
     width: 100%;
-    height: 80%;
+    height: 75%;
 
-    display: flex;
-    justify-content: center;
+
+
+
 }
 
 .MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea {
     width: 87%;
     height: 100%;
 
-    font-size: .9vw;
+
+    padding-left: 70px;
+    font-size: 15px;
     font-weight: 500;
     color: white;
     background-color: transparent;
@@ -317,8 +199,8 @@ body {
 
     color: white;
 
-    background-color: #21252bce;
-    border: 1px solid rgba(92, 92, 92, 0.226);
+    background-color: #181818;
+    border: 1px solid #252525 ;
 
     padding-left: 15px;
 
@@ -326,4 +208,395 @@ body {
     font-weight: 500;
 
     border-radius: 12px;
+}
+
+
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #121212;
+    width: 260px;
+    height: 100%;
+    border-right: 1px solid #252525;
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 35px;
+    font-weight: 700;
+
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    padding-left: 30px;
+
+    display: block;
+    text-decoration: none;
+
+
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 5px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 9px;
+
+    width: 160px;
+
+    height: 40px;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #31363f;
+    cursor: pointer;
+}
+
+.SideBar_List_ListItem:hover p {
+    color: white;
+}
+
+
+
+.selected-item {
+    background-color: #00ff99;
+}
+
+.selected-item p {
+
+    color: black;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+    background-color: #121212;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 2.5vw;
+    font-weight: 700;
+    color: white;
+
+    width: 68%;
+    padding-left: 2.3%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv {
+    display: flex;
+    gap: 2%;
+
+    justify-content: right;
+    align-items: center;
+
+
+
+    width: 30%;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button {
+    height: 47%;
+    width: 40%;
+    display: inline-block;
+
+    background-color: #21252bce;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+
+    margin-top: 15px;
+    margin-right: 30px;
+
+    transition: 250ms;
+
+    border-radius: 8px;
+}
+#TradeOpen_Button {
+    color: #121228;
+    
+    background-color: #00ff99;
+
+
+
+}
+#TradeClose_Button {
+    color: rgb(243, 233, 233);
+    
+    border: 1px solid #312e2e;
+}
+
+.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+
+.StatsFrame_textTitle {
+    text-decoration: underline;
+}
+
+.ChartFrame {
+    margin-top: auto; 
+    margin-bottom: auto; 
+
+    height: 100%; 
+    width: 20%;
+
+    align-content: center;
+}
+
+.Doughnut_Chart {
+    width: 100%; 
+    height: 100%;
+
+}
+
+.flex-box {
+    display: flex;
+}
+
+.stats_halfdiv {
+    width: 50%;
+
+}
+
+.stats-title {
+    padding-left: 20px;
+
+    margin-bottom: 0;
+    color: gray;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.stats-text {
+    padding-left: 20px;
+
+    color: white;
+    margin-top: 10px;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+#WLRChart {
+
+    margin-bottom: -10px;
+    margin-left: 10px;
+    margin-top: 6px;
+    width: fit-content;
+    height: fit-content;
+}
+
+#PLChart {
+
+    margin-bottom: -10px;
+    margin-left: 10px;
+    margin-top: 6px;
+    width: fit-content;
+    height: fit-content;
+}
+
+
+
+.bar {
+    width: 95%;
+    height: 10px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 10px;
+    background-color: #262626;
+    border-radius: 10px;
+}
+
+.bar-fill {
+    width: 50%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #00ff99;
+}
+
+.bar-text {
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+
+    padding-right: 25px;
+
+    float: right;
+    margin-bottom: 0;
+    margin-top: 5px;
+
+
+}
+
+.trades-div {
+    height: 500px;
+    width: 96%;
+
+    border-radius: 10px;
+
+    margin-top: 30px;
+
+    background-color: #181818;
+    border: 1px solid #252525 ;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.trade-frame {
+    width: 97%;
+    height: 60px;
+
+    border-bottom: 1px solid #31363f;
+
+    margin-left: auto;
+    margin-right: auto;
+
+
+    gap: 3px;
+    
+}
+
+.trade-text {
+    padding-left: 15px;
+    width: 14.285714285714285714285714285714%;
+
+    margin-top: 0;
+    margin-bottom: 0;
+
+    align-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.example-text {
+    color: gray;
+}
+
+.green-text {
+    color: #00ff99;
+}
+
+.truncate {
+  overflow: hidden;          /* hides extra text */
+  text-overflow: ellipsis;   /* adds "..." at the end */
+  white-space: nowrap;       /* prevents text wrapping */
+}
+
+.bottom-div {
+    width: 100%;
+    height: 80px;
+    
+
+    gap: 15px;
+}
+
+.bottom-buttons {
+
+    width: 14%;
+    height: 50px;
+
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+
+    padding-left: 10px;
+
+    border: 1px solid #333333;
+
+    background-color: transparent;
+    color: white;
+
+    scrollbar-color: black transparent;
+
+    border-radius: 10px;
+
+    resize: none;
+
+    margin-bottom: 30px;
+}
+
+.bottom-buttons:hover {
+    cursor: pointer;
+}
+
+.green-button {
+    background-color: #00ff99;
+    color: black;
+
+    margin-left: 60px;
 }

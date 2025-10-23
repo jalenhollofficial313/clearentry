@@ -5,12 +5,12 @@ const avgHoldTime = document.getElementById("avgHoldTime_Text");
 const avgEmotion = document.getElementById("avgEmotion_Text")
 
 const emotionRate = document.getElementById('emotionRate');
+const PLChart = document.getElementById("PLChart");
+const WLRChart = document.getElementById("WLRChart");
 const plCurve = document.getElementById("plCurve")
 
 const TradeFrame = document.getElementById("TradeFrame")
 const DailyReflectionText = document.getElementById("DailyReflectionText")
-
-let clientData
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -39,87 +39,6 @@ function formatTime(seconds) {
 }
 
 
-
-async function getData(token) {
-    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token
-        })
-    })
-
-    clientData = await response.json()
-    console.log(clientData)
-}
-
-async function getTotalPL() {
-    tradeAmount = 0
-    totalAmount = 0
-    for (let trade in clientData['trades']) {
-        if (clientData['trades'][trade]['open'] == false) {
-            tradeAmount += 1
-            totalAmount += Number(clientData['trades'][trade]['PL']) || 0
-        }
-    }
-
-    return totalAmount
-}
-
-async function getWR() {
-    wins = 0
-    tradeAmount = 0
-    for (let trade in clientData['trades']) {
-        tradeAmount += 1
-        if (clientData['trades'][trade]['PL'] > 0 ) {
-            wins += 1
-        }
-    }
-
-    console.log(wins)
-
-    return (wins / tradeAmount) * 100
-}
-
-async function getHoldTime() {
-    holdtime = 0
-    tradeAmount = 0
-    for (let trade in clientData['trades']) {
-        if (clientData['trades'][trade]['open'] == true) {
-            continue
-        }
-        tradeAmount += 1
-        holdtime += clientData['trades'][trade]['t_Log']
-    }
-
-
-    return (holdtime / tradeAmount) 
-}
-
-async function getavgEmotion() {
-    let mostEmotionAmount = 0
-    let mostEmotion = "None"
-
-    let Emotions = clientData["emotions"]
-    
-    for (let emotion in Emotions) {
-        let emotionAmount = 0
-        for (let trade in clientData['trades']) {
-            if (clientData['trades'][trade]['emotion'] == emotion) {
-                emotionAmount += 1
-            }
-        }
-        if (emotionAmount > mostEmotionAmount) {
-            mostEmotionAmount = emotionAmount
-            mostEmotion = emotion
-        }
-    }
-
-    return mostEmotion
-}
-
 async function getTradesOrder(table) {
 
     const tableArray = Object.entries(table).map(([key, value]) => {
@@ -139,105 +58,6 @@ async function getTradesOrder(table) {
 }
 
 
-async function setTrades() {
-    let number = 1
-    let tradeTable = await getTradesOrder(clientData['trades'])
-
-    for (let trade in tradeTable) {
-        if (number > 3) {
-            return
-        }
-        number += 1
-        const tradeDiv = document.createElement("div")
-        tradeDiv.classList.add("MainFrame_StatFrame3_Stat_TradesFrame_Trade")
-
-        const tradeDate = document.createElement("p")
-        tradeDate.classList.add("MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date")
-        tradeDate.classList.add("inter-text")
-        tradeDate.innerHTML = convertUnixToMonthDay(tradeTable[trade]['date'])
-        tradeDiv.appendChild(tradeDate)
-
-        const tradeSymbol = document.createElement("p")
-        tradeSymbol.classList.add("MainFrame_StatFrame3_Stat_TradesFrame_Trade_Symbol")
-        tradeSymbol.classList.add("inter-text")
-        tradeSymbol.innerHTML = tradeTable[trade]['symbol']
-        tradeDiv.appendChild(tradeSymbol)
-
-        const tradePL = document.createElement("p")
-        tradePL.classList.add("MainFrame_StatFrame3_Stat_TradesFrame_Trade_Date_PL")
-        tradePL.classList.add("inter-text")
-        if (tradeTable[trade]['PL'] > 0) {
-            tradePL.innerHTML = "+$" + Math.abs(tradeTable[trade]['PL'])
-            tradePL.style.color = "#1fd866"
-        } else if (tradeTable[trade]['PL'] < 0) {
-            tradePL.innerHTML = "-$" + Math.abs(tradeTable[trade]['PL'])
-            tradePL.style.color = "red"
-        }
-        tradeDiv.appendChild(tradePL)
-
-        TradeFrame.appendChild(tradeDiv)
-    }
-}
-
-async function setData(userData) {
-    winRate.innerHTML = "%" + Math.floor(await getWR());
-    if (await getTotalPL() > -1) {
-        plTotal.innerHTML = "+$" + Math.abs(await getTotalPL());
-    } else if (await getTotalPL() < 0) {
-        plTotal.innerHTML = "-$" + Math.abs(await getTotalPL());
-    } else {
-        plTotal.innerHTML = "$0"
-    }
-    avgHoldTime.innerHTML = formatTime(await getHoldTime()) || "N/A";
-    avgEmotion.innerHTML = await getavgEmotion()
-    loaded = setTrades()
-
-    DailyReflectionText.innerHTML = userData['dailyReflection']
-    if ((Date.now() / 1000) - userData['dayLog'] > 86400) {
-        DailyReflectionText.innerHTML = "Generating..."
-        const response = await fetch("https://ai-reflection-request-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                token: localStorage.getItem("token")
-            })
-        })
-
-        DailyReflectionText.innerHTML = await response.text()
-    }
-
-    return true
-}
-
-async function getTradesEmotion(Emotion) {
-    emotionArray = []
-    let lastemotion = ""
-    let index = 0
-
-    for (let emotion in clientData['emotions']) {
-        if (lastemotion == "") {
-            lastemotion = emotion
-        }
-        for (let trade in clientData['trades']) {
-            if (clientData['trades'][trade]['emotion'] == emotion) {
-                if (lastemotion != emotion) {
-                    index++
-                    lastemotion = emotion
-                }
-                if (emotionArray[index]) {
-                    emotionArray[index]++
-                } else {
-                    emotionArray[index] = 1
-                }
-            }
-        }
-    }
-
-    return emotionArray
-}
-
 function getMonthUnixRange(monthName) {
     const monthIndex = new Date(`${monthName} 1, 2000`).getMonth(); // 0 for Jan, 1 for Feb...
 
@@ -250,109 +70,485 @@ function getMonthUnixRange(monthName) {
     return { start, end };
 }
 
+async function getTradesByWeekday(dataObj, weekdayKey,) {
+    const weekdays = {
+        sunday: 0,
+        monday: 1,
+        tuesday: 2,
+        wednesday: 3,
+        thursday: 4,
+        friday: 5,
+        saturday: 6,
+    };
 
-async function getTradePL(targetMonth) {
-    const trades = clientData['trades'];
+    const now = new Date();
+
+    // Get Monday of this week
+    const firstDay = new Date(now);
+    firstDay.setDate(now.getDate() - now.getDay() + 1);
+    firstDay.setHours(0, 0, 0, 0);
+
+    // Get Sunday of this week
+    const lastDay = new Date(firstDay);
+    lastDay.setDate(firstDay.getDate() + 6);
+    lastDay.setHours(23, 59, 59, 999);
+
+    const targetDay = weekdays[weekdayKey.toLowerCase()];
+    if (targetDay === undefined) {
+        throw new Error(`Invalid weekday: ${weekdayKey}`);
+    }
+
+    const result = {};
 
 
-    const { start, end } = getMonthUnixRange(targetMonth);
-
-
-    let totalPL = 0;
-    let tradeCount = 0;
-
-    for (const tradeKey in trades) {
-        const trade = trades[tradeKey];
-        const tradeTime = trade.date; 
-        const tradePL = trade.PL;
-
-
-        if (tradeTime >= start && tradeTime <= end) {
-            totalPL += Number(tradePL);
-            tradeCount += 1;
+    for (const trade in dataObj) {
+        if (dataObj[trade].hasOwnProperty('date')) {
+            const item = dataObj[trade];
+            const itemDate = new Date(dataObj[trade]['date'] * 1000);
+            if (itemDate.getDay() === targetDay && itemDate >= firstDay && itemDate <= lastDay) {
+                result[trade] = item;
+            }
         }
     }
 
+    let totalPL = 0
 
-    const avgMonthPL = tradeCount > 0 ? totalPL / tradeCount : 0;
+    for (const trade in result) {
+        if (dataObj[trade]) {
+            totalPL += dataObj[trade]['PL']
+        }
+    }
 
-    console.log(totalPL)
 
     return totalPL;
 }
 
-async function getEmotionsList() {
-    newarray = []
-    for (let emotion in clientData['emotions']) {
-        newarray.push(emotion)
+async function getTradesByWeek(dataObj) {
+
+    const now = new Date();
+
+    // Get Monday of this week
+    const firstDay = new Date(now);
+    firstDay.setDate(now.getDate() - now.getDay() + 1);
+    firstDay.setHours(0, 0, 0, 0);
+
+    // Get Sunday of this week
+    const lastDay = new Date(firstDay);
+    lastDay.setDate(firstDay.getDate() + 6);
+    lastDay.setHours(23, 59, 59, 999);
+
+
+    const result = {};
+
+
+    for (const trade in dataObj) {
+        if (dataObj[trade].hasOwnProperty('date')) {
+            const item = dataObj[trade];
+            const itemDate = new Date(dataObj[trade]['date'] * 1000);
+            if (itemDate >= firstDay && itemDate <= lastDay) {
+                result[trade] = item;
+            }
+        }
     }
 
 
-    console.log(newarray)
-    return newarray
+    return result;
+}
+
+
+
+
+async function loadStats() {
+    let totalBalance = 0
+    let totalProfit = 0
+
+    for (let x in clientData.result['trades']) {
+        totalBalance += clientData.result['trades'][x]['PL']
+        if (clientData.result['trades'][x]['PL'] > 0) {
+            totalProfit += clientData.result['trades'][x]['PL']
+        }
+    }
+
+
+    let mostEmotionAmount = 0
+    let mostEmotion = "None"
+
+    let totalemotionAmounts = 0
+    let Emotions = clientData.result["emotions"]
+    
+    for (let emotion in Emotions) {
+        let emotionAmount = 0
+        for (let trade in clientData.result['trades']) {
+            if (clientData.result['trades'][trade]['emotion'] == Emotions[emotion]) {
+                totalemotionAmounts += 1
+                emotionAmount += 1
+            }
+        }
+        if (emotionAmount > mostEmotionAmount) {
+            mostEmotionAmount = emotionAmount
+            mostEmotion = emotion
+        }
+    }
+
+    let trades = await getTradesByWeek(clientData.result['trades'])
+
+    for (const trade in trades) {
+        const tradediv = document.createElement("div")
+        tradediv.classList.add("flex-box")
+        tradediv.classList.add("trade-frame")
+
+        const datetext = document.createElement("p")
+        datetext.innerHTML = await convertUnixToMonthDay(trades[trade]['date'])
+        datetext.classList.add("inter-text")
+        datetext.classList.add("trade-text")
+        tradediv.appendChild(datetext)
+
+        const symboltext = document.createElement("p")
+        symboltext.innerHTML = trades[trade]["symbol"]
+        symboltext.classList.add("inter-text")
+        symboltext.classList.add("trade-text")
+        tradediv.appendChild(symboltext)
+
+        const strategyText = document.createElement("p")
+        strategyText.innerHTML = trades[trade]["strategy"]
+        strategyText.classList.add("inter-text")
+        strategyText.classList.add("trade-text")
+        strategyText.classList.add("truncate")
+        tradediv.appendChild(strategyText)
+
+        const winlosstext = document.createElement("p")
+        if (trades[trade]['PL'] > 0) {
+            winlosstext.classList.add("green-text")
+            winlosstext.innerHTML = "win"
+        } else {
+            winlosstext.classList.add("red-text")
+            winlosstext.innerHTML = "loss"
+        }
+        winlosstext.classList.add("inter-text")
+        winlosstext.classList.add("trade-text")
+        tradediv.appendChild(winlosstext)
+
+        const pltext = document.createElement("p")
+        if (trades[trade]['PL'] > 0) {
+            pltext.innerHTML = "+$" + trades[trade]["PL"]
+            pltext.classList.add("green-text")
+        } else {
+            pltext.innerHTML = "-$" + Math.abs(trades[trade]["PL"])
+            pltext.classList.add("red-text")
+        }
+
+        pltext.classList.add("inter-text")
+        pltext.classList.add("trade-text")
+        tradediv.appendChild(pltext)
+
+        const notesText = document.createElement("p")
+        notesText.innerHTML = trades[trade]["notes"]
+        notesText.classList.add("inter-text")
+        notesText.classList.add("trade-text")
+        notesText.classList.add("example-text")
+        notesText.classList.add("truncate")
+        tradediv.appendChild(notesText)
+
+        const emotiontext = document.createElement("p")
+        emotiontext.innerHTML = trades[trade]["emotion"]
+        emotiontext.classList.add("inter-text")
+        emotiontext.classList.add("trade-text")
+        emotiontext.classList.add("truncate")
+        tradediv.appendChild(emotiontext)
+
+        document.querySelector("#trades_Div").appendChild(tradediv)
+    }
+
+
+    document.querySelector("#emotion_Text").innerHTML = Math.floor(mostEmotionAmount/totalemotionAmounts * 10) + "/10";
+    document.querySelector("#emotion_Bar").style.width = Math.floor(mostEmotionAmount/totalemotionAmounts * 100) + '%';
+    document.querySelector("#total_Balance").innerHTML = "$" + totalBalance
+    if (totalProfit > -1) {
+        document.querySelector("#total_Profit").innerHTML = "+$" + totalProfit
+    } else {
+        document.querySelector("#total_Profit").innerHTML = "-$" + Math.abs(totalProfit)
+    }
+
+
 }
 
 
 async function loadGraphs(params) {
-    new Chart(emotionRate, {
-        type: 'bar',
-        data: {
-        labels: await getEmotionsList(),
-        datasets: [{
 
-            label: '# of Votes',
-            data: await getTradesEmotion(),
-            borderWidth: 1,
-            borderColor: '#19c257',
-            backgroundColor: '#19c257'
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-             beginAtZero: true
-            }
-        },
+
+    let totalWins = 0
+    let totalLosses = 0
+
+    let totalProfit = 0
+    let totalLoss = 0
+
+    for (let x in clientData.result['trades']) {
+        if (clientData.result['trades'][x]['PL'] > 0) {
+            totalWins++
+            totalProfit += clientData.result['trades'][x]['PL']
+        } else {
+            totalLosses++
+            totalLoss += (clientData.result['trades'][x]['PL'] * -1)
         }
-    });   
-
-    new Chart(plCurve, {
-        type: 'line',
-        data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [{
-            label: 'PL Curve',
-            data: [
-                    await getTradePL("January"),
-                    await getTradePL("February"),
-                    await getTradePL("March"),
-                    await getTradePL("April"),
-                    await getTradePL("May"),
-                    await getTradePL("June"),
-                    await getTradePL("July"),
-                    await getTradePL("August"),
-                    await getTradePL("September"),
-                    await getTradePL("October"),
-                    await getTradePL("November"),
-                    await getTradePL("December")
-                ],
-
-            borderWidth: 1,
-            borderColor: '#19c257',
-            backgroundColor: '#19c257'
-        }]
     }
-    }); 
+
+    var options = {
+      chart: { type: 'donut', height:"80%", width:"65%" },
+      series: [totalWins, totalLosses,],
+      labels: ['Profitable', 'Losing'],
+
+      colors: [
+      '#00ff99', // Profitable (green)
+      '#ff4747', // Losing (red)
+    ],
+
+      dataLabels: {
+          enabled: true,
+          enabledOnSeries: undefined,
+          textAnchor: 'middle',
+          distributed: false,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            fontSize: '14px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 'bold',
+            colors: undefined
+          },
+          background: {
+            enabled: true,
+            foreColor: '#fff',
+          },
+          dropShadow: {
+              enabled: false,
+              top: 1,
+              left: 1,
+              blur: 1,
+              color: '#000',
+              opacity: 0.45
+          }
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        show: false
+      },
+
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '75%',
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '36px',
+                color: '#ffffff',
+              },
+              value: {
+                show: true,
+                fontSize: '25px',
+                fontWeight: '700',
+                color: '#ffffff',
+
+              },
+              total: {
+                show: true,
+                showAlways: true,
+                label: 'Win Rate',
+                fontSize: '15px',
+                color: 'gray',
+                formatter: function(value) {
+                  return value.config.series[0] + "%";
+                }
+              },
+            },
+          },
+        },
+      },
+    };
+
+    var options2 = {
+      chart: { type: 'donut', height:"80%", width:"65%" },
+      series: [totalProfit, totalLoss],
+      labels: ['Profitable', 'Losing'],
+
+      colors: [
+        '#00ff99', // Profitable (green)
+        '#ff4747', // Losing (red)
+      ],
+
+      dataLabels: {
+          enabled: true,
+          enabledOnSeries: undefined,
+          textAnchor: 'middle',
+          distributed: false,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            fontSize: '14px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 'bold',
+            colors: undefined
+          },
+          background: {
+            enabled: true,
+            foreColor: '#fff',
+          },
+          formatter: function (val, opts) {
+            const seriesIndex = opts.seriesIndex;
+            const value = opts.w.config.series[seriesIndex];
+            if (seriesIndex == 0) {
+              return "+$" + value.toLocaleString(); 
+            } else {
+              return "-$" + value.toLocaleString(); 
+            }
+            return "$" + value.toLocaleString(); 
+          },
+          dropShadow: {
+              enabled: false,
+              top: 1,
+              left: 1,
+              blur: 1,
+              color: '#000',
+              opacity: 0.45
+          }
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        show: false
+      },
+
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '75%',
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '36px',
+                color: '#ffffff',
+              },
+              value: {
+                show: true,
+                fontSize: '22px',
+                fontWeight: '700',
+                color: '#ffffff',
+
+              },
+              total: {
+                show: true,
+                showAlways: true,
+                label: 'Profit',
+                fontSize: '15px',
+                color: 'gray',
+                formatter: function(value) {
+                  return "+$" + value.config.series[0];
+                }
+              },
+            },
+          },
+        },
+      },
+    };
+
+    var options3 = {
+      chart: {
+        type: 'area',
+        height: 320,
+        toolbar: { show: false },
+        background: 'transparent' 
+      },
+      series: [{
+        name: 'P&L',
+        data: [await getTradesByWeekday(clientData.result['trades'], 'monday'), await getTradesByWeekday(clientData.result['trades'], 'tuesday'), await getTradesByWeekday(clientData.result['trades'], 'wednesday'), await getTradesByWeekday(clientData.result['trades'], 'thursday'), await getTradesByWeekday(clientData.result['trades'], 'friday'), await getTradesByWeekday(clientData.result['trades'], 'saturday'), await getTradesByWeekday(clientData.result['trades'], 'sunday')] // replace with your own weekly values
+      }],
+      xaxis: {
+        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        axisBorder: { show: false },
+        axisTicks: { show: false },
+        labels: { style: { colors: '#A0A4AD' } }
+      },
+      yaxis: {
+        labels: {
+          formatter: (v) =>
+            new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              maximumFractionDigits: 0
+            }).format(v),
+          style: { colors: '#A0A4AD' }
+        }
+      },
+      dataLabels: { enabled: false },
+      stroke: { curve: 'smooth', width: 2 },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 0.3,
+          opacityFrom: 0.35,
+          opacityTo: 0.05,
+          stops: [0, 90, 100]
+        }
+      },
+      colors: ['#00E396'],
+      grid: {
+        borderColor: 'rgba(255,255,255,0.06)',
+        strokeDashArray: 3,
+        padding: { left: 10, right: 10 }
+      },
+      markers: { size: 3, strokeWidth: 0 },
+      tooltip: {
+        theme: 'dark',
+        y: {
+          formatter: (v) =>
+            new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              maximumFractionDigits: 0
+            }).format(v)
+        }
+      },
+      theme: { mode: 'dark' },
+      annotations: {
+        yaxis: [{
+          y: 0,
+          borderColor: 'rgba(255,255,255,0.12)',
+          strokeDashArray: 4,
+          label: {
+            text: 'Break-even',
+            style: { background: 'transparent', color: '#A0A4AD' }
+          }
+        }]
+      }
+    };
+
+
+    var chart = new ApexCharts(document.querySelector("#WLRChart"), options);
+    var chart2 = new ApexCharts(document.querySelector("#PLChart"), options2);
+
+
+    var chart3 = new ApexCharts(document.querySelector("#weekPL"), options3);
+
+
+
+    await chart.render();
+    await chart2.render();
+    await chart3.render();
 
     return true
 }
 
 async function dashboardINIT() {
-
-    await getData(localStorage.getItem("token"))
-    setclientData = setData(clientData)
-
-    loaded = loadGraphs()
+    await getClientData()
+    await sleep(100)
+    
+    loadStats()
+    loadGraphs()
 }
 
 

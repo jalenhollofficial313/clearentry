@@ -9,26 +9,11 @@ const MembershipTextG = document.getElementById("MembershipTextGR")
 
 const SaveButton = document.getElementById("SaveButton")
 
-let clientData
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
-async function getData(token) {
-    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token
-        })
-    })
-
-    clientData = await response.json()
-}
 
 async function loadProfileData(data) {
     MembershipText.innerHTML = data['membership']
@@ -45,8 +30,10 @@ async function loadProfileData(data) {
 }
 
 async function profileINIT() {
-    await getData(localStorage.getItem("token"))
-    loaded = loadProfileData(clientData)
+    await getClientData()
+    await sleep(100)
+    await loadProfileData(clientData.result)
+    console.log(clientData.result)
 }
 
 async function saveData(token) {
@@ -79,5 +66,6 @@ SaveButton.addEventListener("click", async function(){
     }
     profileINIT()
 })
+
 
 profileINIT()

@@ -6,10 +6,7 @@ const addNote = document.getElementById("addNote")
 const addNoteTitle = document.getElementById("addNoteTitle")
 
 let currentNoteIndex
-let lastNoteIndex = ""
-let lastNoteI = 0
-let lastText = ""
-let newTrade = false
+let currentNoteElement
 
 function convertUnixToFullDate(timestamp) {
   const date = new Date(timestamp * 1000); // Convert seconds → milliseconds
@@ -19,22 +16,6 @@ function convertUnixToFullDate(timestamp) {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function getData(token) {
-    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: token
-        })
-    })
-
-    const clientData = await response.json()
-
-    return clientData
 }
 
 async function getNotesOrder(table) {
@@ -48,14 +29,6 @@ async function getNotesOrder(table) {
     return tableArray;
 }
 
-async function removeNotes() {
-    let noteFrame = document.getElementsByClassName("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
-    while (noteFrame.length > 0) {
-        notesFrame[0].removeChild(noteFrame[0])
-    }
-
-    return true
-}
 
 
 async function logNote(token) {
@@ -67,8 +40,8 @@ async function logNote(token) {
         },
         body: JSON.stringify({
             token: token,
-            noteIndex: lastNoteIndex,
-            text: lastText,
+            noteIndex: currentNoteIndex,
+            text: notesText.value,
         })
     })
 
@@ -77,20 +50,24 @@ async function logNote(token) {
     return sucsess
 }
 
-async function notesCheck() {
-    if (lastNoteIndex) {
-        clientData = await getData(localStorage.getItem("token"))
+async function removeNote(token) {
 
-        if (lastText != clientData['notes'][lastNoteIndex]['text']) {
+    const response = await fetch("https://remove-note-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: token,
+            noteIndex: currentNoteIndex,
+        })
+    })
 
-            logged = await logNote(localStorage.getItem("token"))
-        } else {
-            if (!clientData['notes'][lastNoteIndex]) {
-                logged = await logNote(localStorage.getItem("token"))
-            }
-        }
-    }
+    const sucsess = await response.text()
+
+    return sucsess
 }
+
 
 async function add_Note(token) {
     const response = await fetch("https://add-note-b52ovbio5q-uc.a.run.app", {
@@ -105,16 +82,23 @@ async function add_Note(token) {
     })
 
     const sucsess = await response.text()
-
+    await init()
     return sucsess
 }
 
+async function removeNotes() {
+    let noteFrame = document.querySelectorAll(".MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
+    for (let i = 0; i < noteFrame.length; i++) {
+        noteFrame[i].remove()
+    }
+
+    return true
+}
 
 
 async function loadNotes() {
-    clientData = await getData(localStorage.getItem("token"))
     let ran = false
-    let table = await getNotesOrder(clientData['notes'])
+    let table = await getNotesOrder(clientData.result['notes'])
     for (let i in table) {
         const journalButtonFrame = document.createElement("div")
         journalButtonFrame.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
@@ -125,7 +109,6 @@ async function loadNotes() {
             notesTitle.innerHTML = table[i]['title']
             notesDate.innerHTML = convertUnixToFullDate(table[i]['date'])
             notesText.value = table[i]['text']
-            lastNoteI = i
 
             currentNoteIndex = table[i]["id"]
         }
@@ -143,13 +126,6 @@ async function loadNotes() {
         journalButtonFrame.appendChild(journalDate)
 
         journalButtonFrame.addEventListener("click", async function(){
-            lastNoteIndex = currentNoteIndex
-            lastText = await notesText.value
-            table[lastNoteI]["text"] = await lastText
-            notesCheck() 
-
-            lastNoteI = i
-        
             document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
             journalButtonFrame.classList.add("note-selected")
             notesTitle.innerHTML = table[i]['title']
@@ -157,35 +133,116 @@ async function loadNotes() {
             notesText.value = table[i]['text']
 
             currentNoteIndex = table[i]["id"]
+            currentNoteElement = journalButtonFrame
         })
 
         notesFrame[0].appendChild(journalButtonFrame)
     }
 }
 
-window.addEventListener("beforeunload", async function (e) {
-    if (newTrade == false){
-        e.preventDefault(); 
-        e.returnValue = "";             
-    }
-    lastText = notesText.value
-    await notesCheck()
-});
-
-
 async function journalINIT(params) {
+    await getClientData()
+    await sleep(100)
+    
+
     loaded = await loadNotes()
-    lastNoteIndex = currentNoteIndex
-    lastText = notesText.value
-    notesCheck()
 }
 
+async function delClientNote() {
+    if (localStorage.getItem("token") != null) {
+        if (clientData) {
+            const request = window.indexedDB.open("clearentry", 3);
+            request.onerror = (event) => {
+                location.reload()
+            }
+            request.onsuccess = async (event) => {
+                const db = event.target.result;
 
+                if (db.objectStoreNames.contains("clientData")) {
+                    const tx = db.transaction("clientData", "readwrite");
+                    const store = tx.objectStore("clientData");
+                    delete clientData.result['notes'][currentNoteIndex]
+                    console.log(clientData.result['notes'])
+                    store.put(clientData.result)
+                    console.log(clientData.result['notes'])
+                    tx.oncomplete = () => {
+                        db.close();
+                    }
+                }
+            }
+        }
+    }
+}
+
+document.querySelector("#delete-button").addEventListener("click", async function(params) {
+    removeNote(localStorage.getItem("token"))
+    await delClientNote()
+    await removeNotes()
+    await sleep(50)
+    await loadNotes()
+})
+
+document.querySelector("#save-button").addEventListener("click", async function(params) {
+    logNote(localStorage.getItem('token'))
+    if (localStorage.getItem("token") != null) {
+        if (clientData) {
+            const request = window.indexedDB.open("clearentry", 3);
+            request.onerror = (event) => {
+                location.reload()
+            }
+            request.onsuccess = async (event) => {
+                const db = event.target.result;
+
+                if (db.objectStoreNames.contains("clientData")) {
+                    const tx = db.transaction("clientData", "readwrite");
+                    const store = tx.objectStore("clientData");
+                    clientData.result['notes'][currentNoteIndex]['text'] = notesText.value
+
+                    store.put(clientData.result)
+                    tx.oncomplete = () => {
+                        db.close();
+                    }
+                }
+            }
+        }
+    }
+})
 
 addNote.addEventListener("click", async function(){
-    tradeID = await add_Note(localStorage.getItem("token"))
-    newTrade = true
-    location.reload()
+    currentNoteIndex = add_Note(localStorage.getItem("token"))
+
+    const title = addNoteTitle.value
+    const date = Math.floor(Date.now() / 1000);
+
+    const journalButtonFrame = document.createElement("div")
+    journalButtonFrame.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
+    document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
+    journalButtonFrame.classList.add("note-selected")
+    notesTitle.innerHTML = title
+    notesDate.innerHTML = convertUnixToFullDate(date)
+    notesText.value = ""
+
+    const journalTitle = document.createElement("p")
+    journalTitle.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Title")
+    journalTitle.classList.add("inter-text")
+    journalTitle.innerHTML = title
+    journalButtonFrame.appendChild(journalTitle)
+
+    const journalDate = document.createElement("p")
+    journalDate.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Date")
+    journalDate.classList.add("inter-text")
+    journalDate.innerHTML = convertUnixToFullDate(date);
+    journalButtonFrame.appendChild(journalDate)
+
+    journalButtonFrame.addEventListener("click", async function(){
+        document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
+        journalButtonFrame.classList.add("note-selected")
+        notesTitle.innerHTML = title
+        notesDate.innerHTML = convertUnixToFullDate(date)
+        notesText.value = ""
+    })
+
+    notesFrame[0].appendChild(journalButtonFrame)
 })
 
 journalINIT()
