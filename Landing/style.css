@@ -28,7 +28,7 @@ body {
 
 body {
     margin: 0;
-
+    background-color: #09090e;
 }
 
 .flex-box{
@@ -47,6 +47,7 @@ body {
     color: white;
     font-size: 36px;
     font-weight: 600;
+
 
     width: 80%;
     
@@ -120,11 +121,13 @@ body {
     font-size: 100px;
     font-weight: 700;
 
+    background-color: gray;
     width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 
-
-    margin: 0;
     margin-top: 25vh;
+    margin-bottom: 0;
 }
 
 
@@ -140,9 +143,14 @@ body {
     font-size: 35px;
     font-weight: 500;
 
+    display: block;
+
     width: fit-content;
-    
-    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .body-button {
@@ -161,7 +169,11 @@ body {
     font-size: 30px;
     font-weight: 500;
     
-    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 0;
+    margin-bottom: 0;
 
     transition: 250ms;
 }
@@ -184,9 +196,11 @@ body {
 
     width: fit-content;
     
-    margin: 0;
-    margin-top: 15%;
-    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 300px;
+    margin-bottom: 0;
 }
 
 .about-text {
@@ -220,9 +234,12 @@ body {
     font-weight: 700;
 
     width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
     
-    margin: 0;
-    margin-top: 5%;
+    margin-top: 0;
+    padding-top: 40px;
+    margin-bottom: 0;
 }
 
 .feature-frame {
@@ -233,6 +250,8 @@ body {
     justify-content: center;
 
     gap: 1%;
+
+    padding-bottom: 80px;
 
     margin-bottom: 50px;
     margin-top: 50px;
@@ -297,9 +316,15 @@ body {
 .CTA-Title {
     margin: 0;
     width: 100%;
-    margin-top: 3%;
+
 
     text-align: center;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 50px;
+    margin-bottom: 0;
 
     color: white;
     font-size: 60px;
