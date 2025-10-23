@@ -162,6 +162,8 @@ async function loadStats() {
     let totalBalance = 0
     let totalProfit = 0
 
+    document.querySelector("#user-Name").innerHTML =  "Welcome Back, " + clientData.result['name']
+
     for (let x in clientData.result['trades']) {
         totalBalance += clientData.result['trades'][x]['PL']
         if (clientData.result['trades'][x]['PL'] > 0) {

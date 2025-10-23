@@ -36,7 +36,18 @@ function formatTime(seconds) {
     return result.join(' ');
 }
 
-
+async function deleteTrade(tradeid) {
+    const response = await fetch("https://delete-trade-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            trade_id: tradeid
+        })
+    })
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -142,6 +153,33 @@ async function loadTrades() {
 
         const viewNotes= entryView.querySelector("#entry-notes")
         viewNotes.value = t.notes
+    })
+
+    const deleteButton = clone.querySelector(".trade-delete-button");
+    deleteButton.addEventListener('click', async function() {
+        deleteTrade(t.id)
+        if (localStorage.getItem("token") != null) {
+            if (clientData) {
+                const request = window.indexedDB.open("clearentry", 3);
+                request.onerror = (event) => {
+                    location.reload()
+                }
+                request.onsuccess = async (event) => {
+                    const db = event.target.result;
+
+                    if (db.objectStoreNames.contains("clientData")) {
+                        const tx = db.transaction("clientData", "readwrite");
+                        const store = tx.objectStore("clientData");
+                        delete clientData.result['trades'][t.id]
+                        store.put(clientData.result)
+                        tx.oncomplete = () => {
+                            db.close();
+                        }
+                    }
+                }
+            }
+        }
+        clone.remove()
     })
 
     frag.appendChild(clone);
