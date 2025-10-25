@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearEntry</title>
+    <link href="analysis.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="SideBar">
+        <a href="../Landing/index.html" class="SideBar_Title inter-text">
+            ClearEntry
+        </a>
+        <ul class="SideBar_List">
+            <a class="anchor" href="../Profile/profile.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Profile
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Dashboard/dashboard.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Dashboard
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../TradeLogging/tradelogging.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Trade Logging
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Entries/entires.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Entries
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Analysis/analysis.html">
+                <li class="SideBar_List_ListItem selected-item">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Smart Analysis
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Journal/journal.html">
+                <li class="SideBar_List_ListItem">
+
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Journal
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Analytics/analytics.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Analytics
+                    </p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="MainFrame">
+        <p class="MainFrame_Title inter-text">
+            <span class="header-icon" data-lucide="brain"></span>
+            ClearEntry Smart Analysis
+        </p>
+        <p class="MainFrame_description inter-text">
+            AI-powered trade optimization and personalized trading plan generation (BETA)
+        </p>
+
+        <div id="frame-1">
+            <p class="frame-1-title inter-text">
+                <span class="icon-1" data-lucide="sparkles"></span>
+                Generate Optimized Trading Plan
+            </p>
+            <p class="MainFrame_description inter-text">
+                Analyze your recent trades and generate a personalized plan based on your patterns
+            </p>
+            <div style="align-items: center; margin-left: 40px; margin-top: 20px;" class="flex-box">
+                <button id="generate-button" class="inter-text green-button">
+                    <span id="button-icon" data-lucide="brain"></span>
+                    <span id="generate-text" style="margin-right: auto;">
+                        Generate Plan
+                    </span>
+                </button>
+                <p style="padding: 0; margin-left: 20px;" class="MainFrame_description inter-text">
+                    Based on logged trades. ( 1 day cooldown )
+                </p>
+            </div>
+        </div>
+        <div id="reflection-div">
+            <p style="margin-top: 20px;" class="frame-1-title inter-text">
+                <span class="icon-1" data-lucide="trending-up"></span>
+                AI-Detected Patterns
+            </p>
+            <div id="frame-2" class="flex-box">
+                <div class="flex-div">
+                    <p class="inter-text frame-2-title">
+                        <span style="margin-left: 20px; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="circle-check"></span>
+                        <span >Strategy Similarities</span>
+                    </p>
+                    <p id="strategy-summary" class="MainFrame_description strat-description inter-text">
+                        You have a 75% win rate on Gap & Go setups. This is your strongest strategy.
+                    </p>
+                </div>
+                <div class="flex-div">
+                    <p class="inter-text frame-2-title">
+                        <span style="margin-left: 20px; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="circle-check"></span>
+                        <span >Emotional Trading Pattern</span>
+                    </p>
+                    <p id="emotion-summary" class="MainFrame_description inter-text strat-description">
+                        Trades marked 'FOMO' or 'Impatient' have 100% loss rate. Consider waiting for confirmation.
+                    </p>
+                </div>
+                <div class="flex-div">
+                    <p class="inter-text frame-2-title">
+                        <span style="margin-left: 20px; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="circle-check"></span>
+                        <span >Symbol Familiarity</span>
+                    </p>
+                    <p id="symbol-summary" class="MainFrame_description inter-text strat-description">
+                        TSLA trades show consistent profits. Your familiarity with this stock is an edge.
+                    </p>
+                </div>
+            </div>
+            <div id="frame-3">
+                <p style="margin-top: 30px;" class="frame-1-title inter-text">
+                    <span class="icon-1" data-lucide="sparkles"></span>
+                    Your Optimized Trading Plan
+                </p>
+                <p class="MainFrame_description inter-text">
+                    Personalized strategy based on your performance data
+                </p>
+
+                <p style="color: #00ff99;" class="inter-text frame-title-3">
+                    <span style="margin-left: 40px; color: #00ff99; margin-right: 10px;" data-lucide="check"></span>
+                    <span>Focus On</span>
+                </p>
+                <p id="focus-summary" class="MainFrame_description inter-text">
+                    Gap & Go on familiar symbols (TSLA, NVDA)
+                </p>
+
+                <p style="color: #ff4747;" class="inter-text frame-title-3">
+                    <span style="margin-left: 40px; color: #ff4747; margin-right: 10px;" data-lucide="x"></span>
+                    <span>Avoid</span>
+                </p>
+                <p id="avoid-summary" class="MainFrame_description inter-text">
+                    Personalized strategy based on your performance data
+                </p>
+
+                <p style="margin-left: 40px; margin-top: 50px;" class="inter-text frame-2-title">
+                    <span style="margin-left: 0; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="diamond-minus"></span>
+                    <span >Trading Advice</span>
+                </p>
+                <div style="margin-top: 20px;">
+                    <p class="inter-text frame-title-4">
+                        <span class="icon-title-4" data-lucide="circle-check"></span>
+                        <span id="symbol-advice">Only trade Gap & Go setups - your highest win rate strategy</span>
+                    </p>
+                    <p class="inter-text frame-title-4">
+                        <span class="icon-title-4" data-lucide="circle-check"></span>
+                        <span id="strategy-advice">Wait 5 minutes after market open for confirmation</span>
+                    </p>
+                    <p class="inter-text frame-title-4">
+                        <span class="icon-title-4" data-lucide="circle-check"></span>
+                        <span id="emotion-advice">Avoid trading when feeling FOMO or impatienty</span>
+                    </p>
+                    <p class="inter-text frame-title-4">
+                        <span class="icon-title-4" data-lucide="circle-check"></span>
+                        <span id="general-advice">Stick to TSLA and NVDA - your most profitable symbols</span>
+                    </p>
+
+                </div>
+                <p style="margin-left: 40px; margin-top: 50px;" class="inter-text frame-2-title">
+                    <span style="margin-left: 0; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="goal"></span>
+                    <span >Target Metrics</span>
+                </p>
+                <div id="metrics-div" class="flex-box">
+                    <div class="metrics-flexdiv">
+                        <p class="MainFrame_description inter-text metrics-title">
+                            Win Rate
+                        </p>
+                        <p id="win-rate" class="inter-text frame-2-title metrics-text green-text">
+                            75%+
+                        </p>
+                    </div>
+                    <div class="metrics-flexdiv">
+                        <p class="MainFrame_description inter-text metrics-title">
+                            Avg Profit
+                        </p>
+                        <p id="avg-profit" class="inter-text frame-2-title metrics-text green-text">
+                            +$450
+                        </p>
+                    </div>
+                    <div class="metrics-flexdiv">
+                        <p class="MainFrame_description inter-text metrics-title">
+                            Optimal Emotion
+                        </p>
+                        <p id="emotional-state" class="inter-text frame-2-title metrics-text">
+                            Confidence
+                        </p>
+                    </div>
+                    <div class="metrics-flexdiv">
+                        <p class="MainFrame_description inter-text metrics-title">
+                            Max Trades
+                        </p>
+                        <p id="trades-amount" class="inter-text frame-2-title metrics-text">
+                            3 per day
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="frame-4">
+                <p style="margin-top: 30px;" class="frame-1-title inter-text">
+                    <span class="icon-1" data-lucide="file-chart-line"></span>
+                    Analyzed Trades
+                </p>
+                <p class="MainFrame_description inter-text">
+                    Recent trades used for plan generation
+                </p>
+
+                <div id="trades-frame">
+                    <div class="flex-box trade-div">
+                        <p class="trade-title inter-text">
+                            TSLA
+                        </p>
+                        <p class="trade-text-1 trade-description win-trade inter-text">
+                            Win
+                        </p>
+                        <p style="margin-left: 5px;" class="inter-text trade-description">
+                            Gap & Go
+                        </p>
+                        <p class="inter-text trade-description trade-right-description">
+                            Confidence
+                        </p>
+                        <p class="trade-text-2 inter-text green-text">
+                            +$450
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../dataHandler.js"></script>
+    <script src="analysis.js"></script>
+    <script>
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -280,7 +280,8 @@ body {
 .MainFrame {
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
     background-color: #121212;
 }
 

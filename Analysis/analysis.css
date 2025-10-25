@@ -1,0 +1,523 @@
+
+
+.inter-text {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.SideBar {
+    background-color: #121212;
+    width: 260px;
+    height: 100%;
+    border-right: 1px solid #252525;
+
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 35px;
+    font-weight: 700;
+
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+
+    padding-left: 30px;
+
+    display: block;
+    text-decoration: none;
+
+
+
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+
+    height: 60%;
+
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    margin-bottom: 0;
+    margin-top: 5px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 9px;
+
+    width: 160px;
+
+    height: 40px;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #31363f;
+    cursor: pointer;
+}
+
+.SideBar_List_ListItem:hover p {
+    color: white;
+}
+
+
+
+.selected-item {
+    background-color: #00ff99;
+}
+
+.selected-item p {
+
+    color: black;
+}
+
+.SideBar_List_ListItem_Img {
+    width: 12.5%;
+    height: 60%;
+    margin-right: 10px;
+}
+
+.align-center {
+    align-content: center;
+    justify-items: center;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+.MainFrame {
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+    background-color: #121212;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    display: flex;
+}
+
+.MainFrame_Title {
+
+    font-size: 40px;
+    font-weight: 700;
+    color: white;
+
+    justify-items: center;
+    width: 68%;
+    padding-left: 2.4%;
+
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+
+.MainFrame_description {
+
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    color: gray;
+
+    width: 68%;
+
+
+
+    margin-left: 45px;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+
+
+.header-icon {
+    height: 40px;
+    width: 50px;
+
+    color: #00ff99;
+
+    margin-bottom: -5px;
+
+}
+
+.example-text {
+    color: gray;
+}
+
+
+.truncate {
+  overflow: hidden;          /* hides extra text */
+  text-overflow: ellipsis;   /* adds "..." at the end */
+  white-space: nowrap;       /* prevents text wrapping */
+}
+
+.icon-1 {
+    height: 25px;
+    width: 30px;
+
+    color: #00ff99;
+
+    margin-bottom: -5px;
+}
+
+#frame-1 {
+
+    margin-top: 30px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    height: fit-content;
+    padding: 20px 0;
+    width: 94%;
+
+    border-radius: 10px;
+    background-color: #181818;
+    border: 1px solid #252525 ;
+}
+
+.frame-1-title {
+    font-size: 25px;
+    font-weight: 600;
+    color: white;
+
+    justify-items: center;
+    width: 68%;
+    
+    margin-left: 40px;
+
+    margin-top: 0;
+    margin-bottom: 2px;
+}
+
+.green-button {
+
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+
+    height: 45px;
+    width: 160px;
+
+    align-items: center;
+    display: flex;
+
+    margin: 0;
+
+
+    outline: none;
+    border: none;
+    border-radius: 12px;
+
+    background-color: #00ff99;
+
+}
+
+.green-button:hover {
+    cursor: pointer;
+}
+
+.flex-box {
+    display: flex;
+}
+
+#button-icon {
+
+    position:relative;
+    display: inline-block;
+
+    color: black; 
+
+    margin-left: auto;
+
+    height: 20px; 
+    width: 20px;
+
+    margin-right: 5px;
+}
+
+
+.button-icon {
+
+    position:relative;
+    display: inline-block;
+
+    color: black; 
+
+    margin-left: auto;
+
+    height: 20px; 
+    width: 20px;
+
+    margin-right: 5px;
+}
+
+
+#frame-2 {
+    min-height: 120px;
+
+    width: 100%;
+    align-items: stretch;
+    justify-content: center;
+
+    gap: 20px
+
+}
+
+.flex-div {
+    width: 30.5%;
+    margin-top: 20px;
+
+
+    border-radius: 10px;
+    background-color: #181818;
+    border: 1px solid #252525 ;
+
+}
+
+.frame-2-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: white;
+
+    margin: 0;
+    margin-top: 20px;
+
+    align-items: center;
+    display: flex;
+}
+
+.strat-description {
+    padding: 0; 
+
+
+    width: 80%;
+
+    margin-left: 30px; 
+    margin-top: 10px; 
+    margin-bottom: 20px;
+}
+
+
+#frame-3 {
+    margin-top: 30px;
+    margin-bottom: 50px;
+
+
+    width: 94%;
+    min-height: 700px;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 10px;
+    background-color: #181818;
+    border: 1px solid #252525 ;
+}
+
+.frame-title-3 {
+    font-size: 19px;
+    font-weight: 600;
+
+
+    margin: 0;
+    margin-top: 40px;
+
+    align-items: center;
+    display: flex;
+}
+
+.frame-title-4 {
+    font-size: 14px;
+    font-weight: 500;
+
+    color: white;
+
+    margin: 0;
+    margin-top: 15px;
+    margin-left: 45px;
+
+    align-items: center;
+    display: flex;
+}
+
+.icon-title-4 {
+    position:relative;
+    display: inline-block;
+
+    color: black; 
+    height: 16px; 
+    width: 20px;
+
+    margin-right: 5px;
+    color: #00ff99; 
+    margin-right: 10px;
+}
+
+#metrics-div {
+    min-height: 120px;
+
+    width: 100%;
+    align-items: stretch;
+    justify-content: center;
+
+    gap: 20px
+}
+
+.metrics-flexdiv {
+    width: 23%;
+    margin-top: 20px;
+
+    background-color: #1c1c1c;
+    border: 1px solid #252525 ;
+}
+
+.metrics-title{
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.metrics-text {
+    margin-left: 19px;
+    margin-top: 10px;
+
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.green-text {
+    color: #00ff99;
+}
+
+.red-text {
+    color: #ff4747;
+}
+
+
+#frame-4 {
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+    display: none;
+
+    width: 94%;
+    min-height: 440px;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 10px;
+    background-color: #181818;
+    border: 1px solid #252525 ;
+}
+
+#trades-frame {
+    height: 300px;
+    width: 94%;
+
+
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 25px;
+}
+
+.trade-div {
+    width: 100%;
+    height: 50px;
+
+
+    margin-left: auto;
+    margin-right: auto;
+
+    align-items: center;
+
+    border-radius: 10px;
+    background-color: #141414;
+    border: 1px solid #252525 ;
+}
+
+.trade-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+
+    text-transform: uppercase;
+
+    margin-left: 15px;
+}
+
+
+.trade-description {
+    margin-left: 20px;
+    margin-right: 10px;
+
+    font-size: 16px;
+    font-weight: 400;
+    color: gray;
+}
+
+.win-trade {
+    color: black;
+    background-color: #00ff99;
+
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 18px;
+}
+
+.lose-trade {
+    color: white;
+    background-color: #ff4747;
+
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 18px;
+}
+
+.trade-right-description {
+    margin-left: auto;
+}
+
+.trade-text-2 {
+    margin-right: 15px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+#reflection-div {
+    display: none;
+}

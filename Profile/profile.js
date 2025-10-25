@@ -33,7 +33,6 @@ async function profileINIT() {
     await getClientData()
     await sleep(100)
     await loadProfileData(clientData.result)
-    console.log(clientData.result)
 }
 
 async function saveData(token) {

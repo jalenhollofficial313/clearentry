@@ -27,7 +27,7 @@ async function getClientData() {
                 const tx = db.transaction("clientData", "readwrite");
                 const store = tx.objectStore("clientData");
 
-                clientData = store.get(localStorage.getItem("token"))
+                clientData = await store.get(localStorage.getItem("token"))
                 tx.oncomplete = () => {
                     db.close();
                 }
@@ -37,7 +37,13 @@ async function getClientData() {
             }
         }
     }
+}
 
+async function dataErrorHandling(params) {
+    if (clientData == null) {
+        localStorage.removeItem("token")
+        window.location.href = "../Landing/index.html"
+    }
 }
 
 
@@ -58,6 +64,7 @@ async function init() {
                     const store = tx.objectStore("clientData");
                     store.put(data)
 
+
                     tx.oncomplete = () => {
                         db.close();
                     }
@@ -68,6 +75,9 @@ async function init() {
             }
         }
     }
+
+    await sleep(400)
+    await dataErrorHandling()
 }
 
 init()
