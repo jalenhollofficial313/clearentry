@@ -616,6 +616,15 @@ a {
     .frame-3 {
         height: fit-content;
     }
+
+    #login-button,
+    #signup-button,
+    #signup-button2,
+    #signout-button,
+    #dashboard-button,
+    #dashboard-button2 {
+        display: none;
+    }
     
     
     .stat-frame {
@@ -634,17 +643,6 @@ a {
     
     .frame-feature {
         max-width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    #login-button,
-    #signup-button,
-    #signup-button2,
-    #signout-button,
-    #dashboard-button,
-    #dashboard-button2 {
-        display: none;
     }
 }
 
@@ -687,4 +685,5 @@ a {
         transform: scale(1.01);
     }
 }
+
 
