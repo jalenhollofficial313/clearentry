@@ -637,6 +637,17 @@ a {
     }
 }
 
+@media (max-width: 600px) {
+    #login-button,
+    #signup-button,
+    #signup-button2,
+    #signout-button,
+    #dashboard-button,
+    #dashboard-button2 {
+        display: none;
+    }
+}
+
 @media (max-width: 480px) {
     .head-frame {
         padding: 0 15px;
@@ -676,3 +687,4 @@ a {
         transform: scale(1.01);
     }
 }
+
