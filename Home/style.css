@@ -616,16 +616,15 @@ a {
     .frame-3 {
         height: fit-content;
     }
-
+    
     #login-button,
     #signup-button,
     #signup-button2,
     #signout-button,
     #dashboard-button,
     #dashboard-button2 {
-        display: none;
+        visibility: hidden;
     }
-    
     
     .stat-frame {
         width: 90%;
@@ -666,7 +665,7 @@ a {
     #signout-button,
     #dashboard-button,
     #dashboard-button2 {
-        display: none;
+        visibility: hidden;
     }
 
     .frame-3 {
@@ -685,5 +684,3 @@ a {
         transform: scale(1.01);
     }
 }
-
-
