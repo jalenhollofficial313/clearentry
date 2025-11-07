@@ -651,6 +651,15 @@ a {
         padding-bottom: 10px;
     }
 
+    #login-button,
+    #signup-button,
+    #signup-button2,
+    #signout-button,
+    #dashboard-button,
+    #dashboard-button2 {
+        display: none;
+    }
+
     .frame-3 {
         height: fit-content;
     }
