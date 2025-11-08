@@ -588,6 +588,41 @@ a {
         gap: 5px;
     }
     
+    .frame-1::before {
+        content: "";
+        position: fixed;
+        top: -150px;
+        left: -100px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+            circle at center,
+            rgba(0, 255, 170, 0.75),
+            transparent 70%
+        );
+        filter: blur(80px);
+        z-index: 0;
+        animation: glowPulse 6s ease-in-out infinite;
+    }
+
+    /* Right Glow */
+    .frame-1::after {
+        content: "";
+        position: fixed;
+        bottom: -100px;
+        right: -150px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(
+            circle at center,
+            rgba(0, 255, 170, 0.75),
+            transparent 70%
+        );
+        filter: blur(80px);
+        z-index: 0;
+        animation: glowPulse 6s ease-in-out infinite;
+    }
+
     .header-button {
         padding: 8px 12px;
     }
@@ -641,7 +676,8 @@ a {
     }
     
     .frame-feature {
-        max-width: 100%;
+        max-width: 80%;
+        min-height: 170px;
     }
 }
 
