@@ -66,6 +66,19 @@ async function getTradesOrder(table) {
     return tableArray;
 }
 
+async function close_Trade(tradeid) {
+    const response = await fetch("https://close-trade-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            trade_id: tradeid
+        })
+    })
+}
+
 async function loadTrades() {
   const frag = document.createDocumentFragment();
 
@@ -114,17 +127,32 @@ async function loadTrades() {
     const closeButton = clone.querySelector(".trade-close-button");
     closeButton.style.display = t.open == true ? "block" : "none"
     closeButton.addEventListener("click", async function() {
-        const response = await fetch("https://close-trade-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                token: localStorage.getItem("token"),
-                trade_id: t.id
-            })
-        })
-        location.reload()
+        close_Trade(t.id)
+        if (localStorage.getItem("token") != null) {
+            if (clientData) {
+                const request = window.indexedDB.open("clearentry", 3);
+                request.onerror = (event) => {
+                    location.reload()
+                }
+                request.onsuccess = async (event) => {
+                    const db = event.target.result;
+
+                    if (db.objectStoreNames.contains("clientData")) {
+                        const tx = db.transaction("clientData", "readwrite");
+                        const store = tx.objectStore("clientData");
+                        clientData.result['trades'][t.id]['open'] = false;
+                        closeButton.remove();
+                        entryEl.textContent = "Closed";
+                        entryEl.classList.toggle("opened-entry", false);
+                        entryEl.classList.toggle("closed-entry", true);
+                        store.put(clientData.result)
+                        tx.oncomplete = () => {
+                            db.close();
+                        }
+                    }
+                }
+            }
+        }
     })
 
     const viewButton = clone.querySelector(".trade-view-button");

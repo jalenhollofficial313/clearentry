@@ -82,7 +82,6 @@ async function add_Note(token) {
     })
 
     const sucsess = await response.text()
-    await init()
     return sucsess
 }
 
@@ -196,8 +195,8 @@ document.querySelector("#save-button").addEventListener("click", async function(
                 if (db.objectStoreNames.contains("clientData")) {
                     const tx = db.transaction("clientData", "readwrite");
                     const store = tx.objectStore("clientData");
+                    console.log(currentNoteIndex)
                     clientData.result['notes'][currentNoteIndex]['text'] = notesText.value
-
                     store.put(clientData.result)
                     tx.oncomplete = () => {
                         db.close();
@@ -209,7 +208,9 @@ document.querySelector("#save-button").addEventListener("click", async function(
 })
 
 addNote.addEventListener("click", async function(){
-    currentNoteIndex = add_Note(localStorage.getItem("token"))
+    currentNoteIndex = await add_Note(localStorage.getItem("token"))
+    await init()
+    location.reload()
 
     const title = addNoteTitle.value
     const date = Math.floor(Date.now() / 1000);

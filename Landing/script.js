@@ -20,23 +20,7 @@ async function logOut(token) {
 }
 
 async function init() {
-    console.log(window.innerWidth)
-    if (window.innerWidth < 768) {
-        return
-    }
-    if (localStorage.getItem("token") != null) {
-        buttons1[0].style.display = "none";
-        buttons1[1].style.display = "none";
-
-        buttons1[2].style.display = "block";
-        buttons1[3].style.display = "block";
-
-        buttons2[0].style.display = "none";
-        buttons2[1].style.display = "none";
-
-        buttons2[2].style.display = "block";
-        buttons2[3].style.display = "block";
-    }   
+    window.location.href = "../Home/index.html"
 }
 
 buttons1[2].addEventListener("click", async function(params) {

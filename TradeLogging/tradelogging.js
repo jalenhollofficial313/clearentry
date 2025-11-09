@@ -233,11 +233,6 @@ document.querySelector("#strategy-dropdown-button").addEventListener("click", as
     }
 })
 
-document.querySelector("#continue-button").addEventListener("click", async function(params) {
-    log_Trade(localStorage.getItem("token"))
-    reloadPage()
-})
-
 document.querySelector("#mental-settings-button").addEventListener("click", async function(){
     document.querySelector("#strategy-settings").style.display = "none"
     document.querySelector("#settings-div").style.display = "block"
@@ -364,10 +359,9 @@ document.querySelector("#emotion-add").addEventListener("click", function() {
     document.querySelector("#emotion-input").value = ""
 })
 
-document.querySelector("#continue-button").addEventListener("click", function() {
-    log_Trade(localStorage.getItem("token"))
-    reloadPage()
-    loadDropDowns()
+document.querySelector("#continue-button").addEventListener("click", async function() {
+    await log_Trade(localStorage.getItem("token"))
+    location.reload()
 })
 
 document.querySelector("#cancel-button").addEventListener("click", function() {
