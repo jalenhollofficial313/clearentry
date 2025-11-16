@@ -425,6 +425,14 @@ body {
 
 @media (max-width: 480px) {
 
+    body {
+        position: fixed;
+    }
+
+    .MainFrame {
+        width: 100vw;
+    }
+
     .MainFrame_ProfileFrame {
         width: 100%;
         height: fit-content;
@@ -516,4 +524,5 @@ body {
         
         transition: 250ms;
     }
+
 }
