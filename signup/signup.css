@@ -25,23 +25,24 @@ body, html {
 .body_signupFrame_Frame {
     justify-items: center;
 
-
-    width: 30%;
+    width: 70%;
     height: 70%;
 }
 
 .body_signupFrame_Frame_Title {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     
+    max-width: 400px;
     color: white;
 
-    font-size: calc(2.7vw + 1vh);
-    font-weight: 600;
+    font-size: 45px;
+    font-weight: 700;
 }
 
 .body_signupFrame_Frame_input {
-    width: 65%;
+    width: 90%;
+    max-width: 400px;
     height: 5%;
 
     color: white;
@@ -61,9 +62,10 @@ body, html {
 }
 
 .body_signupFrame_Frame_continue {
-    font-size: calc(1.35vw + .5vh);
+    font-size: 20px;
     font-weight: 500;
     margin-top: 25px;
+    max-width: 400px;
     margin-bottom: 5px;
     width: fit-content;
 
@@ -93,12 +95,13 @@ body, html {
 
 .body_signupFrame_Frame_ChangeFrame_text {
 
+    
     color: white;
 
     margin-top: 15px;
     margin-bottom: 0;
     display: block;
-    font-size: calc(0.81vw + .3vh);
+    font-size: 13px;
     font-weight: 400;
     margin-left: 5px;
 }
@@ -112,10 +115,11 @@ body, html {
 .body_signupFrame_Frame_text {
     color: white;
 
-    font-size: calc(0.81vw + .3vh);
+    max-width: 400px;
+    font-size: 14px;
     font-weight: 400;
     margin-left: 5px;
-    width: 69%;
+    width: 90%;
 
     margin-top: 0;
     margin-bottom: 0;

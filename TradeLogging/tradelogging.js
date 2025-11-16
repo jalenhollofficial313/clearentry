@@ -368,6 +368,16 @@ document.querySelector("#cancel-button").addEventListener("click", function() {
     location.reload()
 })
 
+console.log("Check")
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#bar-click").addEventListener("click", () => {
+    console.log("Check")
+    document.querySelector("#sidebar").style.display = "block";
+  });
+});
+
+
+
 
 async function logINIT() {
     await getClientData()

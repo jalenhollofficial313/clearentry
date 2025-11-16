@@ -25,49 +25,47 @@ body, html {
 .body_loginFrame_Frame {
     justify-items: center;
 
-
-    width: 30%;
+    width: 70%;
     height: 70%;
 }
 
 .body_loginFrame_Frame_Title {
     margin-top: 0;
-    margin-bottom: 10px;
-
+    margin-bottom: 30px;
+    
+    max-width: 400px;
     color: white;
 
-    font-size: calc(2.7vw + 1vh);
-    font-weight: 600;
+    font-size: 45px;
+    font-weight: 700;
 }
 
 .body_loginFrame_Frame_input {
-    width: 65%;
+    width: 90%;
+    max-width: 400px;
     height: 5%;
+
+    color: white;
+    background-color: transparent;
+    border: 1px solid #48c45c;
 
     margin-top: 10px;
     margin-bottom: 15px;
 
     outline: none;
-    border: none;
-
-    background-color: transparent;
-    color: white;
-
 
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.5);
-    border: 1px solid #48c45c;
     border-radius: 10px;
     padding-left: 15px;
 
     display: block;
 }
 
-
-
 .body_loginFrame_Frame_continue {
-    font-size: calc(1.35vw + .5vh);
+    font-size: 20px;
     font-weight: 500;
     margin-top: 25px;
+    max-width: 400px;
     margin-bottom: 5px;
     width: fit-content;
 
@@ -85,8 +83,6 @@ body, html {
 }
 
 
-
-
 .body_loginFrame_Frame_continue:hover {
     transform: translateY(2px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -99,30 +95,31 @@ body, html {
 
 .body_loginFrame_Frame_ChangeFrame_text {
 
+    
     color: white;
 
     margin-top: 15px;
     margin-bottom: 0;
     display: block;
-    font-size: calc(0.81vw + .3vh);
+    font-size: 13px;
     font-weight: 400;
     margin-left: 5px;
 }
 
 .sign-up {
+    color: #48c45c;
     text-decoration: underline;
     cursor: pointer;
-
-    color: #48c45c;
 }
 
 .body_loginFrame_Frame_text {
-
     color: white;
-    font-size: calc(0.81vw + .3vh);
+
+    max-width: 400px;
+    font-size: 14px;
     font-weight: 400;
     margin-left: 5px;
-    width: 69%;
+    width: 90%;
 
     margin-top: 0;
     margin-bottom: 0;
