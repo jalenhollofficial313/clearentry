@@ -7,12 +7,13 @@
     <link href="journal.css" rel="stylesheet" type="text/css">
     <link href="../newtradedetection.css" rel="stylesheet" type="text/css">
 
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="SideBar">
+    <div id="sidebar" class="SideBar">
         <a href="../Home/index.html" class="SideBar_Title inter-text">
             ClearEntry
         </a>
@@ -71,8 +72,12 @@
     </div>
     <div class="MainFrame">
         <div class="MainFrame_NotesFrame">
-            <div class="MainFrame_NotesFrame_SideBar">
+            <div id="notes-sidebar" class="MainFrame_NotesFrame_SideBar">
                 <p class="MainFrame_NotesFrame_SideBar_Title inter-text">
+                    <span id="bar-click">
+                        <i id="bar-icon" data-lucide="text-align-justify"></i>   
+                    </span>
+
                     Notes
                 </p>
                 <div class="MainFrame_NotesFrame_SideBar_Title_Notes">
@@ -97,11 +102,17 @@
                 <div class="flex-box bottom-div">
                     <button id="save-button" class="inter-text bottom-buttons green-button">Save</button>
                     <button id="delete-button" class="inter-text bottom-buttons"> Delete</button>
+                    <button id="close-button" class="inter-text bottom-buttons"> Close</button>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+
+        lucide.createIcons();
+    </script>
     <script src="../dataHandler.js"></script>
     <script src="journal.js"></script>
+
 </body>
 </html>

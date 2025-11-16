@@ -125,29 +125,43 @@ body {
     background-color: #121212;
 }
 
+
 .MainFrame_HeadFrame {
     width: 100%;
+    height: 60px;
     display: flex;
+    align-items: center;
+}
+
+#bar-icon {
+    color: white;
+    display: none;
+    padding-left: 2.3%;
+
+}
+
+
+#bar-icon:hover {
+    cursor:pointer;
 }
 
 .MainFrame_Title {
 
-    font-size: 2.5vw;
+    font-size: 35px;
     font-weight: 700;
     color: white;
 
     width: 68%;
     padding-left: 2.3%;
 
-    margin-top: 20px;
-    margin-bottom: 2px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 
 
 .MainFrame_Frame {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
 
   gap: 30px;
 
@@ -168,6 +182,9 @@ body {
 .MainFrame_Frame_HalfFrame {
     border-radius: 10px;
 
+    height: 400px;
+    min-width: 400px;
+    width: 60%;
     background-color: #181818;
     border: 1px solid #252525 ;
 
@@ -253,18 +270,18 @@ body {
 
     margin-bottom: -10px;
     margin-left: 10px;
-    margin-top: 6px;
-    width: fit-content;
-    height: fit-content;
+    margin-top: 16px;
+    width: 120px;
+    height: 120px;
 }
 
 #PLChart {
 
     margin-bottom: -10px;
     margin-left: 10px;
-    margin-top: 6px;
-    width: fit-content;
-    height: fit-content;
+    margin-top: 16px;
+    width: 120px;
+    height: 120px;
 }
 
 
@@ -330,6 +347,12 @@ body {
     
 }
 
+.left_Half {
+    margin-left: 30px;
+}
+.right_Half {
+    margin-right: 30px;
+}
 .trade-text {
     padding-left: 15px;
     width: 14.285714285714285714285714285714%;
@@ -359,4 +382,109 @@ body {
   overflow: hidden;          /* hides extra text */
   text-overflow: ellipsis;   /* adds "..." at the end */
   white-space: nowrap;       /* prevents text wrapping */
+}
+
+
+@media (max-width: 1100px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        
+        width: 100%;
+    }
+
+    .SideBar_List_ListItem {
+        width: 88%;
+    }
+
+    .MainFrame {
+
+    }
+
+    .MainFrame_Frame {
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+
+
+    }
+
+    #bar-icon {
+        display: block;
+    }
+    .MainFrame_Title {
+        font-size: 24px;
+    }
+
+        .trade-frame {
+        flex-direction: row;
+        overflow-x: scroll;
+        scrollbar-width: none;
+    }
+
+    .MainFrame_Frame_HalfFrame {
+        min-width: 0;
+        width: 96%;
+        
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .flex-box {
+        flex-direction: column;
+    }
+
+    .MainFrame_StatsFrame {
+        height: fit-content;
+        padding-bottom: 25px;
+    }
+
+    .StatsFrame_Title{
+        font-size: 20px;
+    }
+
+    #WLRChart {
+        width: 100px;
+        height: 100px;
+    
+    }
+
+    #PLChart {
+        width: 100px;
+        height: 100px;
+    
+    }
+    
+    .trades-div {
+        
+    }
+
+    .trade-text {
+        font-size: 10px;
+    }
+
+    .trade-frame {
+        flex-direction: row;
+        overflow-x: scroll;
+        scrollbar-width: none;
+    }
+
+    .stats-text {
+        font-size: 20px;
+    }
+
+    .stats-title {
+        font-size: 15px;
+    }
 }

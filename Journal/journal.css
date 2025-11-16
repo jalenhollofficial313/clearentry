@@ -19,7 +19,7 @@
 }
 
 .MainFrame_NotesFrame_SideBar {
-    width: 20%;
+    width: 250px;
     height: 100%;
     
     background-color: #121212;
@@ -29,15 +29,36 @@
 
 .MainFrame_NotesFrame_SideBar_Title {
     width: 100%;
-    height: 10%;
+    height: 60px;
+
+
     margin-top: 0;
     margin-bottom: 0;
     align-content: center;
+    align-items: center;
+
+    display: flex;
 
     padding-left: 35px;
-    font-size: 2.2vw;
+    font-size: 30px;
     font-weight: 600;
     color: white;
+}
+
+#bar-icon {
+    color: white;
+    display: none;
+
+    z-index: 5;
+}
+
+#bar-icon:hover {
+    cursor:pointer;
+}
+
+#bar-click {
+    margin-right: 2.3%;
+
 }
 
 .MainFrame_NotesFrame_SideBar_Title_Notes {
@@ -74,7 +95,7 @@
 .MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Title {
     padding-left: 25px;
     padding-top: 7px;
-    font-size: 1.3vw;
+    font-size: 20px;
     font-weight: 600;
     color: white;
 
@@ -84,7 +105,7 @@
 .MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Date {
     padding-left: 25px;
     padding-top: 2px;
-    font-size: .7vw;
+    font-size: 12px;
     font-weight: 600;
     color: rgb(134, 134, 134);
 
@@ -94,7 +115,7 @@
 .MainFrame_NotesFrame_SideBar_Title_AddNote {
     padding-left: 35px;
     padding-top: 2px;
-    font-size: 1.5vw;
+    font-size: 20px;
     font-weight: 600;
     color: rgb(177, 177, 177);
     align-content: center;
@@ -204,7 +225,7 @@
 
     padding-left: 15px;
 
-    font-size: 1vw;
+    font-size: 17px;
     font-weight: 500;
 
     border-radius: 12px;
@@ -594,9 +615,171 @@ body {
     cursor: pointer;
 }
 
+#close-button {
+    display: none;
+}
+
 .green-button {
     background-color: #00ff99;
     color: black;
 
     margin-left: 60px;
+}
+
+@media (max-width: 1100px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        
+        width: 100%;
+    }
+
+    .SideBar_List_ListItem {
+        width: 88%;
+    }
+
+    .MainFrame {
+
+    }
+
+
+
+    .MainFrame_Title {
+        margin-left: 10%;
+        margin-right: 0;
+    }
+
+    .MainFrame_description {
+        margin-left: 10%;
+        margin-right: 0;
+    }
+
+    #bar-icon {
+        display: block;
+    }
+    .MainFrame_Title {
+        font-size: 24px;
+    }
+
+    .log_frame {
+        width: 80%;
+        height: fit-content;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        
+        width: 100%;
+    }
+
+    .SideBar_List_ListItem {
+        width: 88%;
+    }
+
+    .MainFrame {
+
+    }
+
+    .MainFrame_NotesFrame_SideBar {
+        width: 100%;
+        height: 100%;
+
+        position: fixed;
+        display: block;
+        
+        background-color: #121212;
+        border-right: 1px solid rgb(92, 92, 92);
+    }
+
+    .MainFrame_NotesFrame_MainFrame {
+        width: 100%;
+        height: 100%;
+        
+
+        overflow-y: auto;
+        scrollbar-color: rgb(14, 12, 12) transparent;
+        background-color: #121212;
+    }
+
+    .MainFrame_NotesFrame_MainFrame_Title {
+        padding-left: 20px;
+        font-size: 25px;
+    }
+
+    .MainFrame_NotesFrame_MainFrame_Date {
+        padding-left: 20px;
+        font-size: 15px;
+    }
+
+    .MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea {
+        padding-left: 20px;
+        font-size: 15px;
+    }
+
+    .bottom-div {
+        height: auto;
+        padding-bottom: 20px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .green-button {
+        background-color: #00ff99;
+        color: black;
+        margin-left: 0;
+    }
+
+    .bottom-buttons {
+
+        width: 80%;
+        height: 40px;
+
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+
+        padding-left: 10px;
+
+        border: 1px solid #333333;
+
+        background-color: transparent;
+        color: white;
+
+        scrollbar-color: black transparent;
+
+        border-radius: 10px;
+        margin-left: auto;
+        margin-right: auto;
+
+        resize: none;
+
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    #bar-icon {
+        display: block;
+    }
+    .MainFrame_Title {
+        font-size: 24px;
+    }
+
+    #close-button {
+        display: block;
+    }
 }

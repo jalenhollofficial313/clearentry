@@ -8,6 +8,8 @@ const addNoteTitle = document.getElementById("addNoteTitle")
 let currentNoteIndex
 let currentNoteElement
 
+const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
 function convertUnixToFullDate(timestamp) {
   const date = new Date(timestamp * 1000); // Convert seconds → milliseconds
   const options = { month: 'long', day: 'numeric', year: 'numeric' };
@@ -131,6 +133,10 @@ async function loadNotes() {
             notesDate.innerHTML = convertUnixToFullDate(table[i]['date'])
             notesText.value = table[i]['text']
 
+            if (isMobile) {
+                document.querySelector("#notes-sidebar").style.display = "none"
+            }
+
             currentNoteIndex = table[i]["id"]
             currentNoteElement = journalButtonFrame
         })
@@ -241,9 +247,23 @@ addNote.addEventListener("click", async function(){
         notesTitle.innerHTML = title
         notesDate.innerHTML = convertUnixToFullDate(date)
         notesText.value = ""
+
+        if (isMobile) {
+            document.querySelector("#notes-sidebar").style.display = "none"
+        }
     })
 
     notesFrame[0].appendChild(journalButtonFrame)
 })
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#bar-click").addEventListener("click", () => {
+    console.log("Check")
+    document.querySelector("#sidebar").style.display = "block";
+  });
+  document.querySelector("#close-button").addEventListener("click", async function() {
+    document.querySelector("#notes-sidebar").style.display = "block"
+  })
+});
 
 journalINIT()

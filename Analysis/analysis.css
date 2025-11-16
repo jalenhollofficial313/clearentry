@@ -121,29 +121,45 @@ body {
 .MainFrame {
     width: 100%;
     height: 100%;
-
     overflow-y: auto;
     scrollbar-color: rgb(14, 12, 12) transparent;
     background-color: #121212;
 }
 
-.MainFrame_HeadFrame {
-    width: 100%;
-    display: flex;
-}
 
 .MainFrame_Title {
 
+    display: flex;
     font-size: 40px;
     font-weight: 700;
     color: white;
 
-    justify-items: center;
-    width: 68%;
-    padding-left: 2.4%;
+    align-items: center;
+
+    width: 55%;
+
+
+
 
     margin-top: 20px;
-    margin-bottom: 2px;
+    margin-left: 15px;
+    margin-bottom: 0;
+}
+
+#bar-icon {
+    color: white;
+    display: none;
+
+    z-index: 5;
+}
+
+#bar-icon:hover {
+    cursor:pointer;
+}
+
+#bar-click {
+    margin-right: 2.3%;
+
 }
 
 
@@ -154,11 +170,11 @@ body {
     font-weight: 400;
     color: gray;
 
-    width: 68%;
+    width: auto;
 
 
 
-    margin-left: 45px;
+    margin-left: 30px;
     margin-top: 5px;
     margin-bottom: 0;
 }
@@ -519,6 +535,246 @@ body {
     font-size: 20px;
 }
 
+.flex-div-frame1 {
+    align-items: center; 
+    margin-left: 40px; 
+    margin-top: 20px;
+}
+
+.focus-icons {
+    margin-left: 40px;
+    margin-right: 10px;
+}
+
+.frame-2-title-2 {
+    margin-left: 40px; 
+    margin-top: 50px;
+}
+
 #reflection-div {
     display: none;
+}
+
+@media (max-width: 1100px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        
+        width: 100%;
+    }
+
+    .SideBar_List_ListItem {
+        width: 88%;
+    }
+
+    .MainFrame {
+
+    }
+
+
+
+    .MainFrame_Title {
+        margin-left: 3%;
+        margin-right: 0;
+    }
+
+    .MainFrame_description {
+        margin-left: 3%;
+        margin-right: 0;
+    }
+
+    #bar-icon {
+        display: block;
+    }
+    .MainFrame_Title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    
+       body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        
+        width: 100%;
+    }
+
+    .SideBar_List_ListItem {
+        width: 88%;
+    }
+
+    .MainFrame {
+
+    }
+
+
+
+    .MainFrame_Title {
+        font-size: 20px;
+
+        width: 80%;
+
+        margin-left: 3%;
+        margin-right: 0;
+    }
+
+    .MainFrame_description {
+        font-size: 12px;
+
+        margin-left: 3%;
+        margin-right: 0;
+    }
+
+    .frame-1-title {
+        font-size: 19px;
+        font-weight: 600;
+        color: white;
+
+        justify-items: center;
+        width: 90%;
+        
+        margin-left: 10px;
+
+        margin-top: 0;
+        margin-bottom: 2px;
+    }
+    
+    .green-button {
+        font-size: 12px;
+        font-weight: 500;
+        color: black;
+
+        height: 45px;
+        width: 160px;
+
+        align-items: center;
+        display: flex;
+
+        margin: 0;
+        margin-left: 10px;
+
+
+        outline: none;
+        border: none;
+        border-radius: 12px;
+
+        background-color: #00ff99;
+
+    }
+
+    #frame-2 {
+        min-height: 120px;
+
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+
+        gap: 0
+
+    }
+
+    .button-icon {
+
+        position:relative;
+        display: inline-block;
+
+        color: black; 
+
+        margin-left: auto;
+
+        height: 20px; 
+        width: 20px;
+
+        margin-right: 5px;
+    }
+
+    #frame-3 {
+        margin-top: 30px;
+        margin-bottom: 50px;
+
+
+        width: 94%;
+        min-height: 700px;
+        margin-left: auto;
+        margin-right: auto;
+
+        padding-bottom: 20px;
+        border-radius: 10px;
+        background-color: #181818;
+        border: 1px solid #252525 ;
+    }
+
+    .flex-div {
+        width: 90%;
+        margin-top: 20px;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        border-radius: 10px;
+        background-color: #181818;
+        border: 1px solid #252525 ;
+
+    }
+
+    .flex-div-frame1 {
+        flex-direction: column;
+        margin-left: 0;
+        align-items: normal;
+    }
+
+    .frame-title-4 {
+        margin-left: 10px;
+    }
+
+    .focus-icons {
+        margin-left: 10px;
+    }
+    
+    .frame-2-title-2 {
+        margin-left: 10px;
+    }
+
+    #metrics-div {
+        min-height: 120px;
+
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+        justify-content: center;
+
+        gap: 10px
+    }
+
+    .metrics-flexdiv {
+        width: 90%;
+        height: fit-content;
+        padding-bottom: 10px;
+
+
+        margin-left: auto;
+        margin-right: auto;
+
+        background-color: #1c1c1c;
+        border: 1px solid #252525 ;
+    }
+
+
+    #bar-icon {
+        display: block;
+    }
+
 }

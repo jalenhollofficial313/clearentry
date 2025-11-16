@@ -274,6 +274,13 @@ document.querySelector("#strategy-dropdown-button").addEventListener("click", as
     }
 })
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#bar-icon").addEventListener("click", () => {
+    console.log("Check")
+    document.querySelector("#sidebar").style.display = "block";
+  });
+});
+
 
 document.getElementById("save-button").addEventListener("click", async function() {
     const response = await fetch("https://edit-trade-b52ovbio5q-uc.a.run.app", {

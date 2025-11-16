@@ -283,6 +283,18 @@ body {
     cursor: pointer;
 }
 
+#bar-icon {
+    color: white;
+    display: none;
+    padding-left: 2.3%;
+
+}
+
+
+#bar-icon:hover {
+    cursor:pointer;
+}
+
 
 .MainFrame_TradeEntryView {
     width: 100%;
@@ -922,20 +934,22 @@ body {
 
 .MainFrame_HeadFrame {
     width: 100%;
+    height: 60px;
     display: flex;
+    align-items: center;
 }
 
 .MainFrame_Title {
 
-    font-size: 2.5vw;
+    font-size: 35px;
     font-weight: 700;
     color: white;
 
     width: 68%;
     padding-left: 2.3%;
 
-    margin-top: 20px;
-    margin-bottom: 2px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .MainFrame_HeadFrame_ButtonsDiv {
@@ -1181,4 +1195,229 @@ body {
   overflow: hidden;          /* hides extra text */
   text-overflow: ellipsis;   /* adds "..." at the end */
   white-space: nowrap;       /* prevents text wrapping */
+}
+
+@media (max-width: 1100px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        
+        width: 100%;
+    }
+
+    .SideBar_List_ListItem {
+        width: 88%;
+    }
+
+    .MainFrame {
+
+    }
+
+    .MainFrame_Frame {
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+
+
+    }
+
+    #bar-icon {
+        display: block;
+    }
+    .MainFrame_Title {
+        font-size: 24px;
+    }
+
+        .trade-frame {
+        flex-direction: row;
+        overflow-x: scroll;
+        scrollbar-width: none;
+    }
+
+    .MainFrame_Frame_HalfFrame {
+        min-width: 0;
+        width: 96%;
+        
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .log_frame {
+        width: 80%;
+        height: fit-content;
+    }
+}
+
+@media (max-width: 480px) {
+    
+    .flex-box {
+        flex-direction: column;
+    }
+
+    .MainFrame_Title {
+        margin-left: 10%;
+        margin-right: 0;
+
+        font-size: 18px;
+    }
+
+    .MainFrame_description {
+        margin-left: 10%;
+        margin-right: 0;
+
+        font-size: 12px;
+    }
+
+    .entry-description {
+        font-size: 12px;
+    }
+    
+    .settings-div {
+        width: 90%;
+        height: fit-content;
+        padding-bottom: 10px;
+    }
+
+    .settings-input {
+        width: 70%;
+        height: 32px;
+        font-size: 13px;
+    }
+
+    .settings-icon {
+        height: 20px;
+        width: 20px;
+    }
+    
+    .log_frame {
+        margin-top: 10px;
+        width: 90%;
+        padding-bottom: 20px;
+    }
+
+    .entry-title {
+        font-size: 15px;
+        margin-top: 15px;
+    }
+    
+    .settings-list {
+        width: 90%;
+        height: 250px;
+        scrollbar-width: none;
+    }
+
+    .settings-listitem {
+        width: 94%;
+        height: 25px;
+        font-size: 13px;
+
+
+        padding-top: 5px;
+        padding-bottom: 0;
+    }
+
+    .remove-icon {
+        margin-top: -5px;
+    }
+
+    .entry-title2 {
+        font-size: 15px;
+        margin-top: 15px;
+    }
+
+    .entry-flexdiv {
+        flex-direction: column;
+        height: fit-content;
+    }
+
+    .entry-title2 {
+        margin-left: 10px;
+    }
+
+    .flexbox-div {
+        width: 100%;
+    }
+
+    .dropdown-button {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
+
+    .bottom-div {
+        flex-direction: column;
+        height: 70px;
+        justify-content: none;
+        gap: 10px;
+
+
+    }
+
+    .entry-textarea {
+        margin-bottom: 15px;
+    }
+
+    .bottom-buttons {
+        width: 90%;
+        height: 50px;
+
+        font-size: 17px;
+
+        margin-top: 0;
+        margin-bottom: 0;
+
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .upload-icon {
+        height: 20px;
+        width: 20px;
+
+        padding: 20px;
+        border-radius: 100%;
+
+        color: gray;
+
+        background-color: #1f1f1f;
+
+    }
+
+    .upload-img {
+
+
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: white;
+
+
+        margin-top: 15px;
+        margin-bottom: 10px;
+
+    }
+
+    .upload-description {
+
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: gray;
+
+
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .img-frame {
+        height: 200px;
+    }
 }

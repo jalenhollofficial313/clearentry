@@ -70,6 +70,12 @@ document.querySelector("#generate-button").addEventListener("click", async funct
     
 })
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#bar-click").addEventListener("click", () => {
+    console.log("Check")
+    document.querySelector("#sidebar").style.display = "block";
+  });
+});
 
 async function init() {
     await getClientData()

@@ -14,7 +14,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body>
-    <div class="SideBar">
+    <div id="sidebar" class="SideBar">
         <a href="../Home/index.html" class="SideBar_Title inter-text">
             ClearEntry
         </a>
@@ -73,12 +73,13 @@
     </div>
     <div class="MainFrame">
         <div class="MainFrame_HeadFrame">
+            <i id="bar-icon" data-lucide="text-align-justify"></i>
             <p class="MainFrame_Title inter-text">
                 Dashboard
             </p>
         </div>
         <div class="MainFrame_Frame">
-            <div style="margin-left: 30px;" class="MainFrame_Frame_HalfFrame MainFrame_StatsFrame">
+            <div class="MainFrame_Frame_HalfFrame MainFrame_StatsFrame left_Half">
                 <p id="user-Name" class="inter-text StatsFrame_Title">
                 </p>
                 <div class="flex-box">
@@ -123,7 +124,7 @@
                     </div>
                 </div>
             </div>
-            <div style="margin-right: 30px;" class="MainFrame_Frame_HalfFrame">\
+            <div class="MainFrame_Frame_HalfFrame right_Half">
 
                 <p style="margin-bottom: 0;" class="inter-text StatsFrame_Title">
                     Performance Over Time

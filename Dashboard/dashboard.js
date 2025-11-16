@@ -255,7 +255,7 @@ async function loadStats() {
         emotiontext.innerHTML = trades[trade]["emotion"]
         emotiontext.classList.add("inter-text")
         emotiontext.classList.add("trade-text")
-        emotiontext.classList.add("truncate")
+
         tradediv.appendChild(emotiontext)
 
         document.querySelector("#trades_Div").appendChild(tradediv)
@@ -295,7 +295,7 @@ async function loadGraphs(params) {
     }
 
     var options = {
-      chart: { type: 'donut', height:"80%", width:"65%" },
+      chart: { type: 'donut', height:"100%", width:"100%" },
       series: [totalWins, totalLosses,],
       labels: ['Profitable', 'Losing'],
 
@@ -312,7 +312,7 @@ async function loadGraphs(params) {
           offsetX: 0,
           offsetY: 0,
           style: {
-            fontSize: '14px',
+            fontSize: '10px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 'bold',
             colors: undefined
@@ -342,14 +342,14 @@ async function loadGraphs(params) {
           donut: {
             size: '75%',
             labels: {
-              show: true,
+              show: false,
               name: {
-                show: true,
+                show: false,
                 fontSize: '36px',
                 color: '#ffffff',
               },
               value: {
-                show: true,
+                show: false,
                 fontSize: '25px',
                 fontWeight: '700',
                 color: '#ffffff',
@@ -372,7 +372,7 @@ async function loadGraphs(params) {
     };
 
     var options2 = {
-      chart: { type: 'donut', height:"80%", width:"65%" },
+      chart: { type: 'donut', height:"100%", width:"100%" },
       series: [totalProfit, totalLoss],
       labels: ['Profitable', 'Losing'],
 
@@ -429,14 +429,14 @@ async function loadGraphs(params) {
           donut: {
             size: '75%',
             labels: {
-              show: true,
+              show: false,
               name: {
-                show: true,
+                show: false,
                 fontSize: '36px',
                 color: '#ffffff',
               },
               value: {
-                show: true,
+                show: false,
                 fontSize: '22px',
                 fontWeight: '700',
                 color: '#ffffff',
@@ -461,7 +461,7 @@ async function loadGraphs(params) {
     var options3 = {
       chart: {
         type: 'area',
-        height: 320,
+        height: "80%",
         toolbar: { show: false },
         background: 'transparent' 
       },
@@ -544,6 +544,15 @@ async function loadGraphs(params) {
 
     return true
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#bar-icon").addEventListener("click", () => {
+    console.log("Check")
+    document.querySelector("#sidebar").style.display = "block";
+  });
+});
+
 
 async function dashboardINIT() {
     await getClientData()

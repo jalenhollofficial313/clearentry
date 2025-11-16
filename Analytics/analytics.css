@@ -55,6 +55,7 @@ body {
 .MainFrame_Frame_Frame_TopStats_Stat {
     width: 23%;
     height: 100%;
+    min-width: 200px;
 
 
     background-color: #181818;
@@ -67,7 +68,7 @@ body {
     width: 100%;
 
     color: rgb(177, 177, 177);
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
 
     margin-left: 20px;
@@ -79,8 +80,9 @@ body {
 .MainFrame_Frame_Frame_TopStats_Stat_text {
     width: 100%;
 
+
     color: white;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
 
     margin-left: 25px;
@@ -109,6 +111,10 @@ body {
     width: 73%;
     height: 700px;
 
+    min-width: 600px;
+
+        scrollbar-width: none;
+    overflow-y: auto;
 
     background-color: #181818;
     border: 1px solid #252525 ;
@@ -119,6 +125,7 @@ body {
     width: 23%;
     height: 700px;
 
+
     display: flex;
     flex-direction: column;
     gap: 4%;
@@ -128,6 +135,8 @@ body {
     width: 100%;
     height: fit-content;
     padding: 5px 0;
+
+        min-width: 200px;
 
 
 
@@ -140,7 +149,7 @@ body {
     width: 100%;
 
     color: rgb(177, 177, 177);
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
 
     margin-left: 20px;
@@ -153,7 +162,7 @@ body {
     width: 100%;
 
     color: white;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
 
     margin-left: 25px;
@@ -175,33 +184,30 @@ body {
     margin-bottom: 0;
 }
 
-.MainFrame_Frame_Frame_MainStats_Calender {
-    width: 98%;
-    height: 89%;
+.calender_parent {
 
-    margin-left: 2%;
+}
+
+.MainFrame_Frame_Frame_MainStats_Calender {
+    width: fit-content;
+    height: 89%;
 
     margin-top: 5px;
 
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 0;
+    justify-content: center;
+    gap: 10px 10px;
+    
     scrollbar-width: none;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     align-content: start;
 }
 
 .MainFrame_Frame_Frame_MainStats_Calender_div {
-    height: 25%;
-    width: 17%;
-
-    margin-left: 10px;
-    margin-right: 10px;
-
-    margin-left: 10px;
-    margin-right: 10px;
-
+    height: 140px;
+    width: 170px;
 
     background-color: #181818;
     border: 1px solid #252525 ;
@@ -362,18 +368,141 @@ body {
 
 .MainFrame_HeadFrame {
     width: 100%;
+    height: 60px;
     display: flex;
+    margin-top: 20px;
+    align-items: center;
+}
+
+#bar-icon {
+    color: white;
+    display: none;
+    padding-left: 2.3%;
+
+}
+
+
+#bar-icon:hover {
+    cursor:pointer;
 }
 
 .MainFrame_Title {
 
-    font-size: 2.5vw;
+    font-size: 35px;
     font-weight: 700;
     color: white;
 
     width: 68%;
     padding-left: 2.3%;
 
-    margin-top: 20px;
-    margin-bottom: 2px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+@media (max-width: 1100px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        
+        width: 100%;
+    }
+
+    .SideBar_List_ListItem {
+        width: 88%;
+    }
+
+    .MainFrame {
+
+    }
+
+    .MainFrame_Frame {
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+
+
+    }
+
+    #bar-icon {
+        display: block;
+    }
+    .MainFrame_Title {
+        font-size: 24px;
+    }
+
+        .trade-frame {
+        flex-direction: row;
+        overflow-x: scroll;
+        scrollbar-width: none;
+    }
+
+    .MainFrame_Frame_HalfFrame {
+        min-width: 0;
+        width: 96%;
+        
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .MainFrame_Frame_Frame_TopStats_Stat {
+        width: 90%;
+        height: 100%;
+        min-width: 200px;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        background-color: #181818;
+        border: 1px solid #252525 ;
+        border-radius: 8px;
+
+    }
+
+
+    .MainFrame_Frame_Frame_MainStats_StatsFrame_Stat {
+        width: 90%;
+        height: fit-content;
+        padding: 5px 0;
+
+        min-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+
+
+        background-color: #181818;
+        border: 1px solid #252525 ;
+        border-radius: 8px;
+    }
+
+    .MainFrame_Frame_Frame_TopStats {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        height: fit-content;
+    }
+    
+    .MainFrame_Frame_Frame_MainStats_CalenderFrame {
+        display: none;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_StatsFrame {
+        width: 100%;
+    }
 }

@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="SideBar">
+    <div id="sidebar" class="SideBar">
         <a href="../Home/index.html" class="SideBar_Title inter-text">
             ClearEntry
         </a>
@@ -72,7 +72,10 @@
     </div>
     <div class="MainFrame">
         <p class="MainFrame_Title inter-text">
-            <span class="header-icon" data-lucide="brain"></span>
+            <span id="bar-click">
+                <i id="bar-icon" data-lucide="text-align-justify"></i>   
+            </span>
+
             ClearEntry Smart Analysis
         </p>
         <p class="MainFrame_description inter-text">
@@ -87,7 +90,7 @@
             <p class="MainFrame_description inter-text">
                 Analyze your recent trades and generate a personalized plan based on your patterns
             </p>
-            <div style="align-items: center; margin-left: 40px; margin-top: 20px;" class="flex-box">
+            <div class="flex-box flex-div-frame1">
                 <button id="generate-button" class="inter-text green-button">
                     <span id="button-icon" data-lucide="brain"></span>
                     <span id="generate-text" style="margin-right: auto;">
@@ -143,7 +146,7 @@
                 </p>
 
                 <p style="color: #00ff99;" class="inter-text frame-title-3">
-                    <span style="margin-left: 40px; color: #00ff99; margin-right: 10px;" data-lucide="check"></span>
+                    <span class="focus-icons" style="color: #00ff99; " data-lucide="check"></span>
                     <span>Focus On</span>
                 </p>
                 <p id="focus-summary" class="MainFrame_description inter-text">
@@ -151,15 +154,15 @@
                 </p>
 
                 <p style="color: #ff4747;" class="inter-text frame-title-3">
-                    <span style="margin-left: 40px; color: #ff4747; margin-right: 10px;" data-lucide="x"></span>
+                    <span class="focus-icons" style="color: #ff4747;" data-lucide="x"></span>
                     <span>Avoid</span>
                 </p>
                 <p id="avoid-summary" class="MainFrame_description inter-text">
                     Personalized strategy based on your performance data
                 </p>
 
-                <p style="margin-left: 40px; margin-top: 50px;" class="inter-text frame-2-title">
-                    <span style="margin-left: 0; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="diamond-minus"></span>
+                <p class="inter-text frame-2-title frame-2-title-2">
+                <span style="margin-left: 0; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="diamond-minus"></span>
                     <span >Trading Advice</span>
                 </p>
                 <div style="margin-top: 20px;">
@@ -181,7 +184,7 @@
                     </p>
 
                 </div>
-                <p style="margin-left: 40px; margin-top: 50px;" class="inter-text frame-2-title">
+                <p class="inter-text frame-2-title frame-2-title-2">
                     <span style="margin-left: 0; color: #00ff99; margin-right: 10px;" class="button-icon" data-lucide="goal"></span>
                     <span >Target Metrics</span>
                 </p>
