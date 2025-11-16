@@ -687,6 +687,14 @@ body {
         display: flex;
         flex-direction: column;
     }
+
+    body {
+        position: fixed;
+    }
+
+    .MainFrame {
+        width: 100vw;
+    }
     
     .SideBar {
         display: none;
@@ -793,3 +801,4 @@ body {
         display: block;
     }
 }
+
