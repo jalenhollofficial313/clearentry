@@ -747,7 +747,14 @@ body {
 }
 
 @media (max-width: 480px) {
-    
+    body {
+        position: fixed;
+    }
+
+    .MainFrame {
+        width: 100vw;
+    }
+  
     .flex-box {
         flex-direction: column;
     }
@@ -912,3 +919,4 @@ body {
     }
 
 }
+
