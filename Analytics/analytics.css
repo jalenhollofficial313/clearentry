@@ -467,6 +467,14 @@ body {
 
 @media (max-width: 480px) {
 
+    body {
+        position: fixed;
+    }
+
+    .MainFrame {
+        width: 100vw;
+    }
+
     .MainFrame_Frame_Frame_TopStats_Stat {
         width: 90%;
         height: 100%;
@@ -518,3 +526,4 @@ body {
     }
 
 }
+
