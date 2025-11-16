@@ -608,9 +608,14 @@ body {
 
 @media (max-width: 480px) {
     
-       body {
+    body {
         display: flex;
         flex-direction: column;
+        position: fixed;
+    }
+
+    .MainFrame {
+        width: 100vw;
     }
     
     .SideBar {
@@ -788,3 +793,4 @@ body {
 
 
 }
+
