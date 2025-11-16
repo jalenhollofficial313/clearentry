@@ -240,14 +240,17 @@ html, body {
 
 body {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    align-items: stretch;
+    overflow: hidden;
+    background-color: #121212;
 }
 
 .SideBar {
     background-color: #121212;
     width: 260px;
-    height: 100%;
+    height:auto;
+
+
     border-right: 1px solid #252525;
 
 }
@@ -346,12 +349,13 @@ body {
 
 .MainFrame {
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
-    overflow-y: auto;
+
     scrollbar-color: rgb(14, 12, 12) transparent;
-    background-color: #121212;
+
 }
+
 
 .MainFrame_HeadFrame {
     width: 100%;
@@ -636,6 +640,7 @@ body {
         display: none;
         position: fixed;
         z-index: 1;
+        height: 100vh;
         
         width: 100%;
     }
@@ -697,7 +702,7 @@ body {
 
     .MainFrame_NotesFrame_SideBar {
         width: 100%;
-        height: 100%;
+        height: 100vh;
 
         position: fixed;
         display: block;

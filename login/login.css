@@ -23,7 +23,6 @@ body, html {
 }
 
 .body_loginFrame_Frame {
-    justify-items: center;
 
     width: 70%;
     height: 70%;
@@ -33,6 +32,11 @@ body, html {
     margin-top: 0;
     margin-bottom: 30px;
     
+    width: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
     max-width: 400px;
     color: white;
 
@@ -44,6 +48,9 @@ body, html {
     width: 90%;
     max-width: 400px;
     height: 5%;
+
+    margin-left: auto;
+    margin-right: auto;
 
     color: white;
     background-color: transparent;
@@ -73,6 +80,9 @@ body, html {
     background-color: #48c45c;
     color: black;
 
+    margin-left: auto;
+    margin-right: auto;
+
     position: relative;
     cursor: pointer;
     overflow: hidden;
@@ -90,6 +100,11 @@ body, html {
 
 .body_loginFrame_Frame_ChangeFrame {
     display: flex;
+
+
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
     align-items: center;
 }
 
@@ -97,6 +112,8 @@ body, html {
 
     
     color: white;
+
+    
 
     margin-top: 15px;
     margin-bottom: 0;
@@ -115,11 +132,15 @@ body, html {
 .body_loginFrame_Frame_text {
     color: white;
 
+
     max-width: 400px;
     font-size: 14px;
     font-weight: 400;
     margin-left: 5px;
-    width: 90%;
+
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
 
     margin-top: 0;
     margin-bottom: 0;

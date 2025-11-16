@@ -10,15 +10,6 @@ html, body {
     margin: 0;
 }
 
-body {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-
-    overflow-y: auto;
-    background-color: #121212;
-    scrollbar-color: rgb(14, 12, 12) transparent;
-}
 
 .MainFrame_EntriesFrame {
     width: 100%;
@@ -298,7 +289,7 @@ body {
 
 .MainFrame_TradeEntryView {
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
     background-color: rgba(0, 0, 0, 0.089); /* Semi-transparent background */
     backdrop-filter: blur(10px);
@@ -824,11 +815,19 @@ body {
     color: red;
 }
 
+body {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    background-color: #121212;
+}
 
 .SideBar {
     background-color: #121212;
     width: 260px;
-    height: 100%;
+    height:auto;
+
+
     border-right: 1px solid #252525;
 
 }
@@ -924,13 +923,15 @@ body {
 .anchor {
     text-decoration: none;
 }
-
 .MainFrame {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+
     overflow-y: scroll;
-    background-color: #121212;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+
 }
+
 
 .MainFrame_HeadFrame {
     width: 100%;
@@ -1207,7 +1208,7 @@ body {
         display: none;
         position: fixed;
         z-index: 1;
-        
+        height: 100vh;
         width: 100%;
     }
 
