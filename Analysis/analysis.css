@@ -124,6 +124,7 @@ body {
 .MainFrame {
     width: 100%;
     height: 100vh;
+    height: 100vdh;
 
     overflow-y: scroll;
     scrollbar-color: rgb(14, 12, 12) transparent;
@@ -572,7 +573,8 @@ body {
         display: none;
         position: fixed;
         z-index: 1;
-        height: 100vh;
+      height: 100vh;
+      height: 100vdh;
         width: 100%;
     }
 
@@ -783,5 +785,6 @@ body {
     #bar-icon {
         display: block;
     }
+
 
 }
