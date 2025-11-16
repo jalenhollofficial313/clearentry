@@ -453,6 +453,9 @@ body {
 
 @media (max-width: 480px) {
 
+    body {
+      position: fixed;
+    }
 
     .flex-box {
 
@@ -505,6 +508,7 @@ body {
     }
 
 }
+
 
 
 
