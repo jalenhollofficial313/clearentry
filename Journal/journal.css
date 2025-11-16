@@ -22,7 +22,6 @@
     width: 250px;
     height: 100%;
 
-    z-index: 500;
     
     background-color: #121212;
     border-right: 1px solid rgb(92, 92, 92);
@@ -793,4 +792,5 @@ body {
     #close-button {
         display: block;
     }
+
 }
