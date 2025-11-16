@@ -19,11 +19,11 @@ body, html {
 
 
     align-content: center;
-    justify-items: center;
 }
 
 .body_loginFrame_Frame {
-
+    margin-left: auto;
+    margin-right: auto;
     width: 70%;
     height: 70%;
 }
