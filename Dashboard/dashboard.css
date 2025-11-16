@@ -461,6 +461,9 @@ body {
         height: fit-content;
         padding-bottom: 25px;
     }
+    .SideBar {
+        height: 480px;
+    }
 
     .StatsFrame_Title{
         font-size: 20px;
@@ -501,3 +504,4 @@ body {
     }
 
 }
+
