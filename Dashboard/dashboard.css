@@ -457,6 +457,10 @@ body {
       position: fixed;
     }
 
+    .MainFrame {
+      width: 100vw
+    }
+
     .flex-box {
 
     }
@@ -508,6 +512,7 @@ body {
     }
 
 }
+
 
 
 
