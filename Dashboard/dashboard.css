@@ -46,6 +46,14 @@ body {
 
 }
 
+.chart-flex {
+    flex-wrap: wrap;
+}
+
+.stat-flex {
+    flex-wrap: wrap;
+}
+
 .SideBar_Title:hover {
     cursor: pointer;
 }
@@ -516,4 +524,3 @@ body {
         font-size: 15px;
     }
 }
-
