@@ -8,7 +8,6 @@
 
 html, body {
     margin: 0;
-    padding: 0;
 }
 
 body {
@@ -123,8 +122,7 @@ body {
 .MainFrame {
     width: 100%;
     height: 100vh;
-    height: 100dvh;
-  
+
     overflow-y: scroll;
     scrollbar-color: rgb(14, 12, 12) transparent;
 
@@ -395,11 +393,11 @@ body {
     body {
         display: flex;
         flex-direction: column;
+
     }
 
     .SideBar {
-      height: 100vh;
-      height: 100dvh;
+        height: 100vh;
     }
 
     
@@ -454,23 +452,22 @@ body {
 @media (max-width: 480px) {
 
     body {
-      position: fixed;
+        position: fixed;
     }
 
     .MainFrame {
-      width: 100vw
+        width: 100vw;
     }
 
-    .flex-box {
-
-    }
 
     .MainFrame_StatsFrame {
         height: fit-content;
         padding-bottom: 25px;
     }
+
     .SideBar {
-        height: 1320px;
+        height: 100vh;
+        height: 100dvh;
     }
 
     .StatsFrame_Title{
@@ -490,7 +487,15 @@ body {
     }
     
     .trades-div {
-        
+        width: 100%;
+    }
+
+    .MainFrame_Frame_HalfFrame {
+        width: 92%;
+    }
+
+    .trade-frame {
+        width: 92%;
     }
 
     .trade-text {
@@ -501,7 +506,6 @@ body {
         flex-direction: row;
         overflow-x: scroll;
         scrollbar-width: none;
-        width: 90%;
     }
 
     .stats-text {
@@ -511,21 +515,4 @@ body {
     .stats-title {
         font-size: 15px;
     }
-
-    .MainFrame_Frame_HalfFrame {
-        min-width: 0;
-        width: 90%;
-        
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-
 }
-
-
-
-
-
-
-
