@@ -880,8 +880,9 @@ a {
 
     .auth-input {
         width: 100%;
-        max-width: 2400px;
+        max-width: 240px;
         min-width: 50px;
     }
 }
+
 
