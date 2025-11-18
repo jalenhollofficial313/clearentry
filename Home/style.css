@@ -872,7 +872,7 @@ a {
 
     .auth-frame {
         width: 100%;
-        max-width: 260px;
+        max-width: 280px;
         min-width: 50px;
 
         
@@ -884,5 +884,6 @@ a {
         min-width: 50px;
     }
 }
+
 
 
