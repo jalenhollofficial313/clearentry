@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearEntry</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="head-frame">
+        <a href="../Home/index.html" class="inter-text head-title">
+            ClearEntry
+        </a>
+        <div class="buttons-frame">
+
+        </div>
+    </div>
+    <div class="frame-1 signin-frame">
+        <div class="auth-frame">
+            <p class="auth-header inter-text">
+                Create Account
+            </p>
+            <p class="auth-description inter-text">
+                Start your trading psychology journey
+            </p>
+            <form class="auth-form" action="#" method="post">
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="name">Full Name</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="John Doe"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="email">Email address</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="password">Password</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        minlength="6"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="confirm-password">Confirm password</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="password"
+                        id="confirm-password"
+                        name="confirm_password"
+                        placeholder="••••••••"
+                        minlength="6"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="affiliate-code">Affiliate Code</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="text"
+                        id="affiliate-code"
+                        name="affiliate_code"
+                        placeholder="NAMExCLEARENTRY"
+                    />
+                </div>
+
+                <div class="form-footer">
+                    <label class="checkbox inter-text">
+                        <input class="form-checkbox" type="checkbox" name="terms" required />
+                        <span>I agree to the Terms &amp; Conditions</span>
+                    </label>
+
+                    <button id="continue-button" type="submit" class="btn-primary inter-text green-button">Continue</button>
+                </div>
+            </form>
+
+            <p class="alt-action inter-text">
+                Already have an account?
+                <a class="inter-text gradient-text alt-anchor" href="../Home/login.html">Log in</a>
+            </p>
+        </div>
+    </div>
+    <script src="signup.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1200,   
+            delay: 300,       
+            offset: 120,      
+
+            once: false,     
+            mirror: true,    
+        });
+    </script>
+</body>
+</html>
