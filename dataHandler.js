@@ -33,16 +33,19 @@ async function getClientData() {
                 }
             } else {
                 localStorage.removeItem("token")
-                window.location.href = "../Landing/index.html"
+                window.location.href = "../Home/index.html"
             }
         }
+    } else {
+        localStorage.removeItem("token")
+        window.location.href = "../Home/index.html"
     }
 }
 
 async function dataErrorHandling(params) {
     if (clientData == null) {
         localStorage.removeItem("token")
-        window.location.href = "../Landing/index.html"
+        window.location.href = "../Home/index.html"
     }
 }
 
@@ -74,10 +77,15 @@ async function init() {
                 }
             }
         }
+    } else {
+        localStorage.removeItem("token")
+        window.location.href = "../Home/index.html"
     }
 
     await sleep(400)
-    await dataErrorHandling()
+    if (localStorage.getItem("firstsign") != "true") {
+        await dataErrorHandling()
+    }
 }
 
 init()

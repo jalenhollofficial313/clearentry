@@ -311,7 +311,7 @@ body {
 }
 
 .bar-fill {
-    width: 50%;
+    width: 0%;
     height: 100%;
     border-radius: 10px;
     background-color: #00ff99;
@@ -457,6 +457,80 @@ body {
     }
 }
 
+.mainframe-loading {
+    width: 100%;
+    max-width: 360px;
+    min-width: 200px;
+    height: 55px;
+    background-color: #121212;
+    border-radius: 15px;
+    border: 1px solid #252525 ;
+
+    right: 0;
+    bottom: 0;
+
+
+    display: none;
+    transform: translateY(200px);
+    transition: 750ms;
+    margin-bottom: 15px;
+    margin-right: 50px;
+    position: fixed;
+
+
+    align-content: center;
+}
+
+.spin-icon {
+    width: 16px;
+    height: 16px;
+
+    color: rgb(253, 253, 253);
+    animation: spinicon 3s infinite;
+}
+
+.done-icon {
+    width: 16px;
+    height: 16px;
+
+    color: rgb(253, 253, 253);
+    background-color: #00ff993f;
+    border-radius: 100%;
+    color: #00ff99;
+}
+
+#load-frame {
+    display: none;
+}
+
+.load-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+
+    margin-left: 14px;
+}
+
+.loading-frame {
+    display: flex;
+
+
+
+    align-items: center;
+
+    margin-left: 20px;
+}
+
+@keyframes spinicon {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @media (max-width: 480px) {
 
     body {
@@ -524,3 +598,4 @@ body {
         font-size: 15px;
     }
 }
+

@@ -193,7 +193,7 @@ async function loadStats() {
     }
 
     let trades = await getTradesByWeek(clientData.result['trades'])
-
+    console.log(trades)
     for (const trade in trades) {
         const tradediv = document.createElement("div")
         tradediv.classList.add("flex-box")
@@ -553,14 +553,46 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+async function loadingFrame(ms, text1, text2) {
+    const loadingFrame = document.querySelector(".mainframe-loading");
+    const loadingDiv = document.querySelector("#load-frame");
+    const loadedFrame = document.querySelector("#loaded-frame");
+
+    loadedFrame.style.display = "none"
+    loadingDiv.style.display = "flex"
+    loadingDiv.querySelector("p").innerHTML = text1
+    loadingFrame.style.display = "block"
+    await sleep(100)
+    loadingFrame.style.transform = "translateY(0px)"
+    await sleep(ms)
+    loadedFrame.style.display = "flex"
+    loadingDiv.style.display = "none"
+    loadedFrame.querySelector("p").innerHTML = text2
+    await sleep(1000)
+    loadingFrame.style.transform = "translateY(200px)"
+    await sleep(700)
+    loadingFrame.style.display = "block"
+}
 
 async function dashboardINIT() {
-    await getClientData()
-    await sleep(100)
+    if (localStorage.getItem("firstsign") == "true") {
+        loadingFrame(5100, "Loading Data.", "Data Loaded.")
+        await sleep(5000)
+        await getClientData()
+        await sleep(100)
+        console.log("Check")
+        localStorage.removeItem("firstsign")
+        loadStats()
+        loadGraphs()
+    } else {
+        await getClientData()
+        await sleep(100)
+        loadStats()
+        loadGraphs()
+    }
     
-    loadStats()
-    loadGraphs()
 }
+
 
 
 dashboardINIT();
