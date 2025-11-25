@@ -20,6 +20,14 @@ async function getClientData() {
         request.onerror = (event) => {
             location.reload()
         }
+
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains("clientData")) {
+                db.createObjectStore("clientData", { keyPath: "token" });
+            }
+        };
+
         request.onsuccess = async (event) => {
             const db = event.target.result;
 
@@ -32,6 +40,7 @@ async function getClientData() {
                     db.close();
                 }
             } else {
+                await resetDataBase()
                 localStorage.removeItem("token")
                 window.location.href = "../Home/index.html"
             }
@@ -49,6 +58,22 @@ async function dataErrorHandling(params) {
     }
 }
 
+async function resetDataBase(params) {
+    const deleteRequest = window.indexedDB.deleteDatabase("clearentry");
+
+    deleteRequest.onsuccess = function () {
+        console.log("Database deleted successfully");
+    };
+
+    deleteRequest.onerror = function () {
+        console.log("Error deleting database");
+    };
+
+    deleteRequest.onblocked = function () {
+        console.log("Delete blocked—close all tabs using the DB");
+    };
+}
+
 
 async function init() {
     if (localStorage.getItem("token") != null) {
@@ -59,6 +84,12 @@ async function init() {
             request.onerror = (event) => {
                 location.reload()
             }
+            request.onupgradeneeded = function (event) {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains("clientData")) {
+                    db.createObjectStore("clientData", { keyPath: "token" });
+                }
+            };
             request.onsuccess = async (event) => {
                 const db = event.target.result;
 
@@ -72,8 +103,9 @@ async function init() {
                         db.close();
                     }
                 } else {
+                    await resetDataBase()
                     localStorage.removeItem("token")
-                    window.location.href = "../Landing/index.html"
+                    window.location.href = "../Home/index.html"
                 }
             }
         }
