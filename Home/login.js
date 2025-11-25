@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Invalid Password."
             );
         } else {
+            localStorage.setItem("firstsign", true)
             localStorage.setItem("token", data)
             window.location.href = "../Dashboard/dashboard.html"
         }
