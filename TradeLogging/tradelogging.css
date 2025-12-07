@@ -13,7 +13,7 @@ html, body {
 body {
     display: flex;
     align-items: stretch;
-    background-color: transparent;
+    background-color: #121212;
 }
 
 .SideBar {
@@ -1072,3 +1072,4 @@ body {
     }
 
 }
+
