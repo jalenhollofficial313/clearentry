@@ -51,12 +51,52 @@ async function getClientData() {
     }
 }
 
+async function updateClientData() {
+    if (localStorage.getItem("token") != null) {
+        let data = await getData(localStorage.getItem("token"))
+        data['token'] = localStorage.getItem("token")
+        if (data) {
+            const request = window.indexedDB.open("clearentry", 3);
+            request.onerror = (event) => {
+                location.reload()
+            }
+            request.onupgradeneeded = function (event) {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains("clientData")) {
+                    db.createObjectStore("clientData", { keyPath: "token" });
+                }
+            };
+            request.onsuccess = async (event) => {
+                const db = event.target.result;
+
+                if (db.objectStoreNames.contains("clientData")) {
+                    const tx = db.transaction("clientData", "readwrite");
+                    const store = tx.objectStore("clientData");
+                    store.put(data)
+
+
+                    tx.oncomplete = () => {
+                        db.close();
+                    }
+                } else {
+                    await resetDataBase()
+                    localStorage.removeItem("token")
+                    window.location.href = "../Home/index.html"
+                }
+            }
+        }
+    } else {
+        localStorage.removeItem("token")
+        window.location.href = "../Home/index.html"
+    }
+}
 async function dataErrorHandling(params) {
     if (clientData == null) {
         localStorage.removeItem("token")
         window.location.href = "../Home/index.html"
     }
 }
+
 
 async function resetDataBase(params) {
     const deleteRequest = window.indexedDB.deleteDatabase("clearentry");

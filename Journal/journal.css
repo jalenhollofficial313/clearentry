@@ -49,13 +49,14 @@
 #bar-icon {
     color: white;
     display: none;
-
-    z-index: 5;
+    padding-left: 2.3%;
 }
+
 
 #bar-icon:hover {
     cursor:pointer;
 }
+
 
 #bar-click {
     margin-right: 2.3%;
@@ -142,22 +143,17 @@
     background-color: #121212;
 }
 
-.MainFrame_NotesFrame_MainFrame_Title {
-    padding-left: 70px;
-    font-size: 40px;
-    font-weight: 600;
+.MainFrame_Title {
+
+    font-size: 35px;
+    font-weight: 700;
     color: white;
 
-    width:auto;
-    height: fit-content;
+    width: 68%;
+    padding-left: 2.3%;
 
-
-
+    margin-top: 0;
     margin-bottom: 0;
-
-    padding-bottom: 0;
-
-    align-content: center;
 }
 
 .MainFrame_NotesFrame_MainFrame_Date {
@@ -359,224 +355,196 @@ body {
 
 }
 
-
 .MainFrame_HeadFrame {
     width: 100%;
+    height: 60px;
     display: flex;
-}
-
-.MainFrame_Title {
-
-    font-size: 2.5vw;
-    font-weight: 700;
-    color: white;
-
-    width: 68%;
-    padding-left: 2.3%;
-
-    margin-top: 20px;
-    margin-bottom: 2px;
-}
-
-.MainFrame_HeadFrame_ButtonsDiv {
-    display: flex;
-    gap: 2%;
-
-    justify-content: right;
     align-items: center;
-
-
-
-    width: 30%;
 }
 
-.MainFrame_HeadFrame_ButtonsDiv_Button {
-    height: 47%;
-    width: 40%;
-    display: inline-block;
-
-    background-color: #21252bce;
-    color: white;
-
-    font-size: 15px;
-    font-weight: 600;
-    border: none;
-
-    margin-top: 15px;
-    margin-right: 30px;
-
-    transition: 250ms;
-
-    border-radius: 8px;
-}
-#TradeOpen_Button {
-    color: #121228;
-    
-    background-color: #00ff99;
-
-
-
-}
-#TradeClose_Button {
-    color: rgb(243, 233, 233);
-    
-    border: 1px solid #312e2e;
+.journal-mainframe {
+    width: 100%;
+    height: 100%;
 }
 
-.MainFrame_HeadFrame_ButtonsDiv_Button:hover {
-    cursor: pointer;
-    transform: scale(1.03);
-}
-
-
-.StatsFrame_textTitle {
-    text-decoration: underline;
-}
-
-.ChartFrame {
-    margin-top: auto; 
-    margin-bottom: auto; 
-
-    height: 100%; 
-    width: 20%;
-
+#journal_view_frame {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    background-color: #18181860;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     align-content: center;
+    z-index: 2;
 }
 
-.Doughnut_Chart {
-    width: 100%; 
-    height: 100%;
-
-}
-
-.flex-box {
-    display: flex;
-}
-
-.stats_halfdiv {
-    width: 50%;
-
-}
-
-.stats-title {
-    padding-left: 20px;
-
-    margin-bottom: 0;
-    color: gray;
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.stats-text {
-    padding-left: 20px;
-
-    color: white;
-    margin-top: 10px;
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 0;
-}
-
-#WLRChart {
-
-    margin-bottom: -10px;
-    margin-left: 10px;
-    margin-top: 6px;
-    width: fit-content;
-    height: fit-content;
-}
-
-#PLChart {
-
-    margin-bottom: -10px;
-    margin-left: 10px;
-    margin-top: 6px;
-    width: fit-content;
-    height: fit-content;
-}
-
-
-
-.bar {
-    width: 95%;
-    height: 10px;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    margin-top: 10px;
-    background-color: #262626;
-    border-radius: 10px;
-}
-
-.bar-fill {
-    width: 50%;
-    height: 100%;
-    border-radius: 10px;
-    background-color: #00ff99;
-}
-
-.bar-text {
-    color: white;
-    font-size: 13px;
-    font-weight: 700;
-
-    padding-right: 25px;
-
-    float: right;
-    margin-bottom: 0;
-    margin-top: 5px;
-
-
-}
-
-.trades-div {
-    height: 500px;
-    width: 96%;
-
-    border-radius: 10px;
-
-    margin-top: 30px;
-
+.view_frame {
     background-color: #181818;
     border: 1px solid #252525 ;
+    width: 740px;
+    height: 400px;
+
+    border-radius: 18px;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 40%;
+    margin-bottom: 15%;
+    max-width: 50%;
+    max-height: 50%;
 }
 
-.trade-frame {
-    width: 97%;
-    height: 60px;
+#view_title {
 
-    border-bottom: 1px solid #31363f;
+    width: 88%;
+    height: 35px;
 
-    margin-left: auto;
-    margin-right: auto;
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
 
+    padding-left: 10px;
+    
+    margin-left: 2%;
+    margin-top: 10px;
 
-    gap: 3px;
+    background-color: #161616;
+    border: 1px solid #252525 ;
+
+    border-radius: 10px;
+}
+
+#view_text {
+    
+    width: 88%;
+    height: 260px;
+
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+
+    padding-left: 10px;
+    
+    margin-left: 2%;
+    margin-top: 10px;
+
+    background-color: #161616;
+    border: 1px solid #252525 ;
+
+    resize: none;
+
+    border-radius: 10px;
+}
+
+#view_text:focus {
+    outline: 1px solid #00ff99;
     
 }
 
-.trade-text {
-    padding-left: 15px;
-    width: 14.285714285714285714285714285714%;
+#view_title:focus {
+    outline: 1px solid #00ff99;
+}
+
+.buttons-div {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+}
+
+#view_save {
+    width: 140px;
+    height: 50px;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    margin-left: 2%;
+
+    background-color: #00ff99;
+    color: black;
+    border: none;
+    border-radius: 5px;
+}
+
+#view_close {
+    width: 140px;
+    height: 50px;
+
+    font-size: 18px;
+    font-weight: 600;
+    z-index: 2;
+
+    margin-left: 2%;
+
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+    background-color: #161616;
+    border: 1px solid #252525 ;
+}
+
+#view_close:hover {
+    cursor: pointer;
+}
+
+#view_save:hover {
+    cursor: pointer;
+}
+
+.journal-frame {
+    width: fit-content;
+    height: 100%;
+    
+    padding: 20px;
+
+
+    margin-left: 2%;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    align-content: start;
+    justify-content: center;
+
+    gap: 20px;
+}
+
+#add_note_button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    width: auto;
+    height: auto;
+
+    border-radius: 10px;
+
+    text-align: center;
+    align-content: center;
+    background-color: #181818;
+    border: 1px solid #252525 ;
+
+    padding: 10px 20px;
+
 
     margin-top: 0;
-    margin-bottom: 0;
-
-    align-content: center;
     color: white;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
+    margin-right: 5%;
+    margin-bottom: 2%;
+    transition: 250ms;
 }
 
-.example-text {
-    color: gray;
-}
-
-.green-text {
-    color: #00ff99;
+#add_note_button:hover {
+    scale: 1.01;
+    cursor: pointer;
 }
 
 .truncate {
@@ -585,52 +553,158 @@ body {
   white-space: nowrap;       /* prevents text wrapping */
 }
 
-.bottom-div {
-    width: 100%;
-    height: 80px;
-    
+.journal-entry {
 
-    gap: 15px;
-}
 
-.bottom-buttons {
-
-    width: 14%;
-    height: 50px;
-
-    display: block;
-    font-size: 16px;
-    font-weight: 500;
-
-    padding-left: 10px;
-
-    border: 1px solid #333333;
-
-    background-color: transparent;
-    color: white;
-
-    scrollbar-color: black transparent;
-
+    width: 450px;
+    height: 250px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 
-    resize: none;
 
-    margin-bottom: 30px;
+
+    background-color: #181818;
+    border: 1px solid #252525 ;
+
+    transition: 250ms;
 }
 
-.bottom-buttons:hover {
+.journal-entry:hover {
+    transform: scale(1.01);
     cursor: pointer;
 }
 
-#close-button {
+.journal_entryTitle {
+    font-size: 25px;
+    font-weight: 600;
+    color: white;
+
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.journal_entryDate {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(124, 124, 124);
+
+    border-bottom: 1px solid #31363f;
+
+    display: block;
+    margin-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+
+.journal_entryText {
+    width: 100%;
+    height: 100px;
+
+    max-height: 60%;
+    padding-left: 20px;
+
+    font-size: 17px;
+    font-weight: 500;
+    color: white;
+}
+
+.journal-entryClose {
+    margin-left: auto;
+    display: block;
+
+    color: rgb(124, 124, 124);
+    height: fit-content;
+    width: fit-content;
+
+    
+    padding: 5px 15px;
+
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    z-index: 5;
+
+    background-color: #f84848;
+    border: 1px solid #181717 ;
+    color: white;
+    
+
+    margin-top: auto;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+
+.journal-entryClose:hover {
+    cursor: pointer;
+}
+
+.mainframe-loading {
+    width: 100%;
+    max-width: 360px;
+    min-width: 200px;
+    height: 55px;
+    background-color: #121212;
+    border-radius: 15px;
+    border: 1px solid #252525 ;
+
+    right: 0;
+    bottom: 0;
+
+    z-index: 5;
+
+    display: none;
+    transform: translateY(200px);
+    transition: 750ms;
+    margin-bottom: 15px;
+    margin-right: 30px;
+    position: fixed;
+
+
+    align-content: center;
+}
+
+.spin-icon {
+    width: 16px;
+    height: 16px;
+
+    color: rgb(253, 253, 253);
+    animation: spinicon 3s infinite;
+}
+
+.done-icon {
+    width: 16px;
+    height: 16px;
+
+    color: rgb(253, 253, 253);
+    background-color: #00ff993f;
+    border-radius: 100%;
+    color: #00ff99;
+}
+
+#load-frame {
     display: none;
 }
 
-.green-button {
-    background-color: #00ff99;
-    color: black;
+.load-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
 
-    margin-left: 60px;
+    margin-left: 14px;
+}
+
+.loading-frame {
+    display: flex;
+
+
+
+    align-items: center;
+
+    margin-left: 20px;
 }
 
 @media (max-width: 1100px) {
@@ -658,11 +732,18 @@ body {
     }
 
 
-
-    .MainFrame_Title {
-        margin-left: 10%;
-        margin-right: 0;
+    .journal-frame {
+        width: 100%;
+        padding: 0;
+        
     }
+
+    .journal-entry {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
 
     .MainFrame_description {
         margin-left: 10%;
@@ -712,6 +793,19 @@ body {
 
     }
 
+    .journal-frame {
+        width: 100%;
+
+        gap: 0;
+    }
+
+    .journal-entry {
+        margin-left: 0;
+        margin-right: 0;
+
+        background-color: white;
+    }
+
     .MainFrame_NotesFrame_SideBar {
         width: 100%;
         height: 100vh;
@@ -734,10 +828,6 @@ body {
         background-color: #121212;
     }
 
-    .MainFrame_NotesFrame_MainFrame_Title {
-        padding-left: 20px;
-        font-size: 25px;
-    }
 
     .MainFrame_NotesFrame_MainFrame_Date {
         padding-left: 20px;
@@ -801,4 +891,3 @@ body {
         display: block;
     }
 }
-

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
-    <link href="dashboard.css" rel="stylesheet" type="text/css">
+    <link href="updatelog.css" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,7 @@
                 </li>
             </a>
             <a class="anchor" href="../Dashboard/dashboard.html">
-                <li class="SideBar_List_ListItem selected-item">
+                <li class="SideBar_List_ListItem">
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Dashboard
                     </p>
@@ -70,7 +70,7 @@
                 </li>
             </a>
             <a class="anchor" href="../UpdateLog/updatelog.html">
-                <li class="SideBar_List_ListItem">
+                <li class="SideBar_List_ListItem selected-item">
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Update Log
                     </p>
@@ -97,105 +97,49 @@
         <div class="MainFrame_HeadFrame">
             <i id="bar-icon" data-lucide="text-align-justify"></i>
             <p class="MainFrame_Title inter-text">
-                Dashboard
+                Update Log
             </p>
         </div>
         <div class="MainFrame_Frame">
-            <div class="MainFrame_Frame_HalfFrame MainFrame_StatsFrame left_Half">
-                <p id="user-Name" class="inter-text StatsFrame_Title">
+            <div class="updlog_frame">
+                <p class="updlog_title inter-text">
+                    Update Log #1
                 </p>
-                <div class="flex-box stat-flex">
-                    <div class="stats_halfdiv">
-                        <p class="stats-title inter-text">
-                            Total Balance
-                        </p>
-                        <p id="total_Balance" class="stats-text inter-text">
-
-                        </p>
-                    </div>
-                    <div class="stats_halfdiv">
-                        <p class="stats-title inter-text">
-                            Total Profit
-                        </p>
-                        <p id="total_Profit" class="green-text stats-text inter-text">
-                        </p>
-                    </div>
-                </div>
-                <div style="margin-bottom: 40px;" class="flex-box chart-flex">
-                    <div class="stats_halfdiv">
-                        <p class="stats-title inter-text">
-                            Win/Loss Ratio
-                        </p>
-                        <div id="WLRChart"></div>
-                    </div>
-                    <div class="stats_halfdiv">
-                        <p class="stats-title inter-text">
-                            Profit/Loss Ratio
-                        </p>
-                        <div id="PLChart"></div>
-                    </div>
-                </div>
-                <p id="emotion_Text" class="inter-text bar-text">
-                    0/10
+                <p class="updlog_date inter-text">
+                    Sunday, December 7th, 2025
                 </p>
-                <p class="stats-title inter-text">
-                    Psychological State
+                <p class="updlog_infoTitle inter-text">
+                    Trade Logging
                 </p>
-                <div class="bar">
-                    <div id="emotion_Bar" class="bar-fill">
-                    </div>
-                </div>
-            </div>
-            <div class="MainFrame_Frame_HalfFrame right_Half">
-
-                <p style="margin-bottom: 0;" class="inter-text StatsFrame_Title">
-                    Performance Over Time
+                <p class="updlog_info inter-text">
+                    • Image Analyzer (Gets data from your screenshot of your trades if visible) <br>
+                    • Entry Type (Options, Futures more soon)<br>
+                    • Entry Direction (Long, Short)<br>
+                    • Strategy -> Confluences <br>
+                    • Confluences Multi Select <br>
+                    • Risk to Reward Input <br>
                 </p>
-                <p style="margin-top: 0;" class="stats-title inter-text">
-                    Weekly equity curve
+                <p class="updlog_infoTitle inter-text">
+                    Entries
                 </p>
-                <div id="weekPL">
-                    
-                </div>
-            </div>
-        </div>
-        <div class="MainFrame_Frame2">
-            <div id="trades_Div" class="trades-div">
-                <p style="margin-bottom: 0;" class="inter-text StatsFrame_Title">
-                    Recent Trades
+                <p class="updlog_info inter-text">
+                    • View/Edit has been implemeneted into trade logging page <br>
+                    • Trade delete rework<br>
                 </p>
-                <p style="margin-top: 0;" class="stats-title inter-text">
-                    Here are some of this weeks trades:
+                <p class="updlog_infoTitle inter-text">
+                    Journal
                 </p>
-                <div class="flex-box trade-frame">
-                    <p class="inter-text trade-text example-text">
-                        Date
-                    </p>
-                    <p class="inter-text trade-text example-text">
-                        Symbol
-                    </p>
-                    <p class="inter-text trade-text example-text">
-                        Setup
-                    </p>
-                    <p class="inter-text trade-text example-text">
-                        Result
-                    </p>
-                    <p class="inter-text trade-text example-text">
-                        P/L
-                    </p>
-                    <p class="inter-text trade-text example-text">
-                        Notes
-                    </p>
-                    <p class="inter-text trade-text example-text">
-                        Emotion
-                    </p>
-                </div>    
+                <p class="updlog_info inter-text">
+                    • Complete UI rework <br>
+                    • Journal delete rework <br>
+                    • Journal View and Add rework <br>
+                </p>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="../dataHandler.js"></script>
-    <script src="dashboard.js"></script>
+    <script src="updatelog.css"></script>
     <script>
 
         lucide.createIcons();

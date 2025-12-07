@@ -111,86 +111,213 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../UpdateLog/updatelog.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Update Log
+                    </p>
+                </li>
+            </a>
         </ul>
     </div>
     
     <div class="MainFrame">
-        <p class="MainFrame_Title inter-text">
-            <span id="bar-click">
-                <i id="bar-icon" data-lucide="text-align-justify"></i>   
-            </span>
-
-            Trade Logging
-        </p>
+        <div class="mainframe-loading">
+            <div id="load-frame" class="loading-frame">
+                <i class="spin-icon" data-lucide="loader"></i>
+                <p class="load-text inter-text">
+                    Loading Data
+                </p>
+            </div>
+            
+            <div id="loaded-frame" class="loading-frame">
+                <i class="done-icon" data-lucide="circle-check"></i>
+                <p class="load-text inter-text">
+                    Data Loaded
+                </p>
+            </div>
+        </div>
+        <div id="head-frame" class="MainFrame_HeadFrame">
+            <i id="bar-icon" data-lucide="text-align-justify"></i>
+            <p class="MainFrame_Title inter-text">
+                Trade Logging
+            </p>
+        </div>
         <p class="MainFrame_description inter-text">
             Log your trade details and track your performance
         </p>
-        <div class="log_frame">
-            <p class="inter-text entry-title">
-                Trade Screenshot
-            </p>
+        <div class="log_frames">
+            <div class="log_frame">
+                <p class="inter-text entry-title">
+                    Trade Image Analyzer
+                </p>
+                <p class="entry-description inter-text">
+                    Upload your trade screenshot. Our analyzer will read the image and automatically extract relevant trade data.
+                </p>
 
-
-            <label id="img_Input" for="tradeImageInput" class="img-frame">
-                <i class="upload-icon" data-lucide="upload"></i>
-                <p class="inter-text upload-img">Click to upload IMG</p>
-                <p class="inter-text upload-description">PNG, JPG up to 10MB</p>
-            </label>
-            <input type="file" check="" id="tradeImageInput" accept=".jpg,.jpeg,.png" hidden />
-            <img id="img_Frame" class="img-frame" src="" alt="Trade Chart Preview" style="display: none;" />
-
-
-            <div class="flex-box entry-flexdiv">
-                <div class="flexbox-div">
-                    <p class="inter-text entry-title2">
-                        Entry Mental State
-                                                
-                        <span id="mental-settings-button" class="edit-icon">
-                            <i class="icon" data-lucide="settings-2"></i>
-                        </span>
-                    </p>
-                    <p id="state-dropdown-button" class="dropdown-button inter-text">
-                        State
-                        <span class="dropdown-icon">
-                            <i class="icon2" data-lucide="chevron-down"></i>
-                        </span>
-                    </p>
-                    <div id="mental-dropdown" class="dropdown-div">
-                    </div>
-                </div>
-                <div class="flexbox-div">
-                    <p class="inter-text entry-title2">
-                        Entry Strategy                       
-                        <span id="strategy-settings-button" class="edit-icon">
-                            <i class="icon" data-lucide="settings-2"></i>
-                        </span>
-                    </p>
-                    <p id="strategy-dropdown-button" class="dropdown-button inter-text">
-                        Strategy
-                        <span class="dropdown-icon">
-                            <i class="icon2" data-lucide="chevron-down"></i>
-                        </span>
-                    </p>
-                    <div id="strategy-dropdown" class="dropdown-div">
-                    </div>
-                </div>
+                <label id="img_Input" for="tradeImageInput" class="img-frame">
+                    <i class="upload-icon" data-lucide="upload"></i>
+                    <p class="inter-text upload-img">Click to upload IMG</p>
+                    <p class="inter-text upload-description">PNG, JPG up to 10MB</p>
+                </label>
+                <input type="file" check="" id="tradeImageInput" accept=".jpg,.jpeg,.png" hidden />
+                <p id="img-analyze" class="inter-text">
+                    Analyzing... (0%)
+                </p>
+                <img id="img_Frame" class="img-frame real-img" src="" alt="Trade Chart Preview" style="display: none;" />
             </div>
-            <p style="margin-top: 15px;" class="inter-text entry-title">
-                Entry Symbol
-            </p>
-            <input id="entry-symbol" placeholder="EX: AAPL" class="inter-text entry-input">
-            <p style="margin-top: 5px;" class="inter-text entry-title">
-                Entry P/L
-            </p>
-            <input id="entry-pl" placeholder="EX: 120" class="inter-text entry-input">
+            <div class="log_frame">
+                <p class="inter-text entry-title">
+                    Trade Input Fields
+                </p>
+                <p class="entry-description inter-text">
+                    Enter or verify your trade details below.
+                </p>
 
-            <p style="margin-top: 5px;" class="inter-text entry-title">
-                Entry Notes
-            </p>
-            <textarea id="entry-notes" placeholder="Describe your trade..." class="inter-text entry-textarea"></textarea>
-            <div class="flex-box bottom-div">
-                <button id="continue-button" class="inter-text bottom-buttons green-button">Continue</button>
-                <button id="cancel-button" class="inter-text bottom-buttons"> Cancel</button>
+                <div class="flex-box entry-flexdiv">
+                    <div class="flexbox-div">
+                        <p class="inter-text entry-title2">
+                            Entry Type
+                                                    
+                        </p>
+                        <div id="type-dropdown-button" class="dropdown-button inter-text">
+                            <p id="type-text" class="truncate text-div">Type</p>
+                            <span class="dropdown-icon">
+                                <i class="icon2" data-lucide="chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="type-dropdown" class="dropdown-div">
+                        </div>
+                    </div>
+                    <div class="flexbox-div">
+                        <p class="inter-text entry-title2">
+                            Entry Direction                       
+                        </p>
+                        <div id="direction-dropdown-button" class="dropdown-button inter-text">
+                            <p id="direction-text" class="truncate text-div">Direction</p>
+                            <span class="dropdown-icon">
+                                <i class="icon2" data-lucide="chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="direction-dropdown" class="dropdown-div">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-box entry-flexdiv">
+                    <div class="flexbox-div">
+                        <p class="inter-text entry-title2">
+                            Entry Mental State
+                                                    
+                            <span id="mental-settings-button" class="edit-icon">
+                                <i class="icon" data-lucide="settings-2"></i>
+                            </span>
+                        </p>
+                        <div id="state-dropdown-button" class="dropdown-button inter-text">
+                            <p id="state-text" class="truncate text-div">State</p>
+                            <span class="dropdown-icon">
+                                <i class="icon2" data-lucide="chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="mental-dropdown" class="dropdown-div">
+                        </div>
+                    </div>
+                    <div class="flexbox-div">
+                        <p class="inter-text entry-title2">
+                            Entry Confluences                       
+                            <span id="strategy-settings-button" class="edit-icon">
+                                <i class="icon" data-lucide="settings-2"></i>
+                            </span>
+                        </p>
+                        <div id="strategy-dropdown-button" class="dropdown-button inter-text">
+                            <p id="confluences-text" class="truncate text-div">Confluences</p>
+                            <span class="dropdown-icon">
+                                <i class="icon2" data-lucide="chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="strategy-dropdown" class="dropdown-div">
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 15px;" class="inter-text entry-title">
+                    Entry Symbol
+                </p>
+                <input id="entry-SYMBOL" placeholder="EX: AAPL" class="inter-text entry-input">
+
+                <div class="flex-box entry-flexdiv">
+                    <div class="flexbox-div">
+                        <p style="margin-top: 5px;" class="inter-text entry-title2">
+                            Entry P/L
+                        </p>
+                        <input id="entry-PL" placeholder="EX: 120" class="inter-text entry-input2">
+                            
+                    </div>
+                    <div class="flexbox-div">
+                        <p style="margin-top: 5px;" class="inter-text entry-title2">
+                            Risk to Reward
+                        </p>
+                        <input id="entry-RR" placeholder="EX: 1:2" class="inter-text entry-input2">
+                    </div>
+
+                </div>
+                <div id="options-data">
+                    <p style="margin-top: 5px; margin-bottom: 10px;" class="inter-text entry-title">
+                        Options Data
+                    </p>
+                    <div class="flex-box entry-flexdiv">
+                        <div class="flexbox-div">
+                            <p style="margin-top: 5px;" class="inter-text entry-title2">
+                                IV
+                            </p>
+                            <input id="entry-IV" placeholder="EX: 34.77" class="inter-text entry-input2">
+                                
+                        </div>
+                        <div class="flexbox-div">
+                            <p style="margin-top: 5px;" class="inter-text entry-title2">
+                                Gamma
+                            </p>
+                            <input id="entry-Gamma" placeholder="EX: .0254" class="inter-text entry-input2">
+                        </div>
+                    </div>
+                    <div class="flex-box entry-flexdiv">
+                        <div class="flexbox-div">
+                            <p style="margin-top: 5px;" class="inter-text entry-title2">
+                                Delta
+                            </p>
+                            <input id="entry-Delta" placeholder="EX: .2499" class="inter-text entry-input2">
+                                
+                        </div>
+                        <div class="flexbox-div">
+                            <p style="margin-top: 5px;" class="inter-text entry-title2">
+                                Theta
+                            </p>
+                            <input id="entry-Theta" placeholder="EX: -.0216" class="inter-text entry-input2">
+                        </div>
+                    </div>   
+                    <div class="flex-box entry-flexdiv">
+                        <div class="flexbox-div">
+                            <p style="margin-top: 5px;" class="inter-text entry-title2">
+                                Vega
+                            </p>
+                            <input id="entry-Vega" placeholder="EX: .1145" class="inter-text entry-input2">
+                                
+                        </div>
+                        <div class="flexbox-div">
+                            <p style="margin-top: 5px;" class="inter-text entry-title2">
+                                Rho
+                            </p>
+                            <input id="entry-Rho" placeholder="EX: .0425" class="inter-text entry-input2">
+                        </div>
+                    </div>   
+                </div>
+                
+                <p style="margin-top: 5px;" class="inter-text entry-title">
+                    Entry Notes
+                </p>
+                <textarea id="entry-notes" placeholder="Describe your trade..." class="inter-text entry-textarea"></textarea>
+                <div class="flex-box bottom-div">
+                    <button id="continue-button" class="inter-text bottom-buttons green-button">Continue</button>
+                    <button id="cancel-button" class="inter-text bottom-buttons"> Cancel</button>
+                </div>
             </div>
         </div>
     </div>

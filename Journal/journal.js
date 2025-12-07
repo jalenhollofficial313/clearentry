@@ -7,6 +7,7 @@ const addNoteTitle = document.getElementById("addNoteTitle")
 
 let currentNoteIndex
 let currentNoteElement
+let viewing = false
 
 const isMobile = window.matchMedia("(max-width: 767px)").matches;
 
@@ -31,9 +32,31 @@ async function getNotesOrder(table) {
     return tableArray;
 }
 
+let client_server_debounce = false
+async function loadingFrame(ms, text1, text2) {
+    const loadingFrame = document.querySelector(".mainframe-loading");
+    const loadingDiv = document.querySelector("#load-frame");
+    const loadedFrame = document.querySelector("#loaded-frame");
 
+    loadedFrame.style.display = "none"
+    loadingDiv.style.display = "flex"
+    loadingDiv.querySelector("p").innerHTML = text1
+    loadingFrame.style.display = "block"
+    await sleep(100)
+    loadingFrame.style.transform = "translateY(0px)"
+    while (client_server_debounce == true) {
+        await sleep(100)
+    }
+    loadedFrame.style.display = "flex"
+    loadingDiv.style.display = "none"
+    loadedFrame.querySelector("p").innerHTML = text2
+    await sleep(1000)
+    loadingFrame.style.transform = "translateY(200px)"
+    await sleep(700)
+    loadingFrame.style.display = "block"
+}
 
-async function logNote(token) {
+async function logNote(token, index) {
 
     const response = await fetch("https://log-note-b52ovbio5q-uc.a.run.app", {
         method: "POST",
@@ -42,8 +65,8 @@ async function logNote(token) {
         },
         body: JSON.stringify({
             token: token,
-            noteIndex: currentNoteIndex,
-            text: notesText.value,
+            noteIndex: index,
+            text: document.querySelector("#view_text").value,
         })
     })
 
@@ -79,7 +102,7 @@ async function add_Note(token) {
         },
         body: JSON.stringify({
             token: token,
-            title: addNoteTitle.value,
+            title: document.querySelector("#view_title").value,
         })
     })
 
@@ -87,183 +110,82 @@ async function add_Note(token) {
     return sucsess
 }
 
-async function removeNotes() {
-    let noteFrame = document.querySelectorAll(".MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
-    for (let i = 0; i < noteFrame.length; i++) {
-        noteFrame[i].remove()
-    }
+async function loadJournalEntries() {
+    const journal_entries = clientData.result['notes']
+    console.log(journal_entries)
+    for (const entry in journal_entries) {
+        const clone = document.querySelector(".copy-entry").cloneNode(true)
+        clone.style.display = "block"
 
-    return true
-}
+        clone.querySelector(".journal_entryTitle").innerHTML = journal_entries[entry].title
+        clone.querySelector(".journal_entryText").innerHTML = journal_entries[entry].text
 
-
-async function loadNotes() {
-    let ran = false
-    let table = await getNotesOrder(clientData.result['notes'])
-    for (let i in table) {
-        const journalButtonFrame = document.createElement("div")
-        journalButtonFrame.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
-
-        if (ran == false) {
-            ran = true
-            journalButtonFrame.classList.add("note-selected")
-            notesTitle.innerHTML = table[i]['title']
-            notesDate.innerHTML = convertUnixToFullDate(table[i]['date'])
-            notesText.value = table[i]['text']
-
-            currentNoteIndex = table[i]["id"]
-        }
-
-        const journalTitle = document.createElement("p")
-        journalTitle.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Title")
-        journalTitle.classList.add("inter-text")
-        journalTitle.innerHTML = table[i]['title']
-        journalButtonFrame.appendChild(journalTitle)
-
-        const journalDate = document.createElement("p")
-        journalDate.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Date")
-        journalDate.classList.add("inter-text")
-        journalDate.innerHTML = convertUnixToFullDate(table[i]['date'])
-        journalButtonFrame.appendChild(journalDate)
-
-        journalButtonFrame.addEventListener("click", async function(){
-            document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
-            journalButtonFrame.classList.add("note-selected")
-            notesTitle.innerHTML = table[i]['title']
-            notesDate.innerHTML = convertUnixToFullDate(table[i]['date'])
-            notesText.value = table[i]['text']
-
-            if (isMobile) {
-                document.querySelector("#notes-sidebar").style.display = "none"
-            }
-
-            currentNoteIndex = table[i]["id"]
-            currentNoteElement = journalButtonFrame
+        clone.addEventListener("click", async function(params) {
+            viewing = true
+            currentNoteIndex = entry
+            document.querySelector("#view_text").value = journal_entries[entry].text
+            document.querySelector("#view_title").value = journal_entries[entry].title
+            document.querySelector("#journal_view_frame").style.display = "block"
         })
 
-        notesFrame[0].appendChild(journalButtonFrame)
+        clone.querySelector(".journal-entryClose").addEventListener("click", async function(e) {
+            e.stopPropagation();
+            client_server_debounce = true
+            loadingFrame(1000, "Deleteing note...", "Note Deleted.")
+            currentNoteIndex = entry
+            await removeNote(localStorage.getItem("token"))
+            await updateClientData()
+            client_server_debounce = false
+            clone.remove()
+        })
+
+        document.querySelector(".journal-frame").appendChild(clone)
     }
 }
+
 
 async function journalINIT(params) {
     await getClientData()
     await sleep(100)
-    
-
-    loaded = await loadNotes()
+  
+    loadJournalEntries()
 }
-
-async function delClientNote() {
-    if (localStorage.getItem("token") != null) {
-        if (clientData) {
-            const request = window.indexedDB.open("clearentry", 3);
-            request.onerror = (event) => {
-                location.reload()
-            }
-            request.onsuccess = async (event) => {
-                const db = event.target.result;
-
-                if (db.objectStoreNames.contains("clientData")) {
-                    const tx = db.transaction("clientData", "readwrite");
-                    const store = tx.objectStore("clientData");
-                    delete clientData.result['notes'][currentNoteIndex]
-                    console.log(clientData.result['notes'])
-                    store.put(clientData.result)
-                    console.log(clientData.result['notes'])
-                    tx.oncomplete = () => {
-                        db.close();
-                    }
-                }
-            }
-        }
-    }
-}
-
-document.querySelector("#delete-button").addEventListener("click", async function(params) {
-    removeNote(localStorage.getItem("token"))
-    await delClientNote()
-    await removeNotes()
-    await sleep(50)
-    await loadNotes()
-})
-
-document.querySelector("#save-button").addEventListener("click", async function(params) {
-    logNote(localStorage.getItem('token'))
-    if (localStorage.getItem("token") != null) {
-        if (clientData) {
-            const request = window.indexedDB.open("clearentry", 3);
-            request.onerror = (event) => {
-                location.reload()
-            }
-            request.onsuccess = async (event) => {
-                const db = event.target.result;
-
-                if (db.objectStoreNames.contains("clientData")) {
-                    const tx = db.transaction("clientData", "readwrite");
-                    const store = tx.objectStore("clientData");
-                    console.log(currentNoteIndex)
-                    clientData.result['notes'][currentNoteIndex]['text'] = notesText.value
-                    store.put(clientData.result)
-                    tx.oncomplete = () => {
-                        db.close();
-                    }
-                }
-            }
-        }
-    }
-})
-
-addNote.addEventListener("click", async function(){
-    currentNoteIndex = await add_Note(localStorage.getItem("token"))
-    await init()
-    location.reload()
-
-    const title = addNoteTitle.value
-    const date = Math.floor(Date.now() / 1000);
-
-    const journalButtonFrame = document.createElement("div")
-    journalButtonFrame.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame")
-    document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
-    journalButtonFrame.classList.add("note-selected")
-    notesTitle.innerHTML = title
-    notesDate.innerHTML = convertUnixToFullDate(date)
-    notesText.value = ""
-
-    const journalTitle = document.createElement("p")
-    journalTitle.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Title")
-    journalTitle.classList.add("inter-text")
-    journalTitle.innerHTML = title
-    journalButtonFrame.appendChild(journalTitle)
-
-    const journalDate = document.createElement("p")
-    journalDate.classList.add("MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Date")
-    journalDate.classList.add("inter-text")
-    journalDate.innerHTML = convertUnixToFullDate(date);
-    journalButtonFrame.appendChild(journalDate)
-
-    journalButtonFrame.addEventListener("click", async function(){
-        document.getElementsByClassName("note-selected")[0].classList.remove("note-selected")
-        journalButtonFrame.classList.add("note-selected")
-        notesTitle.innerHTML = title
-        notesDate.innerHTML = convertUnixToFullDate(date)
-        notesText.value = ""
-
-        if (isMobile) {
-            document.querySelector("#notes-sidebar").style.display = "none"
-        }
-    })
-
-    notesFrame[0].appendChild(journalButtonFrame)
-})
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector("#bar-click").addEventListener("click", () => {
-    console.log("Check")
-    document.querySelector("#sidebar").style.display = "block";
-  });
-  document.querySelector("#close-button").addEventListener("click", async function() {
-    document.querySelector("#notes-sidebar").style.display = "block"
-  })
+    document.querySelector("#bar-icon").addEventListener("click", () => {
+        console.log("Check")
+        document.querySelector("#sidebar").style.display = "block";
+    });
+
+    document.querySelector("#add_note_button").addEventListener("click", async function() {
+        document.querySelector("#view_text").value = ""
+        document.querySelector("#view_title").value = ""
+
+        document.querySelector("#journal_view_frame").style.display = "block"
+    })
+    document.querySelector("#view_close").addEventListener("click", async function() {
+        document.querySelector("#journal_view_frame").style.display = "none"
+        if (viewing == true) {
+            viewing = false
+        }
+    })
+    document.querySelector("#view_save").addEventListener("click", async function(params) {
+        client_server_debounce = true
+        loadingFrame(1000, "Saving note...", "Note Saved.")
+        if (viewing == false) {
+            const noteToken = await add_Note(localStorage.getItem("token"))
+            const noteSave = await logNote(localStorage.getItem("token"), noteToken,)
+            await updateClientData()            
+        } else {
+            const noteSave = await logNote(localStorage.getItem("token"), currentNoteIndex)
+            await updateClientData()     
+        }
+
+        client_server_debounce = false
+        await sleep(500)
+        document.querySelector("#journal_view_frame").style.display = "none"
+    })
+
 });
 
 journalINIT()

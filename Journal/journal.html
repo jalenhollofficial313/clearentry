@@ -68,41 +68,69 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../UpdateLog/updatelog.html">
+                <li class="SideBar_List_ListItem">
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Update Log
+                    </p>
+                </li>
+            </a>
         </ul>
     </div>
     <div class="MainFrame">
-        <div class="MainFrame_NotesFrame">
-            <div id="notes-sidebar" class="MainFrame_NotesFrame_SideBar">
-                <p class="MainFrame_NotesFrame_SideBar_Title inter-text">
-                    <span id="bar-click">
-                        <i id="bar-icon" data-lucide="text-align-justify"></i>   
-                    </span>
-
-                    Notes
+        <div class="mainframe-loading">
+            <div id="load-frame" class="loading-frame">
+                <i class="spin-icon" data-lucide="loader"></i>
+                <p class="load-text inter-text">
+                    Loading Data
                 </p>
-                <div class="MainFrame_NotesFrame_SideBar_Title_Notes">
+            </div>
+            
+            <div id="loaded-frame" class="loading-frame">
+                <i class="done-icon" data-lucide="circle-check"></i>
+                <p class="load-text inter-text">
+                    Data Loaded
+                </p>
+            </div>
+        </div>
+        <div class="MainFrame_HeadFrame">
+            <i id="bar-icon" data-lucide="text-align-justify"></i>
+            <p class="MainFrame_Title inter-text">
+                Journal
+            </p>
+        </div>
+        <div class="journal-mainframe">
+            <div id="journal_view_frame">
+                <div class="view_frame">
+                    <input class="inter-text" id="view_title" placeholder="Title:">
+                    <textarea class="inter-text" id="view_text" placeholder="Text: "></textarea>
+                    <div class="buttons-div">
+                        <button class="inter-text" id="view_save">
+                            Save
+                        </button>
+                        <button class="inter-text" id="view_close">
+                            Close
+                        </button>
+                    </div>
                 </div>
-                <div class="MainFrame_NotesFrame_SideBar_Title_TitleDiv">
-                    <input id="addNoteTitle" class="MainFrame_NotesFrame_SideBar_Title_TitleDiv_Input inter-text" placeholder="Title">
-                </div>
-                <p id="addNote" class="MainFrame_NotesFrame_SideBar_Title_AddNote inter-text">
-                    + Add Note
-                </p>
-            </div> 
-            <div class="MainFrame_NotesFrame_MainFrame">
-                <p id="NotesTitle" class="MainFrame_NotesFrame_MainFrame_Title inter-text">
-                    New Note
-                </p>
-                <p id="NotesDate" class="MainFrame_NotesFrame_MainFrame_Date inter-text">
-                    July 1st, 2025
-                </p>
-                <div class="MainFrame_NotesFrame_MainFrame_TextAreaDiv">
-                    <textarea id="NotesText" placeholder="Type in note" class=" MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea inter-text"></textarea>
-                </div>
-                <div class="flex-box bottom-div">
-                    <button id="save-button" class="inter-text bottom-buttons green-button">Save</button>
-                    <button id="delete-button" class="inter-text bottom-buttons"> Delete</button>
-                    <button id="close-button" class="inter-text bottom-buttons"> Close</button>
+            </div>
+            <button id="add_note_button">
+                + Add Note
+            </button>
+            <div class="journal-frame">
+                <div style="display: none;" class="journal-entry copy-entry">
+                    <p class="journal_entryTitle inter-text truncate">
+                        Note...
+                    </p>
+                    <p class="journal_entryDate inter-text">
+                        Jan 12 2025
+                    </p>
+                    <p class="journal_entryText inter-text truncate">
+                        In this note we did yadayadayada
+                    </p>
+                    <button class="journal-entryClose inter-text">
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>

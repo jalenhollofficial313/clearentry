@@ -36,6 +36,31 @@ function formatTime(seconds) {
     return result.join(' ');
 }
 
+let client_server_debounce = false
+async function loadingFrame(ms, text1, text2) {
+    client_server_debounce = true
+    const loadingFrame = document.querySelector(".mainframe-loading");
+    const loadingDiv = document.querySelector("#load-frame");
+    const loadedFrame = document.querySelector("#loaded-frame");
+
+    loadedFrame.style.display = "none"
+    loadingDiv.style.display = "flex"
+    loadingDiv.querySelector("p").innerHTML = text1
+    loadingFrame.style.display = "block"
+    await sleep(100)
+    loadingFrame.style.transform = "translateY(0px)"
+    while (client_server_debounce == true) {
+        await sleep(100)
+    }
+    loadedFrame.style.display = "flex"
+    loadingDiv.style.display = "none"
+    loadedFrame.querySelector("p").innerHTML = text2
+    await sleep(1000)
+    loadingFrame.style.transform = "translateY(200px)"
+    await sleep(700)
+    loadingFrame.style.display = "block"
+}
+
 async function deleteTrade(tradeid) {
     const response = await fetch("https://delete-trade-b52ovbio5q-uc.a.run.app", {
         method: "POST",
@@ -126,87 +151,20 @@ async function loadTrades() {
 
     const closeButton = clone.querySelector(".trade-close-button");
     closeButton.style.display = t.open == true ? "block" : "none"
-    closeButton.addEventListener("click", async function() {
-        close_Trade(t.id)
-        if (localStorage.getItem("token") != null) {
-            if (clientData) {
-                const request = window.indexedDB.open("clearentry", 3);
-                request.onerror = (event) => {
-                    location.reload()
-                }
-                request.onsuccess = async (event) => {
-                    const db = event.target.result;
 
-                    if (db.objectStoreNames.contains("clientData")) {
-                        const tx = db.transaction("clientData", "readwrite");
-                        const store = tx.objectStore("clientData");
-                        clientData.result['trades'][t.id]['open'] = false;
-                        closeButton.remove();
-                        entryEl.textContent = "Closed";
-                        entryEl.classList.toggle("opened-entry", false);
-                        entryEl.classList.toggle("closed-entry", true);
-                        store.put(clientData.result)
-                        tx.oncomplete = () => {
-                            db.close();
-                        }
-                    }
-                }
-            }
-        }
-    })
 
     const viewButton = clone.querySelector(".trade-view-button");
     viewButton.addEventListener('click', async function() {
-        entryView.style.display = "block"
-
-        entryEmotion = t.emotion
-        entryStrategy = t.strategy
-        entryID = t.id
-
-        const viewIMG = entryView.querySelector("#img_Frame")
-        viewIMG.src = t.img
-        viewIMG.style.visibility = t.img != "" && t.img != null ? "visible" : "hidden"
-
-        const viewEmotion = entryView.querySelector("#state-dropdown-button")
-        viewEmotion.childNodes[0].textContent = t.emotion
-
-        const viewStrategy = entryView.querySelector("#strategy-dropdown-button")
-        viewStrategy.childNodes[0].textContent = t.strategy
-
-        const viewSymbol = entryView.querySelector("#entry-symbol")
-        viewSymbol.value = t.symbol
-
-        const viewPL = entryView.querySelector("#entry-pl")
-        viewPL.value = t.PL
-
-        const viewNotes= entryView.querySelector("#entry-notes")
-        viewNotes.value = t.notes
+        localStorage.setItem("tradeView", t.id)
+        window.location.href = "../TradeLogging/tradelogging.html"
     })
 
     const deleteButton = clone.querySelector(".trade-delete-button");
     deleteButton.addEventListener('click', async function() {
-        deleteTrade(t.id)
-        if (localStorage.getItem("token") != null) {
-            if (clientData) {
-                const request = window.indexedDB.open("clearentry", 3);
-                request.onerror = (event) => {
-                    location.reload()
-                }
-                request.onsuccess = async (event) => {
-                    const db = event.target.result;
-
-                    if (db.objectStoreNames.contains("clientData")) {
-                        const tx = db.transaction("clientData", "readwrite");
-                        const store = tx.objectStore("clientData");
-                        delete clientData.result['trades'][t.id]
-                        store.put(clientData.result)
-                        tx.oncomplete = () => {
-                            db.close();
-                        }
-                    }
-                }
-            }
-        }
+        loadingFrame(0, "Deleting Trade...", "Deleted.")
+        await deleteTrade(t.id)
+        await updateClientData()
+        client_server_debounce = false
         clone.remove()
     })
 
@@ -217,62 +175,6 @@ async function loadTrades() {
   EntriesFrame.appendChild(frag);
 }
 
-async function reloadPage() {
-    
-    const children = Array.from(document.querySelector("#mental-dropdown").children);
-    const children2 = Array.from(document.querySelector("#strategy-dropdown").children);
-
-    for (let child of children) {
-        child.remove();
-    }
-    for (let child of children2) {
-        child.remove();
-    }
-
-    const emotions = clientData.result['emotions']
-    for (let emotion in emotions) {
-        const button = document.createElement("button")
-        button.innerHTML = emotions[emotion]
-        button.classList.add("dropdown-item")
-        button.classList.add("inter-text")
-
-        button.addEventListener("click", function() {
-            entryEmotion = emotions[emotion]
-            document.querySelector("#state-dropdown-button").childNodes[0].textContent = emotions[emotion]
-        })
-        document.querySelector("#mental-dropdown").appendChild(button)
-    }
-
-    const strategies = clientData.result['strategies']
-    for (let strategy in strategies) {
-        const button = document.createElement("button")
-        button.innerHTML = strategies[strategy]
-        button.classList.add("dropdown-item")
-        button.classList.add("inter-text")
-
-        button.addEventListener("click", function() {
-            entryStrategy = strategies[strategy]
-            document.querySelector("#strategy-dropdown-button").childNodes[0].textContent = strategies[strategy]
-        })
-        document.querySelector("#strategy-dropdown").appendChild(button)
-    }
-}
-
-document.querySelector("#state-dropdown-button").addEventListener("click", async function() {
-    if (document.querySelector("#mental-dropdown").style.display == "block") {
-        document.querySelector("#mental-dropdown").style.display = "none"
-    } else {
-        document.querySelector("#mental-dropdown").style.display = "block"
-    }
-})
-
-document.querySelector("#strategy-dropdown-button").addEventListener("click", async function() {
-    if (document.querySelector("#strategy-dropdown").style.display == "block") {
-        document.querySelector("#strategy-dropdown").style.display = "none"
-    } else {
-        document.querySelector("#strategy-dropdown").style.display = "block"
-    }
-})
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#bar-icon").addEventListener("click", () => {
@@ -282,38 +184,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-document.getElementById("save-button").addEventListener("click", async function() {
-    const response = await fetch("https://edit-trade-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            token: localStorage.getItem("token"),
-            trade_id: entryID,
-            PL: entryView.querySelector("#entry-pl").value,
-            emotion: entryEmotion,
-            notes: entryView.querySelector("#entry-notes").value,
-            strategy: entryStrategy,
-            symbol: entryView.querySelector("#entry-symbol").value,
-        })
-    })
-    location.reload()
-})
-
-document.getElementById("close-button").addEventListener("click", async function() {
-    entryView.style.display = "none"
-})
 
 
 
-async function init() {
+async function entries_init() {
     await getClientData()
     await sleep(100)
     
+
     loadTrades()
-    reloadPage()
 }
 
-init()
+entries_init()
 

@@ -177,62 +177,80 @@ body {
   gap: 30px;
 
   width: 100%;
-  height: 400px;
+  height: auto;
 
+    scrollbar-color: black transparent;
+  overflow-y: auto;
 
   margin-top: 10px;
 }
 
-.MainFrame_Frame2 {
-    width: 100%;
-    height: 400px;
 
-    margin-top: 40px;
-    padding-bottom: 140px;
-}
-
-.MainFrame_Frame_HalfFrame {
+.updlog_frame {
     border-radius: 10px;
 
-    height: 400px;
-    min-width: 400px;
-    width: 60%;
+    height: fit-content;
+    width: 90%;
     background-color: #181818;
     border: 1px solid #252525 ;
 
-
-  /* no explicit width/height needed */
+    margin-left: 30px;
 }
 
-
-
-.StatsFrame_Title {
+.updlog_title {
     color: white;
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 700;
     margin-top: 15px;
     width: fit-content;
     height: fit-content;
 
     margin-left: 20px;
     margin-bottom: 0;
+
 }
 
-.StatsFrame_text {
+.updlog_date {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    color: gray;
+
+
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.updlog_infoTitle {
     color: white;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
 
     width: fit-content;
     height: fit-content;
 
+    margin-bottom: 5px;
 
     margin-left: 20px;
 }
 
-.StatsFrame_textTitle {
-    text-decoration: underline;
+.updlog_info {
+    color: rgb(161, 161, 161);
+    font-size: 15px;
+    font-weight: 500;
+
+    padding-left: 10px;
+
+    width: fit-content;
+    height: fit-content;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    margin-left: 20px;
 }
+
 
 .ChartFrame {
     margin-top: auto; 
