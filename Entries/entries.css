@@ -8,7 +8,15 @@
 
 html, body {
     margin: 0;
+    overflow: hidden;
 }
+
+body {
+    display: flex;
+    align-items: stretch;
+    background-color: #121212;
+}
+
 
 
 .MainFrame_EntriesFrame {
