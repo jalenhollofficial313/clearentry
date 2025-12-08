@@ -192,18 +192,23 @@ body {
     z-index: 2;
 }
 
+.copy-entry {
+    display: none;
+}
+
 .view_frame {
     background-color: #181818;
     border: 1px solid #252525 ;
     width: 740px;
-    height: 400px;
+    height: fit-content;
+    padding-top: 10px;
+    padding-bottom: 20px;
 
     border-radius: 18px;
     margin-left: auto;
     margin-right: 40%;
     margin-bottom: 15%;
-    max-width: 50%;
-    max-height: 50%;
+    max-width: 80%;
 }
 
 #view_title {
