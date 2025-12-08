@@ -416,8 +416,9 @@ body {
     padding-left: 20px;
 }
 
+
 .journal_entryText {
-    width: 100%;
+    width: 90%;
     height: 100px;
 
     max-height: 60%;
@@ -703,4 +704,5 @@ body {
     #close-button {
         display: block;
     }
+
 }
