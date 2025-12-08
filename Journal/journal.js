@@ -144,6 +144,7 @@ async function loadJournalEntries() {
 }
 
 
+
 async function journalINIT(params) {
     await getClientData()
     await sleep(100)
@@ -184,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         client_server_debounce = false
         await sleep(500)
         document.querySelector("#journal_view_frame").style.display = "none"
+        location.reload()
     })
 
 });
