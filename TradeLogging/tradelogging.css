@@ -8,6 +8,8 @@
 
 html, body {
     margin: 0;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
 }
 
 body {
@@ -15,11 +17,9 @@ body {
     align-items: stretch;
     background-color: #121212;
 
-    
-    overflow-y: auto;
-    scrollbar-color: rgb(14, 12, 12) transparent;
 
 }
+
 
 .SideBar {
     background-color: #121212;
@@ -125,11 +125,7 @@ body {
 
 .MainFrame {
     width: 100%;
-    height: 100vh;
-
-    overflow-y: scroll;
-    scrollbar-color: rgb(14, 12, 12) transparent;
-
+    height: auto;
 }
 
 .MainFrame_HeadFrame {
@@ -1075,9 +1071,4 @@ body {
     .img-frame {
         height: 200px;
     }
-
 }
-
-
-
-
