@@ -8,17 +8,14 @@
 
 html, body {
     margin: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
 }
 
 body {
     display: flex;
     align-items: stretch;
     background-color: #121212;
-
-    
-    overflow-y: auto;
-    scrollbar-color: rgb(14, 12, 12) transparent;
 
 }
 
@@ -980,7 +977,8 @@ body {
 }
 .MainFrame {
     width: 100%;
-    height: 100vh;
+    height: auto;
+
 }
 
 
