@@ -11,40 +11,8 @@
 }
 
 
-.MainFrame_NotesFrame {
-    display: flex;
-    width: 100%;
-    height: 100%;
-
-}
-
-.MainFrame_NotesFrame_SideBar {
-    width: 250px;
-    height: 100%;
-
-    
-    background-color: #121212;
-    border-right: 1px solid rgb(92, 92, 92);
-}
 
 
-.MainFrame_NotesFrame_SideBar_Title {
-    width: 100%;
-    height: 60px;
-
-
-    margin-top: 0;
-    margin-bottom: 0;
-    align-content: center;
-    align-items: center;
-
-    display: flex;
-
-    padding-left: 35px;
-    font-size: 30px;
-    font-weight: 600;
-    color: white;
-}
 
 #bar-icon {
     color: white;
@@ -63,85 +31,6 @@
 
 }
 
-.MainFrame_NotesFrame_SideBar_Title_Notes {
-
-    height: 75%;
-
-    overflow-y: auto;
-    scrollbar-width: none;
-
-    justify-items: center;
-}
-
-.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame {
-    width: 92%;
-    height: 10%;
-
-    border-radius: 10px;
-    color: transparent;
-
-    margin-top: 5px;
-
-    transition: 250ms;
-}
-
-.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame:hover {
-    background-color: rgb(52, 53, 53);
-    cursor: pointer;
-}
-
-.note-selected {
-    background-color: rgb(52, 53, 53);
-}
-
-.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Title {
-    padding-left: 25px;
-    padding-top: 7px;
-    font-size: 20px;
-    font-weight: 600;
-    color: white;
-
-    margin: 0;
-}
-
-.MainFrame_NotesFrame_SideBar_Title_Notes_NoteFrame_Date {
-    padding-left: 25px;
-    padding-top: 2px;
-    font-size: 12px;
-    font-weight: 600;
-    color: rgb(134, 134, 134);
-
-    margin: 0;
-}
-
-.MainFrame_NotesFrame_SideBar_Title_AddNote {
-    padding-left: 35px;
-    padding-top: 2px;
-    font-size: 20px;
-    font-weight: 600;
-    color: rgb(177, 177, 177);
-    align-content: center;
-
-    height: 7%;
-    margin: 0;
-    margin-top: 6px;
-
-    transition: 250ms;
-}
-
-.MainFrame_NotesFrame_SideBar_Title_AddNote:hover {
-    background-color: gray;
-    cursor: pointer;
-}
-
-.MainFrame_NotesFrame_MainFrame {
-    width: 80%;
-    height: 100%;
-
-    overflow-y: auto;
-    scrollbar-color: rgb(14, 12, 12) transparent;
-    background-color: #121212;
-}
 
 .MainFrame_Title {
 
@@ -155,79 +44,6 @@
     margin-top: 0;
     margin-bottom: 0;
 }
-
-.MainFrame_NotesFrame_MainFrame_Date {
-    padding-left: 70px;
-    font-size: 16px;
-    font-weight: 500;
-    color: rgb(124, 124, 124);
-
-    width: auto;
-    height: fit-content;
-
-    margin-top: 0px;
-
-    align-content: center;
-}
-
-.MainFrame_NotesFrame_MainFrame_TextAreaDiv {
-    width: 100%;
-    height: 75%;
-
-
-
-
-}
-
-.MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea {
-    width: 87%;
-    height: 100%;
-
-
-    padding-left: 70px;
-    font-size: 15px;
-    font-weight: 500;
-    color: white;
-    background-color: transparent;
-
-    outline: none;
-    border: none;
-    resize: none;
-}
-
-.MainFrame_NotesFrame_MainFrame_TextAreaDiv_TextArea:focus {
-    border: none;
-}
-
-.MainFrame_NotesFrame_SideBar_Title_TitleDiv {
-    height: 5%;
-    width: 100%;
-
-    display: flex;
-    justify-content: center;
-}
-
-.MainFrame_NotesFrame_SideBar_Title_TitleDiv_Input {
-    background-color: transparent;
-
-    width: 85%;
-    height: 89%;
-    outline: none;
-    border: none;
-
-    color: white;
-
-    background-color: #181818;
-    border: 1px solid #252525 ;
-
-    padding-left: 15px;
-
-    font-size: 17px;
-    font-weight: 500;
-
-    border-radius: 12px;
-}
-
 
 
 html, body {
@@ -247,7 +63,7 @@ body {
 .SideBar {
     background-color: #121212;
     width: 260px;
-    height:auto;
+    height: auto;
 
 
     border-right: 1px solid #252525;
@@ -349,6 +165,7 @@ body {
 .MainFrame {
     width: 100%;
     height: 100dvh;
+    overflow: hidden;
 }
 
 .MainFrame_HeadFrame {
@@ -498,8 +315,6 @@ body {
 
 
     margin-left: 2%;
-    overflow-y: auto;
-    scrollbar-color: rgb(14, 12, 12) transparent;
 
     display: flex;
     flex-direction: row;
@@ -719,6 +534,11 @@ body {
         width: 100%;
     }
 
+    .view_frame {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .SideBar_List_ListItem {
         width: 88%;
     }
@@ -815,10 +635,6 @@ body {
         width: 100%;
         height: 100%;
         
-
-        overflow-y: auto;
-        scrollbar-color: rgb(14, 12, 12) transparent;
-        background-color: #121212;
     }
 
 
