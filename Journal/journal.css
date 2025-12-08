@@ -620,8 +620,6 @@ body {
     .journal-entry {
         margin-left: 0;
         margin-right: 0;
-
-        background-color: white;
     }
 
     .MainFrame_NotesFrame_SideBar {
@@ -704,4 +702,5 @@ body {
     #close-button {
         display: block;
     }
+
 }
