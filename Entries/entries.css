@@ -1373,8 +1373,6 @@ body {
 
 @media (max-width: 480px) {
 
-    body {
-    }
 
     .MainFrame {
         width: 100vw;
@@ -1536,5 +1534,4 @@ body {
     .img-frame {
         height: 200px;
     }
-
 }

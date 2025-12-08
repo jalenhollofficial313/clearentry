@@ -230,17 +230,18 @@
 
 
 
-
 html, body {
     margin: 0;
-    padding: 0;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
 }
 
 body {
     display: flex;
     align-items: stretch;
-    overflow: hidden;
     background-color: #121212;
+
+
 }
 
 .SideBar {
@@ -347,12 +348,7 @@ body {
 
 .MainFrame {
     width: 100%;
-    height: 100vh;
     height: 100dvh;
-
-
-    scrollbar-color: rgb(14, 12, 12) transparent;
-
 }
 
 .MainFrame_HeadFrame {
@@ -769,9 +765,6 @@ body {
         flex-direction: column;
     }
 
-    body {
-        position: fixed;
-    }
 
     .MainFrame {
         width: 100vw;
