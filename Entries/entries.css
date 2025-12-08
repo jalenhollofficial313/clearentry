@@ -1357,6 +1357,10 @@ body {
         scrollbar-width: none;
     }
 
+    .MainFrame_EntriesFrame_Entries{
+        gap: 15px 15px;
+    }
+
     .MainFrame_Frame_HalfFrame {
         min-width: 0;
         width: 96%;
