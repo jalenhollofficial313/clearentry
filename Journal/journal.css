@@ -618,7 +618,7 @@ body {
     }
 
     .journal-entry {
-        width: 90%
+        width: 90%;
         margin-left: 0;
         margin-right: 0;
     }
@@ -705,4 +705,5 @@ body {
     }
 
 }
+
 
