@@ -614,10 +614,11 @@ body {
     .journal-frame {
         width: 100%;
 
-        gap: 0;
+        gap: 15px;
     }
 
     .journal-entry {
+        width: 90%
         margin-left: 0;
         margin-right: 0;
     }
@@ -704,3 +705,4 @@ body {
     }
 
 }
+
