@@ -1374,7 +1374,6 @@ body {
 @media (max-width: 480px) {
 
     body {
-        position: fixed;
     }
 
     .MainFrame {
@@ -1537,4 +1536,5 @@ body {
     .img-frame {
         height: 200px;
     }
+
 }
