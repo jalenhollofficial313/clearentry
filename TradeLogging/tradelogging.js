@@ -350,12 +350,17 @@ async function loadDropDowns(params) {
     const emotions = clientData.result['emotions']
     for (let emotion in emotions) {
         const item = document.createElement("p")
-        item.innerHTML = emotions[emotion]
+
         item.classList.add("settings-listitem")
         item.classList.add("inter-text")
 
         const span = document.createElement("span")
-        span.classList.add("dropdown-icon")
+        span.classList.add("dropdown-icon2")
+
+        const span2 = document.createElement("span")
+        span2.classList.add("inter-text")
+
+        span2.innerHTML = emotions[emotion]
 
         const icon = document.createElement("i")
         icon.classList.add("icon2")
@@ -364,6 +369,7 @@ async function loadDropDowns(params) {
         icon.setAttribute("data-lucide", "x");
 
         span.appendChild(icon)
+        item.appendChild(span2)
         item.appendChild(span)
 
         span.addEventListener("click", function() {
@@ -387,12 +393,17 @@ async function loadDropDowns(params) {
     const strategies = clientData.result['strategies']
     for (let strategy in strategies) {
         const item = document.createElement("p")
-        item.innerHTML = strategies[strategy]
+
         item.classList.add("settings-listitem")
         item.classList.add("inter-text")
 
         const span = document.createElement("span")
-        span.classList.add("dropdown-icon")
+        span.classList.add("dropdown-icon2")
+
+        const span2 = document.createElement("span")
+        span2.classList.add("inter-text")
+
+        span2.innerHTML = strategies[strategy]
 
         const icon = document.createElement("i")
         icon.classList.add("icon2")
@@ -400,8 +411,8 @@ async function loadDropDowns(params) {
         icon.classList.add("remove-icon")
         icon.setAttribute("data-lucide", "x");
 
-
         span.appendChild(icon)
+        item.appendChild(span2)
         item.appendChild(span)
 
         span.addEventListener("click", function() {

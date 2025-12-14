@@ -15,39 +15,46 @@ html, body {
 body {
     display: flex;
     align-items: stretch;
-    background-color: #121212;
-
-
+    background-color: #13151a;
 }
 
 
 .SideBar {
-    background-color: #121212;
-    width: 260px;
+    background-color: #16181d;
+    width: 230px;
     height:auto;
 
-
-    border-right: 1px solid #252525;
+    border-right: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
 }
 
 .SideBar_Title {
     color: white;
-    font-size: 35px;
+    font-size: 29px;
     font-weight: 700;
 
 
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 100%;
+    width: auto;
 
+    padding-bottom: 16px;
     padding-left: 30px;
 
     display: block;
     text-decoration: none;
 
+    border-bottom: 1px solid #31363f;
 
+}
 
+.chart-flex {
+    flex-wrap: wrap;
+}
+
+.stat-flex {
+    flex-wrap: wrap;
 }
 
 .SideBar_Title:hover {
@@ -67,7 +74,7 @@ body {
 .SideBar_List_ListItem {
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 20px;
     margin-bottom: 0;
     margin-top: 5px;
 
@@ -78,7 +85,7 @@ body {
 
     width: 160px;
 
-    height: 40px;
+    height: 37px;
     transition: 350ms;
 }
 
@@ -88,6 +95,9 @@ body {
 }
 
 .SideBar_List_ListItem:hover p {
+    color: white;
+}
+.SideBar_List_ListItem:hover svg {
     color: white;
 }
 
@@ -102,11 +112,12 @@ body {
     color: black;
 }
 
-.SideBar_List_ListItem_Img {
-    width: 12.5%;
-    height: 60%;
-    margin-right: 10px;
+.selected-item svg {
+
+    color: black;
 }
+
+
 
 .align-center {
     align-content: center;
@@ -115,8 +126,19 @@ body {
 
 .SideBar_List_ListItem_Text {
     color: rgb(177, 177, 177);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
+}
+
+
+.SideBar_icon {
+    width: 20px;
+    height: 17px;
+
+    margin-left: 0;
+    margin-right: 7px;
+
+    color: rgb(177, 177, 177);
 }
 
 .anchor {
@@ -216,9 +238,11 @@ body {
     margin-bottom: 60px;
     margin-top: 30px;
 
+    border-radius: 10px;
 
-    background-color: #181818;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 }
 
 .entry-title {
@@ -306,7 +330,9 @@ body {
 
     color: gray;
 
-    background-color: #1f1f1f;
+    background-color: #20242be7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
 }
 
@@ -415,8 +441,9 @@ body {
     width: 90%;
     height: 40px;
 
-    background-color: #1f1f1f;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     border-radius: 10px;
 }
@@ -433,6 +460,16 @@ body {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.dropdown-icon2 {
+    padding-right: 15px;
+
+
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto;
+}
+
 
 .icon2 {
     width: 15px;
@@ -460,8 +497,9 @@ body {
     margin-left: 0;
     height: fit-content;
 
-    background-color: #1f1f1f;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     border-radius: 10px;
 }
@@ -516,8 +554,9 @@ body {
 
     padding-left: 10px;
 
-    background-color: #1f1f1f;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     border-radius: 10px;
 
@@ -542,8 +581,9 @@ body {
 
     padding-left: 10px;
 
-    background-color: #1f1f1f;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     border-radius: 10px;
 
@@ -573,8 +613,9 @@ body {
 
     padding-left: 10px;
 
-    background-color: #1f1f1f;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     scrollbar-color: black transparent;
 
@@ -611,9 +652,9 @@ body {
     font-weight: 500;
 
 
-    border: 1px solid #333333;
-
-    background-color: black;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
     color: white;
 
     scrollbar-color: black transparent;
@@ -647,8 +688,9 @@ body {
 }
 
 .settings-div {
-    background-color: #1f1f1f;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     display: block;
     border-radius: 18px;
@@ -702,8 +744,9 @@ body {
 
     padding-left: 10px;
 
-    background-color: #121212;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     border-radius: 10px;
 
@@ -722,8 +765,9 @@ body {
     font-weight: 600;
     color: white;
 
-    background-color: #121212;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     border-radius: 10px;
 
@@ -782,16 +826,20 @@ body {
     margin-top: 5px;
     margin-bottom: 5px;
 
+    display: flex;
+
     padding-left: 10px;
 
-    background-color: #121212;
-    border: 1px solid #333333;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
     border-radius: 10px;
 }
 
 .remove-icon {
-    margin-top: -3px;
+    display: inline-block;
+    float: right;
 }
 
 .remove-icon:hover {

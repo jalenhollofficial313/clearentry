@@ -16,39 +16,47 @@ html, body {
 body {
     display: flex;
     align-items: stretch;
-    background-color: #121212;
+    background-color: #13151a;
 
 }
 
 
 .SideBar {
-    background-color: #121212;
-    width: 260px;
+    background-color: #16181d;
+    width: 230px;
     height:auto;
 
-
-    border-right: 1px solid #252525;
+    border-right: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
 }
 
-
 .SideBar_Title {
     color: white;
-    font-size: 35px;
+    font-size: 29px;
     font-weight: 700;
 
 
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 100%;
+    width: auto;
 
+    padding-bottom: 16px;
     padding-left: 30px;
 
     display: block;
     text-decoration: none;
 
+    border-bottom: 1px solid #31363f;
 
+}
 
+.chart-flex {
+    flex-wrap: wrap;
+}
+
+.stat-flex {
+    flex-wrap: wrap;
 }
 
 .SideBar_Title:hover {
@@ -68,7 +76,7 @@ body {
 .SideBar_List_ListItem {
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 20px;
     margin-bottom: 0;
     margin-top: 5px;
 
@@ -79,7 +87,7 @@ body {
 
     width: 160px;
 
-    height: 40px;
+    height: 37px;
     transition: 350ms;
 }
 
@@ -89,6 +97,9 @@ body {
 }
 
 .SideBar_List_ListItem:hover p {
+    color: white;
+}
+.SideBar_List_ListItem:hover svg {
     color: white;
 }
 
@@ -103,11 +114,12 @@ body {
     color: black;
 }
 
-.SideBar_List_ListItem_Img {
-    width: 12.5%;
-    height: 60%;
-    margin-right: 10px;
+.selected-item svg {
+
+    color: black;
 }
+
+
 
 .align-center {
     align-content: center;
@@ -116,9 +128,20 @@ body {
 
 .SideBar_List_ListItem_Text {
     color: rgb(177, 177, 177);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
 }
+
+.SideBar_icon {
+    width: 20px;
+    height: 17px;
+
+    margin-left: 0;
+    margin-right: 7px;
+
+    color: rgb(177, 177, 177);
+}
+
 
 .anchor {
     text-decoration: none;
@@ -225,8 +248,9 @@ body {
     width: 94%;
 
     border-radius: 10px;
-    background-color: #181818;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 }
 
 
@@ -324,8 +348,9 @@ body {
 
 
     border-radius: 10px;
-    background-color: #181818;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 
 }
 
@@ -364,8 +389,9 @@ body {
     margin-right: auto;
 
     border-radius: 10px;
-    background-color: #181818;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 }
 
 .frame-title-3 {
@@ -421,8 +447,9 @@ body {
     width: 23%;
     margin-top: 20px;
 
-    background-color: #1c1c1c;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 }
 
 .metrics-title{
@@ -459,8 +486,9 @@ body {
     margin-right: auto;
 
     border-radius: 10px;
-    background-color: #181818;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 }
 
 #trades-frame {
@@ -485,8 +513,9 @@ body {
     align-items: center;
 
     border-radius: 10px;
-    background-color: #141414;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
 }
 
 .trade-title {

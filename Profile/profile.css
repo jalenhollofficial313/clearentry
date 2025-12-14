@@ -8,24 +8,17 @@
 
 html, body {
     margin: 0;
+    overflow-y: auto;
+    scrollbar-color: rgb(14, 12, 12) transparent;
 }
 
 body {
     display: flex;
     align-items: stretch;
-    overflow: hidden;
-    background-color: #121212;
+    background-color: #13151a;
 }
 
-.SideBar {
-    background-color: #121212;
-    width: 260px;
-    height:auto;
 
-
-    border-right: 1px solid #252525;
-
-}
 
 
 .MainFrame_ProfileFrame {
@@ -119,9 +112,9 @@ body {
 
     align-content: center;
 
-
-    background-color: #181818;
-    border: 1px solid #252525 ;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
     
     border-radius: 10px;
 
@@ -186,29 +179,51 @@ body {
 
 
 
+.SideBar {
+    background-color: #16181d;
+    width: 230px;
+    height:auto;
+
+    border-right: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+
+}
 
 .SideBar_Title {
     color: white;
-    font-size: 35px;
+    font-size: 29px;
     font-weight: 700;
 
 
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 100%;
+    width: auto;
 
+    padding-bottom: 16px;
     padding-left: 30px;
 
     display: block;
     text-decoration: none;
 
-
+    border-bottom: 1px solid #31363f;
 
 }
 
 .SideBar_Title:hover {
     cursor: pointer;
 }
+
+
+.SideBar_icon {
+    width: 20px;
+    height: 17px;
+
+    margin-left: 0;
+    margin-right: 7px;
+
+    color: rgb(177, 177, 177);
+}
+
 
 .SideBar_List {
     text-decoration: none;
@@ -223,7 +238,7 @@ body {
 .SideBar_List_ListItem {
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 20px;
     margin-bottom: 0;
     margin-top: 5px;
 
@@ -234,7 +249,7 @@ body {
 
     width: 160px;
 
-    height: 40px;
+    height: 37px;
     transition: 350ms;
 }
 
@@ -246,6 +261,26 @@ body {
 .SideBar_List_ListItem:hover p {
     color: white;
 }
+.SideBar_List_ListItem:hover svg {
+    color: white;
+}
+
+
+
+.selected-item {
+    background-color: #00ff99;
+}
+
+.selected-item p {
+
+    color: black;
+}
+
+.selected-item svg {
+
+    color: black;
+}
+
 
 
 
@@ -271,9 +306,10 @@ body {
 
 .SideBar_List_ListItem_Text {
     color: rgb(177, 177, 177);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
 }
+
 
 .anchor {
     text-decoration: none;

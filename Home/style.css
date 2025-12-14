@@ -34,6 +34,18 @@ body {
     box-sizing: border-box;
 }
 
+.discord-anchor {
+    height: fit-content;
+    padding: 0;
+    margin-right: -10px;
+}
+
+.discord-icon {
+    height: 16px;
+    color: white;
+    margin-top: 5px;
+}
+
 .frame-1 {
     width: 100%;
     min-height: 870px;
