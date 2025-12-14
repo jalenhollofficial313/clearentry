@@ -849,6 +849,10 @@ a {
         padding: 0 15px;
     }
 
+    .buttons-frame {
+        width: 100%;
+    }
+
     .head-title {
         display: none;
     }
