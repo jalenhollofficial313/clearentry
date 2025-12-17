@@ -113,18 +113,33 @@ async function add_Note(token) {
 async function loadJournalEntries() {
     const journal_entries = clientData.result['notes']
     console.log(journal_entries)
-    for (const entry in journal_entries) {
+    
+    // Convert object to array and sort chronologically (oldest first)
+    const entriesArray = Object.entries(journal_entries).map(([key, value]) => {
+        return { ...value, id: key };
+    });
+    
+    // Sort by date in chronological order (oldest first), then reverse to show newest first
+    entriesArray.sort((a, b) => (a.date || 0) - (b.date || 0));
+    entriesArray.reverse();
+    
+    for (const entry of entriesArray) {
         const clone = document.querySelector(".copy-entry").cloneNode(true)
         clone.style.display = "block"
 
-        clone.querySelector(".journal_entryTitle").innerHTML = journal_entries[entry].title
-        clone.querySelector(".journal_entryText").innerHTML = journal_entries[entry].text
+        clone.querySelector(".journal_entryTitle").innerHTML = entry.title
+        clone.querySelector(".journal_entryText").innerHTML = entry.text
+        
+        // Display the date if it exists
+        if (entry.date) {
+            clone.querySelector(".journal_entryDate").innerHTML = convertUnixToFullDate(entry.date)
+        }
 
         clone.addEventListener("click", async function(params) {
             viewing = true
-            currentNoteIndex = entry
-            document.querySelector("#view_text").value = journal_entries[entry].text
-            document.querySelector("#view_title").value = journal_entries[entry].title
+            currentNoteIndex = entry.id
+            document.querySelector("#view_text").value = entry.text
+            document.querySelector("#view_title").value = entry.title
             document.querySelector("#journal_view_frame").style.display = "block"
         })
 
@@ -132,7 +147,7 @@ async function loadJournalEntries() {
             e.stopPropagation();
             client_server_debounce = true
             loadingFrame(1000, "Deleteing note...", "Note Deleted.")
-            currentNoteIndex = entry
+            currentNoteIndex = entry.id
             await removeNote(localStorage.getItem("token"))
             await updateClientData()
             client_server_debounce = false

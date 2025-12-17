@@ -49,12 +49,14 @@
 html, body {
     margin: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-color: rgb(14, 12, 12) transparent;
 }
 
 body {
     display: flex;
     align-items: stretch;
+    height: auto;
     background-color: #13151a;
 }
 
@@ -198,12 +200,14 @@ body {
 
 .journal-mainframe {
     width: 100%;
-    height: 100%;
+    height: auto;
+
 }
 
 #journal_view_frame {
     width: 100%;
-    height: 100%;
+    height: auto;
+    background-color: gray;
     display: none;
     position: absolute;
     background-color: #18181860;
@@ -339,19 +343,20 @@ body {
 
 .journal-frame {
     width: fit-content;
+    max-width: 95%;
     height: 100%;
     
     padding: 20px;
 
-
-    margin-left: 2%;
+    margin-left: auto;
+    margin-right: auto;
 
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 
     align-content: start;
-    justify-content: center;
+    justify-content: flex-start;
 
     gap: 20px;
 }
@@ -499,7 +504,8 @@ body {
 
     z-index: 5;
 
-    display: none;
+    display: block;
+    background-color: gray;
     transform: translateY(200px);
     transition: 750ms;
     margin-bottom: 15px;
