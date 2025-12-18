@@ -332,10 +332,39 @@ async function loadDate(year = null, month = null) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector("#bar-icon").addEventListener("click", () => {
-    console.log("Check")
-    document.querySelector("#sidebar").style.display = "block";
-  });
+  const barIcon = document.querySelector("#bar-icon");
+  const headFrame = document.querySelector(".MainFrame_HeadFrame");
+  
+  // Handle clicks on headframe - check if it's specifically the bar-icon
+  if (headFrame) {
+    headFrame.addEventListener("click", (e) => {
+      // Check if the click target is the bar-icon or inside it
+      const clickedBarIcon = e.target.closest("#bar-icon");
+      
+      if (clickedBarIcon) {
+        // Click was on the bar-icon, toggle sidebar
+        e.stopPropagation();
+        console.log("Check")
+        const sidebar = document.querySelector("#sidebar");
+        if (sidebar) {
+          sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
+        }
+      }
+      // If click is not on bar-icon, do nothing (prevents accidental triggers)
+    });
+  }
+  
+  // Also add direct handler to bar-icon as backup
+  if (barIcon) {
+    barIcon.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      console.log("Check")
+      const sidebar = document.querySelector("#sidebar");
+      if (sidebar) {
+        sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
+      }
+    });
+  }
 });
 
 
