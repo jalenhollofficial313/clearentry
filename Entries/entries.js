@@ -3,6 +3,17 @@ const entriesFrame = document.getElementById("EntriesFrame");
 const tradeExample = document.getElementById("Clone-Entry")
 const EntriesFrame = document.getElementById("EntriesFrame")
 
+// Filter elements
+const filterType = document.getElementById("filter-type");
+const filterResult = document.getElementById("filter-result");
+const filterStatus = document.getElementById("filter-status");
+const filterStrategy = document.getElementById("filter-strategy");
+const filterEmotion = document.getElementById("filter-emotion");
+const clearFiltersButton = document.getElementById("clear-filters");
+
+// Store all trades for filtering
+let allTrades = [];
+
 const entryView = document.getElementById("TradeView")
 const entryViewList = document.getElementsByClassName("MainFrame_TradeEntryView_TradeFrame_div_dropdown")
 const entrydropDownButtons = document.getElementsByClassName("MainFrame_TradeEntryView_TradeFrame_div_dropdownbutton")
@@ -87,7 +98,6 @@ async function getTradesOrder(table) {
 
 
     tableArray.sort((a, b) => b['date'] - a['date']);
-    console.log(tableArray)
     return tableArray;
 }
 
@@ -104,17 +114,141 @@ async function close_Trade(tradeid) {
     })
 }
 
-async function loadTrades() {
-  const frag = document.createDocumentFragment();
+function populateFilterOptions(trades) {
+  // Get unique strategies and emotions
+  const strategies = new Set();
+  const emotions = new Set();
+  
+  trades.forEach(trade => {
+    if (trade.strategy && trade.strategy !== "") {
+      if (Array.isArray(trade.strategy)) {
+        trade.strategy.forEach(s => strategies.add(s));
+      } else {
+        strategies.add(trade.strategy);
+      }
+    }
+    if (trade.emotion && trade.emotion !== "") {
+      emotions.add(trade.emotion);
+    }
+  });
+  
+  // Populate strategy dropdown
+  filterStrategy.innerHTML = '<option value="all">All Strategies</option>';
+  Array.from(strategies).sort().forEach(strategy => {
+    const option = document.createElement('option');
+    option.value = strategy;
+    option.textContent = strategy;
+    filterStrategy.appendChild(option);
+  });
+  
+  // Populate emotion dropdown
+  filterEmotion.innerHTML = '<option value="all">All Emotions</option>';
+  Array.from(emotions).sort().forEach(emotion => {
+    const option = document.createElement('option');
+    option.value = emotion;
+    option.textContent = emotion;
+    filterEmotion.appendChild(option);
+  });
+}
 
-  const tradeData = await getTradesOrder(clientData.result['trades'])
-  for (let i = 0; i < tradeData.length; i++) {
-    const t = tradeData[i];
+function filterTrades(trades) {
+  return trades.filter(trade => {
+    // Filter by type
+    if (filterType.value !== "all") {
+      if (trade.type !== filterType.value) {
+        return false;
+      }
+    }
+    
+    // Filter by result (win/loss)
+    if (filterResult.value !== "all") {
+      const pl = Number(trade.PL) || 0;
+      if (filterResult.value === "win" && pl <= 0) {
+        return false;
+      }
+      if (filterResult.value === "loss" && pl >= 0) {
+        return false;
+      }
+    }
+    
+    // Filter by status (open/closed)
+    if (filterStatus.value !== "all") {
+      const isOpen = trade.open === true || trade.open === "true";
+      if (filterStatus.value === "open" && !isOpen) {
+        return false;
+      }
+      if (filterStatus.value === "closed" && isOpen) {
+        return false;
+      }
+    }
+    
+    // Filter by strategy
+    if (filterStrategy.value !== "all") {
+      if (Array.isArray(trade.strategy)) {
+        if (!trade.strategy.includes(filterStrategy.value)) {
+          return false;
+        }
+      } else {
+        if (trade.strategy !== filterStrategy.value) {
+          return false;
+        }
+      }
+    }
+    
+    // Filter by emotion
+    if (filterEmotion.value !== "all") {
+      if (trade.emotion !== filterEmotion.value) {
+        return false;
+      }
+    }
+    
+    return true;
+  });
+}
+
+function calculateOptimalWidth() {
+  const entryWidth = 350; // Fixed width of each entry
+  const gap = 20; // Gap between entries
+  const containerPadding = 10; // Left + right padding
+  
+  // Get the actual MainFrame width (accounts for sidebar)
+  const mainFrame = document.querySelector('.MainFrame');
+  const maxContainerWidth = mainFrame ? mainFrame.offsetWidth * 0.95 : window.innerWidth * 0.95;
+  
+  // Calculate how many entries can fit per row
+  const availableWidth = maxContainerWidth - containerPadding;
+  const entriesPerRow = Math.floor((availableWidth + gap) / (entryWidth + gap));
+  
+  // Calculate optimal width: exactly fit N entries
+  if (entriesPerRow > 0) {
+    const optimalWidth = (entriesPerRow * entryWidth) + ((entriesPerRow - 1) * gap) + containerPadding;
+    return Math.min(optimalWidth, maxContainerWidth);
+  }
+  
+  return maxContainerWidth;
+}
+
+function renderTrades(trades) {
+  // Clear existing entries (except the clone)
+  const existingEntries = EntriesFrame.querySelectorAll('.MainFrame_EntriesFrame_Entries_Entry:not(#Clone-Entry)');
+  console.log(existingEntries)
+  existingEntries.forEach(entry => entry.remove());
+  
+  // Calculate and set optimal width
+  const optimalWidth = calculateOptimalWidth();
+  EntriesFrame.style.width = `${optimalWidth}px`;
+  
+  const frag = document.createDocumentFragment();
+  
+  for (let i = 0; i < trades.length; i++) {
+    const t = trades[i];
     const clone = tradeExample.cloneNode(true);
     clone.style.display = "block";
+    clone.id = ""
 
     // Fill inside the clone (not the whole document)
-    clone.querySelector(".strategy-text").textContent = t.strategy ?? "";
+    const strategyText = Array.isArray(t.strategy) ? t.strategy.join(", ") : (t.strategy ?? "");
+    clone.querySelector(".strategy-text").textContent = strategyText;
     clone.querySelector(".emotion-text").textContent = t.emotion ?? "";
 
     // P/L
@@ -175,11 +309,71 @@ async function loadTrades() {
   EntriesFrame.appendChild(frag);
 }
 
+async function loadTrades() {
+  const tradeData = await getTradesOrder(clientData.result['trades']);
+  allTrades = tradeData;
+  console.log(allTrades)
+  
+  // Populate filter options
+  populateFilterOptions(tradeData);
+  
+  // Apply filters and render
+  const filteredTrades = filterTrades(tradeData);
+  renderTrades(filteredTrades);
+}
+
+
+// Handle window resize to recalculate optimal width
+let resizeTimeout;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if (allTrades.length > 0) {
+      const filteredTrades = filterTrades(allTrades);
+      renderTrades(filteredTrades);
+    }
+  }, 250);
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#bar-icon").addEventListener("click", () => {
     console.log("Check")
     document.querySelector("#sidebar").style.display = "block";
+  });
+  
+  // Add filter event listeners
+  if (filterType) filterType.addEventListener("change", () => {
+    const filteredTrades = filterTrades(allTrades);
+    renderTrades(filteredTrades);
+  });
+  
+  if (filterResult) filterResult.addEventListener("change", () => {
+    const filteredTrades = filterTrades(allTrades);
+    renderTrades(filteredTrades);
+  });
+  
+  if (filterStatus) filterStatus.addEventListener("change", () => {
+    const filteredTrades = filterTrades(allTrades);
+    renderTrades(filteredTrades);
+  });
+  
+  if (filterStrategy) filterStrategy.addEventListener("change", () => {
+    const filteredTrades = filterTrades(allTrades);
+    renderTrades(filteredTrades);
+  });
+  
+  if (filterEmotion) filterEmotion.addEventListener("change", () => {
+    const filteredTrades = filterTrades(allTrades);
+    renderTrades(filteredTrades);
+  });
+  
+  if (clearFiltersButton) clearFiltersButton.addEventListener("click", () => {
+    filterType.value = "all";
+    filterResult.value = "all";
+    filterStatus.value = "all";
+    filterStrategy.value = "all";
+    filterEmotion.value = "all";
+    renderTrades(allTrades);
   });
 });
 

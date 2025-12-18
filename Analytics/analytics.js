@@ -14,35 +14,13 @@ function getDayRange(year, month, day) {
   };
 }
 
-async function unixToTimeOfDayAMPM(unixTimestamp) {
-  // detect seconds vs milliseconds
-  if (unixTimestamp.toString().length === 10) {
-    unixTimestamp *= 1000; // convert seconds → ms
-  }
-
-  const date = new Date(unixTimestamp);
-  console.log(date)
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  // Determine AM or PM
-  const period = hours >= 12 ? 'PM' : 'AM';
-
-  // Convert to 12-hour format
-  hours = hours % 12 || 12;
-
-  // Format nicely
-  const formatted = `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
-
-  return formatted;
-}
-
-
-// Main logic
-async function analyzeTradesByDay(trades) {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth(); // current month (0-based)
+// Main logic - Updated to accept year/month parameters
+async function analyzeTradesByDay(trades, year = null, month = null) {
+    if (year === null || month === null) {
+        const now = new Date();
+        year = now.getFullYear();
+        month = now.getMonth();
+    }
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
     const dayElements = document.querySelectorAll(
@@ -107,11 +85,14 @@ async function analyzeTradesByDay(trades) {
             if (dailyPL > 0) {
                 tradesPL.innerHTML = "+$" + dailyPL
                 tradesPL.classList.add("green-text")
+                tradesPL.classList.remove("red-text")
             } else if (dailyPL < 0) {
-                tradesPL.innerHTML = "-$" + dailyPL
+                tradesPL.innerHTML = "-$" + Math.abs(dailyPL)
                 tradesPL.classList.add("red-text")
+                tradesPL.classList.remove("green-text")
             } else {
                 tradesPL.innerHTML = "$" + dailyPL
+                tradesPL.classList.remove("green-text", "red-text")
             }
 
             const emotionCounts = {};
@@ -217,26 +198,12 @@ async function loadData() {
         }
     }
 
-    let totalSeconds = 0
-
     for (let trade in clientData.result['trades']) {
         tradeAmount += 1
         totalPL += clientData.result['trades'][trade]['PL']
         if (clientData.result['trades'][trade]['PL'] > 0 ) {
             totalWinPL += clientData.result['trades'][trade]['PL']
             wins += 1
-            const date = new Date(clientData.result['trades'][trade]['date'] * 1000); // convert UNIX (seconds) → ms
-
-            // get hours/minutes/seconds of day     
-            const hours = date.getHours();
-            const minutes = date.getMinutes();
-            const seconds = date.getSeconds();
-
-            // convert that to total seconds since midnight
-            const timeOfDaySeconds = hours * 3600 + minutes * 60 + seconds;
-
-            // add to total
-            totalSeconds += timeOfDaySeconds;
         }
         if (clientData.result['trades'][trade]['PL'] < 0 ) {
             totalLossPL += clientData.result['trades'][trade]['PL']
@@ -244,15 +211,36 @@ async function loadData() {
         }
     }
 
-    avgWin = totalWinPL / wins
-    avgLoss = totalLossPL / losses
+    // Calculate averages safely
+    avgWin = wins > 0 ? totalWinPL / wins : 0
+    avgLoss = losses > 0 ? Math.abs(totalLossPL / losses) : 0
 
-    let WinRate = Math.floor((wins / tradeAmount) * 100)
-    let LossRate = (losses / tradeAmount) * 100
-    let ProfitFactor = roundTo(totalWinPL / Math.abs(totalLossPL), 1)
-    let Expectancy = Math.floor(((WinRate/100) * avgWin) - ((LossRate/100) * avgLoss))
+    let WinRate = tradeAmount > 0 ? Math.floor((wins / tradeAmount) * 100) : 0
+    let LossRate = tradeAmount > 0 ? (losses / tradeAmount) : 0
+    
+    // Fix Profit Factor calculation
+    // Profit Factor = (sum of profits from winning trades) / (absolute sum of losses from losing trades)
+    let ProfitFactor;
+    if (Math.abs(totalLossPL) === 0) {
+        // No losing trades but there are winners
+        if (totalWinPL > 0) {
+            ProfitFactor = "∞"; // Infinity or max cap
+        } else {
+            ProfitFactor = 0; // No winners
+        }
+    } else {
+        ProfitFactor = roundTo(totalWinPL / Math.abs(totalLossPL), 2);
+    }
+    
+    // Fix Expectancy calculation
+    // Expectancy = (WinRate * AvgWin) - (LossRate * AvgLoss)
+    let Expectancy;
+    if (tradeAmount === 0) {
+        Expectancy = 0;
+    } else {
+        Expectancy = roundTo(((WinRate/100) * avgWin) - ((LossRate) * avgLoss), 2);
+    }
     let EmotionalConsistency =  Math.floor((mostEmotionAmount / totalemotionAmounts) * 100)
-    let bestTime = totalSeconds / wins
 
     const statText = document.querySelectorAll(".MainFrame_Frame_Frame_TopStats_Stat_text")
     const statText2 = document.querySelectorAll(".MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text")
@@ -266,46 +254,62 @@ async function loadData() {
         statText[0].innerHTML = "$" + totalPL
     }
     statText[1].innerHTML = WinRate + "%"
-    statText[2].innerHTML = ProfitFactor
+    statText[2].innerHTML = ProfitFactor === "∞" ? "∞" : ProfitFactor
     if (Expectancy > 0) {
         statText[3].innerHTML = "+$" + Expectancy
         statText[3].classList.add("green-text")
+        statText[3].classList.remove("red-text")
     } else if (Expectancy < 0) {
-        statText[3].innerHTML = "-$" + Expectancy
+        statText[3].innerHTML = "-$" + Math.abs(Expectancy)
         statText[3].classList.add("red-text")
+        statText[3].classList.remove("green-text")
     } else {
         statText[3].innerHTML = "$" + Expectancy
+        statText[3].classList.remove("green-text", "red-text")
     }
     statText2[0].innerHTML = mostEmotion
     statText2[1].innerHTML = mostProfitableEmotion
     statText2[2].innerHTML = EmotionalConsistency + "%" 
-    if (bestTime) {
-        statText2[3].innerHTML = await unixToTimeOfDayAMPM(bestTime)
-    } else {
-        statText2[3].innerHTML = "N/A"
-    }
-    statText2[4].innerHTML = mostProfitableStrategy || "N/A"
+    statText2[3].innerHTML = mostProfitableStrategy || "N/A"
 }
 
-// Select your calendar container
+// Calendar state
+let currentCalendarDate = new Date();
 
-async function loadDate(params) {
+// Format month name
+function getMonthName(monthIndex) {
+    const months = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+    return months[monthIndex];
+}
+
+// Load calendar for specific month/year
+async function loadDate(year = null, month = null) {
     const cal = document.querySelector(".MainFrame_Frame_Frame_MainStats_Calender");
+    const titleEl = document.querySelector(".MainFrame_Frame_Frame_MainStats_CalenderFrame_Title");
 
-    // Get current date info
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth(); // 0 = Jan, 11 = Dec
+    // Use provided date or current calendar date
+    if (year === null || month === null) {
+        year = currentCalendarDate.getFullYear();
+        month = currentCalendarDate.getMonth();
+    } else {
+        currentCalendarDate = new Date(year, month, 1);
+    }
+
+    // Update title
+    if (titleEl) {
+        titleEl.textContent = `${getMonthName(month)} ${year}`;
+    }
 
     // Get the total number of days in this month
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // Clear existing HTML (optional, if re-rendering)
+    // Clear existing HTML
     cal.innerHTML = "";
 
     // Loop through and create a div for each day of the month
     for (let d = 1; d <= daysInMonth; d++) {
-        const num = String(d).padStart(2, "0"); // Formats 1 → 01, 2 → 02, etc.
+        const num = String(d).padStart(2, "0");
 
         cal.insertAdjacentHTML(
             "beforeend",
@@ -319,7 +323,13 @@ async function loadDate(params) {
             `
         );
     }
+
+    // Re-analyze trades for the new month
+    if (tradeData) {
+        analyzeTradesByDay(tradeData, year, month);
+    }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#bar-icon").addEventListener("click", () => {
@@ -345,13 +355,131 @@ async function getTradesOrder(table) {
 
 
 
+// Check membership and setup paywalls
+function setupMembershipGating() {
+    const membership = clientData.result['membership'];
+    const isPro = membership && membership.toLowerCase() === 'pro';
+    
+    // Calendar paywall
+    const calendarPaywall = document.getElementById('calendar-paywall');
+    if (calendarPaywall) {
+        calendarPaywall.style.display = isPro ? 'none' : 'flex';
+    }
+    
+    // Time range selector gating
+    const weekButton = document.getElementById('range-week');
+    const monthButton = document.getElementById('range-month');
+    const yearButton = document.getElementById('range-year');
+    
+    if (!isPro) {
+        // Standard members: only Week is available
+        if (monthButton) {
+            monthButton.classList.add('range-button-locked');
+            monthButton.querySelector('.range-lock-icon').style.display = 'inline-block';
+        }
+        if (yearButton) {
+            yearButton.classList.add('range-button-locked');
+            yearButton.querySelector('.range-lock-icon').style.display = 'inline-block';
+        }
+        
+        // Add click handlers for locked buttons
+        if (monthButton) {
+            monthButton.addEventListener('click', () => {
+                window.location.href = '../Home/index.html#pricing';
+            });
+        }
+        if (yearButton) {
+            yearButton.addEventListener('click', () => {
+                window.location.href = '../Home/index.html#pricing';
+            });
+        }
+    }
+}
+
+// Time range selector functionality
+let currentTimeRange = 'week';
+
+function setupTimeRangeSelector() {
+    const weekButton = document.getElementById('range-week');
+    const monthButton = document.getElementById('range-month');
+    const yearButton = document.getElementById('range-year');
+    
+    const membership = clientData.result['membership'];
+    const isPro = membership && membership.toLowerCase() === 'pro';
+    
+    function setActiveRange(range) {
+        // Remove active from all
+        [weekButton, monthButton, yearButton].forEach(btn => {
+            if (btn) btn.classList.remove('range-button-active');
+        });
+        
+        // Add active to selected
+        if (range === 'week' && weekButton) {
+            weekButton.classList.add('range-button-active');
+        } else if (range === 'month' && monthButton && isPro) {
+            monthButton.classList.add('range-button-active');
+        } else if (range === 'year' && yearButton && isPro) {
+            yearButton.classList.add('range-button-active');
+        }
+        
+        currentTimeRange = range;
+        // TODO: Filter data based on time range
+    }
+    
+    if (weekButton) {
+        weekButton.addEventListener('click', () => setActiveRange('week'));
+    }
+    if (monthButton && isPro) {
+        monthButton.addEventListener('click', () => setActiveRange('month'));
+    }
+    if (yearButton && isPro) {
+        yearButton.addEventListener('click', () => setActiveRange('year'));
+    }
+}
+
+// Calendar navigation
+function setupCalendarNavigation() {
+    const prevButton = document.getElementById('calendar-prev');
+    const nextButton = document.getElementById('calendar-next');
+    
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            loadDate(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+        });
+    }
+    
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            loadDate(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+        });
+    }
+}
+
 // Run when DOM is ready
 document.addEventListener("DOMContentLoaded", async function() {
     await getClientData()
     await sleep(100)
 
-    loadDate()
+    // Initialize calendar with current month
+    const now = new Date();
+    currentCalendarDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    loadDate(now.getFullYear(), now.getMonth())
+    
     tradeData = await getTradesOrder(clientData.result['trades'])
-    analyzeTradesByDay(tradeData)
+    analyzeTradesByDay(tradeData, now.getFullYear(), now.getMonth())
     loadData()
+    
+    // Setup membership gating
+    setupMembershipGating()
+    
+    // Setup time range selector
+    setupTimeRangeSelector()
+    
+    // Setup calendar navigation
+    setupCalendarNavigation()
+    
+    // Recreate icons after DOM updates
+    lucide.createIcons();
 });

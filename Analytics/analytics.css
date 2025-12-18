@@ -15,12 +15,14 @@ body {
     align-items: stretch;
     overflow: hidden;
     background-color: #13151a;
+    padding-bottom: 100px;
 }
 
 
 .MainFrame_Frame {
     width: 100%;
     height: 87%;
+
 
     justify-items: center;
 }
@@ -54,7 +56,7 @@ body {
 }
 
 .MainFrame_Frame_Frame_TopStats_Stat {
-    width: 23%;
+    width: 22%;
     height: 100%;
     min-width: 200px;
 
@@ -95,51 +97,201 @@ body {
 }
 
 .MainFrame_Frame_Frame_MainStats {
-
     display: flex;
-    gap: 2%;
-
-    justify-content: center;
-    align-items: center;
-
+    flex-direction: column;
+    gap: 20px;
     width: 100%;
-    height: 80%;
-
     padding: 10px 0;
+}
 
+/* Time Range Selector */
+.time-range-selector {
+    display: flex;
+    gap: 10px;
+    margin-left: 2%;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.range-button {
+    padding: 10px 25px;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 250ms;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.range-button:hover {
+    background-color: #31363f;
+    transform: scale(1.02);
+}
+
+.range-button-active {
+    background-color: #00ff99;
+    color: black;
+    border-color: #00ff99;
+}
+
+.range-button-locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.range-lock-icon {
+    width: 14px;
+    height: 14px;
+    color: #86909a;
+}
+
+.range-button-locked .range-lock-icon {
+    display: inline-block !important;
 }
 
 .MainFrame_Frame_Frame_MainStats_CalenderFrame {
-    width: 73%;
+    width: 95%;
     height: 700px;
-
     min-width: 600px;
-
-        scrollbar-width: none;
+    scrollbar-width: none;
     overflow-y: auto;
-
     background-color: #191d23e7;
     border: 1px solid rgba(128, 128, 128, 0.123);
     box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.123);
+}
+
+.calendar-nav-button {
+    background-color: transparent;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 8px;
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 250ms;
+}
+
+.calendar-nav-button:hover {
+    background-color: #31363f;
+    border-color: #00ff99;
+    color: #00ff99;
+}
+
+.calendar-nav-button i {
+    width: 20px;
+    height: 20px;
+}
+
+.calendar-paywall-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(19, 21, 26, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 8px;
 }
 
+.calendar-paywall-content {
+    background-color: #191d23e7;
+    border: 2px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 5px 30px 5px rgba(0, 255, 153, 0.3);
+    border-radius: 20px;
+    padding: 50px 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.calendar-paywall-icon {
+    width: 80px;
+    height: 80px;
+    color: #00ff99;
+    margin: 0 auto 30px;
+    display: block;
+}
+
+.calendar-paywall-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 15px 0;
+}
+
+.calendar-paywall-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #86909a;
+    margin: 0 0 35px 0;
+    line-height: 1.6;
+}
+
+.calendar-paywall-button {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 600;
+    color: black;
+    background-color: #00ff99;
+    border-radius: 12px;
+    padding: 14px 35px;
+    text-decoration: none;
+    transition: 250ms;
+    box-shadow: 0px 3px 15px 1px rgba(0, 255, 153, 0.3);
+}
+
+.calendar-paywall-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 5px 25px 3px rgba(0, 255, 153, 0.5);
+    cursor: pointer;
+}
+
 .MainFrame_Frame_Frame_MainStats_StatsFrame {
-    width: 23%;
-    height: 700px;
-
-
+    width: 100%;
+    height: fit-content;
     display: flex;
-    flex-direction: column;
-    gap: 4%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2%;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .MainFrame_Frame_Frame_MainStats_StatsFrame_Stat {
-    width: 100%;
+    width: 22%;
+    min-width: 200px;
     height: fit-content;
     padding: 5px 0;
-
-        min-width: 200px;
 
 
 
@@ -189,24 +341,24 @@ body {
 }
 
 .calender_parent {
-
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .MainFrame_Frame_Frame_MainStats_Calender {
-    width: fit-content;
-    height: 89%;
-
+    width: 100%;
+    height: calc(100% - 80px);
     margin-top: 5px;
-
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
+    align-content: flex-start;
     gap: 10px 10px;
-    
+    padding: 0 20px 20px 20px;
+    box-sizing: border-box;
     scrollbar-width: none;
     overflow-y: auto;
-
-    align-content: start;
 }
 
 .MainFrame_Frame_Frame_MainStats_Calender_div {
@@ -217,6 +369,8 @@ body {
     border: 1px solid rgba(128, 128, 128, 0.123);
     box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
     border-radius: 8px;
+
+
 }
 
 .MainFrame_Frame_Frame_MainStats_Calender_div_Date {
@@ -245,7 +399,7 @@ body {
 }
 
 .green-text {
-    color: #14b04d;
+    color: #00ff99;
 }
 
 .red-text {
@@ -395,7 +549,7 @@ body {
 
     overflow-y: scroll;
     scrollbar-color: rgb(14, 12, 12) transparent;
-
+    padding-bottom: 100px;
 }
 
 
@@ -437,9 +591,6 @@ body {
     body {
         display: flex;
         flex-direction: column;
-    }
-
-    body {
         position: fixed;
     }
 
@@ -452,7 +603,6 @@ body {
         position: fixed;
         z-index: 1;
         height: 100vh;
-        
         width: 100%;
     }
 
@@ -460,28 +610,60 @@ body {
         width: 88%;
     }
 
-    .MainFrame {
-
-    }
-
     .MainFrame_Frame {
         height: fit-content;
         display: flex;
         flex-direction: column;
         gap: 20px;
+    }
 
+    .MainFrame_Frame_Frame_TopStats {
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 10px 2%;
+    }
 
+    .MainFrame_Frame_Frame_TopStats_Stat {
+        width: 48%;
+        min-width: 180px;
+    }
 
+    .MainFrame_Frame_Frame_MainStats_StatsFrame {
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 0 2%;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_StatsFrame_Stat {
+        width: 48%;
+        min-width: 180px;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_CalenderFrame {
+        width: 98%;
+        min-width: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .calender_parent {
+        width: 98%;
+    }
+
+    .time-range-selector {
+        margin-left: 2%;
+        flex-wrap: wrap;
     }
 
     #bar-icon {
         display: block;
     }
+    
     .MainFrame_Title {
         font-size: 24px;
     }
 
-        .trade-frame {
+    .trade-frame {
         flex-direction: row;
         overflow-x: scroll;
         scrollbar-width: none;
@@ -490,61 +672,116 @@ body {
     .MainFrame_Frame_HalfFrame {
         min-width: 0;
         width: 96%;
-        
         margin-left: auto;
         margin-right: auto;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+    .MainFrame_Frame_Frame_TopStats {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 2%;
+    }
 
     .MainFrame_Frame_Frame_TopStats_Stat {
-        width: 90%;
-        height: 100%;
-        min-width: 200px;
-
-        margin-left: auto;
-        margin-right: auto;
-
-        background-color: #181818;
-        border: 1px solid #252525 ;
-        border-radius: 8px;
-
-    }
-
-
-    .MainFrame_Frame_Frame_MainStats_StatsFrame_Stat {
-        width: 90%;
-        height: fit-content;
-        padding: 5px 0;
-
-        min-width: 200px;
-        margin-left: auto;
-        margin-right: auto;
-
-
-        background-color: #181818;
-        border: 1px solid #252525 ;
-        border-radius: 8px;
-    }
-
-    .MainFrame_Frame_Frame_TopStats {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-
-        justify-content: center;
-        align-items: center;
-
         width: 100%;
-        height: fit-content;
-    }
-    
-    .MainFrame_Frame_Frame_MainStats_CalenderFrame {
-        display: none;
+        min-width: 0;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .MainFrame_Frame_Frame_MainStats_StatsFrame {
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 2%;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_StatsFrame_Stat {
         width: 100%;
+        min-width: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_CalenderFrame {
+        width: 98%;
+        min-width: 0;
+        height: auto;
+        max-height: 600px;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_Calender {
+        padding: 0 10px 10px 10px;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_Calender_div {
+        width: calc(50% - 10px);
+        min-width: 140px;
+    }
+
+    .time-range-selector {
+        margin-left: 2%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .range-button {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    .calendar-header {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_CalenderFrame_Title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .MainFrame_Frame_Frame_TopStats_Stat {
+        width: 95%;
+        min-width: 0;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_StatsFrame_Stat {
+        width: 95%;
+        min-width: 0;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_CalenderFrame {
+        width: 98%;
+        min-width: 0;
+        height: auto;
+        max-height: 500px;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_Calender_div {
+        width: 100%;
+        min-width: 0;
+        height: 120px;
+    }
+
+    .time-range-selector {
+        margin-left: 2%;
+        gap: 5px;
+    }
+
+    .range-button {
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+
+    .MainFrame_Frame_Frame_MainStats_CalenderFrame_Title {
+        font-size: 20px;
+    }
+
+    .calendar-nav-button {
+        width: 35px;
+        height: 35px;
     }
 }

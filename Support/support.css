@@ -1,0 +1,355 @@
+.inter-text {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.anchor {
+    text-decoration: none;
+}
+
+#bar-icon {
+    color: white;
+    display: none;
+    padding-left: 2.3%;
+}
+
+#bar-icon:hover {
+    cursor:pointer;
+}
+
+#bar-click {
+    margin-right: 2.3%;
+}
+
+.MainFrame_Title {
+    font-size: 35px;
+    font-weight: 700;
+    color: white;
+    width: 68%;
+    padding-left: 2.3%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+html, body {
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: rgb(14, 12, 12) transparent;
+}
+
+body {
+    display: flex;
+    align-items: stretch;
+    height: auto;
+    background-color: #13151a;
+}
+
+.SideBar {
+    background-color: #16181d;
+    width: 230px;
+    height:auto;
+    border-right: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+}
+
+.SideBar_Title {
+    color: white;
+    font-size: 29px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: auto;
+    padding-bottom: 16px;
+    padding-left: 30px;
+    display: block;
+    text-decoration: none;
+    border-bottom: 1px solid #31363f;
+}
+
+.SideBar_Title:hover {
+    cursor: pointer;
+}
+
+.SideBar_List {
+    text-decoration: none;
+    list-style: none;
+    height: 60%;
+    padding: 0;
+    margin: 0;
+}
+
+.SideBar_List_ListItem {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    margin-bottom: 0;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 9px;
+    width: 160px;
+    height: 37px;
+    transition: 350ms;
+}
+
+.SideBar_List_ListItem:hover {
+    background-color: #31363f;
+    cursor: pointer;
+}
+
+.SideBar_List_ListItem:hover p {
+    color: white;
+}
+
+.SideBar_List_ListItem:hover svg {
+    color: white;
+}
+
+.selected-item {
+    background-color: #00ff99;
+}
+
+.selected-item p {
+    color: black;
+}
+
+.selected-item svg {
+    color: black;
+}
+
+.SideBar_List_ListItem_Text {
+    color: rgb(177, 177, 177);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.SideBar_icon {
+    width: 20px;
+    height: 17px;
+    margin-left: 0;
+    margin-right: 7px;
+    color: rgb(177, 177, 177);
+}
+
+.MainFrame {
+    width: 100%;
+    height: 100dvh;
+}
+
+.MainFrame_HeadFrame {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.mainframe-loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.spin-icon {
+    width: 50px;
+    height: 50px;
+    color: #00ff99;
+    animation: spin 1s linear infinite;
+}
+
+.done-icon {
+    width: 50px;
+    height: 50px;
+    color: #00ff99;
+}
+
+.load-text {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.support-mainframe {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.support-form-frame {
+    width: 50%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    border-radius: 18px;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.support-form-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.support-form-description {
+    font-size: 14px;
+    color: #86909a;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.support-form {
+    width: 100%;
+}
+
+.support-form-group {
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.support-form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.required-asterisk {
+    color: #ff4747;
+}
+
+.support-form-input,
+.support-form-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #13151a;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    box-sizing: border-box;
+    resize: vertical;
+    outline: none;
+    transition: 250ms;
+}
+
+.support-form-input:focus,
+.support-form-textarea:focus {
+    outline: 1px solid #00ff99;
+    border-color: #00ff99;
+}
+
+.support-form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.support-error-message {
+    display: block;
+    color: #ff4747;
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 18px;
+}
+
+.support-message {
+    margin-bottom: 20px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: none;
+}
+
+.support-message.success {
+    display: block;
+    background-color: rgba(0, 255, 153, 0.1);
+    border: 1px solid #00ff99;
+    color: #00ff99;
+}
+
+.support-message.error {
+    display: block;
+    background-color: rgba(255, 71, 71, 0.1);
+    border: 1px solid #ff4747;
+    color: #ff4747;
+}
+
+.support-submit-button {
+    width: 100%;
+    padding: 12px 25px;
+    background-color: #00ff99;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 250ms;
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+}
+
+.support-submit-button:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.support-submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 768px) {
+    .support-form-frame {
+        width: 90%;
+        padding: 20px;
+    }
+
+    #bar-icon {
+        display: block;
+    }
+
+    .SideBar {
+        display: none;
+        position: fixed;
+        z-index: 100;
+        height: 100%;
+    }
+}
+

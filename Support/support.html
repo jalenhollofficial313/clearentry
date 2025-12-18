@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
-    <link href="profile.css" rel="stylesheet" type="text/css">
+    <link href="support.css" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
         </a>
         <ul class="SideBar_List">
             <a class="anchor" href="../Profile/profile.html">
-                <li class="SideBar_List_ListItem selected-item">
+                <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="user"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Profile
@@ -67,7 +67,6 @@
                 </li>
             </a>
             <a class="anchor" href="../Analytics/analytics.html">
-
                 <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="chart-no-axes-combined"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
@@ -84,7 +83,7 @@
                 </li>
             </a>
             <a class="anchor" href="../Support/support.html">
-                <li class="SideBar_List_ListItem">
+                <li class="SideBar_List_ListItem selected-item">
                     <i class="SideBar_icon" data-lucide="help-circle"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Support
@@ -94,79 +93,93 @@
         </ul>
     </div>
     <div class="MainFrame">
+        <div class="mainframe-loading">
+            <div id="load-frame" class="loading-frame">
+                <i class="spin-icon" data-lucide="loader"></i>
+                <p class="load-text inter-text">
+                    Sending Request...
+                </p>
+            </div>
+            
+            <div id="loaded-frame" class="loading-frame">
+                <i class="done-icon" data-lucide="circle-check"></i>
+                <p class="load-text inter-text">
+                    Request Sent
+                </p>
+            </div>
+        </div>
         <div class="MainFrame_HeadFrame">
             <i id="bar-icon" data-lucide="text-align-justify"></i>
             <p class="MainFrame_Title inter-text">
-                Profile
+                Support
             </p>
         </div>
-       
-        <div class="MainFrame_ProfileFrame">
-            <div class="MainFrame_ProfileFrame_Frame">
-                <svg class="MainFrame_ProfileFrame_Frame_Img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
-                <div class="MainFrame_ProfileFrame_Frame_Data">
-                    <p id="NameTextH" class="MainFrame_ProfileFrame_Frame_Data_Name inter-text">
-                    </p>
-                    <p id="EmailTextH" class="MainFrame_ProfileFrame_Frame_Data_Text inter-text">
-                    </p>
-                    <p id="MembershipTextH" class="MainFrame_ProfileFrame_Frame_Data_Text inter-text">
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="MainFrame_ProfileDataFrame">
-            <div class="MainFrame_ProfileDataFrame_Frame">
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Name
+        <div class="support-mainframe">
+            <div class="support-form-frame">
+                <p class="support-form-title inter-text">
+                    Submit a Support Request
                 </p>
-                <textarea placeholder="Enter Name" id="NameText" class="MainFrame_ProfileDataFrame_Frame_Input inter-text"></textarea>
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Email
+                <p class="support-form-description inter-text">
+                    Have a question or need help? Fill out the form below and we'll get back to you as soon as possible.
                 </p>
-                <textarea placeholder="Enter Email" id="EmailText" class="MainFrame_ProfileDataFrame_Frame_Input inter-text"></textarea>
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Membership
-                </p>
-                <p id="MembershipText" class="MainFrame_ProfileDataFrame_Frame_Input inter-text">
-
-                </p>
-
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Bio
-                </p>
-                <textarea id="BioText" placeholder="Enter a bio" class="MainFrame_ProfileDataFrame_Frame_Input inter-text"></textarea>
-            </div>
-        </div>
-        
-        <div class="MainFrame_SaveFrame">
-            <div class="MainFrame_SaveFrame_Frame">
-                <p id="SaveButton" class="MainFrame_SaveFrame_Frame_text inter-text">
-                    Save
-                </p>
-            </div>
-        </div>
-        
-        <div id="membership-cancel-section" class="membership-cancel-section" style="display: none;">
-            <div class="membership-cancel-frame">
-                <p class="membership-cancel-title inter-text">
-                    Cancel Membership
-                </p>
-                <p class="membership-cancel-description inter-text">
-                    Cancel your ClearEntry Pro subscription. Your access will continue until the end of your current billing period.
-                </p>
-                <button id="cancel-membership-button" class="membership-cancel-button inter-text">
-                    Cancel Subscription
-                </button>
+                <form id="support-form" class="support-form">
+                    <div class="support-form-group">
+                        <label class="support-form-label inter-text" for="support-email">
+                            Email <span class="required-asterisk">*</span>
+                        </label>
+                        <input
+                            type="email"
+                            id="support-email"
+                            name="email"
+                            class="support-form-input inter-text"
+                            placeholder="your@email.com"
+                            required
+                        />
+                        <span class="support-error-message" id="email-error"></span>
+                    </div>
+                    
+                    <div class="support-form-group">
+                        <label class="support-form-label inter-text" for="support-discord">
+                            Discord Username (Optional)
+                        </label>
+                        <input
+                            type="text"
+                            id="support-discord"
+                            name="discord"
+                            class="support-form-input inter-text"
+                            placeholder="username#1234"
+                        />
+                    </div>
+                    
+                    <div class="support-form-group">
+                        <label class="support-form-label inter-text" for="support-description">
+                            Problem Description <span class="required-asterisk">*</span>
+                        </label>
+                        <textarea
+                            id="support-description"
+                            name="description"
+                            class="support-form-textarea inter-text"
+                            placeholder="Please describe your issue or question in detail..."
+                            rows="6"
+                            required
+                        ></textarea>
+                        <span class="support-error-message" id="description-error"></span>
+                    </div>
+                    
+                    <div id="support-message" class="support-message"></div>
+                    
+                    <button type="submit" id="support-submit-button" class="support-submit-button inter-text">
+                        Submit Request
+                    </button>
+                </form>
             </div>
         </div>
     </div>
     <script src="../dataHandler.js"></script>
-    <script src="profile.js"></script>
+    <script src="support.js"></script>
     <script>
-
-
         lucide.createIcons();
     </script>
 </body>
 </html>
+

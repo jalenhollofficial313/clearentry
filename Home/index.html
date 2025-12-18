@@ -207,6 +207,125 @@
             </div>
         </div>
     </div>
+    <div id="pricing" class="frame-5">
+        <p class="maintext-large inter-text frame-5-large">
+            <span class="gradient-text">Pricing</span>
+        </p>
+        <p class="frame-2-small inter-text">
+            Unlock the full potential of ClearEntry
+        </p>
+        <div data-aos="fade-down" class="pricing-container">
+            <div class="pricing-card pricing-card-standard">
+                <div class="pricing-header">
+                    <p class="inter-text pricing-plan-name">
+                        Standard
+                    </p>
+                    <div class="pricing-price">
+                        <span class="inter-text pricing-amount">Free</span>
+                    </div>
+                </div>
+                <ul class="pricing-features">
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">Unlimited logging data</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">Unlimited journal data</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon pricing-check-icon-limited" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">Limited statistics</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-x-icon" data-lucide="x"></i>
+                        <span class="inter-text pricing-feature-text pricing-feature-disabled">No trading plan usage</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-x-icon" data-lucide="x"></i>
+                        <span class="inter-text pricing-feature-text pricing-feature-disabled">No AI usage</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="pricing-card pricing-card-pro">
+                <div class="pricing-badge inter-text">Popular</div>
+                <div class="pricing-header">
+                    <p class="inter-text pricing-plan-name pricing-plan-name-pro">
+                        ClearEntry Pro
+                    </p>
+                    <div class="pricing-price">
+                        <span class="inter-text pricing-amount">$9.99</span>
+                        <span class="inter-text pricing-period">/month</span>
+                    </div>
+                </div>
+                <ul class="pricing-features">
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">Unlimited logging data</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">Unlimited trade plan use</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">All statistics</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">Unlimited journal data</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">Full AI use</span>
+                    </li>
+                    <li class="pricing-feature-item">
+                        <i class="pricing-check-icon" data-lucide="circle-check"></i>
+                        <span class="inter-text pricing-feature-text">And more</span>
+                    </li>
+                </ul>
+                <button id="upgrade-button" class="pricing-button inter-text">
+                    Upgrade to Pro
+                </button>
+                <p class="pricing-subtext inter-text">
+                    Cancel anytime • Secure checkout
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Success Modal -->
+    <div id="payment-success-modal" class="payment-modal">
+        <div class="payment-modal-content">
+            <div class="payment-modal-icon success-icon">
+                <i data-lucide="circle-check"></i>
+            </div>
+            <h2 class="payment-modal-title inter-text">Payment Successful!</h2>
+            <p class="payment-modal-message inter-text">
+                Welcome to ClearEntry Pro! Your subscription is now active.
+            </p>
+            <button id="success-close-button" class="payment-modal-button inter-text">
+                Continue to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <!-- Payment Cancel Modal -->
+    <div id="payment-cancel-modal" class="payment-modal">
+        <div class="payment-modal-content">
+            <div class="payment-modal-icon cancel-icon">
+                <i data-lucide="x-circle"></i>
+            </div>
+            <h2 class="payment-modal-title inter-text">Payment Cancelled</h2>
+            <p class="payment-modal-message inter-text">
+                Your payment was cancelled. No charges were made.
+            </p>
+            <button id="cancel-close-button" class="payment-modal-button inter-text">
+                Close
+            </button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
     <script>
         lucide.createIcons();

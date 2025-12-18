@@ -82,6 +82,14 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../Support/support.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="help-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Support
+                    </p>
+                </li>
+            </a>
         </ul>
     </div>
     <div class="MainFrame">
@@ -94,6 +102,20 @@
 
         <div class="MainFrame_Frame">
             <div class="MainFrame_Frame_Frame">
+                <!-- Time Range Selector -->
+                <div class="time-range-selector">
+                    <button id="range-week" class="range-button range-button-active inter-text">Week</button>
+                    <button id="range-month" class="range-button inter-text">
+                        Month
+                        <i class="range-lock-icon" data-lucide="lock" style="display: none;"></i>
+                    </button>
+                    <button id="range-year" class="range-button inter-text">
+                        Year
+                        <i class="range-lock-icon" data-lucide="lock" style="display: none;"></i>
+                    </button>
+                </div>
+
+                <!-- Stats Panels on Top -->
                 <div class="MainFrame_Frame_Frame_TopStats">
                     <div class="MainFrame_Frame_Frame_TopStats_Stat">
                         <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
@@ -128,58 +150,76 @@
                         </p>
                     </div>
                 </div>
-                <div class="MainFrame_Frame_Frame_MainStats">
-                    <div class="MainFrame_Frame_Frame_MainStats_CalenderFrame">
-                        <p class="MainFrame_Frame_Frame_MainStats_CalenderFrame_Title inter-text">
-                            December
+
+                <!-- Additional Stats Panels -->
+                <div class="MainFrame_Frame_Frame_MainStats_StatsFrame">
+                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                            Most Frequent State
                         </p>
-                        <div class="calender_parent">
-                            <div class="MainFrame_Frame_Frame_MainStats_Calender">
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
 
-                            </div>
-                        </div>
-
+                        </p>
                     </div>
-                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame">
-                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                                Most Frequent State
-                            </p>
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                            Most Profitable State
+                        </p>
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
 
+                        </p>
+                    </div>
+                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                            Mental Consistancy
+                        </p>
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+
+                        </p>
+                    </div>
+                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
+                            Most Profitable Strategy
+                        </p>
+                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Calendar Section at Bottom -->
+                <div class="MainFrame_Frame_Frame_MainStats_CalenderFrame">
+                    <div class="calendar-header">
+                        <button id="calendar-prev" class="calendar-nav-button inter-text">
+                            <i data-lucide="chevron-left"></i>
+                        </button>
+                        <p class="MainFrame_Frame_Frame_MainStats_CalenderFrame_Title inter-text">
+                            December 2025
+                        </p>
+                        <button id="calendar-next" class="calendar-nav-button inter-text">
+                            <i data-lucide="chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Calendar Paywall Overlay -->
+                    <div id="calendar-paywall" class="calendar-paywall-overlay" style="display: none;">
+                        <div class="calendar-paywall-content">
+                            <i class="calendar-paywall-icon" data-lucide="lock"></i>
+                            <p class="calendar-paywall-title inter-text">
+                                Premium Feature
                             </p>
+                            <p class="calendar-paywall-description inter-text">
+                                Upgrade to Pro to unlock the calendar view
+                            </p>
+                            <a href="../Home/index.html#pricing" class="calendar-paywall-button inter-text">
+                                Upgrade to Pro
+                            </a>
                         </div>
-                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                                Most Profitable State
-                            </p>
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+                    </div>
 
-                            </p>
-                        </div>
-                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                                Mental Consistancy
-                            </p>
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+                    <div class="calender_parent">
+                        <div class="MainFrame_Frame_Frame_MainStats_Calender">
 
-                            </p>
-                        </div>
-                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                                Best Trading Time
-                            </p>
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
-
-                            </p>
-                        </div>
-                        <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                                Most Profitable Strategy
-                            </p>
-                            <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
-
-                            </p>
                         </div>
                     </div>
                 </div>

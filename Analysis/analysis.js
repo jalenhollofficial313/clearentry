@@ -81,7 +81,34 @@ async function init() {
     await getClientData()
     await sleep(100)
 
-
+    // Check membership and show paywall if Standard
+    const membership = clientData.result['membership']
+    const paywallOverlay = document.getElementById('paywall-overlay')
+    const mainContent = document.getElementById('frame-1')
+    const reflectionDiv = document.getElementById('reflection-div')
+    
+    if (membership !== 'Pro') {
+        // Show paywall overlay
+        if (paywallOverlay) {
+            paywallOverlay.style.display = 'flex'
+        }
+        // Hide main content
+        if (mainContent) {
+            mainContent.style.display = 'none'
+        }
+        if (reflectionDiv) {
+            reflectionDiv.style.display = 'none'
+        }
+    } else {
+        // Hide paywall for Pro members
+        if (paywallOverlay) {
+            paywallOverlay.style.display = 'none'
+        }
+        // Show main content
+        if (mainContent) {
+            mainContent.style.display = 'block'
+        }
+    }
 }
 
 init()

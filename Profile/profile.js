@@ -26,6 +26,19 @@ async function loadProfileData(data) {
 
     EmailText.value = data['email']
     EmailTextH.innerHTML = data['email']
+    
+    // Show cancel membership section only for Pro members
+    const cancelSection = document.getElementById("membership-cancel-section");
+    if (cancelSection) {
+        const membership = data['membership'];
+        // Only show for Pro members, hide for all others (Standard, etc.)
+        if (membership && membership.toLowerCase() === 'pro') {
+            cancelSection.style.display = 'block';
+        } else {
+            cancelSection.style.display = 'none';
+        }
+    }
+    
     return true
 }
 
@@ -66,11 +79,56 @@ SaveButton.addEventListener("click", async function(){
     profileINIT()
 })
 
+async function cancelMembership(token) {
+    const response = await fetch("https://cancel-subscription-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            token: token
+        })
+    })
+
+    const result = await response.text()
+    return result
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#bar-icon").addEventListener("click", () => {
     console.log("Check")
     document.querySelector("#sidebar").style.display = "block";
   });
+  
+  const cancelMembershipButton = document.getElementById("cancel-membership-button");
+  if (cancelMembershipButton) {
+      cancelMembershipButton.addEventListener("click", async function() {
+          if (!confirm("Are you sure you want to cancel your subscription? Your access will continue until the end of your current billing period.")) {
+              return;
+          }
+          
+          cancelMembershipButton.disabled = true;
+          cancelMembershipButton.textContent = "Cancelling...";
+          
+          try {
+              const result = await cancelMembership(localStorage.getItem("token"));
+              if (result === "Success") {
+                  alert("Your subscription has been cancelled. Your access will continue until the end of your billing period.");
+                  // Reload profile data to update membership status
+                  await profileINIT();
+              } else {
+                  alert("Failed to cancel subscription: " + result);
+                  cancelMembershipButton.disabled = false;
+                  cancelMembershipButton.textContent = "Cancel Subscription";
+              }
+          } catch (error) {
+              console.error("Error cancelling subscription:", error);
+              alert("An error occurred while cancelling your subscription. Please try again.");
+              cancelMembershipButton.disabled = false;
+              cancelMembershipButton.textContent = "Cancel Subscription";
+          }
+      });
+  }
 });
 
 

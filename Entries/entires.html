@@ -84,6 +84,14 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../Support/support.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="help-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Support
+                    </p>
+                </li>
+            </a>
         </ul>
     </div>
     <div class="MainFrame">
@@ -107,6 +115,45 @@
             <p class="MainFrame_Title inter-text">
                 Trade Entries
             </p>
+        </div>
+        <div class="entries-filter-section">
+            <div class="filter-group">
+                <label class="filter-label inter-text">Type:</label>
+                <select id="filter-type" class="filter-select inter-text">
+                    <option value="all">All Types</option>
+                    <option value="Options">Options</option>
+                    <option value="Futures">Futures</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label inter-text">Result:</label>
+                <select id="filter-result" class="filter-select inter-text">
+                    <option value="all">All Results</option>
+                    <option value="win">Wins</option>
+                    <option value="loss">Losses</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label inter-text">Status:</label>
+                <select id="filter-status" class="filter-select inter-text">
+                    <option value="all">All Status</option>
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label inter-text">Strategy:</label>
+                <select id="filter-strategy" class="filter-select inter-text">
+                    <option value="all">All Strategies</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label inter-text">Emotion:</label>
+                <select id="filter-emotion" class="filter-select inter-text">
+                    <option value="all">All Emotions</option>
+                </select>
+            </div>
+            <button id="clear-filters" class="clear-filters-button inter-text">Clear Filters</button>
         </div>
         <div class="MainFrame_EntriesFrame">
             <div id="EntriesFrame" class="MainFrame_EntriesFrame_Entries">
