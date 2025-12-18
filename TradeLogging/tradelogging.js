@@ -491,41 +491,17 @@ for (let i = 0; i < document.querySelectorAll(".close-settingsbutton").length; i
     })
 }
 
-document.querySelector("#strategy-add").addEventListener("click", function() {
-    if (document.querySelector("#strategy-input").value != "" && document.querySelector("#strategy-input").value != null) {
-        const response = fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                token: localStorage.getItem("token"),
-                strategy: document.querySelector("#strategy-input").value,
-            })
-        })
-
-        const strategyValue = document.querySelector("#strategy-input").value
-        const item = document.createElement("p")
-        item.innerHTML = strategyValue
-        item.classList.add("settings-listitem")
-        item.classList.add("inter-text")
-
-        const span = document.createElement("span")
-        span.classList.add("dropdown-icon")
-
-        const icon = document.createElement("i")
-        icon.classList.add("icon2")
-        icon.classList.add("close-icon")
-        icon.classList.add("remove-icon")
-        icon.setAttribute("data-lucide", "x");
-
-
-        span.appendChild(icon)
-        item.appendChild(span)
-
-        span.addEventListener("click", function() {
-            item.remove()
-            const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+document.querySelector("#strategy-add").addEventListener("click", async function() {
+    const strategyInput = document.querySelector("#strategy-input");
+    const strategyValue = strategyInput.value.trim();
+    
+    if (strategyValue != "" && strategyValue != null) {
+        // Set debounce and show loading frame
+        client_server_debounce = true;
+        loadingFrame(1000, "Adding Strategy...", "Strategy Added.");
+        
+        try {
+            const response = await fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -534,51 +510,68 @@ document.querySelector("#strategy-add").addEventListener("click", function() {
                     token: localStorage.getItem("token"),
                     strategy: strategyValue,
                 })
-            })
-        })
-        document.querySelector("#strategy-settings-dropdown").appendChild(item)
-        lucide.createIcons();
-        
+            });
+
+            const result = await response.text();
+            client_server_debounce = false;
+
+            // Only add to UI if successful
+            if (response.ok && result !== "Invalid") {
+                const item = document.createElement("p")
+                item.innerHTML = strategyValue
+                item.classList.add("settings-listitem")
+                item.classList.add("inter-text")
+
+                const span = document.createElement("span")
+                span.classList.add("dropdown-icon")
+
+                const icon = document.createElement("i")
+                icon.classList.add("icon2")
+                icon.classList.add("close-icon")
+                icon.classList.add("remove-icon")
+                icon.setAttribute("data-lucide", "x");
+
+                span.appendChild(icon)
+                item.appendChild(span)
+
+                span.addEventListener("click", function() {
+                    item.remove()
+                    const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            token: localStorage.getItem("token"),
+                            strategy: strategyValue,
+                        })
+                    })
+                })
+                document.querySelector("#strategy-settings-dropdown").appendChild(item)
+                lucide.createIcons();
+            } else {
+                console.error("Failed to add strategy:", result);
+            }
+        } catch (error) {
+            client_server_debounce = false;
+            console.error("Error adding strategy:", error);
+        }
     }
 
-    document.querySelector("#strategy-input").value = ""
+    strategyInput.value = ""
 })
 
-document.querySelector("#emotion-add").addEventListener("click", function() {
-    if (document.querySelector("#emotion-input").value != "" && document.querySelector("#emotion-input").value != null) {
-        const response = fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                token: localStorage.getItem("token"),
-                emotion: document.querySelector("#emotion-input").value,
-            })
-        })
-
-        const emotionValue = document.querySelector("#emotion-input").value
-        const item = document.createElement("p")
-        item.innerHTML = emotionValue
-        item.classList.add("settings-listitem")
-        item.classList.add("inter-text")
-
-        const span = document.createElement("span")
-        span.classList.add("dropdown-icon")
-
-        const icon = document.createElement("i")
-        icon.classList.add("icon2")
-        icon.classList.add("close-icon")
-        icon.classList.add("remove-icon")
-        icon.setAttribute("data-lucide", "x");
-
-
-        span.appendChild(icon)
-        item.appendChild(span)
-
-        span.addEventListener("click", function() {
-            item.remove()
-            const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+document.querySelector("#emotion-add").addEventListener("click", async function() {
+    const emotionInput = document.querySelector("#emotion-input");
+    const emotionValue = emotionInput.value.trim();
+    
+    if (emotionValue != "" && emotionValue != null) {
+        // Set debounce and show loading frame
+        client_server_debounce = true;
+        loadingFrame(1000, "Adding Emotion...", "Emotion Added.");
+        
+        try {
+            const response = await fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -587,14 +580,55 @@ document.querySelector("#emotion-add").addEventListener("click", function() {
                     token: localStorage.getItem("token"),
                     emotion: emotionValue,
                 })
-            })
-        })
-        document.querySelector("#mental-settings-dropdown").appendChild(item)
-        lucide.createIcons();
-        
+            });
+
+            const result = await response.text();
+            client_server_debounce = false;
+
+            // Only add to UI if successful
+            if (response.ok && result !== "Invalid") {
+                const item = document.createElement("p")
+                item.innerHTML = emotionValue
+                item.classList.add("settings-listitem")
+                item.classList.add("inter-text")
+
+                const span = document.createElement("span")
+                span.classList.add("dropdown-icon")
+
+                const icon = document.createElement("i")
+                icon.classList.add("icon2")
+                icon.classList.add("close-icon")
+                icon.classList.add("remove-icon")
+                icon.setAttribute("data-lucide", "x");
+
+                span.appendChild(icon)
+                item.appendChild(span)
+
+                span.addEventListener("click", function() {
+                    item.remove()
+                    const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            token: localStorage.getItem("token"),
+                            emotion: emotionValue,
+                        })
+                    })
+                })
+                document.querySelector("#mental-settings-dropdown").appendChild(item)
+                lucide.createIcons();
+            } else {
+                console.error("Failed to add emotion:", result);
+            }
+        } catch (error) {
+            client_server_debounce = false;
+            console.error("Error adding emotion:", error);
+        }
     }
 
-    document.querySelector("#emotion-input").value = ""
+    emotionInput.value = ""
 })
 
 async function saveTrade() {
