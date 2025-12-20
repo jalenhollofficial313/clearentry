@@ -372,19 +372,41 @@ async function loadDropDowns(params) {
         item.appendChild(span2)
         item.appendChild(span)
 
-        span.addEventListener("click", function() {
-            console.log("Check")
-            item.remove()
-            const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token: localStorage.getItem("token"),
-                    emotion: emotions[emotion],
-                })
-            })
+        span.addEventListener("click", async function() {
+            const emotionToRemove = emotions[emotion];
+            
+            // Set debounce and show loading frame
+            client_server_debounce = true;
+            loadingFrame(1000, "Removing Emotion...", "Emotion Removed.");
+            
+            try {
+                // Remove from UI first
+                item.remove()
+                // Also remove from emotions dropdown
+                const emotionButtons = document.querySelectorAll("#mental-dropdown .dropdown-item");
+                emotionButtons.forEach(btn => {
+                    if (btn.innerHTML === emotionToRemove) {
+                        btn.remove();
+                    }
+                });
+                
+                const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token: localStorage.getItem("token"),
+                        emotion: emotionToRemove,
+                    })
+                });
+                
+                const result = await response.text();
+                client_server_debounce = false;
+            } catch (error) {
+                client_server_debounce = false;
+                console.error("Error removing emotion:", error);
+            }
         })
         document.querySelector("#mental-settings-dropdown").appendChild(item)
     }
@@ -415,19 +437,41 @@ async function loadDropDowns(params) {
         item.appendChild(span2)
         item.appendChild(span)
 
-        span.addEventListener("click", function() {
-            console.log("Check")
-            item.remove()
-            const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token: localStorage.getItem("token"),
-                    strategy: strategies[strategy],
-                })
-            })
+        span.addEventListener("click", async function() {
+            const strategyToRemove = strategies[strategy];
+            
+            // Set debounce and show loading frame
+            client_server_debounce = true;
+            loadingFrame(1000, "Removing Strategy...", "Strategy Removed.");
+            
+            try {
+                // Remove from UI first
+                item.remove()
+                // Also remove from confluences dropdown
+                const confluencesButtons = document.querySelectorAll("#strategy-dropdown .dropdown-item");
+                confluencesButtons.forEach(btn => {
+                    if (btn.innerHTML === strategyToRemove) {
+                        btn.remove();
+                    }
+                });
+                
+                const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        token: localStorage.getItem("token"),
+                        strategy: strategyToRemove,
+                    })
+                });
+                
+                const result = await response.text();
+                client_server_debounce = false;
+            } catch (error) {
+                client_server_debounce = false;
+                console.error("Error removing strategy:", error);
+            }
         })
         document.querySelector("#strategy-settings-dropdown").appendChild(item)
     }
@@ -517,6 +561,7 @@ document.querySelector("#strategy-add").addEventListener("click", async function
 
             // Only add to UI if successful
             if (response.ok && result !== "Invalid") {
+                // Add to settings dropdown
                 const item = document.createElement("p")
                 item.innerHTML = strategyValue
                 item.classList.add("settings-listitem")
@@ -534,20 +579,79 @@ document.querySelector("#strategy-add").addEventListener("click", async function
                 span.appendChild(icon)
                 item.appendChild(span)
 
-                span.addEventListener("click", function() {
-                    item.remove()
-                    const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            token: localStorage.getItem("token"),
-                            strategy: strategyValue,
-                        })
-                    })
+                span.addEventListener("click", async function() {
+                    // Set debounce and show loading frame
+                    client_server_debounce = true;
+                    loadingFrame(1000, "Removing Strategy...", "Strategy Removed.");
+                    
+                    try {
+                        // Remove from UI first
+                        item.remove()
+                        // Also remove from confluences dropdown
+                        const confluencesButtons = document.querySelectorAll("#strategy-dropdown .dropdown-item");
+                        confluencesButtons.forEach(btn => {
+                            if (btn.innerHTML === strategyValue) {
+                                btn.remove();
+                            }
+                        });
+                        
+                        const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                token: localStorage.getItem("token"),
+                                strategy: strategyValue,
+                            })
+                        });
+                        
+                        const result = await response.text();
+                        client_server_debounce = false;
+                    } catch (error) {
+                        client_server_debounce = false;
+                        console.error("Error removing strategy:", error);
+                    }
                 })
                 document.querySelector("#strategy-settings-dropdown").appendChild(item)
+                
+                // Add to confluences dropdown (strategy-dropdown)
+                const confluencesButton = document.createElement("button")
+                confluencesButton.innerHTML = strategyValue
+                confluencesButton.classList.add("dropdown-item")
+                confluencesButton.classList.add("inter-text")
+
+                confluencesButton.addEventListener("click", async function() {
+                    if (debounce == true) {
+                        return
+                    }
+                    debounce = true
+                    if (tradeEntry['strategy'].includes(strategyValue)) {
+                        confluencesButton.classList.remove("selected-dropdown")
+                        if (tradeEntry['strategy'].length == 1) {
+                            tradeEntry['strategy'] = []
+                        } else {
+                            tradeEntry['strategy'].splice(tradeEntry['strategy'].indexOf(strategyValue), tradeEntry['strategy'].indexOf(strategyValue) + 1)
+                        }
+                    } else {
+                        confluencesButton.classList.add("selected-dropdown")
+                        tradeEntry['strategy'].push(strategyValue)
+                    }
+
+                    if (tradeEntry['strategy'].length == 0) {
+                        document.querySelector("#confluences-text").innerHTML = "Confluences"
+                    } else if (tradeEntry['strategy'].length > 0) {
+                        let textContent = ""
+                        tradeEntry['strategy'].forEach(function(value, index) {
+                            textContent = textContent + value + ", "
+                        })
+                        document.querySelector("#confluences-text").innerHTML = textContent
+                    }
+                    await sleep(250)
+                    debounce = false
+                })
+                document.querySelector("#strategy-dropdown").appendChild(confluencesButton)
+                
                 lucide.createIcons();
             } else {
                 console.error("Failed to add strategy:", result);
@@ -587,6 +691,7 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
 
             // Only add to UI if successful
             if (response.ok && result !== "Invalid") {
+                // Add to settings dropdown
                 const item = document.createElement("p")
                 item.innerHTML = emotionValue
                 item.classList.add("settings-listitem")
@@ -604,20 +709,54 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
                 span.appendChild(icon)
                 item.appendChild(span)
 
-                span.addEventListener("click", function() {
-                    item.remove()
-                    const response = fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            token: localStorage.getItem("token"),
-                            emotion: emotionValue,
-                        })
-                    })
+                span.addEventListener("click", async function() {
+                    // Set debounce and show loading frame
+                    client_server_debounce = true;
+                    loadingFrame(1000, "Removing Emotion...", "Emotion Removed.");
+                    
+                    try {
+                        // Remove from UI first
+                        item.remove()
+                        // Also remove from emotions dropdown
+                        const emotionButtons = document.querySelectorAll("#mental-dropdown .dropdown-item");
+                        emotionButtons.forEach(btn => {
+                            if (btn.innerHTML === emotionValue) {
+                                btn.remove();
+                            }
+                        });
+                        
+                        const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                token: localStorage.getItem("token"),
+                                emotion: emotionValue,
+                            })
+                        });
+                        
+                        const result = await response.text();
+                        client_server_debounce = false;
+                    } catch (error) {
+                        client_server_debounce = false;
+                        console.error("Error removing emotion:", error);
+                    }
                 })
                 document.querySelector("#mental-settings-dropdown").appendChild(item)
+                
+                // Add to emotions dropdown (mental-dropdown)
+                const emotionButton = document.createElement("button")
+                emotionButton.innerHTML = emotionValue
+                emotionButton.classList.add("dropdown-item")
+                emotionButton.classList.add("inter-text")
+
+                emotionButton.addEventListener("click", function() {
+                    tradeEntry['emotion'] = emotionValue
+                    document.querySelector("#state-text").innerHTML = emotionValue
+                })
+                document.querySelector("#mental-dropdown").appendChild(emotionButton)
+                
                 lucide.createIcons();
             } else {
                 console.error("Failed to add emotion:", result);
