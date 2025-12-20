@@ -166,3 +166,32 @@ if (upgradeButton) {
         }
     });
 }
+
+// Free notification popup
+const freeNotification = document.getElementById("free-notification");
+const freeNotificationClose = document.getElementById("free-notification-close");
+
+// Show notification on page load
+window.addEventListener("DOMContentLoaded", function() {
+    // Wait a bit for page to render, then show notification
+    setTimeout(() => {
+        if (freeNotification) {
+            freeNotification.style.display = "block";
+            // Reinitialize icons for the notification
+            lucide.createIcons();
+        }
+    }, 500);
+});
+
+// Close notification when close button is clicked
+if (freeNotificationClose) {
+    freeNotificationClose.addEventListener("click", function() {
+        if (freeNotification) {
+            freeNotification.classList.add("hide");
+            // Remove from DOM after animation
+            setTimeout(() => {
+                freeNotification.style.display = "none";
+            }, 300);
+        }
+    });
+}
