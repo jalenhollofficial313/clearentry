@@ -19,14 +19,8 @@
             ClearEntry
         </a>
         <ul class="SideBar_List">
-            <a class="anchor" href="../Profile/profile.html">
-                <li class="SideBar_List_ListItem">
-                    <i class="SideBar_icon" data-lucide="user"></i>
-                    <p class="SideBar_List_ListItem_Text inter-text">
-                        Profile
-                    </p>
-                </li>
-            </a>
+            <!-- Main Category -->
+            <li class="SideBar_Category_Title inter-text">Main</li>
             <a class="anchor" href="../Dashboard/dashboard.html">
                 <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="layout-dashboard"></i>
@@ -51,6 +45,9 @@
                     </p>
                 </li>
             </a>
+            
+            <!-- Misc Category -->
+            <li class="SideBar_Category_Title inter-text">Misc</li>
             <a class="anchor" href="../Analysis/analysis.html">
                 <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="chart-column"></i>
@@ -68,7 +65,6 @@
                 </li>
             </a>
             <a class="anchor" href="../Analytics/analytics.html">
-
                 <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="chart-no-axes-combined"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
@@ -84,11 +80,38 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../Backtesting/backtest.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="play-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Backtesting
+                    </p>
+                </li>
+            </a>
+            
+            <!-- Account Category -->
+            <li class="SideBar_Category_Title inter-text">Account</li>
+            <a class="anchor" href="../Profile/profile.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="user"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Profile
+                    </p>
+                </li>
+            </a>
             <a class="anchor" href="../Support/support.html">
                 <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="help-circle"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Support
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Info/info.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="info"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Info
                     </p>
                 </li>
             </a>
@@ -119,51 +142,44 @@
         <div class="MainFrame_Frame">
             <div class="updlog_frame">
                 <p class="updlog_title inter-text">
-                    Update Log #1
+                    Update Log #4
                 </p>
                 <p class="updlog_date inter-text">
-                    Sunday, December 7th, 2025
+                    Saturday, December 20th, 2025
                 </p>
                 <p class="updlog_infoTitle inter-text">
                     Trade Logging
                 </p>
                 <p class="updlog_info inter-text">
-                    • Image Analyzer (Gets data from your screenshot of your trades if visible) <br>
-                    • Entry Type (Options, Futures more soon)<br>
-                    • Entry Direction (Long, Short)<br>
-                    • Strategy -> Confluences <br>
-                    • Confluences Multi Select <br>
-                    • Risk to Reward Input <br>
+                    • Trade ranking system added - rank trades immediately after logging <br>
+                    • Ranking options: Terrible, Bad, Mediocre, Good, Great, Excellent <br>
+                    • Rank display on Entries page replaces "Opened/Closed" for closed trades with color-coded badges <br>
                 </p>
                 <p class="updlog_infoTitle inter-text">
-                    Entries
+                    Dashboard & Analytics
                 </p>
                 <p class="updlog_info inter-text">
-                    • View/Edit has been implemeneted into trade logging page <br>
-                    • Trade delete rework<br>
+                    • Fixed PL (Profit/Loss) calculation bugs that caused incorrect totals <br>
+                    • Added validation to handle missing or null PL values (defaults to 0) <br>
+                    • Fixed string concatenation issue by converting PL values to numbers <br>
+                    • Added proper number formatting with commas for better readability <br>
                 </p>
                 <p class="updlog_infoTitle inter-text">
-                    Journal
+                    Backtesting
                 </p>
                 <p class="updlog_info inter-text">
-                    • Complete UI rework <br>
-                    • Journal delete rework <br>
-                    • Journal View and Add rework <br>
-                </p>
-            </div>
-            <div class="updlog_frame">
-                <p class="updlog_title inter-text">
-                    Update Log #2
-                </p>
-                <p class="updlog_date inter-text">
-                    Sunday, December 14th, 2025
+                    • New Backtesting Replay feature - replay historical market data with interactive controls <br>
+                    • Supports multiple timeframes (1m, 5m, 15m, 1h, 1D) with automatic aggregation <br>
+                    • Interactive playback controls: play, pause, step forward, step back, reset, and speed control <br>
+                    • Real-time price indicators showing Open, High, Low, Close, and Volume <br>
+                    • Pro members only feature with paywall overlay <br>
                 </p>
                 <p class="updlog_infoTitle inter-text">
-                    General
+                    Navigation
                 </p>
                 <p class="updlog_info inter-text">
-                    • Complete UIX Rewrite <br>
-                    • Discord Intergration with support.<br>
+                    • New Info page added to Account section in sidebar <br>
+                    • Matches styling and format of Update Log page <br>
                 </p>
             </div>
             <div class="updlog_frame">
@@ -223,6 +239,55 @@
                     • Removed Best Trading Time stat <br>
                     • Fixed green color consistency (#00ff99) <br>
                     • Improved responsive design for all screen sizes <br>
+                </p>
+            </div>
+            <div class="updlog_frame">
+                <p class="updlog_title inter-text">
+                    Update Log #2
+                </p>
+                <p class="updlog_date inter-text">
+                    Sunday, December 14th, 2025
+                </p>
+                <p class="updlog_infoTitle inter-text">
+                    General
+                </p>
+                <p class="updlog_info inter-text">
+                    • Complete UIX Rewrite <br>
+                    • Discord Intergration with support.<br>
+                </p>
+            </div>
+            <div class="updlog_frame">
+                <p class="updlog_title inter-text">
+                    Update Log #1
+                </p>
+                <p class="updlog_date inter-text">
+                    Sunday, December 7th, 2025
+                </p>
+                <p class="updlog_infoTitle inter-text">
+                    Trade Logging
+                </p>
+                <p class="updlog_info inter-text">
+                    • Image Analyzer (Gets data from your screenshot of your trades if visible) <br>
+                    • Entry Type (Options, Futures more soon)<br>
+                    • Entry Direction (Long, Short)<br>
+                    • Strategy -> Confluences <br>
+                    • Confluences Multi Select <br>
+                    • Risk to Reward Input <br>
+                </p>
+                <p class="updlog_infoTitle inter-text">
+                    Entries
+                </p>
+                <p class="updlog_info inter-text">
+                    • View/Edit has been implemeneted into trade logging page <br>
+                    • Trade delete rework<br>
+                </p>
+                <p class="updlog_infoTitle inter-text">
+                    Journal
+                </p>
+                <p class="updlog_info inter-text">
+                    • Complete UI rework <br>
+                    • Journal delete rework <br>
+                    • Journal View and Add rework <br>
                 </p>
             </div>
         </div>

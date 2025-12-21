@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearEntry - Backtesting</title>
+    <link href="backtest.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+    <div id="sidebar" class="SideBar">
+        <a href="../Home/index.html" class="SideBar_Title inter-text">
+            ClearEntry
+        </a>
+        <ul class="SideBar_List">
+            <!-- Main Category -->
+            <li class="SideBar_Category_Title inter-text">Main</li>
+            <a class="anchor" href="../Dashboard/dashboard.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="layout-dashboard"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Dashboard
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../TradeLogging/tradelogging.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="pen-line"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Trade Logging
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Entries/entires.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="list-ordered"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Entries
+                    </p>
+                </li>
+            </a>
+            
+            <!-- Misc Category -->
+            <li class="SideBar_Category_Title inter-text">Misc</li>
+            <a class="anchor" href="../Analysis/analysis.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="chart-column"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Smart Analysis
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Journal/journal.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="book-open"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Journal
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Analytics/analytics.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="chart-no-axes-combined"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Analytics
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../UpdateLog/updatelog.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="scroll-text"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Update Log
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Backtesting/backtest.html">
+                <li class="SideBar_List_ListItem selected-item">
+                    <i class="SideBar_icon" data-lucide="play-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Backtesting
+                    </p>
+                </li>
+            </a>
+            
+            <!-- Account Category -->
+            <li class="SideBar_Category_Title inter-text">Account</li>
+            <a class="anchor" href="../Profile/profile.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="user"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Profile
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Support/support.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="help-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Support
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Info/info.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="info"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Info
+                    </p>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <div class="MainFrame">
+        <!-- Membership Paywall Overlay -->
+        <div id="paywall-overlay" class="paywall-overlay" style="display: none;">
+            <div class="paywall-content">
+                <i class="paywall-icon" data-lucide="lock"></i>
+                <p class="paywall-title inter-text">
+                    To use Backtesting Replay, upgrade to Pro
+                </p>
+                <p class="paywall-description inter-text">
+                    Unlock advanced trading tools, historical data replay, and full backtesting capabilities with ClearEntry Pro.
+                </p>
+                <a href="../Home/index.html#pricing" class="paywall-button inter-text">
+                    Upgrade to Pro
+                </a>
+            </div>
+        </div>
+        <div class="MainFrame_HeadFrame">
+            <i id="bar-icon" data-lucide="text-align-justify"></i>
+            <p class="MainFrame_Title inter-text">
+                Backtesting Replay
+            </p>
+        </div>
+        <div class="MainFrame_Frame">
+            <!-- Configuration Panel -->
+            <div class="backtest-config-panel">
+                <div class="config-group">
+                    <label class="config-label inter-text">Symbol:</label>
+                    <input type="text" id="symbol-input" class="config-input inter-text" placeholder="AAPL" value="AAPL">
+                </div>
+                <div class="config-group">
+                    <label class="config-label inter-text">Start Date:</label>
+                    <input type="date" id="start-date-input" class="config-input inter-text">
+                </div>
+                <div class="config-group">
+                    <label class="config-label inter-text">End Date:</label>
+                    <input type="date" id="end-date-input" class="config-input inter-text">
+                </div>
+                <div class="config-group">
+                    <label class="config-label inter-text">Timeframe:</label>
+                    <select id="timeframe-select" class="config-input inter-text">
+                        <option value="1m">1 Minute</option>
+                        <option value="5m">5 Minutes</option>
+                        <option value="15m">15 Minutes</option>
+                        <option value="1h">1 Hour</option>
+                        <option value="1D">1 Day</option>
+                    </select>
+                </div>
+                <button id="load-data-button" class="config-button inter-text">
+                    Load Historical Data
+                </button>
+            </div>
+
+            <!-- Chart Container -->
+            <div id="chart-container" class="chart-container">
+                <!-- Price Indicators -->
+                <div class="price-indicators">
+                    <div class="indicator-group">
+                        <label class="indicator-label inter-text">Current Price:</label>
+                        <span id="current-price" class="indicator-value inter-text">--</span>
+                    </div>
+                    <div class="indicator-group">
+                        <label class="indicator-label inter-text">Open:</label>
+                        <span id="current-open" class="indicator-value inter-text">--</span>
+                    </div>
+                    <div class="indicator-group">
+                        <label class="indicator-label inter-text">High:</label>
+                        <span id="current-high" class="indicator-value indicator-high inter-text">--</span>
+                    </div>
+                    <div class="indicator-group">
+                        <label class="indicator-label inter-text">Low:</label>
+                        <span id="current-low" class="indicator-value indicator-low inter-text">--</span>
+                    </div>
+                    <div class="indicator-group">
+                        <label class="indicator-label inter-text">Volume:</label>
+                        <span id="current-volume" class="indicator-value inter-text">--</span>
+                    </div>
+                </div>
+                <div id="replay-chart"></div>
+            </div>
+
+            <!-- Playback Controls -->
+            <div class="playback-controls">
+                <div class="playback-info">
+                    <p class="inter-text playback-text">
+                        <span id="current-time-display">--</span> / <span id="total-time-display">--</span>
+                    </p>
+                    <p class="inter-text playback-text">
+                        Candle <span id="current-index-display">0</span> / <span id="total-index-display">0</span>
+                    </p>
+                </div>
+                <div class="playback-buttons">
+                    <button id="reset-button" class="playback-button inter-text" disabled>
+                        <i data-lucide="skip-back"></i>
+                        Reset
+                    </button>
+                    <button id="step-back-button" class="playback-button inter-text" disabled>
+                        <i data-lucide="chevron-left"></i>
+                        Step Back
+                    </button>
+                    <button id="play-pause-button" class="playback-button playback-button-primary inter-text" disabled>
+                        <i data-lucide="play"></i>
+                        Play
+                    </button>
+                    <button id="step-forward-button" class="playback-button inter-text" disabled>
+                        <i data-lucide="chevron-right"></i>
+                        Step Forward
+                    </button>
+                </div>
+                <div class="playback-speed">
+                    <label class="config-label inter-text">Speed:</label>
+                    <input type="range" id="speed-slider" class="speed-slider" min="1" max="10" value="1" disabled>
+                    <span id="speed-display" class="inter-text">1x</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="backtest.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+

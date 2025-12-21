@@ -276,12 +276,23 @@ function renderTrades(trades) {
     const dateEl = clone.querySelector(".date-text");
     dateEl.textContent = convertUnixToMonthDayYear(Math.floor(Number(t.date)));
 
-    // Open/Closed
+    // Rank or Open/Closed
     const entryEl = clone.querySelector(".entry-type");
     const isOpen = t.open === true || t.open === "true";
-    entryEl.textContent = isOpen ? "Open" : "Closed";
-    entryEl.classList.toggle("opened-entry", isOpen);
-    entryEl.classList.toggle("closed-entry", !isOpen);
+    
+    // Check if trade has a rank
+    if (t.Rank && t.Rank !== "" && !isOpen) {
+        // Show rank for closed trades
+        entryEl.textContent = t.Rank;
+        entryEl.classList.remove("opened-entry", "closed-entry");
+        entryEl.classList.add("entry-rank", `entry-rank-${t.Rank}`);
+    } else {
+        // Show Open/Closed for trades without rank or open trades
+        entryEl.textContent = isOpen ? "Open" : "Closed";
+        entryEl.classList.toggle("opened-entry", isOpen);
+        entryEl.classList.toggle("closed-entry", !isOpen);
+        entryEl.classList.remove("entry-rank", "entry-rank-Terrible", "entry-rank-Bad", "entry-rank-Mediocre", "entry-rank-Good", "entry-rank-Great", "entry-rank-Excellent");
+    }
 
     const closeButton = clone.querySelector(".trade-close-button");
     closeButton.style.display = t.open == true ? "block" : "none"

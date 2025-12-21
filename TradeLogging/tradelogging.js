@@ -53,7 +53,8 @@ async function log_Trade(token) {
         })
     });
 
-    return await response.text()
+    const tradeId = await response.text();
+    return tradeId;
 }
 
 async function analyzeIMG(token, img) {
@@ -556,27 +557,36 @@ document.querySelector("#strategy-add").addEventListener("click", async function
                 })
             });
 
+            await updateClientData()
+
             const result = await response.text();
             client_server_debounce = false;
 
             // Only add to UI if successful
             if (response.ok && result !== "Invalid") {
                 // Add to settings dropdown
+
                 const item = document.createElement("p")
-                item.innerHTML = strategyValue
+
                 item.classList.add("settings-listitem")
                 item.classList.add("inter-text")
-
+        
                 const span = document.createElement("span")
-                span.classList.add("dropdown-icon")
-
+                span.classList.add("dropdown-icon2")
+        
+                const span2 = document.createElement("span")
+                span2.classList.add("inter-text")
+        
+                span2.innerHTML = strategyValue
+        
                 const icon = document.createElement("i")
                 icon.classList.add("icon2")
                 icon.classList.add("close-icon")
                 icon.classList.add("remove-icon")
                 icon.setAttribute("data-lucide", "x");
-
+        
                 span.appendChild(icon)
+                item.appendChild(span2)
                 item.appendChild(span)
 
                 span.addEventListener("click", async function() {
@@ -693,20 +703,26 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
             if (response.ok && result !== "Invalid") {
                 // Add to settings dropdown
                 const item = document.createElement("p")
-                item.innerHTML = emotionValue
+
                 item.classList.add("settings-listitem")
                 item.classList.add("inter-text")
-
+        
                 const span = document.createElement("span")
-                span.classList.add("dropdown-icon")
-
+                span.classList.add("dropdown-icon2")
+        
+                const span2 = document.createElement("span")
+                span2.classList.add("inter-text")
+        
+                span2.innerHTML = emotionValue
+        
                 const icon = document.createElement("i")
                 icon.classList.add("icon2")
                 icon.classList.add("close-icon")
                 icon.classList.add("remove-icon")
                 icon.setAttribute("data-lucide", "x");
-
+        
                 span.appendChild(icon)
+                item.appendChild(span2)
                 item.appendChild(span)
 
                 span.addEventListener("click", async function() {
@@ -827,22 +843,112 @@ document.querySelector("#continue-button").addEventListener("click", async funct
     client_server_debounce = true
     if (tradeEntry['id'] == "") {
         loadingFrame(1000, "Logging Entry...", "Entry Logged.")
-        await log_Trade(localStorage.getItem("token"))
-        client_server_debounce = false        
+        const tradeId = await log_Trade(localStorage.getItem("token"))
+        client_server_debounce = false
+        
+        // Show ranking modal for new trade
+        if (tradeId && tradeId !== "Token Error") {
+            await sleep(500)
+            showRankingModal(tradeId)
+        } else {
+            await sleep(500)
+            location.reload()
+        }
     } else {
         loadingFrame(1000, "Updating Entry...", "Entry Updated.")
         await saveTrade()
         client_server_debounce = false
+        await sleep(500)
+        location.reload()
     }
-
-    await sleep(500)
-    location.reload()
-
 })
 
 document.querySelector("#cancel-button").addEventListener("click", function() {
     location.reload()
 })
+
+// Trade Ranking Modal Functions
+let currentTradeIdForRanking = null;
+let selectedRank = null;
+
+function showRankingModal(tradeId) {
+    currentTradeIdForRanking = tradeId;
+    selectedRank = null;
+    
+    const modal = document.getElementById("trade-ranking-modal");
+    const options = document.querySelectorAll(".trade-ranking-option");
+    
+    // Reset all options
+    options.forEach(option => {
+        option.classList.remove("selected");
+    });
+    
+    // Show modal
+    modal.style.display = "flex";
+}
+
+function hideRankingModal() {
+    const modal = document.getElementById("trade-ranking-modal");
+    modal.style.display = "none";
+    currentTradeIdForRanking = null;
+    selectedRank = null;
+}
+
+// Ranking option click handlers
+document.querySelectorAll(".trade-ranking-option").forEach(option => {
+    option.addEventListener("click", function() {
+        // Remove selected class from all options
+        document.querySelectorAll(".trade-ranking-option").forEach(opt => {
+            opt.classList.remove("selected");
+        });
+        
+        // Add selected class to clicked option
+        this.classList.add("selected");
+        selectedRank = this.getAttribute("data-rank");
+    });
+});
+
+// Save ranking button handler
+document.getElementById("trade-ranking-save").addEventListener("click", async function() {
+    if (!selectedRank || !currentTradeIdForRanking) {
+        return;
+    }
+    
+    // Disable button and show loading
+    this.disabled = true;
+    client_server_debounce = true;
+    loadingFrame(1000, "Saving Rank...", "Rank Saved.");
+    
+    try {
+        const response = await fetch("https://trade-ranking-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                tradeId: currentTradeIdForRanking,
+                rank: selectedRank
+            })
+        });
+        
+        const result = await response.text();
+        
+        if (response.ok && result !== "Error") {
+            client_server_debounce = false;
+            await sleep(500);
+            location.reload();
+        } else {
+            client_server_debounce = false;
+            this.disabled = false;
+            console.error("Failed to save rank:", result);
+            alert("Failed to save rank. Please try again.");
+        }
+    } catch (error) {
+        client_server_debounce = false;
+        this.disabled = false;
+        console.error("Error saving rank:", error);
+        alert("An error occurred. Please try again.");
+    }
+});
 
 
 document.addEventListener("DOMContentLoaded", () => {

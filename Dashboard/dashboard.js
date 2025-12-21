@@ -115,7 +115,11 @@ async function getTradesByWeekday(dataObj, weekdayKey,) {
 
     for (const trade in result) {
         if (dataObj[trade]) {
-            totalPL += dataObj[trade]['PL']
+            const tradePL = dataObj[trade]['PL']
+            const plValue = (tradePL !== undefined && tradePL !== null && tradePL !== '') ? Number(tradePL) : 0
+            if (!isNaN(plValue)) {
+                totalPL += plValue
+            }
         }
     }
 
@@ -165,9 +169,15 @@ async function loadStats() {
     document.querySelector("#user-Name").innerHTML =  "Welcome Back, " + clientData.result['name']
 
     for (let x in clientData.result['trades']) {
-        totalBalance += clientData.result['trades'][x]['PL']
-        if (clientData.result['trades'][x]['PL'] > 0) {
-            totalProfit += clientData.result['trades'][x]['PL']
+        const tradePL = clientData.result['trades'][x]['PL']
+        console.log(tradePL)
+        const plValue = (tradePL !== undefined && tradePL !== null && tradePL !== '') ? Number(tradePL) : 0
+        if (isNaN(plValue)) {
+            continue // Skip invalid PL values
+        }
+        totalBalance += plValue
+        if (plValue > 0) {
+            totalProfit += plValue
         }
     }
 
@@ -219,24 +229,34 @@ async function loadStats() {
         tradediv.appendChild(strategyText)
 
         const winlosstext = document.createElement("p")
-        if (trades[trade]['PL'] > 0) {
+        const tradePLWin = trades[trade]["PL"]
+        const plValueWin = (tradePLWin !== undefined && tradePLWin !== null && tradePLWin !== '') ? Number(tradePLWin) : 0
+        const safePLWin = isNaN(plValueWin) ? 0 : plValueWin
+        if (safePLWin > 0) {
             winlosstext.classList.add("green-text")
             winlosstext.innerHTML = "win"
-        } else {
+        } else if (safePLWin < 0) {
             winlosstext.classList.add("red-text")
             winlosstext.innerHTML = "loss"
+        } else {
+            winlosstext.innerHTML = "—"
         }
         winlosstext.classList.add("inter-text")
         winlosstext.classList.add("trade-text")
         tradediv.appendChild(winlosstext)
 
         const pltext = document.createElement("p")
-        if (trades[trade]['PL'] > 0) {
-            pltext.innerHTML = "+$" + trades[trade]["PL"]
+        const tradePLDisplay = trades[trade]["PL"]
+        const plValueDisplay = (tradePLDisplay !== undefined && tradePLDisplay !== null && tradePLDisplay !== '') ? Number(tradePLDisplay) : 0
+        const safePLDisplay = isNaN(plValueDisplay) ? 0 : plValueDisplay
+        if (safePLDisplay > 0) {
+            pltext.innerHTML = "+$" + safePLDisplay.toLocaleString()
             pltext.classList.add("green-text")
-        } else {
-            pltext.innerHTML = "-$" + Math.abs(trades[trade]["PL"])
+        } else if (safePLDisplay < 0) {
+            pltext.innerHTML = "-$" + Math.abs(safePLDisplay).toLocaleString()
             pltext.classList.add("red-text")
+        } else {
+            pltext.innerHTML = "$0"
         }
 
         pltext.classList.add("inter-text")
@@ -264,11 +284,11 @@ async function loadStats() {
 
     document.querySelector("#emotion_Text").innerHTML = Math.floor(mostEmotionAmount/totalemotionAmounts * 10) + "/10";
     document.querySelector("#emotion_Bar").style.width = Math.floor(mostEmotionAmount/totalemotionAmounts * 100) + '%';
-    document.querySelector("#total_Balance").innerHTML = "$" + totalBalance
+    document.querySelector("#total_Balance").innerHTML = "$" + totalBalance.toLocaleString()
     if (totalProfit > -1) {
-        document.querySelector("#total_Profit").innerHTML = "+$" + totalProfit
+        document.querySelector("#total_Profit").innerHTML = "+$" + totalProfit.toLocaleString()
     } else {
-        document.querySelector("#total_Profit").innerHTML = "-$" + Math.abs(totalProfit)
+        document.querySelector("#total_Profit").innerHTML = "-$" + Math.abs(totalProfit).toLocaleString()
     }
 
 
@@ -285,12 +305,17 @@ async function loadGraphs(params) {
     let totalLoss = 0
 
     for (let x in clientData.result['trades']) {
-        if (clientData.result['trades'][x]['PL'] > 0) {
+        const tradePL = clientData.result['trades'][x]['PL']
+        const plValue = (tradePL !== undefined && tradePL !== null && tradePL !== '') ? Number(tradePL) : 0
+        if (isNaN(plValue)) {
+            continue // Skip invalid PL values
+        }
+        if (plValue > 0) {
             totalWins++
-            totalProfit += clientData.result['trades'][x]['PL']
-        } else {
+            totalProfit += plValue
+        } else if (plValue < 0) {
             totalLosses++
-            totalLoss += (clientData.result['trades'][x]['PL'] * -1)
+            totalLoss += Math.abs(plValue)
         }
     }
 

@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
-    <link href="profile.css" rel="stylesheet" type="text/css">
+    <link href="info.css" rel="stylesheet" type="text/css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 <body>
-    <div id="sidebar" class="SideBar">
+        <div id="sidebar" class="SideBar">
         <a href="../Home/index.html" class="SideBar_Title inter-text">
             ClearEntry
         </a>
@@ -91,7 +92,7 @@
             <!-- Account Category -->
             <li class="SideBar_Category_Title inter-text">Account</li>
             <a class="anchor" href="../Profile/profile.html">
-                <li class="SideBar_List_ListItem selected-item">
+                <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="user"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Profile
@@ -107,7 +108,7 @@
                 </li>
             </a>
             <a class="anchor" href="../Info/info.html">
-                <li class="SideBar_List_ListItem">
+                <li class="SideBar_List_ListItem selected-item">
                     <i class="SideBar_icon" data-lucide="info"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Info
@@ -117,79 +118,70 @@
         </ul>
     </div>
     <div class="MainFrame">
+        <div class="mainframe-loading">
+            <div id="load-frame" class="loading-frame">
+                <i class="spin-icon" data-lucide="loader"></i>
+                <p class="load-text inter-text">
+                    Loading Data
+                </p>
+            </div>
+            
+            <div id="loaded-frame" class="loading-frame">
+                <i class="done-icon" data-lucide="circle-check"></i>
+                <p class="load-text inter-text">
+                    Data Loaded
+                </p>
+            </div>
+        </div>
         <div class="MainFrame_HeadFrame">
             <i id="bar-icon" data-lucide="text-align-justify"></i>
             <p class="MainFrame_Title inter-text">
-                Profile
+                Info
             </p>
         </div>
-       
-        <div class="MainFrame_ProfileFrame">
-            <div class="MainFrame_ProfileFrame_Frame">
-                <svg class="MainFrame_ProfileFrame_Frame_Img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
-                <div class="MainFrame_ProfileFrame_Frame_Data">
-                    <p id="NameTextH" class="MainFrame_ProfileFrame_Frame_Data_Name inter-text">
-                    </p>
-                    <p id="EmailTextH" class="MainFrame_ProfileFrame_Frame_Data_Text inter-text">
-                    </p>
-                    <p id="MembershipTextH" class="MainFrame_ProfileFrame_Frame_Data_Text inter-text">
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="MainFrame_ProfileDataFrame">
-            <div class="MainFrame_ProfileDataFrame_Frame">
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Name
+        <div class="MainFrame_Frame">
+            <div class="updlog_frame">
+                <p class="updlog_title inter-text">
+                    Information
                 </p>
-                <textarea placeholder="Enter Name" id="NameText" class="MainFrame_ProfileDataFrame_Frame_Input inter-text"></textarea>
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Email
+                <p class="updlog_date inter-text">
+                    ClearEntry Information
                 </p>
-                <textarea placeholder="Enter Email" id="EmailText" class="MainFrame_ProfileDataFrame_Frame_Input inter-text"></textarea>
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Membership
+                <p class="updlog_infoTitle inter-text">
+                    About ClearEntry
                 </p>
-                <p id="MembershipText" class="MainFrame_ProfileDataFrame_Frame_Input inter-text">
-
+                <p class="updlog_info inter-text">
+                    ClearEntry is a next-generation trading journal designed to help traders understand the psychology behind their trades. <br>
+                    Track your emotions, analyze patterns, and evolve your strategy with AI-powered insights.
                 </p>
-
-                <p class="MainFrame_ProfileDataFrame_Frame_Title inter-text">
-                    Bio
+                <p class="updlog_infoTitle inter-text">
+                    Free Features
                 </p>
-                <textarea id="BioText" placeholder="Enter a bio" class="MainFrame_ProfileDataFrame_Frame_Input inter-text"></textarea>
-            </div>
-        </div>
-        
-        <div class="MainFrame_SaveFrame">
-            <div class="MainFrame_SaveFrame_Frame">
-                <p id="SaveButton" class="MainFrame_SaveFrame_Frame_text inter-text">
-                    Save
+                <p class="updlog_info inter-text">
+                    • Unlimited trade logging <br>
+                    • Unlimited journal entries <br>
+                    • Basic statistics and analytics <br>
+                    • Trade history and entries viewing <br>
                 </p>
-            </div>
-        </div>
-        
-        <div id="membership-cancel-section" class="membership-cancel-section" style="display: none;">
-            <div class="membership-cancel-frame">
-                <p class="membership-cancel-title inter-text">
-                    Cancel Membership
+                <p class="updlog_infoTitle inter-text">
+                    Pro Features
                 </p>
-                <p class="membership-cancel-description inter-text">
-                    Cancel your ClearEntry Pro subscription. Your access will continue until the end of your current billing period.
+                <p class="updlog_info inter-text">
+                    • Full AI-powered analysis <br>
+                    • Complete statistics and analytics <br>
+                    • Trading plan generation <br>
+                    • Calendar view with trade mapping <br>
+                    • Advanced time range analysis <br>
                 </p>
-                <button id="cancel-membership-button" class="membership-cancel-button inter-text">
-                    Cancel Subscription
-                </button>
             </div>
         </div>
     </div>
-    <script src="../dataHandler.js"></script>
-    <script src="profile.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="info.js"></script>
     <script>
-
 
         lucide.createIcons();
     </script>
 </body>
 </html>
+

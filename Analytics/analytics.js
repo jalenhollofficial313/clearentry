@@ -151,10 +151,13 @@ async function loadData() {
             if (clientData.result['trades'][trade]['emotion'] == Emotions[emotion]) {
                 totalemotionAmounts += 1
                 emotionAmount += 1
+                const tradePL = clientData.result['trades'][trade]['PL']
+                const plValue = (tradePL !== undefined && tradePL !== null && tradePL !== '') ? Number(tradePL) : 0
+                const safePL = isNaN(plValue) ? 0 : plValue
                 if (EmotionPL[Emotions[emotion]] != null) {
-                    EmotionPL[Emotions[emotion]] += clientData.result['trades'][trade]['PL']
+                    EmotionPL[Emotions[emotion]] += safePL
                 } else {
-                    EmotionPL[Emotions[emotion]] = clientData.result['trades'][trade]['PL']
+                    EmotionPL[Emotions[emotion]] = safePL
                 }
             }
         }
@@ -180,10 +183,13 @@ async function loadData() {
     for (let strategy in Strategies) {
         for (let trade in clientData.result['trades']) {
             if (clientData.result['trades'][trade]['strategy'] == Strategies[strategy]) {
+                const tradePL = clientData.result['trades'][trade]['PL']
+                const plValue = (tradePL !== undefined && tradePL !== null && tradePL !== '') ? Number(tradePL) : 0
+                const safePL = isNaN(plValue) ? 0 : plValue
                 if (StrategyPL[Strategies[strategy]] != null) {
-                    StrategyPL[Strategies[strategy]] += clientData.result['trades'][trade]['PL']
+                    StrategyPL[Strategies[strategy]] += safePL
                 } else {
-                    StrategyPL[Strategies[strategy]] = clientData.result['trades'][trade]['PL']
+                    StrategyPL[Strategies[strategy]] = safePL
                 }
             }
         }
@@ -200,13 +206,15 @@ async function loadData() {
 
     for (let trade in clientData.result['trades']) {
         tradeAmount += 1
-        totalPL += clientData.result['trades'][trade]['PL']
-        if (clientData.result['trades'][trade]['PL'] > 0 ) {
-            totalWinPL += clientData.result['trades'][trade]['PL']
+        const tradePL = clientData.result['trades'][trade]['PL']
+        const plValue = (tradePL !== undefined && tradePL !== null && tradePL !== '') ? Number(tradePL) : 0
+        const safePL = isNaN(plValue) ? 0 : plValue
+        totalPL += safePL
+        if (safePL > 0 ) {
+            totalWinPL += safePL
             wins += 1
-        }
-        if (clientData.result['trades'][trade]['PL'] < 0 ) {
-            totalLossPL += clientData.result['trades'][trade]['PL']
+        } else if (safePL < 0 ) {
+            totalLossPL += safePL
             losses += 1
         }
     }
@@ -245,13 +253,13 @@ async function loadData() {
     const statText = document.querySelectorAll(".MainFrame_Frame_Frame_TopStats_Stat_text")
     const statText2 = document.querySelectorAll(".MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text")
     if (totalPL > 0) {
-        statText[0].innerHTML = "+$" + totalPL
+        statText[0].innerHTML = "+$" + totalPL.toLocaleString()
         statText[0].classList.add("green-text")
     } else if (totalPL < 0) {
-        statText[0].innerHTML = "-$" + totalPL
+        statText[0].innerHTML = "-$" + Math.abs(totalPL).toLocaleString()
         statText[0].classList.add("red-text")
     } else {
-        statText[0].innerHTML = "$" + totalPL
+        statText[0].innerHTML = "$" + totalPL.toLocaleString()
     }
     statText[1].innerHTML = WinRate + "%"
     statText[2].innerHTML = ProfitFactor === "∞" ? "∞" : ProfitFactor

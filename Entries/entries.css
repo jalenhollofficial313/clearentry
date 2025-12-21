@@ -148,6 +148,45 @@ html, body {
     border: 1px solid #2d3139;
 }
 
+/* Entry Rank Styling - matches trade ranking colors */
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox.entry-rank {
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 4px 12px;
+    font-weight: 600;
+    background-color: #191d23e7;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox.entry-rank-Terrible {
+    color: #ff1744 !important;
+    border-color: #ff1744;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox.entry-rank-Bad {
+    color: #ff6b35 !important;
+    border-color: #ff6b35;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox.entry-rank-Mediocre {
+    color: #ffa726 !important;
+    border-color: #ffa726;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox.entry-rank-Good {
+    color: #66bb6a !important;
+    border-color: #66bb6a;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox.entry-rank-Great {
+    color: #42a5f5 !important;
+    border-color: #42a5f5;
+}
+
+.MainFrame_EntriesFrame_Entries_Entry_Header_TextBox.entry-rank-Excellent {
+    color: #00ff99 !important;
+    border-color: #00ff99;
+}
+
 .long-entry {
     background-color: #14b04d;
 }
@@ -929,6 +968,24 @@ body {
 
     padding: 0;
     margin: 0;
+}
+
+.SideBar_Category_Title {
+    color: #86909a;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px 20px 8px 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.SideBar_Category_Title:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 5px;
 }
 
 .SideBar_List_ListItem {

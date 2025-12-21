@@ -80,6 +80,24 @@ body {
     margin: 0;
 }
 
+.SideBar_Category_Title {
+    color: #86909a;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px 20px 8px 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-top: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.SideBar_Category_Title:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 5px;
+}
+
 .SideBar_List_ListItem {
     display: flex;
     align-items: center;
@@ -1129,4 +1147,171 @@ body {
     .img-frame {
         height: 200px;
     }
+}
+
+/* Trade Ranking Modal */
+.trade-ranking-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.trade-ranking-modal-content {
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    border-radius: 19px;
+    padding: 40px 30px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    animation: slideUp 0.3s ease-out;
+    position: relative;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.trade-ranking-title {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 700;
+    color: white;
+    margin: 0 0 30px 0;
+}
+
+.trade-ranking-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.trade-ranking-option {
+    padding: 12px 20px;
+    border-radius: 10px;
+    background-color: #191d23e7;
+    border: 1px solid;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 250ms;
+    font-family: "Inter", sans-serif;
+}
+
+/* Color assignments for each ranking option */
+.trade-ranking-option[data-rank="Terrible"] {
+    color: #ff1744;
+    border-color: #ff1744;
+}
+
+.trade-ranking-option[data-rank="Bad"] {
+    color: #ff6b35;
+    border-color: #ff6b35;
+}
+
+.trade-ranking-option[data-rank="Mediocre"] {
+    color: #ffa726;
+    border-color: #ffa726;
+}
+
+.trade-ranking-option[data-rank="Good"] {
+    color: #66bb6a;
+    border-color: #66bb6a;
+}
+
+.trade-ranking-option[data-rank="Great"] {
+    color: #42a5f5;
+    border-color: #42a5f5;
+}
+
+.trade-ranking-option[data-rank="Excellent"] {
+    color: #00ff99;
+    border-color: #00ff99;
+}
+
+/* Selected state - swap colors */
+.trade-ranking-option.selected[data-rank="Terrible"] {
+    background-color: #ff1744;
+    color: #191d23e7;
+}
+
+.trade-ranking-option.selected[data-rank="Bad"] {
+    background-color: #ff6b35;
+    color: #191d23e7;
+}
+
+.trade-ranking-option.selected[data-rank="Mediocre"] {
+    background-color: #ffa726;
+    color: #191d23e7;
+}
+
+.trade-ranking-option.selected[data-rank="Good"] {
+    background-color: #66bb6a;
+    color: #191d23e7;
+}
+
+.trade-ranking-option.selected[data-rank="Great"] {
+    background-color: #42a5f5;
+    color: #191d23e7;
+}
+
+.trade-ranking-option.selected[data-rank="Excellent"] {
+    background-color: #00ff99;
+    color: #191d23e7;
+}
+
+.trade-ranking-option:hover {
+    transform: scale(1.05);
+}
+
+.trade-ranking-save-button {
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #00ff99;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    font-size: clamp(16px, 2.5vw, 18px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 250ms;
+}
+
+.trade-ranking-save-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 3px 20px -5px #00ff99;
+}
+
+.trade-ranking-save-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
