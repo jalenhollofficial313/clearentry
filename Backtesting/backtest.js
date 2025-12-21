@@ -476,7 +476,13 @@ async function initChart() {
             horzLines: { color: 'rgba(128, 128, 128, 0.1)' }
         },
         width: chartContainer.clientWidth || 1200,
-        height: chartContainer.clientHeight || 700
+        height: (() => {
+            // Get computed height from CSS (respects media queries)
+            const computedStyle = window.getComputedStyle(chartContainer);
+            const height = parseInt(computedStyle.height) || chartContainer.clientHeight || 700;
+            // Account for padding and price indicators
+            return height - 70; // Subtract space for price indicators
+        })()
     };
     
     // Add optional options only if they exist in the library
@@ -606,26 +612,26 @@ async function initChart() {
     });
     
     // Handle window resize and orientation changes
+    const updateChartSize = () => {
+        const newWidth = chartContainer.clientWidth;
+        // Get computed height from CSS (respects media queries)
+        const computedStyle = window.getComputedStyle(chartContainer);
+        const containerHeight = parseInt(computedStyle.height) || chartContainer.clientHeight;
+        const newHeight = containerHeight - 70; // Account for price indicators
+        chart.applyOptions({ 
+            width: newWidth,
+            height: newHeight
+        });
+    };
+    
     const resizeObserver = new ResizeObserver(entries => {
-        for (let entry of entries) {
-            const newWidth = entry.contentRect.width;
-            const newHeight = entry.contentRect.height - 70; // Account for price indicators
-            chart.applyOptions({ 
-                width: newWidth,
-                height: newHeight
-            });
-        }
+        updateChartSize();
     });
     resizeObserver.observe(chartContainer);
     
     // Also handle window resize for orientation changes
     window.addEventListener('resize', () => {
-        const newWidth = chartContainer.clientWidth;
-        const newHeight = chartContainer.clientHeight - 70; // Account for price indicators
-        chart.applyOptions({ 
-            width: newWidth,
-            height: newHeight
-        });
+        updateChartSize();
     });
 }
 

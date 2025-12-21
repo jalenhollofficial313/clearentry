@@ -493,15 +493,15 @@ body {
 
 @media (max-width: 480px) {
     .chart-container {
-        height: 2000px;
-        min-height: 2000px;
+        height: 1200px;
+        min-height: 1200px;
         padding: 10px;
         margin-bottom: 15px;
         margin-top: 15px;
     }
     
     #replay-chart {
-        height: calc(100% - 100px);
+        height: calc(100% - 70px);
     }
     
     .price-indicators {
