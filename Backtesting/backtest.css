@@ -306,7 +306,7 @@ body {
 
 #replay-chart {
     width: 100%;
-    height: calc(100% - 80px); 
+    height: 720px; 
     min-height: 730px;
     max-height: 730px;
 }
@@ -737,9 +737,5 @@ body {
         justify-content: center;
     }
 
-    .chart-container {
-        height: 400px;
-        min-height: 400px;
-    }
 }
 
