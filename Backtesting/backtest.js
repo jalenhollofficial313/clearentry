@@ -476,7 +476,7 @@ async function initChart() {
             horzLines: { color: 'rgba(128, 128, 128, 0.1)' }
         },
         width: chartContainer.clientWidth || 1200,
-        height: chartContainer.clientHeight || 600
+        height: chartContainer.clientHeight || 700
     };
     
     // Add optional options only if they exist in the library
@@ -612,7 +612,7 @@ async function initChart() {
             const newHeight = entry.contentRect.height - 70; // Account for price indicators
             chart.applyOptions({ 
                 width: newWidth,
-                height: Math.max(newHeight, 400) // Minimum height of 400px
+                height: newHeight
             });
         }
     });
@@ -624,7 +624,7 @@ async function initChart() {
         const newHeight = chartContainer.clientHeight - 70; // Account for price indicators
         chart.applyOptions({ 
             width: newWidth,
-            height: Math.max(newHeight, 400) // Minimum height of 400px
+            height: newHeight
         });
     });
 }
