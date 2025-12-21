@@ -482,7 +482,13 @@ async function initChart() {
             const paddingRight = parseInt(computedStyle.paddingRight) || 0;
             return chartContainer.clientWidth - paddingLeft - paddingRight;
         })(),
-        height: 730 // Fixed height across all platforms
+        height: (() => {
+            // Use mobile height if on mobile, otherwise use desktop height
+            if (window.innerWidth <= 480) {
+                return 430; // Mobile height
+            }
+            return 720; // Desktop/tablet height
+        })()
     };
     
     // Add optional options only if they exist in the library
@@ -614,7 +620,8 @@ async function initChart() {
     // Handle window resize and orientation changes
     const updateChartSize = () => {
         const newWidth = chartContainer.clientWidth;
-        const newHeight = 730; // Fixed height across all platforms
+        // Use mobile height if on mobile, otherwise use desktop height
+        const newHeight = window.innerWidth <= 480 ? 430 : 720;
         chart.applyOptions({ 
             width: newWidth,
             height: newHeight
