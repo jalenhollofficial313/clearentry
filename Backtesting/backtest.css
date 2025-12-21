@@ -493,8 +493,8 @@ body {
 
 @media (max-width: 480px) {
     .chart-container {
-        height: 800px;
-        min-height: 800px;
+        height: 1200px;
+        min-height: 1200px;
         padding: 10px;
         margin-bottom: 15px;
         margin-top: 15px;
