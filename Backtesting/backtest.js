@@ -711,7 +711,9 @@ async function setupMembershipGating() {
 }
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    await getClientData()
+    await sleep(100)
     // Check membership first before allowing access (no delay)
     setupMembershipGating().then(() => {
         // Only initialize if user has Pro access
@@ -780,8 +782,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Sidebar toggle (mobile)
-    document.getElementById('bar-icon')?.addEventListener('click', function() {
-        document.querySelector('#sidebar').style.display = 'block';
-    });
+    const barIcon = document.querySelector("#bar-icon");
+    const headFrame = document.querySelector(".MainFrame_HeadFrame");
+    
+    // Handle clicks on headframe - check if it's specifically the bar-icon
+    if (headFrame) {
+      headFrame.addEventListener("click", (e) => {
+        // Check if the click target is the bar-icon or inside it
+        const clickedBarIcon = e.target.closest("#bar-icon");
+        
+        if (clickedBarIcon) {
+          // Click was on the bar-icon, toggle sidebar
+          e.stopPropagation();
+          console.log("Check")
+          const sidebar = document.querySelector("#sidebar");
+          if (sidebar) {
+            sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
+          }
+        }
+        // If click is not on bar-icon, do nothing (prevents accidental triggers)
+      });
+    }
+    
+    // Also add direct handler to bar-icon as backup
+    if (barIcon) {
+      barIcon.addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent event bubbling
+        console.log("Check")
+        const sidebar = document.querySelector("#sidebar");
+        if (sidebar) {
+          sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
+        }
+      });
+    }
 });
 
