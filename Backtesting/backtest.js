@@ -35,6 +35,10 @@ let replayState = {
 
 let playbackTimer = null;
 let chart = null;
+let candlestickSeries = null;
+let volumeSeries = null;
+
+let client_server_debounce = false;
 
 // Timeframe multipliers (in milliseconds)
 const TIMEFRAME_MS = {
@@ -251,14 +255,105 @@ function resumeReplay() {
 }
 
 /**
- * Update chart with current derived candles
+ * Process all candles for a given timeframe
  */
-function updateChart() {
-    if (!chart || !replayState.baseCandles1m.length) {
+function processCandlesForTimeframe(candles1m, timeframe) {
+    if (timeframe === '1m') {
+        // No aggregation needed
+        return candles1m;
+    }
+    
+    const aggregated = [];
+    let currentAgg = null;
+    
+    for (const candle of candles1m) {
+        const result = updateAggregate(currentAgg, candle, timeframe);
+        
+        if (result.didClosePrev && result.closedCandle) {
+            aggregated.push(result.closedCandle);
+        }
+        
+        currentAgg = result.currentAgg;
+    }
+    
+    // Add the last incomplete candle if it exists
+    if (currentAgg) {
+        aggregated.push(currentAgg);
+    }
+    
+    return aggregated;
+}
+
+/**
+ * Update chart with processed candle data
+ */
+function updateChartWithData(candles) {
+    if (!chart || !candlestickSeries) {
         return;
     }
     
-    // Prepare data for ApexCharts
+    // Convert to TradingView format (time in seconds, not milliseconds)
+    const chartData = candles
+        .filter(candle => {
+            // Validate candle data
+            return candle && 
+                   typeof candle.t === 'number' && 
+                   typeof candle.o === 'number' && 
+                   typeof candle.h === 'number' && 
+                   typeof candle.l === 'number' && 
+                   typeof candle.c === 'number' &&
+                   !isNaN(candle.t) && 
+                   !isNaN(candle.o) && 
+                   !isNaN(candle.h) && 
+                   !isNaN(candle.l) && 
+                   !isNaN(candle.c) &&
+                   candle.h >= candle.l &&
+                   candle.h >= candle.o &&
+                   candle.h >= candle.c &&
+                   candle.l <= candle.o &&
+                   candle.l <= candle.c;
+        })
+        .map(candle => {
+            const time = Math.floor(candle.t / 1000); // Convert ms to seconds
+            return {
+                time: time,
+                open: Number(candle.o),
+                high: Number(candle.h),
+                low: Number(candle.l),
+                close: Number(candle.c)
+            };
+        })
+        .sort((a, b) => a.time - b.time);
+    
+    // Update chart with all data
+    if (chartData.length > 0) {
+        try {
+            candlestickSeries.setData(chartData);
+            // Fit content to show all data
+            chart.timeScale().fitContent();
+        } catch (error) {
+            console.error('Error setting candlestick data:', error);
+        }
+    }
+}
+
+/**
+ * Update chart with current derived candles - rebuilds entire dataset each time
+ */
+function updateChart() {
+    if (!chart || !candlestickSeries) {
+        return;
+    }
+    
+    // Don't return early if no base candles - we might have derived candles to show
+    if (!replayState.baseCandles1m.length && !replayState.derivedCandles.length) {
+        return;
+    }
+    
+    // Rebuild derived candles up to current index (in case we're stepping)
+    rebuildDerivedCandles();
+    
+    // Prepare data for TradingView - include all derived candles plus current aggregate
     const series = replayState.derivedCandles.slice(); // Copy array
     
     // Include current aggregate if it exists (incomplete candle)
@@ -274,136 +369,264 @@ function updateChart() {
     // Update price indicators
     updatePriceIndicators(currentCandle);
     
-    // Convert to ApexCharts format
-    const chartData = series.map(candle => ({
-        x: candle.t,
-        y: [candle.o, candle.h, candle.l, candle.c]
-    }));
+    // Convert to TradingView format (time in seconds, not milliseconds)
+    // Validate and filter out invalid candles
+    const chartData = series
+        .filter(candle => {
+            // Validate candle data
+            return candle && 
+                   typeof candle.t === 'number' && 
+                   typeof candle.o === 'number' && 
+                   typeof candle.h === 'number' && 
+                   typeof candle.l === 'number' && 
+                   typeof candle.c === 'number' &&
+                   !isNaN(candle.t) && 
+                   !isNaN(candle.o) && 
+                   !isNaN(candle.h) && 
+                   !isNaN(candle.l) && 
+                   !isNaN(candle.c) &&
+                   candle.h >= candle.l && // High must be >= Low
+                   candle.h >= candle.o && // High must be >= Open
+                   candle.h >= candle.c && // High must be >= Close
+                   candle.l <= candle.o && // Low must be <= Open
+                   candle.l <= candle.c;  // Low must be <= Close
+        })
+        .map(candle => {
+            const time = Math.floor(candle.t / 1000); // Convert ms to seconds
+            return {
+                time: time,
+                open: Number(candle.o),
+                high: Number(candle.h),
+                low: Number(candle.l),
+                close: Number(candle.c)
+            };
+        })
+        .sort((a, b) => a.time - b.time); // Ensure data is sorted by time
     
-    // Calculate dynamic bar width based on data points, with minimum and maximum
-    const dataPointCount = Math.max(1, chartData.length);
-    const chartWidth = 1200; // Approximate chart width in pixels (excluding padding)
-    const calculatedWidth = chartWidth / dataPointCount;
-    const barWidth = Math.max(6, Math.min(50, calculatedWidth)); // Min 6px, Max 50px
+    // Update entire chart with new dataset (replace all data, don't append)
+    if (chartData.length > 0) {
+        try {
+            candlestickSeries.setData(chartData);
+            // Fit content to show all data
+            chart.timeScale().fitContent();
+        } catch (error) {
+            console.error('Error setting candlestick data:', error);
+            console.log('Sample data:', chartData.slice(0, 3));
+        }
+    } else {
+        // If no data, set empty array
+        try {
+            candlestickSeries.setData([]);
+        } catch (error) {
+            console.error('Error clearing chart data:', error);
+        }
+    }
     
-    // Update series with smooth animation
-    chart.updateSeries([{
-        name: 'Price',
-        data: chartData
-    }], true); // true = enable smooth animation
-    
-    // Update bar width separately (only affects visual width, not zoom)
-    chart.updateOptions({
-        plotOptions: {
-            candlestick: {
-                barWidth: barWidth
+    // Update volume series if we have volume data
+    if (volumeSeries && series.length > 0 && series[0].v !== undefined) {
+        const volumeData = series
+            .filter(candle => candle && typeof candle.v === 'number' && !isNaN(candle.v))
+            .map(candle => ({
+                time: Math.floor(candle.t / 1000),
+                value: Number(candle.v) || 0,
+                color: candle.c >= candle.o ? 'rgba(0, 255, 153, 0.3)' : 'rgba(255, 71, 71, 0.3)'
+            }))
+            .sort((a, b) => a.time - b.time);
+        
+        if (volumeData.length > 0) {
+            try {
+                volumeSeries.setData(volumeData);
+            } catch (error) {
+                console.error('Error setting volume data:', error);
             }
         }
-    }, false, false); // false, false = don't animate options, don't update synced charts
+    }
 }
 
 /**
- * Initialize chart
+ * Initialize chart using TradingView lightweight-charts
  */
-function initChart() {
+async function initChart() {
+    const chartContainer = document.querySelector("#replay-chart");
+    if (!chartContainer) {
+        console.error("Chart container not found");
+        return;
+    }
+    
+    // Get the library reference (standalone build uses lowercase)
+    const lwc = window.lightweightCharts || window.LightweightCharts;
+    
+    if (!lwc) {
+        console.error('TradingView LightweightCharts library not loaded');
+        return;
+    }
+    
+    // Get the CandlestickSeries constant from the library
+    const CandlestickSeries = lwc.CandlestickSeries;
+    
+    // Create TradingView chart with simplified options to avoid assertion errors
     const chartOptions = {
-        series: [{
-            name: 'Price',
-            data: []
-        }],
-        chart: {
-            type: 'candlestick',
-            height: 600,
-            background: 'transparent',
-            animations: {
-                enabled: true,
-                easing: 'easeinout',
-                speed: 400,
-                animateGradually: {
-                    enabled: true,
-                    delay: 150
-                },
-                dynamicAnimation: {
-                    enabled: true,
-                    speed: 350
-                }
-            },
-            zoom: {
-                enabled: true,
-                autoScaleYaxis: false // Prevent auto-scaling Y axis on zoom
-            },
-            toolbar: {
-                show: true,
-                tools: {
-                    download: true,
-                    selection: true,
-                    zoom: true,
-                    zoomin: true,
-                    zoomout: true,
-                    pan: true,
-                    reset: true
-                }
-            }
+        layout: {
+            background: { color: 'transparent' },
+            textColor: '#86909a',
+            fontFamily: 'Inter, sans-serif'
         },
-        xaxis: {
-            type: 'datetime',
-            labels: {
-                style: {
-                    colors: '#86909a'
-                }
-            }
+        grid: {
+            vertLines: { color: 'rgba(128, 128, 128, 0.1)' },
+            horzLines: { color: 'rgba(128, 128, 128, 0.1)' }
         },
-        yaxis: {
-            labels: {
-                style: {
-                    colors: '#86909a'
-                },
-                formatter: function(val) {
-                    return '$' + val.toFixed(2);
-                }
-            }
-        },
-        plotOptions: {
-            candlestick: {
-                colors: {
-                    upward: '#00ff99',
-                    downward: '#ff4747'
-                },
-                wick: {
-                    useFillColor: true
-                }
-            }
-        },
-        theme: {
-            mode: 'dark'
-        },
-        tooltip: {
-            theme: 'dark',
-            custom: function({seriesIndex, dataPointIndex, w}) {
-                const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
-                const o = data.y[0];
-                const h = data.y[1];
-                const l = data.y[2];
-                const c = data.y[3];
-                const date = new Date(data.x);
-                const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                
-                return '<div style="background-color: #191d23e7; backdrop-filter: blur(10px); border: 1px solid rgba(128, 128, 128, 0.123); box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432); border-radius: 12px; padding: 15px; font-family: Inter, sans-serif;">' +
-                    '<div style="font-size: 13px; font-weight: 600; color: white; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(128, 128, 128, 0.123);">' + dateStr + '</div>' +
-                    '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>Open:</span> <span style="color: white; font-weight: 600;">$' + o.toFixed(2) + '</span></div>' +
-                    '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>High:</span> <span style="color: #00ff99; font-weight: 600;">$' + h.toFixed(2) + '</span></div>' +
-                    '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>Low:</span> <span style="color: #ff4747; font-weight: 600;">$' + l.toFixed(2) + '</span></div>' +
-                    '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>Close:</span> <span style="color: white; font-weight: 600;">$' + c.toFixed(2) + '</span></div>' +
-                    '</div>';
-            },
-            style: {
-                fontFamily: 'Inter, sans-serif'
-            }
-        }
+        width: chartContainer.clientWidth || 1200,
+        height: chartContainer.clientHeight || 600
     };
     
-    chart = new ApexCharts(document.querySelector("#replay-chart"), chartOptions);
-    chart.render();
+    // Add optional options only if they exist in the library
+    if (lwc.CrosshairMode) {
+        chartOptions.crosshair = {
+            mode: lwc.CrosshairMode.Normal
+        };
+    }
+    
+    if (lwc.LineStyle) {
+        if (!chartOptions.crosshair) chartOptions.crosshair = {};
+        chartOptions.crosshair.vertLine = {
+            color: '#86909a',
+            width: 1,
+            style: lwc.LineStyle.Dashed
+        };
+        chartOptions.crosshair.horzLine = {
+            color: '#86909a',
+            width: 1,
+            style: lwc.LineStyle.Dashed
+        };
+    }
+    
+    chartOptions.rightPriceScale = {
+        borderColor: 'rgba(128, 128, 128, 0.2)'
+    };
+    
+    chartOptions.timeScale = {
+        borderColor: 'rgba(128, 128, 128, 0.2)',
+        timeVisible: true
+    };
+    
+    try {
+        chart = lwc.createChart(chartContainer, chartOptions);
+    } catch (error) {
+        console.error('Error creating chart:', error);
+        // Try with minimal options
+        chart = lwc.createChart(chartContainer, {
+            width: chartContainer.clientWidth || 1200,
+            height: 600
+        });
+    }
+    
+    // Check if CandlestickSeries is available (already declared above)
+    if (!CandlestickSeries) {
+        console.error('CandlestickSeries not found in library');
+        throw new Error('CandlestickSeries not available');
+    }
+    
+    // Create candlestick series using the correct API: chart.addSeries(CandlestickSeries, options)
+    candlestickSeries = chart.addSeries(CandlestickSeries, {
+        upColor: '#00ff99',
+        downColor: '#ff4747',
+        borderVisible: false,
+        wickUpColor: '#00ff99',
+        wickDownColor: '#ff4747'
+    });
+    
+    // Create volume series (optional, can be added later) - skip for now to avoid errors
+    // We can add this later once candlestick is working
+    /*
+    try {
+        if (typeof chart.addHistogramSeries === 'function') {
+            volumeSeries = chart.addHistogramSeries({
+                color: '#26a69a',
+                priceScaleId: '',
+                scaleMargins: {
+                    top: 0.8,
+                    bottom: 0,
+                },
+            });
+        } else if (typeof chart.addSeries === 'function') {
+            volumeSeries = chart.addSeries('Histogram', {
+                color: '#26a69a',
+                priceScaleId: '',
+                scaleMargins: {
+                    top: 0.8,
+                    bottom: 0,
+                },
+            });
+        }
+    } catch (error) {
+        console.warn('Could not create volume series:', error);
+        // Volume series is optional, so we continue
+    }
+    */
+    
+    // Custom tooltip
+    chart.subscribeCrosshairMove(param => {
+        if (param.point === undefined || !param.time || param.point.x < 0 || param.point.x > chartContainer.clientWidth || param.point.y < 0 || param.point.y > 600) {
+            // Hide tooltip if outside chart area
+            const tooltip = document.getElementById('chart-tooltip');
+            if (tooltip) {
+                tooltip.style.display = 'none';
+            }
+            return;
+        }
+        
+        const data = param.seriesData.get(candlestickSeries);
+        if (!data) {
+            return;
+        }
+        
+        const candle = data;
+        const date = new Date(param.time * 1000); // Convert seconds to milliseconds
+        const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        
+        // Create or update tooltip
+        let tooltip = document.getElementById('chart-tooltip');
+        if (!tooltip) {
+            tooltip = document.createElement('div');
+            tooltip.id = 'chart-tooltip';
+            tooltip.style.cssText = 'position: absolute; background-color: #191d23e7; backdrop-filter: blur(10px); border: 1px solid rgba(128, 128, 128, 0.123); box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432); border-radius: 12px; padding: 15px; font-family: Inter, sans-serif; pointer-events: none; z-index: 1000;';
+            document.body.appendChild(tooltip);
+        }
+        
+        tooltip.innerHTML = 
+            '<div style="font-size: 13px; font-weight: 600; color: white; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(128, 128, 128, 0.123);">' + dateStr + '</div>' +
+            '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>Open:</span> <span style="color: white; font-weight: 600;">$' + candle.open.toFixed(2) + '</span></div>' +
+            '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>High:</span> <span style="color: #00ff99; font-weight: 600;">$' + candle.high.toFixed(2) + '</span></div>' +
+            '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>Low:</span> <span style="color: #ff4747; font-weight: 600;">$' + candle.low.toFixed(2) + '</span></div>' +
+            '<div style="font-size: 12px; color: #86909a; margin-top: 6px; display: flex; justify-content: space-between; align-items: center;"><span>Close:</span> <span style="color: white; font-weight: 600;">$' + candle.close.toFixed(2) + '</span></div>';
+        
+        tooltip.style.display = 'block';
+        tooltip.style.left = (param.point.x + 20) + 'px';
+        tooltip.style.top = (param.point.y + 20) + 'px';
+    });
+    
+    // Handle window resize and orientation changes
+    const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            const newWidth = entry.contentRect.width;
+            const newHeight = entry.contentRect.height - 70; // Account for price indicators
+            chart.applyOptions({ 
+                width: newWidth,
+                height: Math.max(newHeight, 400) // Minimum height of 400px
+            });
+        }
+    });
+    resizeObserver.observe(chartContainer);
+    
+    // Also handle window resize for orientation changes
+    window.addEventListener('resize', () => {
+        const newWidth = chartContainer.clientWidth;
+        const newHeight = chartContainer.clientHeight - 70; // Account for price indicators
+        chart.applyOptions({ 
+            width: newWidth,
+            height: Math.max(newHeight, 400) // Minimum height of 400px
+        });
+    });
 }
 
 /**
@@ -584,6 +807,7 @@ async function loadHistoricalData() {
     
     try {
         // Show loading frame
+        client_server_debounce = true
         loadingFrame(1000, "Retrieving historical data...", "Data Retrieved.");
         
         // Format dates for API (YYYY-MM-DD)
@@ -596,6 +820,7 @@ async function loadHistoricalData() {
                 }
             }
         );
+        client_server_debounce = false
         
         if (!response.ok) {
             const error = await response.json();
@@ -608,15 +833,20 @@ async function loadHistoricalData() {
             throw new Error('No data returned from API');
         }
         
-        // Update replay state
+        // Initialize chart if not already initialized
+        if (!chart || !candlestickSeries) {
+            await initChart();
+        }
+        
+        // Update replay state with new data
         replayState.baseCandles1m = candles;
         replayState.timeframe = timeframe;
+        replayState.currentIndex = 1; // Start with just the first candle
         
-        // Reset replay
-        resetReplay();
-        
-        // Rebuild derived candles for initial display
+        // Rebuild derived candles for initial display (just first candle)
         rebuildDerivedCandles();
+        
+        // Update chart with current state (just one candle)
         updateChart();
         updateUI();
         
@@ -722,8 +952,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Set default dates
             setDefaultDates();
             
-            // Initialize chart
-            initChart();
+            // Don't initialize chart here - wait until data is loaded
+            // Chart will be initialized in loadHistoricalData() after data is fetched
             
             // Initialize UI
             updateUI();

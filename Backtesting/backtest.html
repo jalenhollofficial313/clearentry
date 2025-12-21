@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 </head>
 <body>
     <div id="sidebar" class="SideBar">
@@ -118,6 +118,21 @@
         </ul>
     </div>
     <div class="MainFrame">
+        <div class="mainframe-loading">
+            <div id="load-frame" class="loading-frame">
+                <i class="spin-icon" data-lucide="loader"></i>
+                <p class="load-text inter-text">
+                    Loading Data
+                </p>
+            </div>
+            
+            <div id="loaded-frame" class="loading-frame">
+                <i class="done-icon" data-lucide="circle-check"></i>
+                <p class="load-text inter-text">
+                    Data Loaded
+                </p>
+            </div>
+        </div>
         <!-- Membership Paywall Overlay -->
         <div id="paywall-overlay" class="paywall-overlay" style="display: none;">
             <div class="paywall-content">
@@ -233,7 +248,6 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="../dataHandler.js"></script>
     <script src="backtest.js"></script>
     <script>
