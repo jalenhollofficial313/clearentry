@@ -248,14 +248,15 @@ body {
 /* Chart Container */
 .chart-container {
     width: 100%;
-    height: 700px;
-    min-height: 700px;
+    height: 800px;
+    min-height: 800px;
+    max-height: 800px;
     background-color: #191d23e7;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(128, 128, 128, 0.123);
     box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
     border-radius: 12px;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
     position: relative;
     margin-bottom: 20px;
@@ -305,7 +306,9 @@ body {
 
 #replay-chart {
     width: 100%;
-    height: calc(100% - 70px); /* Account for price indicators height */
+    height: calc(100% - 80px); 
+    min-height: 730px;
+    max-height: 730px;
 }
 
 /* Playback Controls */
@@ -463,13 +466,14 @@ body {
     }
 
     .chart-container {
-        height: 600px;
-        min-height: 600px;
-        padding: 15px;
+        height: 800px;
+        min-height: 800px;
+        max-height: 800px;
+        padding: 8px;
     }
     
     #replay-chart {
-        height: calc(100% - 60px);
+        height: calc(100% - 25px);
     }
     
     .price-indicators {
@@ -493,15 +497,18 @@ body {
 
 @media (max-width: 480px) {
     .chart-container {
-        height: 1200px;
-        min-height: 1200px;
-        padding: 10px;
+        height: 800px;
+        min-height: 800px;
+        max-height: 800px;
+        padding: 5px;
         margin-bottom: 15px;
         margin-top: 15px;
     }
     
     #replay-chart {
-        height: calc(100% - 70px);
+        height: 730px;
+        min-height: 730px;
+        max-height: 730px;
     }
     
     .price-indicators {

@@ -475,14 +475,14 @@ async function initChart() {
             vertLines: { color: 'rgba(128, 128, 128, 0.1)' },
             horzLines: { color: 'rgba(128, 128, 128, 0.1)' }
         },
-        width: chartContainer.clientWidth || 1200,
-        height: (() => {
-            // Get computed height from CSS (respects media queries)
+        width: (() => {
+            // Get actual available width (accounting for padding)
             const computedStyle = window.getComputedStyle(chartContainer);
-            const height = parseInt(computedStyle.height) || chartContainer.clientHeight || 700;
-            // Account for padding and price indicators
-            return height - 70; // Subtract space for price indicators
-        })()
+            const paddingLeft = parseInt(computedStyle.paddingLeft) || 0;
+            const paddingRight = parseInt(computedStyle.paddingRight) || 0;
+            return chartContainer.clientWidth - paddingLeft - paddingRight;
+        })(),
+        height: 730 // Fixed height across all platforms
     };
     
     // Add optional options only if they exist in the library
@@ -614,10 +614,7 @@ async function initChart() {
     // Handle window resize and orientation changes
     const updateChartSize = () => {
         const newWidth = chartContainer.clientWidth;
-        // Get computed height from CSS (respects media queries)
-        const computedStyle = window.getComputedStyle(chartContainer);
-        const containerHeight = parseInt(computedStyle.height) || chartContainer.clientHeight;
-        const newHeight = containerHeight - 70; // Account for price indicators
+        const newHeight = 730; // Fixed height across all platforms
         chart.applyOptions({ 
             width: newWidth,
             height: newHeight
