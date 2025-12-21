@@ -521,7 +521,7 @@ body {
     margin-bottom: 15px;
     margin-right: 30px;
     position: fixed;
-
+    z-index: 5;
 
     align-content: center;
 }
