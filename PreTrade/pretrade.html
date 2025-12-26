@@ -302,16 +302,6 @@
                         <input type="text" id="modal-strategy-name" class="pretrade-input" placeholder="e.g., Gap & Go Breakout">
                     </div>
                     <div class="strategy-field">
-                        <label class="pretrade-label inter-text">Strategy Type <span style="color: #ff4747;">*</span></label>
-                        <select id="modal-strategy-type" class="pretrade-select">
-                            <option value="">Select type</option>
-                            <option value="Breakout">Breakout</option>
-                            <option value="Reversal">Reversal</option>
-                            <option value="Trend">Trend</option>
-                            <option value="Mean Reversion">Mean Reversion</option>
-                        </select>
-                    </div>
-                    <div class="strategy-field">
                         <label class="pretrade-label inter-text">Short Description (optional)</label>
                         <textarea id="modal-strategy-description" class="pretrade-textarea" placeholder="1-2 sentences describing your strategy"></textarea>
                     </div>
@@ -320,30 +310,16 @@
                 <!-- Entry Rules -->
                 <div id="strategy-step-2" class="strategy-step" style="display: none;">
                     <h3 class="strategy-step-title inter-text">Entry Rules</h3>
+                    <p class="strategy-hint inter-text" style="font-size: 0.9em; color: #86909a; margin-bottom: 15px;">Add each entry requirement as a separate item. Each criterion will become a checklist item in pre-trade.</p>
                     <div class="strategy-field">
-                        <label class="pretrade-label inter-text">Setup Confirmation Requirements</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="modal-entry-confirmations" value="Volume confirmation" class="strategy-checkbox">
-                                <span class="inter-text">Volume confirmation</span>
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="modal-entry-confirmations" value="Candle close required" class="strategy-checkbox">
-                                <span class="inter-text">Candle close required</span>
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="modal-entry-confirmations" value="Price action confirmation" class="strategy-checkbox">
-                                <span class="inter-text">Price action confirmation</span>
-                            </label>
+                        <label class="pretrade-label inter-text">Entry Criteria</label>
+                        <div id="modal-entry-criteria-list" class="criteria-list">
+                            <!-- Dynamic list will be populated here -->
                         </div>
-                    </div>
-                    <div class="strategy-field">
-                        <label class="pretrade-label inter-text">Volume Threshold (optional)</label>
-                        <input type="text" id="modal-volume-threshold" class="pretrade-input" placeholder="e.g., 1.5x average">
-                    </div>
-                    <div class="strategy-field">
-                        <label class="pretrade-label inter-text">Additional Entry Notes (optional)</label>
-                        <textarea id="modal-entry-notes" class="pretrade-textarea" placeholder="Any additional entry requirements..."></textarea>
+                        <div class="add-criteria-container">
+                            <input type="text" id="modal-new-entry-criterion" class="pretrade-input" placeholder="Enter entry criterion (e.g., Volume confirmation)">
+                            <button type="button" class="pretrade-button-small green-button inter-text" onclick="addModalEntryCriterion()">Add</button>
+                        </div>
                     </div>
                 </div>
 
@@ -386,7 +362,7 @@
 
                 <!-- Trading Time Rules -->
                 <div id="strategy-step-4" class="strategy-step" style="display: none;">
-                    <h3 class="strategy-step-title inter-text">Trading Time Rules</h3>
+                    <h3 class="strategy-step-title inter-text">Trading Time Rules (Optional)</h3>
                     <div class="strategy-field">
                         <label class="pretrade-label inter-text">Allowed Trading Hours</label>
                         <div style="display: flex; align-items: center; gap: 10px;">
@@ -494,13 +470,40 @@
                         </div>
                     </div>
                     <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Custom Conditions (optional)</label>
+                        <p class="strategy-hint inter-text" style="font-size: 0.9em; color: #86909a; margin-bottom: 10px;">Add any other conditions not listed above</p>
+                        <div id="modal-custom-conditions-list" class="criteria-list">
+                            <!-- Dynamic list will be populated here -->
+                        </div>
+                        <div class="add-criteria-container">
+                            <input type="text" id="modal-new-custom-condition" class="pretrade-input" placeholder="Enter custom condition">
+                            <button type="button" class="pretrade-button-small green-button inter-text" onclick="addModalCustomCondition()">Add</button>
+                        </div>
+                    </div>
+                    <div class="strategy-field">
                         <label class="pretrade-label inter-text">Psychological Notes (optional)</label>
                         <textarea id="modal-psych-notes" class="pretrade-textarea" placeholder="Any additional psychological rules or notes..."></textarea>
                     </div>
                 </div>
 
-                <!-- Summary -->
+                <!-- Custom Rules -->
                 <div id="strategy-step-6" class="strategy-step" style="display: none;">
+                    <h3 class="strategy-step-title inter-text">Custom Rules</h3>
+                    <p class="strategy-hint inter-text" style="font-size: 0.9em; color: #86909a; margin-bottom: 15px;">Add any rules that don't fit the standard categories. Each rule will become a checklist item.</p>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Custom Rules</label>
+                        <div id="modal-custom-rules-list" class="criteria-list">
+                            <!-- Dynamic list will be populated here -->
+                        </div>
+                        <div class="add-criteria-container">
+                            <input type="text" id="modal-new-custom-rule" class="pretrade-input" placeholder="Enter custom rule">
+                            <button type="button" class="pretrade-button-small green-button inter-text" onclick="addModalCustomRule()">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div id="strategy-step-7" class="strategy-step" style="display: none;">
                     <h3 class="strategy-step-title inter-text">Strategy Summary</h3>
                     <div id="strategy-summary-content" class="strategy-summary-content">
                         <!-- Summary will be populated dynamically -->

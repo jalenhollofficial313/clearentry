@@ -1006,6 +1006,84 @@ body {
     margin-bottom: 15px;
 }
 
+/* Criteria List Styles for Strategy Modal */
+.criteria-list {
+    margin-bottom: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.criteria-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #16181d;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.criteria-item-text {
+    color: white;
+    font-size: 14px;
+    flex: 1;
+    margin-right: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.criteria-item-remove {
+    background: none;
+    border: none;
+    color: #ff4444;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    min-height: 32px;
+    min-width: 44px;
+    touch-action: manipulation;
+}
+
+.criteria-item-remove:hover {
+    background-color: rgba(255, 68, 68, 0.1);
+}
+
+.criteria-item-remove:active {
+    background-color: rgba(255, 68, 68, 0.2);
+}
+
+.add-criteria-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-criteria-container .pretrade-input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.pretrade-button-small {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+
+.strategy-hint {
+    font-size: 0.9em;
+    color: #86909a;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 @media (max-width: 768px) {
     .strategy-modal {
         padding: 0;
@@ -1065,6 +1143,59 @@ body {
     .strategy-selector {
         padding: 12px;
         font-size: 14px;
+    }
+    
+    /* Criteria List Mobile */
+    .criteria-list {
+        max-height: 150px;
+        margin-bottom: 12px;
+    }
+    
+    .criteria-item {
+        padding: 8px 12px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .criteria-item-text {
+        font-size: 13px;
+        margin-right: 8px;
+        flex: 1;
+        min-width: 60%;
+    }
+    
+    .criteria-item-remove {
+        font-size: 13px;
+        padding: 4px 8px;
+        flex-shrink: 0;
+        min-height: 36px;
+        min-width: 40px;
+    }
+    
+    .add-criteria-container {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .add-criteria-container .pretrade-input {
+        width: 100%;
+        margin-bottom: 0;
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+    
+    .pretrade-button-small {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+    
+    .strategy-hint {
+        font-size: 0.85em;
+        margin-bottom: 8px;
     }
 }
 

@@ -588,15 +588,12 @@ function showError(message) {
 // Strategy Creation Modal State
 let strategyModalState = {
     currentStep: 1,
-    totalSteps: 6,
+    totalSteps: 7,
     strategy: {
         name: "",
-        type: "",
         description: "",
         entryRules: {
-            confirmations: [],
-            volumeThreshold: "",
-            notes: ""
+            criteria: []
         },
         riskRules: {
             maxRiskPerTrade: { amount: "", type: "%" },
@@ -613,8 +610,10 @@ let strategyModalState = {
         psychologicalRules: {
             avoidEmotions: [],
             avoidConditions: [],
+            customConditions: [],
             notes: ""
-        }
+        },
+        customRules: []
     }
 };
 
@@ -635,21 +634,17 @@ function resetStrategyModal() {
     strategyModalState.currentStep = 1;
     strategyModalState.strategy = {
         name: "",
-        type: "",
         description: "",
-        entryRules: { confirmations: [], volumeThreshold: "", notes: "" },
+        entryRules: { criteria: [] },
         riskRules: { maxRiskPerTrade: { amount: "", type: "%" }, stopLossRequired: "", maxTradesPerDay: "", maxDailyLoss: { amount: "", type: "%" } },
         timeRules: { tradingHours: { start: "", end: "" }, daysOfWeek: [], newsRestrictions: false, newsNotes: "" },
-        psychologicalRules: { avoidEmotions: [], avoidConditions: [], notes: "" }
+        psychologicalRules: { avoidEmotions: [], avoidConditions: [], customConditions: [], notes: "" },
+        customRules: []
     };
     
     // Reset all form fields
     document.getElementById("modal-strategy-name").value = "";
-    document.getElementById("modal-strategy-type").value = "";
     document.getElementById("modal-strategy-description").value = "";
-    Array.from(document.querySelectorAll('input[name="modal-entry-confirmations"]')).forEach(cb => cb.checked = false);
-    document.getElementById("modal-volume-threshold").value = "";
-    document.getElementById("modal-entry-notes").value = "";
     document.getElementById("modal-max-risk-amount").value = "";
     document.getElementById("modal-stop-loss-required").value = "";
     document.getElementById("modal-max-trades-day").value = "";
@@ -663,6 +658,14 @@ function resetStrategyModal() {
     Array.from(document.querySelectorAll('input[name="modal-avoid-conditions"]')).forEach(cb => cb.checked = false);
     document.getElementById("modal-psych-notes").value = "";
     document.getElementById("modal-confirmation-checkbox").checked = false;
+    
+    // Reset dynamic lists
+    strategyModalState.strategy.entryRules.criteria = [];
+    strategyModalState.strategy.psychologicalRules.customConditions = [];
+    strategyModalState.strategy.customRules = [];
+    renderModalEntryCriteriaList();
+    renderModalCustomConditionsList();
+    renderModalCustomRulesList();
 }
 
 function showStrategyStep(step) {
@@ -680,6 +683,15 @@ function showStrategyStep(step) {
         currentStepEl.style.display = "flex";
     }
     
+    // Initialize dynamic lists when showing relevant steps
+    if (step === 2) {
+        renderModalEntryCriteriaList();
+    } else if (step === 5) {
+        renderModalCustomConditionsList();
+    } else if (step === 6) {
+        renderModalCustomRulesList();
+    }
+    
     // Update button visibility
     const backBtn = document.getElementById("strategy-modal-back");
     const nextBtn = document.getElementById("strategy-modal-next");
@@ -689,9 +701,17 @@ function showStrategyStep(step) {
     if (nextBtn) nextBtn.style.display = step < strategyModalState.totalSteps ? "block" : "none";
     if (saveBtn) saveBtn.style.display = step === strategyModalState.totalSteps ? "block" : "none";
     
-    // If step 6, build summary
-    if (step === 6) {
+    // Special handling for summary step
+    if (step === strategyModalState.totalSteps) {
+        saveStrategyStepData(step - 1);
         buildStrategySummary();
+        document.getElementById("modal-confirmation-checkbox").checked = false;
+        const saveBtn = document.getElementById("strategy-modal-save");
+        if (saveBtn) saveBtn.disabled = true;
+        document.getElementById("modal-confirmation-checkbox").addEventListener("change", function() {
+            const saveBtn = document.getElementById("strategy-modal-save");
+            if (saveBtn) saveBtn.disabled = !this.checked;
+        });
     }
     
     strategyModalState.currentStep = step;
@@ -701,9 +721,8 @@ function validateStrategyStep(step) {
     switch(step) {
         case 1:
             const name = document.getElementById("modal-strategy-name").value.trim();
-            const type = document.getElementById("modal-strategy-type").value;
-            if (!name || !type) {
-                alert("Please fill in strategy name and type.");
+            if (!name) {
+                alert("Please fill in strategy name.");
                 return false;
             }
             break;
@@ -717,7 +736,7 @@ function validateStrategyStep(step) {
                 return false;
             }
             break;
-        case 6:
+        case 7:
             const confirmation = document.getElementById("modal-confirmation-checkbox").checked;
             if (!confirmation) {
                 alert("Please confirm that you understand the rules will be used to validate trades.");
@@ -732,13 +751,10 @@ function saveStrategyStepData(step) {
     switch(step) {
         case 1:
             strategyModalState.strategy.name = document.getElementById("modal-strategy-name").value.trim();
-            strategyModalState.strategy.type = document.getElementById("modal-strategy-type").value;
             strategyModalState.strategy.description = document.getElementById("modal-strategy-description").value.trim();
             break;
         case 2:
-            strategyModalState.strategy.entryRules.confirmations = Array.from(document.querySelectorAll('input[name="modal-entry-confirmations"]:checked')).map(cb => cb.value);
-            strategyModalState.strategy.entryRules.volumeThreshold = document.getElementById("modal-volume-threshold").value.trim();
-            strategyModalState.strategy.entryRules.notes = document.getElementById("modal-entry-notes").value.trim();
+            // Entry criteria are managed dynamically, already saved in strategyModalState.strategy.entryRules.criteria
             break;
         case 3:
             strategyModalState.strategy.riskRules.maxRiskPerTrade = {
@@ -764,7 +780,11 @@ function saveStrategyStepData(step) {
         case 5:
             strategyModalState.strategy.psychologicalRules.avoidEmotions = Array.from(document.querySelectorAll('input[name="modal-avoid-emotions"]:checked')).map(cb => cb.value);
             strategyModalState.strategy.psychologicalRules.avoidConditions = Array.from(document.querySelectorAll('input[name="modal-avoid-conditions"]:checked')).map(cb => cb.value);
+            // Custom conditions are managed dynamically, already saved in strategyModalState.strategy.psychologicalRules.customConditions
             strategyModalState.strategy.psychologicalRules.notes = document.getElementById("modal-psych-notes").value.trim();
+            break;
+        case 6:
+            // Custom rules are managed dynamically, already saved in strategyModalState.strategy.customRules
             break;
     }
 }
@@ -777,14 +797,11 @@ function buildStrategySummary() {
         <div class="strategy-summary-section">
             <h4 class="strategy-summary-title inter-text">Strategy</h4>
             <p class="strategy-summary-item inter-text"><strong>Name:</strong> ${s.name}</p>
-            <p class="strategy-summary-item inter-text"><strong>Type:</strong> ${s.type}</p>
             ${s.description ? `<p class="strategy-summary-item inter-text"><strong>Description:</strong> ${s.description}</p>` : ''}
         </div>
         <div class="strategy-summary-section">
             <h4 class="strategy-summary-title inter-text">Entry Rules</h4>
-            ${s.entryRules.confirmations.length > 0 ? `<p class="strategy-summary-item inter-text"><strong>Confirmations:</strong> ${s.entryRules.confirmations.join(", ")}</p>` : ''}
-            ${s.entryRules.volumeThreshold ? `<p class="strategy-summary-item inter-text"><strong>Volume Threshold:</strong> ${s.entryRules.volumeThreshold}</p>` : ''}
-            ${s.entryRules.notes ? `<p class="strategy-summary-item inter-text"><strong>Notes:</strong> ${s.entryRules.notes}</p>` : ''}
+            ${s.entryRules.criteria.length > 0 ? `<p class="strategy-summary-item inter-text"><strong>Entry Criteria:</strong><ul style="margin: 5px 0; padding-left: 20px;">${s.entryRules.criteria.map(c => `<li>${c}</li>`).join('')}</ul></p>` : '<p class="strategy-summary-item inter-text">No entry criteria defined</p>'}
         </div>
         <div class="strategy-summary-section">
             <h4 class="strategy-summary-title inter-text">Risk Management</h4>
@@ -795,7 +812,7 @@ function buildStrategySummary() {
         </div>
         <div class="strategy-summary-section">
             <h4 class="strategy-summary-title inter-text">Trading Time Rules</h4>
-            <p class="strategy-summary-item inter-text"><strong>Trading Hours:</strong> ${s.timeRules.tradingHours.start || "Not set"} - ${s.timeRules.tradingHours.end || "Not set"}</p>
+            ${s.timeRules.tradingHours.start || s.timeRules.tradingHours.end ? `<p class="strategy-summary-item inter-text"><strong>Trading Hours:</strong> ${s.timeRules.tradingHours.start || "Not set"} - ${s.timeRules.tradingHours.end || "Not set"}</p>` : '<p class="strategy-summary-item inter-text">Not set (optional)</p>'}
             ${s.timeRules.daysOfWeek.length > 0 ? `<p class="strategy-summary-item inter-text"><strong>Days:</strong> ${s.timeRules.daysOfWeek.join(", ")}</p>` : ''}
             ${s.timeRules.newsRestrictions ? `<p class="strategy-summary-item inter-text"><strong>News Restrictions:</strong> Yes</p>` : ''}
             ${s.timeRules.newsNotes ? `<p class="strategy-summary-item inter-text"><strong>News Notes:</strong> ${s.timeRules.newsNotes}</p>` : ''}
@@ -804,14 +821,23 @@ function buildStrategySummary() {
             <h4 class="strategy-summary-title inter-text">Psychological Rules</h4>
             ${s.psychologicalRules.avoidEmotions.length > 0 ? `<p class="strategy-summary-item inter-text"><strong>Avoid Emotions:</strong> ${s.psychologicalRules.avoidEmotions.join(", ")}</p>` : ''}
             ${s.psychologicalRules.avoidConditions.length > 0 ? `<p class="strategy-summary-item inter-text"><strong>Avoid Conditions:</strong> ${s.psychologicalRules.avoidConditions.join(", ")}</p>` : ''}
+            ${s.psychologicalRules.customConditions.length > 0 ? `<p class="strategy-summary-item inter-text"><strong>Custom Conditions:</strong><ul style="margin: 5px 0; padding-left: 20px;">${s.psychologicalRules.customConditions.map(c => `<li>${c}</li>`).join('')}</ul></p>` : ''}
             ${s.psychologicalRules.notes ? `<p class="strategy-summary-item inter-text"><strong>Notes:</strong> ${s.psychologicalRules.notes}</p>` : ''}
         </div>
+        ${s.customRules.length > 0 ? `
+        <div class="strategy-summary-section">
+            <h4 class="strategy-summary-title inter-text">Custom Rules</h4>
+            <ul style="margin: 5px 0; padding-left: 20px;">
+                ${s.customRules.map(r => `<li>${r}</li>`).join('')}
+            </ul>
+        </div>
+        ` : ''}
     `;
 }
 
 async function saveStrategyToBackend() {
     // Save current step data
-    saveStrategyStepData(6);
+    saveStrategyStepData(7);
     
     const token = localStorage.getItem("token");
     if (!token) {
@@ -890,7 +916,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveBtn = document.getElementById("strategy-modal-save");
     if (saveBtn) {
         saveBtn.addEventListener("click", () => {
-            if (validateStrategyStep(6)) {
+            if (validateStrategyStep(7)) {
                 saveStrategyToBackend();
             }
         });
@@ -918,4 +944,100 @@ document.getElementById("symbol-input").addEventListener("blur", () => {
         generateChecklist();
     }
 });
+
+// Modal Entry Criteria Management
+function renderModalEntryCriteriaList() {
+    const listEl = document.getElementById("modal-entry-criteria-list");
+    if (!listEl) return;
+    
+    listEl.innerHTML = "";
+    strategyModalState.strategy.entryRules.criteria.forEach((criterion, index) => {
+        const item = document.createElement("div");
+        item.className = "criteria-item";
+        item.innerHTML = `
+            <span class="criteria-item-text inter-text">${criterion}</span>
+            <button type="button" class="criteria-item-remove inter-text" onclick="removeModalEntryCriterion(${index})">Remove</button>
+        `;
+        listEl.appendChild(item);
+    });
+}
+
+function addModalEntryCriterion() {
+    const input = document.getElementById("modal-new-entry-criterion");
+    const value = input.value.trim();
+    if (!value) return;
+    
+    strategyModalState.strategy.entryRules.criteria.push(value);
+    input.value = "";
+    renderModalEntryCriteriaList();
+}
+
+function removeModalEntryCriterion(index) {
+    strategyModalState.strategy.entryRules.criteria.splice(index, 1);
+    renderModalEntryCriteriaList();
+}
+
+// Modal Custom Conditions Management
+function renderModalCustomConditionsList() {
+    const listEl = document.getElementById("modal-custom-conditions-list");
+    if (!listEl) return;
+    
+    listEl.innerHTML = "";
+    strategyModalState.strategy.psychologicalRules.customConditions.forEach((condition, index) => {
+        const item = document.createElement("div");
+        item.className = "criteria-item";
+        item.innerHTML = `
+            <span class="criteria-item-text inter-text">${condition}</span>
+            <button type="button" class="criteria-item-remove inter-text" onclick="removeModalCustomCondition(${index})">Remove</button>
+        `;
+        listEl.appendChild(item);
+    });
+}
+
+function addModalCustomCondition() {
+    const input = document.getElementById("modal-new-custom-condition");
+    const value = input.value.trim();
+    if (!value) return;
+    
+    strategyModalState.strategy.psychologicalRules.customConditions.push(value);
+    input.value = "";
+    renderModalCustomConditionsList();
+}
+
+function removeModalCustomCondition(index) {
+    strategyModalState.strategy.psychologicalRules.customConditions.splice(index, 1);
+    renderModalCustomConditionsList();
+}
+
+// Modal Custom Rules Management
+function renderModalCustomRulesList() {
+    const listEl = document.getElementById("modal-custom-rules-list");
+    if (!listEl) return;
+    
+    listEl.innerHTML = "";
+    strategyModalState.strategy.customRules.forEach((rule, index) => {
+        const item = document.createElement("div");
+        item.className = "criteria-item";
+        item.innerHTML = `
+            <span class="criteria-item-text inter-text">${rule}</span>
+            <button type="button" class="criteria-item-remove inter-text" onclick="removeModalCustomRule(${index})">Remove</button>
+        `;
+        listEl.appendChild(item);
+    });
+}
+
+function addModalCustomRule() {
+    const input = document.getElementById("modal-new-custom-rule");
+    const value = input.value.trim();
+    if (!value) return;
+    
+    strategyModalState.strategy.customRules.push(value);
+    input.value = "";
+    renderModalCustomRulesList();
+}
+
+function removeModalCustomRule(index) {
+    strategyModalState.strategy.customRules.splice(index, 1);
+    renderModalCustomRulesList();
+}
 
