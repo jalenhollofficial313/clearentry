@@ -93,6 +93,26 @@ function populateStrategies(strategies) {
 
 // Setup event listeners
 function setupEventListeners() {
+    // Setup sidebar toggle
+    const barIcon = document.querySelector("#bar-icon");
+    const sidebar = document.querySelector("#sidebar");
+    
+    if (barIcon && sidebar) {
+        barIcon.addEventListener("click", () => {
+            sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
+        });
+        
+        // Close sidebar when clicking on a link (mobile)
+        const sidebarLinks = sidebar.querySelectorAll(".anchor");
+        sidebarLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                if (window.innerWidth <= 1100) {
+                    sidebar.style.display = "none";
+                }
+            });
+        });
+    }
+    
     // Trade type selection
     document.getElementById("trade-type-select").addEventListener("change", (e) => {
         preTradeState.tradeType = e.target.value;
