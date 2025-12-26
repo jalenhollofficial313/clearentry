@@ -98,18 +98,13 @@ function setupEventListeners() {
     const sidebar = document.querySelector("#sidebar");
     
     if (barIcon && sidebar) {
-        barIcon.addEventListener("click", () => {
-            sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
-        });
-        
-        // Close sidebar when clicking on a link (mobile)
-        const sidebarLinks = sidebar.querySelectorAll(".anchor");
-        sidebarLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                if (window.innerWidth <= 1100) {
-                    sidebar.style.display = "none";
-                }
-            });
+        document.querySelector("#head-frame").addEventListener('click', function(event) {
+            if (event.target.closest('#bar-icon')) {
+                console.log("Check")
+                document.querySelector("#sidebar").style.display = "block";
+            } else {
+                // Click originated outside the overlay
+            }
         });
     }
     
