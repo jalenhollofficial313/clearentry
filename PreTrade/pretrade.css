@@ -795,9 +795,6 @@ body {
         z-index: 1000;
     }
 
-    .MainFrame_Content {
-        padding: 15px;
-    }
 
     .header-content {
         flex-direction: column;
@@ -807,9 +804,6 @@ body {
         width: 100%;
     }
 
-    .pretrade-card {
-        padding: 20px;
-    }
 
     #bar-icon {
         display: block;
@@ -1013,10 +1007,13 @@ body {
 }
 
 @media (max-width: 768px) {
+    .strategy-modal {
+        padding: 0;
+    }
     .strategy-modal-content {
-        max-width: 100%;
+        max-width: 85%;
         max-height: 95vh;
-        margin: 10px;
+        margin: 0;
     }
     
     .strategy-modal-body {
@@ -1046,10 +1043,7 @@ body {
         font-size: 18px;
     }
     
-    .pretrade-card {
-        padding: 15px;
-    }
-    
+
     .checklist-item {
         padding: 12px;
         font-size: 14px;
@@ -1096,10 +1090,7 @@ body {
         font-size: 16px;
     }
     
-    .pretrade-card {
-        padding: 12px;
-    }
-    
+
     .checklist-item {
         padding: 10px;
         font-size: 13px;
