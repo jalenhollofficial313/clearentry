@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClearEntry</title>
+    <title>Analytics - ClearEntry</title>
     <link rel="icon" type="image/png" href="../Home/clearentrylogo.png">
     <link href="analytics.css" rel="stylesheet" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +25,14 @@
                     <i class="SideBar_icon" data-lucide="layout-dashboard"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
                         Dashboard
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../PreTrade/pretrade.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="check-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Pre-Trade
                     </p>
                 </li>
             </a>
@@ -59,7 +67,7 @@
                 <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="book-open"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
-                        Journal
+                        Notes
                     </p>
                 </li>
             </a>
@@ -116,6 +124,7 @@
             </a>
         </ul>
     </div>
+
     <div class="MainFrame">
         <div class="MainFrame_HeadFrame">
             <i id="bar-icon" data-lucide="text-align-justify"></i>
@@ -124,90 +133,162 @@
             </p>
         </div>
 
-        <div class="MainFrame_Frame">
+        <!-- Loading State -->
+        <div id="analytics-loading" class="analytics-loading" style="display: none;">
+            <div class="loader-spinner"></div>
+            <p class="loader-text inter-text">Loading analytics...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="analytics-empty" class="analytics-empty" style="display: none;">
+            <i data-lucide="chart-line" class="empty-icon"></i>
+            <p class="empty-title inter-text">No trades yet for this period</p>
+            <p class="empty-description inter-text">Start with a pre-trade to begin tracking discipline.</p>
+        </div>
+
+        <!-- Main Content -->
+        <div id="analytics-content" class="MainFrame_Frame">
             <div class="MainFrame_Frame_Frame">
-                <!-- Time Range Selector -->
+                <!-- Range Selector -->
                 <div class="time-range-selector">
-                    <button id="range-week" class="range-button range-button-active inter-text">Week</button>
-                    <button id="range-month" class="range-button inter-text">
-                        Month
-                        <i class="range-lock-icon" data-lucide="lock" style="display: none;"></i>
-                    </button>
-                    <button id="range-year" class="range-button inter-text">
-                        Year
-                        <i class="range-lock-icon" data-lucide="lock" style="display: none;"></i>
-                    </button>
-                </div>
-
-                <!-- Stats Panels on Top -->
-                <div class="MainFrame_Frame_Frame_TopStats">
-                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
-                            Total P/L
-                        </p>
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
-
-                        </p>
-                    </div>
-                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
-                            WR
-                        </p>
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
-
-                        </p>
-                    </div>
-                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
-                            Profit Factor
-                        </p>
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
-
-                        </p>
-                    </div>
-                    <div class="MainFrame_Frame_Frame_TopStats_Stat">
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_Title inter-text">
-                            Expectancy (Return)
-                        </p>
-                        <p class="MainFrame_Frame_Frame_TopStats_Stat_text inter-text">
-
-                        </p>
+                    <button id="range-week" class="range-button inter-text">Week</button>
+                    <button id="range-month" class="range-button range-button-active inter-text">Month</button>
+                    <button id="range-custom" class="range-button inter-text">Custom</button>
+                    <div id="custom-range-picker" class="custom-range-picker" style="display: none;">
+                        <input type="date" id="custom-start-date" class="custom-date-input inter-text">
+                        <span class="inter-text">to</span>
+                        <input type="date" id="custom-end-date" class="custom-date-input inter-text">
+                        <button id="custom-range-apply" class="custom-range-apply inter-text">Apply</button>
                     </div>
                 </div>
 
-                <!-- Additional Stats Panels -->
-                <div class="MainFrame_Frame_Frame_MainStats_StatsFrame">
-                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                            Most Frequent State
-                        </p>
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
-
-                        </p>
+                <!-- Section A: Execution Quality -->
+                <div class="analytics-section">
+                    <h2 class="section-title inter-text">Execution Quality</h2>
+                    <div class="stats-grid execution-quality-grid">
+                        <div class="stat-card">
+                            <p class="stat-card-title inter-text">Rule-Following Rate</p>
+                            <p id="rule-following-rate" class="stat-card-value inter-text">-</p>
+                            <p class="stat-card-helper inter-text">% of trades that followed all rules</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-card-title inter-text">Rule-Breaking Trades</p>
+                            <p id="rule-breaking-count" class="stat-card-value inter-text">-</p>
+                            <p class="stat-card-helper inter-text">Trades with rule violations</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-card-title inter-text">Top Broken Rule</p>
+                            <p id="top-broken-rule" class="stat-card-value inter-text">-</p>
+                            <p class="stat-card-helper inter-text">Most frequent violation</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-card-title inter-text">Discipline Streak</p>
+                            <p id="discipline-streak" class="stat-card-value inter-text">-</p>
+                            <p class="stat-card-helper inter-text">Consecutive rule-following trades</p>
+                        </div>
                     </div>
-                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                            Most Profitable State
-                        </p>
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+                </div>
 
-                        </p>
+                <!-- Section B: Proof (Rule-Following vs Rule-Breaking) -->
+                <div class="analytics-section">
+                    <h2 class="section-title inter-text">Proof</h2>
+                    <p class="section-description inter-text">Performance comparison: Following rules vs Breaking rules</p>
+                    <div class="proof-comparison">
+                        <div class="proof-card proof-following">
+                            <h3 class="proof-card-title inter-text">Rule-Following Performance</h3>
+                            <div class="proof-metrics">
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Trades</span>
+                                    <span id="following-trades" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Avg P/L</span>
+                                    <span id="following-avg-pl" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Win Rate</span>
+                                    <span id="following-win-rate" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Profit Factor</span>
+                                    <span id="following-profit-factor" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Expectancy</span>
+                                    <span id="following-expectancy" class="proof-metric-value inter-text">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="proof-card proof-breaking">
+                            <h3 class="proof-card-title inter-text">Rule-Breaking Performance</h3>
+                            <div class="proof-metrics">
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Trades</span>
+                                    <span id="breaking-trades" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Avg P/L</span>
+                                    <span id="breaking-avg-pl" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Win Rate</span>
+                                    <span id="breaking-win-rate" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Profit Factor</span>
+                                    <span id="breaking-profit-factor" class="proof-metric-value inter-text">-</span>
+                                </div>
+                                <div class="proof-metric">
+                                    <span class="proof-metric-label inter-text">Expectancy</span>
+                                    <span id="breaking-expectancy" class="proof-metric-value inter-text">-</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                            Mental Consistancy
-                        </p>
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
+                </div>
 
-                        </p>
+                <!-- Section C: Patterns -->
+                <div class="analytics-section">
+                    <h2 class="section-title inter-text">Patterns</h2>
+                    
+                    <!-- C1: Violation Triggers -->
+                    <div class="patterns-card">
+                        <div class="trigger-tabs">
+                            <button class="trigger-tab trigger-tab-active inter-text" data-tab="emotion">Emotion</button>
+                            <button class="trigger-tab inter-text" data-tab="time">Time of Day</button>
+                            <button class="trigger-tab inter-text" data-tab="rules">Rules</button>
+                        </div>
+                        <div class="trigger-content">
+                            <div id="trigger-emotion" class="trigger-panel trigger-panel-active">
+                                <div id="emotion-triggers-list" class="trigger-list"></div>
+                            </div>
+                            <div id="trigger-time" class="trigger-panel">
+                                <div id="time-triggers-list" class="trigger-list"></div>
+                            </div>
+                            <div id="trigger-rules" class="trigger-panel">
+                                <div id="rules-triggers-list" class="trigger-list"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat">
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Title inter-text">
-                            Most Profitable Strategy
-                        </p>
-                        <p class="MainFrame_Frame_Frame_MainStats_StatsFrame_Stat_Text inter-text">
 
-                        </p>
+                    <!-- C2: Strategy Compliance Table -->
+                    <div class="strategy-compliance-card">
+                        <h3 class="card-subtitle inter-text">Strategy Compliance</h3>
+                        <div class="table-container">
+                            <table class="compliance-table">
+                                <thead>
+                                    <tr>
+                                        <th class="inter-text">Strategy</th>
+                                        <th class="inter-text">Trades</th>
+                                        <th class="inter-text">Rule-Following Rate</th>
+                                        <th class="inter-text">P/L Total</th>
+                                        <th class="inter-text">Expectancy</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="strategy-compliance-body">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -224,22 +305,6 @@
                             <i data-lucide="chevron-right"></i>
                         </button>
                     </div>
-                    
-                    <!-- Calendar Paywall Overlay -->
-                    <div id="calendar-paywall" class="calendar-paywall-overlay" style="display: none;">
-                        <div class="calendar-paywall-content">
-                            <i class="calendar-paywall-icon" data-lucide="lock"></i>
-                            <p class="calendar-paywall-title inter-text">
-                                Premium Feature
-                            </p>
-                            <p class="calendar-paywall-description inter-text">
-                                Upgrade to Pro to unlock the calendar view
-                            </p>
-                            <a href="../Home/index.html#pricing" class="calendar-paywall-button inter-text">
-                                Upgrade to Pro
-                            </a>
-                        </div>
-                    </div>
 
                     <div class="calender_parent">
                         <div class="MainFrame_Frame_Frame_MainStats_Calender">
@@ -250,11 +315,10 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="../dataHandler.js"></script>
     <script src="analytics.js"></script>
     <script>
-
         lucide.createIcons();
     </script>
 </body>

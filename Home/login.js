@@ -90,6 +90,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return pattern.test(email);
     }
+    
+    // Forgot password link
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof openPasswordResetModal === 'function') {
+                openPasswordResetModal('');
+            }
+        });
+    }
 
     async function removeEL(element) {
         element.remove()

@@ -410,7 +410,51 @@ body {
 .flexbox-div {
     width: 50%;
     height: 100%;
+    position: relative;
 }
+
+.link-flexbox-div {
+    width: 80;
+    height: 100%;
+    align-content: center;
+    position: relative;
+}
+.link-flexbox-button {
+    width: 20%;
+    height: auto;
+}
+
+.link-title {
+    margin-left: 0;
+    margin-bottom: 5px;
+
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    margin-top: 30px;
+    margin-bottom: 0;
+}
+
+.link-flexdiv {
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+    height: fit-content;
+    gap: 0;
+
+    justify-content: center;
+}
+
+
 
 .entry-title2 {
     margin-left: 0;
@@ -513,18 +557,20 @@ body {
 }
 
 .dropdown-div {
-    width: 94%;
+    width: 90%;
     
     align-content: center;
 
     display: none;
-    position: relative;
+    position: absolute;
+    left: 0;
+    z-index: 1000;
 
+    margin: 0;
     margin-top: 5px;
-    margin-bottom: 0;
-
-    margin-left: 0;
     height: fit-content;
+    max-height: 300px;
+    overflow-y: auto;
 
     background-color: #191d23e7;
     border: 1px solid rgba(128, 128, 128, 0.123);
@@ -702,6 +748,12 @@ body {
 .green-button {
     background-color: #00ff99;
     color: black;
+}
+
+.green-button:disabled {
+    background-color: rgba(0, 255, 153, 0.5);
+    color: rgba(0, 0, 0, 0.5);
+    cursor: not-allowed;
 }
 
 .MainFrame_Settings {
@@ -1071,6 +1123,11 @@ body {
 
     .flexbox-div {
         width: 100%;
+        position: relative;
+    }
+    
+    .link-flexbox-div {
+        position: relative;
     }
 
     .dropdown-button {
@@ -1314,4 +1371,95 @@ body {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+}
+
+/* Pre-Trade Linking Styles */
+#pretrade-info {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #16181d;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+#pretrade-warning-badge {
+    margin-left: 10px;
+    padding: 2px 8px;
+    background-color: rgba(255, 167, 38, 0.2);
+    color: #ffa726;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+#unlink-pretrade-btn {
+    padding: 10px 15px;
+    background-color: #31363f;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 8px;
+    color: #86909a;
+    width: 90%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#unlink-pretrade-btn:hover {
+    background-color: #3a3f48;
+    color: white;
+}
+
+#rule-compliance-section {
+    margin-bottom: 20px; 
+    padding-bottom: 20px; 
+    border-bottom: 1px solid rgba(128, 128, 128, 0.1); 
+    display: none;
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Rule Compliance Section */
+#compliance-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-family: "Inter", sans-serif;
+}
+
+#compliance-reasons {
+    margin-top: 10px;
+}
+
+.compliance-checkbox-item {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 8px;
+    background-color: #16181d;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.compliance-checkbox-item:hover {
+    background-color: #1a1d23;
+}
+
+.compliance-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: #00ff99;
+}
+
+.compliance-checkbox-item label {
+    color: #86909a;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 1;
+    margin: 0;
+    font-family: "Inter", sans-serif;
 }

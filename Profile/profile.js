@@ -129,6 +129,19 @@ document.addEventListener("DOMContentLoaded", () => {
           }
       });
   }
+  
+  // Reset Password Button
+  const resetPasswordButton = document.getElementById("reset-password-button");
+  if (resetPasswordButton) {
+      resetPasswordButton.addEventListener("click", async function() {
+          // Get user email from profile data
+          await getClientData();
+          const userEmail = clientData?.result?.email || '';
+          if (typeof openPasswordResetModal === 'function') {
+              openPasswordResetModal(userEmail);
+          }
+      });
+  }
 });
 
 

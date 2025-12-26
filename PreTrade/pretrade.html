@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Trade - ClearEntry</title>
+    <link rel="icon" type="image/png" href="../Home/clearentrylogo.png">
+    <link href="pretrade.css" rel="stylesheet" type="text/css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../dataHandler.js"></script>
+</head>
+<body>
+    <!-- Full Page Loader -->
+    <div id="pretrade-full-loader" class="pretrade-full-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p class="loader-text inter-text">Loading pre-trade context...</p>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="SideBar">
+        <a href="../Home/index.html" class="SideBar_Title inter-text">
+            ClearEntry
+        </a>
+        <ul class="SideBar_List">
+            <!-- Main Category -->
+            <li class="SideBar_Category_Title inter-text">Main</li>
+            <a class="anchor" href="../Dashboard/dashboard.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="layout-dashboard"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Dashboard
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../PreTrade/pretrade.html">
+                <li class="SideBar_List_ListItem selected-item">
+                    <i class="SideBar_icon" data-lucide="check-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Pre-Trade
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../TradeLogging/tradelogging.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="pen-line"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Trade Logging
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Entries/entires.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="list-ordered"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Entries
+                    </p>
+                </li>
+            </a>
+            
+            <!-- Misc Category -->
+            <li class="SideBar_Category_Title inter-text">Misc</li>
+            <a class="anchor" href="../Analysis/analysis.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="chart-column"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Smart Analysis
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Journal/journal.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="book-open"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Notes
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Analytics/analytics.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="chart-no-axes-combined"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Analytics
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../UpdateLog/updatelog.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="scroll-text"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Update Log
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Backtesting/backtest.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="play-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Backtesting
+                    </p>
+                </li>
+            </a>
+            
+            <!-- Account Category -->
+            <li class="SideBar_Category_Title inter-text">Account</li>
+            <a class="anchor" href="../Profile/profile.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="user"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Profile
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Support/support.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="help-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Support
+                    </p>
+                </li>
+            </a>
+            <a class="anchor" href="../Info/info.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="info"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Info
+                    </p>
+                </li>
+            </a>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="MainFrame">
+        <div id="head-frame" class="MainFrame_HeadFrame">
+            <i id="bar-icon" data-lucide="text-align-justify"></i>
+            <p class="MainFrame_Title inter-text">
+                Pre Trade
+            </p>
+        </div>
+        <p class="MainFrame_description inter-text">
+            Prior to taking the trade verify the trade is compliant with your rules and strategy.
+        </p>
+        <!-- Trade Context Header (Sticky) -->
+        <div class="pretrade-header sticky-header">
+            <div class="header-content">
+                <div class="header-group">
+                    <label class="pretrade-label inter-text">Trade Type</label>
+                    <select id="trade-type-select" class="pretrade-select header-select">
+                        <option value="">Select Type</option>
+                        <option value="Stocks">Stocks</option>
+                        <option value="Options">Options</option>
+                        <option value="Futures">Futures</option>
+                        <option value="Crypto">Crypto</option>
+                    </select>
+                </div>
+                <div class="header-group">
+                    <label class="pretrade-label inter-text">Symbol</label>
+                    <input type="text" id="symbol-input" class="pretrade-input" placeholder="AAPL" required>
+                </div>
+                <div class="header-group">
+                    <label class="pretrade-label inter-text">Direction</label>
+                    <div class="direction-toggle">
+                        <button type="button" class="direction-btn" data-direction="Long">Long</button>
+                        <button type="button" class="direction-btn" data-direction="Short">Short</button>
+                    </div>
+                </div>
+                <div class="header-group">
+                    <label class="pretrade-label inter-text">Session</label>
+                    <div id="session-label" class="session-label inter-text">Pre-market</div>
+                </div>
+                <div class="header-group">
+                    <label class="pretrade-label inter-text">Time</label>
+                    <div id="time-display" class="time-display inter-text">--:--</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="MainFrame_Content">
+            <!-- Strategy Selection Card -->
+            <div class="pretrade-card">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div>
+                        <h2 class="card-title inter-text">Select Strategy</h2>
+                        <p class="card-description inter-text">Choose the strategy you're using for this trade</p>
+                    </div>
+                    <button id="add-strategy-btn" class="pretrade-button-secondary inter-text" style="padding: 8px 16px; font-size: 14px;">
+                        + Add Strategy
+                    </button>
+                </div>
+                <select id="strategy-select" class="pretrade-select">
+                    <option value="">-- Select Strategy --</option>
+                </select>
+                <div id="strategy-error" class="error-message" style="display: none;"></div>
+            </div>
+
+            <!-- Strategy Rules Snapshot Card -->
+            <div id="rules-card" class="pretrade-card" style="display: none;">
+                <div class="card-header">
+                    <h2 class="card-title inter-text">Strategy Rules</h2>
+                    <a href="#" id="edit-strategy-link" class="edit-link inter-text">Edit Strategy</a>
+                </div>
+                <div id="rules-content" class="rules-content">
+                    <!-- Rules will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Pre-Trade Checklist Card -->
+            <div id="checklist-card" class="pretrade-card" style="display: none;">
+                <h2 class="card-title inter-text">Pre-Trade Checklist</h2>
+                <p class="card-description inter-text">Review and confirm each item before entering the trade</p>
+                <div id="checklist-loading" class="checklist-loading" style="display: none;">
+                    <div class="loader-spinner"></div>
+                    <p class="loader-text inter-text">Generating checklist...</p>
+                </div>
+                <div id="checklist-items" class="checklist-items">
+                    <!-- Checklist items will be populated dynamically -->
+                </div>
+                <div class="emotional-state-section">
+                    <label class="pretrade-label inter-text">Emotional State</label>
+                    <select id="emotional-state-select" class="pretrade-select">
+                        <option value="">Select your current emotional state</option>
+                        <option value="Calm">Calm</option>
+                        <option value="Focused">Focused</option>
+                        <option value="Anxious">Anxious</option>
+                        <option value="Tilted">Tilted</option>
+                        <option value="FOMO">FOMO</option>
+                        <option value="Revenge">Revenge</option>
+                        <option value="Bored">Bored</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Violation Warnings Card -->
+            <div id="warnings-card" class="pretrade-card warning-card" style="display: none;">
+                <h2 class="card-title inter-text">Warnings</h2>
+                <div id="warnings-list" class="warnings-list">
+                    <!-- Warnings will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Acknowledgement Gate -->
+            <div id="acknowledgement-card" class="pretrade-card" style="display: none;">
+                <h2 class="card-title inter-text">Acknowledgment</h2>
+                <div class="acknowledgement-content">
+                    <label class="acknowledgement-checkbox">
+                        <input type="checkbox" id="acknowledgement-checkbox" required>
+                        <span class="inter-text">I understand this trade violates my rules and I am choosing to proceed.</span>
+                    </label>
+                    <div class="acknowledgement-fields" style="display: none;">
+                        <label class="pretrade-label inter-text">Reason (Optional)</label>
+                        <select id="acknowledgement-reason" class="pretrade-select">
+                            <option value="">Select reason</option>
+                            <option value="Confidence override">Confidence override</option>
+                            <option value="Market anomaly">Market anomaly</option>
+                            <option value="Discretionary trade">Discretionary trade</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <label class="pretrade-label inter-text">Notes (Optional)</label>
+                        <textarea id="acknowledgement-notes" class="pretrade-textarea" placeholder="Add any additional notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error-message" class="error-card" style="display: none;">
+                <p class="error-text inter-text"></p>
+            </div>
+
+            <!-- Primary CTA Area -->
+            <div class="pretrade-cta">
+                <button id="enter-trade-btn" class="green-button inter-text" disabled>
+                    Enter Trade
+                </button>
+                <p id="cta-status" class="cta-status inter-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Strategy Creation Modal -->
+    <div id="strategy-modal" class="strategy-modal" style="display: none;">
+        <div class="strategy-modal-content">
+            <div class="strategy-modal-header">
+                <h2 class="strategy-modal-title inter-text">Create New Strategy</h2>
+                <button id="close-strategy-modal" class="close-modal-btn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            
+            <div class="strategy-modal-body">
+                <!-- Strategy Basic Info -->
+                <div id="strategy-step-1" class="strategy-step">
+                    <h3 class="strategy-step-title inter-text">Strategy Information</h3>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Strategy Name <span style="color: #ff4747;">*</span></label>
+                        <input type="text" id="modal-strategy-name" class="pretrade-input" placeholder="e.g., Gap & Go Breakout">
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Strategy Type <span style="color: #ff4747;">*</span></label>
+                        <select id="modal-strategy-type" class="pretrade-select">
+                            <option value="">Select type</option>
+                            <option value="Breakout">Breakout</option>
+                            <option value="Reversal">Reversal</option>
+                            <option value="Trend">Trend</option>
+                            <option value="Mean Reversion">Mean Reversion</option>
+                        </select>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Short Description (optional)</label>
+                        <textarea id="modal-strategy-description" class="pretrade-textarea" placeholder="1-2 sentences describing your strategy"></textarea>
+                    </div>
+                </div>
+
+                <!-- Entry Rules -->
+                <div id="strategy-step-2" class="strategy-step" style="display: none;">
+                    <h3 class="strategy-step-title inter-text">Entry Rules</h3>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Setup Confirmation Requirements</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-entry-confirmations" value="Volume confirmation" class="strategy-checkbox">
+                                <span class="inter-text">Volume confirmation</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-entry-confirmations" value="Candle close required" class="strategy-checkbox">
+                                <span class="inter-text">Candle close required</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-entry-confirmations" value="Price action confirmation" class="strategy-checkbox">
+                                <span class="inter-text">Price action confirmation</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Volume Threshold (optional)</label>
+                        <input type="text" id="modal-volume-threshold" class="pretrade-input" placeholder="e.g., 1.5x average">
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Additional Entry Notes (optional)</label>
+                        <textarea id="modal-entry-notes" class="pretrade-textarea" placeholder="Any additional entry requirements..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Risk Management Rules -->
+                <div id="strategy-step-3" class="strategy-step" style="display: none;">
+                    <h3 class="strategy-step-title inter-text">Risk Management Rules</h3>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Max Risk Per Trade <span style="color: #ff4747;">*</span></label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="modal-max-risk-amount" class="pretrade-input" placeholder="Amount" style="flex: 1;">
+                            <select id="modal-max-risk-type" class="pretrade-select" style="width: 80px;">
+                                <option value="%">%</option>
+                                <option value="$">$</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Stop-Loss Required <span style="color: #ff4747;">*</span></label>
+                        <select id="modal-stop-loss-required" class="pretrade-select">
+                            <option value="">Select</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Max Trades Per Day <span style="color: #ff4747;">*</span></label>
+                        <input type="number" id="modal-max-trades-day" class="pretrade-input" placeholder="e.g., 5">
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Max Daily Loss <span style="color: #ff4747;">*</span></label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="modal-max-daily-loss-amount" class="pretrade-input" placeholder="Amount" style="flex: 1;">
+                            <select id="modal-max-daily-loss-type" class="pretrade-select" style="width: 80px;">
+                                <option value="%">%</option>
+                                <option value="$">$</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trading Time Rules -->
+                <div id="strategy-step-4" class="strategy-step" style="display: none;">
+                    <h3 class="strategy-step-title inter-text">Trading Time Rules</h3>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Allowed Trading Hours</label>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="time" id="modal-trading-start" class="pretrade-input" style="flex: 1;">
+                            <span class="inter-text">to</span>
+                            <input type="time" id="modal-trading-end" class="pretrade-input" style="flex: 1;">
+                        </div>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Days of Week (optional)</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-trading-days" value="Monday" class="strategy-checkbox" checked>
+                                <span class="inter-text">Mon</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-trading-days" value="Tuesday" class="strategy-checkbox" checked>
+                                <span class="inter-text">Tue</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-trading-days" value="Wednesday" class="strategy-checkbox" checked>
+                                <span class="inter-text">Wed</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-trading-days" value="Thursday" class="strategy-checkbox" checked>
+                                <span class="inter-text">Thu</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-trading-days" value="Friday" class="strategy-checkbox" checked>
+                                <span class="inter-text">Fri</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="modal-news-restrictions" class="strategy-checkbox">
+                            <span class="inter-text">News restrictions apply</span>
+                        </label>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">News Notes (optional)</label>
+                        <textarea id="modal-news-notes" class="pretrade-textarea" placeholder="Any notes about news restrictions..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Psychological Rules -->
+                <div id="strategy-step-5" class="strategy-step" style="display: none;">
+                    <h3 class="strategy-step-title inter-text">Psychological Rules</h3>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Emotions to Avoid</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-emotions" value="FOMO" class="strategy-checkbox">
+                                <span class="inter-text">FOMO</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-emotions" value="Revenge" class="strategy-checkbox">
+                                <span class="inter-text">Revenge</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-emotions" value="Boredom" class="strategy-checkbox">
+                                <span class="inter-text">Boredom</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-emotions" value="Overconfidence" class="strategy-checkbox">
+                                <span class="inter-text">Overconfidence</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-emotions" value="Fear" class="strategy-checkbox">
+                                <span class="inter-text">Fear</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-emotions" value="Tilt" class="strategy-checkbox">
+                                <span class="inter-text">Tilt</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Conditions to Avoid</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-conditions" value="After red trade" class="strategy-checkbox">
+                                <span class="inter-text">After red trade</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-conditions" value="After 2 losses" class="strategy-checkbox">
+                                <span class="inter-text">After 2 losses</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-conditions" value="After big win" class="strategy-checkbox">
+                                <span class="inter-text">After big win</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-conditions" value="Low sleep" class="strategy-checkbox">
+                                <span class="inter-text">Low sleep</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-conditions" value="Rushing" class="strategy-checkbox">
+                                <span class="inter-text">Rushing</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="modal-avoid-conditions" value="Late to open" class="strategy-checkbox">
+                                <span class="inter-text">Late to open</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="strategy-field">
+                        <label class="pretrade-label inter-text">Psychological Notes (optional)</label>
+                        <textarea id="modal-psych-notes" class="pretrade-textarea" placeholder="Any additional psychological rules or notes..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div id="strategy-step-6" class="strategy-step" style="display: none;">
+                    <h3 class="strategy-step-title inter-text">Strategy Summary</h3>
+                    <div id="strategy-summary-content" class="strategy-summary-content">
+                        <!-- Summary will be populated dynamically -->
+                    </div>
+                    <div class="strategy-field" style="margin-top: 20px;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="modal-confirmation-checkbox" class="strategy-checkbox">
+                            <span class="inter-text">I understand these rules will be used to validate my trades in real time.</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="strategy-modal-footer">
+                <button id="strategy-modal-back" class="pretrade-button-secondary inter-text" style="display: none;">Back</button>
+                <div style="flex: 1;"></div>
+                <button id="strategy-modal-cancel" class="pretrade-button-secondary inter-text">Cancel</button>
+                <button id="strategy-modal-next" class="pretrade-button-primary inter-text">Continue</button>
+                <button id="strategy-modal-save" class="pretrade-button-primary inter-text" style="display: none;">Save Strategy</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="pretrade.js"></script>
+</body>
+</html>
+

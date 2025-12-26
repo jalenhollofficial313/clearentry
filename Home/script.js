@@ -9,27 +9,40 @@ upgradeButton = document.getElementById("upgrade-button");
 
 
 
-signoutButton.addEventListener("click", function(){
-    if (localStorage.getItem("token")) {
-        localStorage.removeItem("token")
+signoutButton.addEventListener("click", async function(){
+    const token = localStorage.getItem("token");
+    
+    // Call backend to delete token
+    if (token) {
+        try {
+            await fetch("https://logout-request-b52ovbio5q-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: token
+                })
+            });
+        } catch (error) {
+            console.error("Error logging out:", error);
+            // Continue with logout even if backend call fails
+        }
     }
-
-    if (localStorage.getItem("token") != null) {
-        console.log("Check")
-        loginButton.style.display = "None";
-        signupButton.style.display = "None";
-        signupButton2.style.display = "None";
-        signoutButton.style.display = "unset";
-        dashboardButton.style.display = "unset";
-        dashboardButton2.style.display = "unset";
-    } else {
-        loginButton.style.display = "unset";
-        signupButton.style.display = "unset";
-        signupButton2.style.display = "unset";
-        signoutButton.style.display = "None";
-        dashboardButton.style.display = "None";
-        dashboardButton2.style.display = "None";
-    }
+    
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+    
+    // Update UI
+    loginButton.style.display = "unset";
+    signupButton.style.display = "unset";
+    signupButton2.style.display = "unset";
+    signoutButton.style.display = "None";
+    dashboardButton.style.display = "None";
+    dashboardButton2.style.display = "None";
+    
+    // Redirect to home page
+    window.location.href = "index.html";
 })
 
 
@@ -163,35 +176,6 @@ if (upgradeButton) {
             alert("An error occurred. Please try again.");
             upgradeButton.disabled = false;
             upgradeButton.textContent = "Upgrade to Pro";
-        }
-    });
-}
-
-// Free notification popup
-const freeNotification = document.getElementById("free-notification");
-const freeNotificationClose = document.getElementById("free-notification-close");
-
-// Show notification on page load
-window.addEventListener("DOMContentLoaded", function() {
-    // Wait a bit for page to render, then show notification
-    setTimeout(() => {
-        if (freeNotification) {
-            freeNotification.style.display = "block";
-            // Reinitialize icons for the notification
-            lucide.createIcons();
-        }
-    }, 500);
-});
-
-// Close notification when close button is clicked
-if (freeNotificationClose) {
-    freeNotificationClose.addEventListener("click", function() {
-        if (freeNotification) {
-            freeNotification.classList.add("hide");
-            // Remove from DOM after animation
-            setTimeout(() => {
-                freeNotification.style.display = "none";
-            }, 300);
         }
     });
 }

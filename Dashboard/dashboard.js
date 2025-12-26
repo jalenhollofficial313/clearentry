@@ -600,6 +600,9 @@ async function loadingFrame(ms, text1, text2) {
 }
 
 async function dashboardINIT() {
+    // Show full page loader
+    document.getElementById("dashboard-full-loader").style.display = "flex";
+    
     if (localStorage.getItem("firstsign") == "true") {
         loadingFrame(5100, "Loading Data.", "Data Loaded.")
         await sleep(5000)
@@ -607,15 +610,50 @@ async function dashboardINIT() {
         await sleep(100)
         console.log("Check")
         localStorage.removeItem("firstsign")
-        loadStats()
-        loadGraphs()
     } else {
         await getClientData()
         await sleep(100)
-        loadStats()
-        loadGraphs()
     }
     
+    // Hide full page loader
+    document.getElementById("dashboard-full-loader").style.display = "none";
+    
+    // Check if first time user
+    if (clientData && clientData.result && clientData.result.isFirstTimeUser === true) {
+        // Hide dashboard content
+        document.querySelector(".MainFrame").style.display = "none";
+        // Show onboarding wizard
+        initOnboarding();
+    } else {
+        // Check membership and show subscription gate if Standard
+        checkAndShowSubscriptionGate();
+    }
+}
+
+function checkAndShowSubscriptionGate() {
+    const membership = clientData?.result?.membership || "Standard";
+    const isPro = membership.toLowerCase() === "pro";
+    
+    if (!isPro) {
+        // Show subscription gate
+        document.getElementById("subscription-gate").style.display = "flex";
+        document.querySelector(".MainFrame").style.display = "none";
+        lucide.createIcons();
+        
+        // Setup CTA button
+        const ctaButton = document.getElementById("subscription-gate-cta");
+        if (ctaButton) {
+            ctaButton.addEventListener("click", function() {
+                window.location.href = "../Home/index.html#pricing";
+            });
+        }
+    } else {
+        // Hide gate and show dashboard
+        document.getElementById("subscription-gate").style.display = "none";
+        document.querySelector(".MainFrame").style.display = "block";
+        loadStats();
+        loadGraphs();
+    }
 }
 
 

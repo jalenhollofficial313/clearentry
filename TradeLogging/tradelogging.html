@@ -72,6 +72,14 @@
                     </p>
                 </li>
             </a>
+            <a class="anchor" href="../PreTrade/pretrade.html">
+                <li class="SideBar_List_ListItem">
+                    <i class="SideBar_icon" data-lucide="check-circle"></i>
+                    <p class="SideBar_List_ListItem_Text inter-text">
+                        Pre-Trade
+                    </p>
+                </li>
+            </a>
             <a class="anchor" href="../TradeLogging/tradelogging.html">
                 <li class="SideBar_List_ListItem selected-item">
                     <i class="SideBar_icon" data-lucide="pen-line"></i>
@@ -103,7 +111,7 @@
                 <li class="SideBar_List_ListItem">
                     <i class="SideBar_icon" data-lucide="book-open"></i>
                     <p class="SideBar_List_ListItem_Text inter-text">
-                        Journal
+                        Notes
                     </p>
                 </li>
             </a>
@@ -197,7 +205,7 @@
 
                 <label id="img_Input" for="tradeImageInput" class="img-frame">
                     <i class="upload-icon" data-lucide="upload"></i>
-                    <p class="inter-text upload-img">Click to upload IMG</p>
+                    <p class="inter-text upload-img">Paste or click to upload</p>
                     <p class="inter-text upload-description">PNG, JPG up to 10MB</p>
                 </label>
                 <input type="file" check="" id="tradeImageInput" accept=".jpg,.jpeg,.png" hidden />
@@ -214,39 +222,63 @@
                     Enter or verify your trade details below.
                 </p>
 
-                <div class="flex-box entry-flexdiv">
-                    <div class="flexbox-div">
-                        <p class="inter-text entry-title2">
-                            Entry Type
-                                                    
-                        </p>
-                        <div id="type-dropdown-button" class="dropdown-button inter-text">
-                            <p id="type-text" class="truncate text-div">Type</p>
-                            <span class="dropdown-icon">
-                                <i class="icon2" data-lucide="chevron-down"></i>
-                            </span>
+                <!-- Link Pre-Trade Section -->
+                <div style="margin-bottom: 20px; border-bottom: 1px solid rgba(128, 128, 128, 0.1);">
+                    <p class="inter-text link-title">
+                        Link Pre-Trade Session
+                    </p>
+                    <div class="flex-box link-flexdiv">
+                        <div class="link-flexbox-div" style="flex: 1;">
+                            <div id="pretrade-dropdown-button" class="dropdown-button inter-text">
+                                <p id="pretrade-text" class="truncate text-div">Select a Pre-Trade</p>
+                                <span class="dropdown-icon">
+                                    <i class="icon2" data-lucide="chevron-down"></i>
+                                </span>
+                            </div>
+                            <div id="pretrade-dropdown" class="dropdown-div">
+                            </div>
                         </div>
-                        <div id="type-dropdown" class="dropdown-div">
-                        </div>
-                    </div>
-                    <div class="flexbox-div">
-                        <p class="inter-text entry-title2">
-                            Entry Direction                       
-                        </p>
-                        <div id="direction-dropdown-button" class="dropdown-button inter-text">
-                            <p id="direction-text" class="truncate text-div">Direction</p>
-                            <span class="dropdown-icon">
-                                <i class="icon2" data-lucide="chevron-down"></i>
-                            </span>
-                        </div>
-                        <div id="direction-dropdown" class="dropdown-div">
+                        <div class="link-flexbox-button" style="flex: 0 0 auto; margin-left: 10px;">
+                            <button id="unlink-pretrade-btn" class="inter-text">Clear</button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Rule Compliance Badge (inside frame) -->
+                <div id="rule-compliance-section">
+                    <p class="inter-text entry-title2">
+                        Rule Compliance Analysis
+                    </p>
+                    <div id="compliance-badge" class="inter-text" style="display: inline-block; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; margin-bottom: 10px;">
+                    </div>
+                    <div id="compliance-reasons" class="inter-text" style="margin-top: 10px;">
+                    </div>
+                </div>
+
+                <!-- Trade Type and Direction (Read-only display when pre-trade is linked) -->
+                <div class="flex-box entry-flexdiv" id="type-direction-row" style="display: none;">
+                    <div class="flexbox-div">
+                        <p class="inter-text entry-title2">
+                            Trade Type
+                        </p>
+                        <div id="type-display" class="inter-text" style="padding: 12px 15px; background-color: #191d23e7; border: 1px solid rgba(128, 128, 128, 0.123); border-radius: 10px; color: #86909a; width: 83%;">
+                            -
+                        </div>
+                    </div>
+                    <div class="flexbox-div">
+                        <p class="inter-text entry-title2">
+                            Direction                       
+                        </p>
+                        <div id="direction-display" class="inter-text" style="padding: 12px 15px; background-color: #191d23e7; border: 1px solid rgba(128, 128, 128, 0.123); border-radius: 10px; color: #86909a; width: 83%;">
+                            -
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="flex-box entry-flexdiv">
                     <div class="flexbox-div">
                         <p class="inter-text entry-title2">
-                            Entry Mental State
+                            Post Trade Mental State
                                                     
                             <span id="mental-settings-button" class="edit-icon">
                                 <i class="icon" data-lucide="settings-2"></i>
@@ -263,18 +295,10 @@
                     </div>
                     <div class="flexbox-div">
                         <p class="inter-text entry-title2">
-                            Entry Confluences                       
-                            <span id="strategy-settings-button" class="edit-icon">
-                                <i class="icon" data-lucide="settings-2"></i>
-                            </span>
+                            Strategy                       
                         </p>
-                        <div id="strategy-dropdown-button" class="dropdown-button inter-text">
-                            <p id="confluences-text" class="truncate text-div">Confluences</p>
-                            <span class="dropdown-icon">
-                                <i class="icon2" data-lucide="chevron-down"></i>
-                            </span>
-                        </div>
-                        <div id="strategy-dropdown" class="dropdown-div">
+                        <div id="strategy-display" class="inter-text" style="padding: 12px 15px; background-color: #191d23e7; border: 1px solid rgba(128, 128, 128, 0.123); border-radius: 10px; color: #86909a;">
+                            -
                         </div>
                     </div>
                 </div>

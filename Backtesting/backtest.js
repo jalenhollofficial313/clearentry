@@ -888,90 +888,23 @@ function setDefaultDates() {
     document.getElementById('end-date-input').value = formatDate(today);
 }
 
-/**
- * Setup membership gating
- */
-async function setupMembershipGating() {
-    try {
-        const token = localStorage.getItem("token");
-        const paywallOverlay = document.getElementById('paywall-overlay');
-        const mainFrame = document.querySelector('.MainFrame_Frame');
-        
-        if (!token) {
-            // Not logged in, show paywall immediately
-            if (paywallOverlay) paywallOverlay.style.display = 'flex';
-            if (mainFrame) mainFrame.style.display = 'none';
-            lucide.createIcons();
-            return;
-        }
-        
-        const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                token: token
-            })
-        });
-        
-        if (!response.ok) {
-            if (paywallOverlay) paywallOverlay.style.display = 'flex';
-            if (mainFrame) mainFrame.style.display = 'none';
-            lucide.createIcons();
-            return;
-        }
-        
-        const clientData = await response.json();
-        
-        // Check if user has Pro membership
-        const membership = clientData.result?.membership || clientData.membership || "";
-        const isPro = membership.toLowerCase() === "pro";
-        
-        if (!isPro) {
-            // Not Pro member, show paywall immediately
-            if (paywallOverlay) paywallOverlay.style.display = 'flex';
-            if (mainFrame) mainFrame.style.display = 'none';
-        } else {
-            // Pro member, hide paywall and show content
-            if (paywallOverlay) paywallOverlay.style.display = 'none';
-            if (mainFrame) mainFrame.style.display = 'block';
-        }
-        
-        lucide.createIcons();
-    } catch (error) {
-        console.error('Error checking membership:', error);
-        // On error, show paywall immediately
-        const paywallOverlay = document.getElementById('paywall-overlay');
-        const mainFrame = document.querySelector('.MainFrame_Frame');
-        if (paywallOverlay) paywallOverlay.style.display = 'flex';
-        if (mainFrame) mainFrame.style.display = 'none';
-        lucide.createIcons();
-    }
-}
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', async function() {
     await getClientData()
     await sleep(100)
-    // Check membership first before allowing access (no delay)
-    setupMembershipGating().then(() => {
-        // Only initialize if user has Pro access
-        const paywall = document.getElementById('paywall-overlay');
-        if (paywall && (paywall.style.display === 'none' || !paywall.offsetParent)) {
-            // Set default dates
-            setDefaultDates();
-            
-            // Don't initialize chart here - wait until data is loaded
-            // Chart will be initialized in loadHistoricalData() after data is fetched
-            
-            // Initialize UI
-            updateUI();
-            
-            // Initialize Lucide icons
-            lucide.createIcons();
-        }
-    });
+    // Set default dates
+    setDefaultDates();
+    
+    // Don't initialize chart here - wait until data is loaded
+    // Chart will be initialized in loadHistoricalData() after data is fetched
+    
+    // Initialize UI
+    updateUI();
+    
+    // Initialize Lucide icons
+    lucide.createIcons();
+});
     
     // Load data button
     document.getElementById('load-data-button').addEventListener('click', loadHistoricalData);
