@@ -179,3 +179,234 @@ if (upgradeButton) {
         }
     });
 }
+
+// Quick Tour Modal Functionality
+(function() {
+    const ENTRY_MODAL_KEY = 'quickTourEntryShown';
+    const TOUR_COMPLETE_KEY = 'quickTourCompleted';
+    
+    const entryModal = document.getElementById('quick-tour-entry-modal');
+    const walkthroughModal = document.getElementById('quick-tour-walkthrough');
+    const yesButton = document.getElementById('quick-tour-yes');
+    const noButton = document.getElementById('quick-tour-no');
+    const closeButton = document.getElementById('quick-tour-close');
+    const continueButton = document.getElementById('quick-tour-continue');
+    const prevButton = document.getElementById('quick-tour-prev');
+    const nextButton = document.getElementById('quick-tour-next');
+    const progressDots = document.querySelectorAll('.quick-tour-progress-dot');
+    const slides = document.querySelectorAll('.quick-tour-slide');
+    const emailForm = document.getElementById('quick-tour-email-form');
+    const emailInput = document.getElementById('quick-tour-email-input');
+    const emailMessage = document.getElementById('quick-tour-email-message');
+    
+    let currentSlide = 1;
+    const totalSlides = 6;
+    
+    // Check if modal should be shown (first visit only)
+    function shouldShowEntryModal() {
+        // Don't show if already shown in this session
+        if (sessionStorage.getItem(ENTRY_MODAL_KEY)) {
+            return false;
+        }
+        // Don't show if tour was already completed
+        if (sessionStorage.getItem(TOUR_COMPLETE_KEY)) {
+            return false;
+        }
+
+        if (localStorage.getItem("token") != "" && localStorage.getItem("token") != null) {
+            return false;
+        }
+        return true;
+    }
+    
+    // Show entry modal after delay
+    function showEntryModal() {
+        if (shouldShowEntryModal()) {
+            const delay = 5000; // 30-60 seconds
+            setTimeout(() => {
+                if (shouldShowEntryModal()) {
+                    entryModal.classList.add('show');
+                    lucide.createIcons();
+                }
+            }, delay);
+        }
+    }
+    
+    // Show walkthrough modal
+    function showWalkthrough() {
+        entryModal.classList.remove('show');
+        walkthroughModal.classList.add('show');
+        sessionStorage.setItem(ENTRY_MODAL_KEY, 'true');
+        currentSlide = 1;
+        updateSlide();
+        lucide.createIcons();
+    }
+    
+    // Close entry modal
+    function closeEntryModal() {
+        entryModal.classList.remove('show');
+        sessionStorage.setItem(ENTRY_MODAL_KEY, 'true');
+    }
+    
+    // Close walkthrough modal
+    function closeWalkthrough() {
+        walkthroughModal.classList.remove('show');
+        sessionStorage.setItem(TOUR_COMPLETE_KEY, 'true');
+    }
+    
+    // Update slide display
+    function updateSlide() {
+        slides.forEach((slide, index) => {
+            if (index + 1 === currentSlide) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+        
+        // Update progress dots
+        progressDots.forEach((dot, index) => {
+            if (index + 1 === currentSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+        
+        // Update navigation buttons
+        prevButton.disabled = currentSlide === 1;
+        if (currentSlide === totalSlides) {
+            nextButton.style.display = 'none';
+        } else {
+            nextButton.style.display = 'block';
+        }
+        
+        // Reinitialize icons for new slide
+        lucide.createIcons();
+    }
+    
+    // Navigate to next slide
+    function nextSlide() {
+        if (currentSlide < totalSlides) {
+            currentSlide++;
+            updateSlide();
+        }
+    }
+    
+    // Navigate to previous slide
+    function prevSlide() {
+        if (currentSlide > 1) {
+            currentSlide--;
+            updateSlide();
+        }
+    }
+    
+    // Navigate to specific slide
+    function goToSlide(slideNumber) {
+        if (slideNumber >= 1 && slideNumber <= totalSlides) {
+            currentSlide = slideNumber;
+            updateSlide();
+        }
+    }
+    
+    // Handle email submission
+    async function handleEmailSubmit(e) {
+        e.preventDefault();
+        const email = emailInput.value.trim();
+        
+        if (!email) {
+            showEmailMessage('Please enter your email address.', 'error');
+            return;
+        }
+        
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showEmailMessage('Please enter a valid email address.', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch('https://tour-email-capture-b52ovbio5q-uc.a.run.app', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email })
+            });
+            
+            if (response.ok) {
+                showEmailMessage('Thanks! We\'ll keep you updated.', 'success');
+                emailInput.value = '';
+            } else {
+                showEmailMessage('Something went wrong. Please try again.', 'error');
+            }
+        } catch (error) {
+            console.error('Error submitting email:', error);
+            showEmailMessage('Something went wrong. Please try again.', 'error');
+        }
+    }
+    
+    // Show email message
+    function showEmailMessage(message, type) {
+        emailMessage.textContent = message;
+        emailMessage.className = `quick-tour-email-message ${type}`;
+        setTimeout(() => {
+            emailMessage.textContent = '';
+            emailMessage.className = 'quick-tour-email-message';
+        }, 5000);
+    }
+    
+    // Event listeners
+    if (yesButton) {
+        yesButton.addEventListener('click', showWalkthrough);
+    }
+    
+    if (noButton) {
+        noButton.addEventListener('click', closeEntryModal);
+    }
+    
+    if (closeButton) {
+        closeButton.addEventListener('click', closeWalkthrough);
+    }
+    
+    if (continueButton) {
+        continueButton.addEventListener('click', closeWalkthrough);
+    }
+    
+    if (prevButton) {
+        prevButton.addEventListener('click', prevSlide);
+    }
+    
+    if (nextButton) {
+        nextButton.addEventListener('click', nextSlide);
+    }
+    
+    // Progress dot navigation
+    progressDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlide(index + 1));
+    });
+    
+    // Email form submission
+    if (emailForm) {
+        emailForm.addEventListener('submit', handleEmailSubmit);
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!walkthroughModal.classList.contains('show')) return;
+        
+        if (e.key === 'ArrowLeft' && !prevButton.disabled) {
+            prevSlide();
+        } else if (e.key === 'ArrowRight' && currentSlide < totalSlides) {
+            nextSlide();
+        } else if (e.key === 'Escape') {
+            closeWalkthrough();
+        }
+    });
+    
+    // Initialize on page load
+    if (shouldShowEntryModal()) {
+        showEntryModal();
+    }
+})();

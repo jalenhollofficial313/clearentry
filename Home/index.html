@@ -14,6 +14,9 @@
     <link href="style.css" rel="stylesheet" type="text/css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Vercel Web Analytics -->
+    <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
     <div class="head-frame">
@@ -314,6 +317,152 @@
             <button id="free-notification-close" class="free-notification-close">
                 <i data-lucide="x"></i>
             </button>
+        </div>
+    </div>
+
+    <!-- Quick Tour Entry Modal -->
+    <div id="quick-tour-entry-modal" class="quick-tour-entry-modal">
+        <div class="quick-tour-entry-content">
+            <h2 class="quick-tour-entry-title inter-text">Want a quick tour?</h2>
+            <p class="quick-tour-entry-subtitle inter-text">See how ClearEntry helps you build execution discipline in just 2 minutes.</p>
+            <div class="quick-tour-entry-buttons">
+                <button id="quick-tour-yes" class="quick-tour-entry-button green-button inter-text">Yes, Show Me</button>
+                <button id="quick-tour-no" class="quick-tour-entry-button secondary-button inter-text">No, Thanks</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Tour Walkthrough Modal -->
+    <div id="quick-tour-walkthrough" class="quick-tour-walkthrough">
+        <button id="quick-tour-close" class="quick-tour-close-btn">
+            <i data-lucide="x"></i>
+        </button>
+        <div class="quick-tour-container">
+            <!-- Slide 1: The Problem -->
+            <div class="quick-tour-slide active" data-slide="1">
+                <div class="quick-tour-slide-icon problem-icon">
+                    <i data-lucide="alert-circle"></i>
+                </div>
+                <h2 class="quick-tour-slide-headline inter-text">The Problem</h2>
+                <p class="quick-tour-slide-copy inter-text">
+                    Breaking your trading rules costs you money. But most traders don't realize they're breaking rules until after the damage is done.
+                </p>
+            </div>
+
+            <!-- Slide 2: The Solution -->
+            <div class="quick-tour-slide" data-slide="2">
+                <div class="quick-tour-slide-icon solution-icon">
+                    <i data-lucide="circle-check"></i>
+                </div>
+                <h2 class="quick-tour-slide-headline inter-text">The Solution</h2>
+                <p class="quick-tour-slide-copy inter-text">
+                    ClearEntry stops rule-breaking before it happens. Pre-trade validation catches violations before you enter the trade.
+                </p>
+            </div>
+
+            <!-- Slide 3: Pre-Trade Validation -->
+            <div class="quick-tour-slide" data-slide="3">
+                <div class="quick-tour-slide-icon validation-icon">
+                    <i data-lucide="shield-check"></i>
+                </div>
+                <h2 class="quick-tour-slide-headline inter-text">Pre-Trade Validation</h2>
+                <p class="quick-tour-slide-copy inter-text">
+                    Every trade is validated against your rules before you enter. Our checklist catches violations and prevents costly mistakes.
+                </p>
+                <div class="quick-tour-feature-grid">
+                    <div class="quick-tour-feature-item">
+                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
+                        <p class="quick-tour-feature-text inter-text">Rule Check: Validates setup criteria</p>
+                    </div>
+                    <div class="quick-tour-feature-item">
+                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
+                        <p class="quick-tour-feature-text inter-text">Risk Guard: Prevents over-leveraging</p>
+                    </div>
+                    <div class="quick-tour-feature-item">
+                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
+                        <p class="quick-tour-feature-text inter-text">Screenshot Analysis: AI reviews your setup</p>
+                    </div>
+                    <div class="quick-tour-feature-item">
+                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
+                        <p class="quick-tour-feature-text inter-text">Real-time Alerts: Instant violation warnings</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Analytics -->
+            <div class="quick-tour-slide" data-slide="4">
+                <div class="quick-tour-slide-icon analytics-icon">
+                    <i data-lucide="bar-chart-3"></i>
+                </div>
+                <h2 class="quick-tour-slide-headline inter-text">Execution Analytics</h2>
+                <p class="quick-tour-slide-copy inter-text">
+                    Our analytics prove when strategy consistency—not strategy quality—is holding you back.
+                </p>
+                <div class="quick-tour-benefits">
+                    <div class="quick-tour-benefit-item">
+                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
+                        <p class="quick-tour-benefit-text inter-text">Indepth trade journaling and analysis</p>
+                    </div>
+                    <div class="quick-tour-benefit-item">
+                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
+                        <p class="quick-tour-benefit-text inter-text">Rule-following vs rule-breaking comparison</p>
+                    </div>
+                    <div class="quick-tour-benefit-item">
+                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
+                        <p class="quick-tour-benefit-text inter-text">Discipline correlation tracking</p>
+                    </div>
+                    <div class="quick-tour-benefit-item">
+                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
+                        <p class="quick-tour-benefit-text inter-text">Performance insights</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Results -->
+            <div class="quick-tour-slide" data-slide="5">
+                <div class="quick-tour-slide-icon results-icon">
+                    <i data-lucide="trending-up"></i>
+                </div>
+                <h2 class="quick-tour-slide-headline inter-text">The Result</h2>
+                <p class="quick-tour-slide-emphasis inter-text">Build execution discipline that actually sticks.</p>
+                <p class="quick-tour-slide-copy inter-text">
+                    Stop losing money to preventable mistakes. ClearEntry gives you the accountability system you need to follow your rules consistently.
+                </p>
+            </div>
+
+            <!-- Slide 6: CTA -->
+            <div class="quick-tour-slide" data-slide="6">
+                <h2 class="quick-tour-slide-headline inter-text">Ready to Build Discipline?</h2>
+                <p class="quick-tour-slide-copy inter-text">
+                    Start your 14-day free trial. No credit card required.
+                </p>
+                <div class="quick-tour-cta-buttons">
+                    <a href="signup.html" class="quick-tour-cta-primary green-button inter-text">Start Free Trial</a>
+                    <button id="quick-tour-continue" class="quick-tour-cta-secondary inter-text">Continue Browsing</button>
+                </div>
+                <div class="quick-tour-email-section">
+                    <p class="quick-tour-email-label inter-text">Not ready yet? Get updates on new features:</p>
+                    <form id="quick-tour-email-form" class="quick-tour-email-form">
+                        <input type="email" id="quick-tour-email-input" class="quick-tour-email-input inter-text" placeholder="Enter your email" required>
+                        <button type="submit" class="quick-tour-email-submit green-button inter-text">Submit</button>
+                    </form>
+                    <div id="quick-tour-email-message" class="quick-tour-email-message"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="quick-tour-navigation">
+                <button id="quick-tour-prev" class="quick-tour-nav-button inter-text" disabled>Previous</button>
+                <div class="quick-tour-progress">
+                    <div class="quick-tour-progress-dot active" data-slide="1"></div>
+                    <div class="quick-tour-progress-dot" data-slide="2"></div>
+                    <div class="quick-tour-progress-dot" data-slide="3"></div>
+                    <div class="quick-tour-progress-dot" data-slide="4"></div>
+                    <div class="quick-tour-progress-dot" data-slide="5"></div>
+                    <div class="quick-tour-progress-dot" data-slide="6"></div>
+                </div>
+                <button id="quick-tour-next" class="quick-tour-nav-button green-button inter-text">Next</button>
+            </div>
         </div>
     </div>
 

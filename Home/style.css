@@ -1400,3 +1400,615 @@ a {
         min-width: 50px;
     }
 }
+
+/* Quick Tour Entry Modal */
+.quick-tour-entry-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 10001;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.quick-tour-entry-modal.show {
+    display: flex;
+}
+
+.quick-tour-entry-content {
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    border-radius: 19px;
+    padding: 40px 30px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    animation: scaleIn 0.4s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.quick-tour-entry-title {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 700;
+    color: white;
+    margin: 0 0 15px 0;
+}
+
+.quick-tour-entry-subtitle {
+    font-size: clamp(16px, 2vw, 18px);
+    font-weight: 400;
+    color: #86909a;
+    margin: 0 0 30px 0;
+    line-height: 1.5;
+}
+
+.quick-tour-entry-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.quick-tour-entry-button {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 250ms;
+    border: none;
+    min-width: 140px;
+}
+
+.secondary-button {
+    color: white;
+    border: 1px solid #00ff9952;
+    background-color: rgb(14, 13, 13);
+}
+
+.secondary-button:hover {
+    background-color: rgba(0, 255, 153, 0.1);
+    transform: scale(1.02);
+}
+
+.quick-tour-entry-button.green-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 3px 20px -5px #00ff99;
+}
+
+/* Quick Tour Walkthrough Modal */
+.quick-tour-walkthrough {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 10002;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.quick-tour-walkthrough.show {
+    display: flex;
+}
+
+.quick-tour-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(128, 128, 128, 0.2);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 250ms;
+    z-index: 10003;
+}
+
+.quick-tour-close-btn:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+    transform: scale(1.1);
+}
+
+.quick-tour-close-btn i {
+    width: 24px;
+    height: 24px;
+}
+
+.quick-tour-container {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    border-radius: 19px;
+    padding: 60px 40px 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    animation: scaleIn 0.4s ease-out;
+    box-sizing: border-box;
+}
+
+.quick-tour-slide {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: slideScaleIn 0.4s ease-out;
+    margin-bottom: 15px;
+}
+
+.quick-tour-slide.active {
+    display: flex;
+}
+
+@keyframes slideScaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.quick-tour-slide-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 50px;
+}
+
+.quick-tour-slide-icon.problem-icon {
+    background-color: #ff47472c;
+    color: #ff4747;
+}
+
+.quick-tour-slide-icon.solution-icon {
+    background-color: #00ff992c;
+    color: #00ff99;
+}
+
+.quick-tour-slide-icon.validation-icon {
+    background-color: #00ff992c;
+    color: #00ff99;
+}
+
+.quick-tour-slide-icon.analytics-icon {
+    background-color: #00ff992c;
+    color: #00ff99;
+}
+
+.quick-tour-slide-icon.results-icon {
+    background-color: #00ff992c;
+    color: #00ff99;
+}
+
+.quick-tour-slide-icon i {
+    width: 60px;
+    height: 60px;
+}
+
+.quick-tour-slide-headline {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    color: white;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.quick-tour-slide-emphasis {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 700;
+    color: #00ff99;
+    margin: 0 0 20px 0;
+    line-height: 1.3;
+}
+
+.quick-tour-slide-copy {
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-weight: 400;
+    color: #86909a;
+    margin: 0 0 40px 0;
+    line-height: 1.6;
+    max-width: 700px;
+}
+
+/* Feature Grid (Slide 3) */
+.quick-tour-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 600px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.quick-tour-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px;
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.quick-tour-feature-icon {
+    width: 24px;
+    height: 24px;
+    color: #00ff99;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.quick-tour-feature-text {
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 400;
+    color: white;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Benefits (Slide 4) */
+.quick-tour-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.quick-tour-benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 12px;
+    text-align: left;
+}
+
+.quick-tour-benefit-icon {
+    width: 24px;
+    height: 24px;
+    color: #00ff99;
+    flex-shrink: 0;
+}
+
+.quick-tour-benefit-text {
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 400;
+    color: white;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* CTA Section (Slide 6) */
+.quick-tour-cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 300px;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.quick-tour-cta-primary {
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-size: clamp(16px, 2.5vw, 18px);
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: 250ms;
+    display: block;
+}
+
+.quick-tour-cta-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 3px 20px -5px #00ff99;
+}
+
+.quick-tour-cta-secondary {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 500;
+    background: none;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    color: #86909a;
+    cursor: pointer;
+    transition: 250ms;
+}
+
+.quick-tour-cta-secondary:hover {
+    border-color: rgba(128, 128, 128, 0.5);
+    color: white;
+}
+
+.quick-tour-email-section {
+    max-width: 500px;
+    width: 100%;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(128, 128, 128, 0.123);
+}
+
+.quick-tour-email-label {
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 400;
+    color: #86909a;
+    margin: 0 0 15px 0;
+}
+
+.quick-tour-email-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.quick-tour-email-input {
+    flex: 1;
+    padding: 12px 16px;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 10px;
+    color: white;
+    font-size: clamp(14px, 2vw, 16px);
+    outline: none;
+    transition: 250ms;
+}
+
+.quick-tour-email-input:focus {
+    outline: 2px solid #00ff99;
+    border-color: #00ff99;
+}
+
+.quick-tour-email-input::placeholder {
+    color: #86909a;
+}
+
+.quick-tour-email-submit {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 250ms;
+    white-space: nowrap;
+}
+
+.quick-tour-email-submit:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 3px 20px -5px #00ff99;
+}
+
+.quick-tour-email-message {
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 400;
+    margin-top: 10px;
+    text-align: center;
+    min-height: 20px;
+}
+
+.quick-tour-email-message.success {
+    color: #00ff99;
+}
+
+.quick-tour-email-message.error {
+    color: #ff4747;
+}
+
+/* Navigation */
+.quick-tour-navigation {
+    position: sticky;
+    bottom: 0;
+    background-color: transparent;
+    border-top: 1px solid rgba(128, 128, 128, 0.123);
+    padding: 20px 0 0;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    z-index: 10003;
+}
+
+.quick-tour-nav-button {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 250ms;
+    border: none;
+    min-width: 100px;
+}
+
+.quick-tour-nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quick-tour-nav-button:not(:disabled):hover {
+    transform: scale(1.02);
+}
+
+.quick-tour-nav-button:not(.green-button) {
+    background: none;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    color: #86909a;
+}
+
+.quick-tour-nav-button:not(.green-button):not(:disabled):hover {
+    border-color: rgba(128, 128, 128, 0.5);
+    color: white;
+}
+
+.quick-tour-progress {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+}
+
+.quick-tour-progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(128, 128, 128, 0.3);
+    transition: 250ms;
+    cursor: pointer;
+}
+
+.quick-tour-progress-dot.active {
+    background-color: #00ff99;
+    transform: scale(1.3);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .quick-tour-entry-content {
+        padding: 30px 20px;
+    }
+    
+    .quick-tour-entry-buttons {
+        flex-direction: column;
+    }
+    
+    .quick-tour-entry-button {
+        width: 100%;
+    }
+    
+    .quick-tour-close-btn {
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+    }
+    
+    .quick-tour-close-btn i {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .quick-tour-container {
+        padding: 50px 20px 20px;
+        max-height: 85vh;
+    }
+    
+    .quick-tour-slide-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 25px;
+    }
+    
+    .quick-tour-slide-icon i {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .quick-tour-feature-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .quick-tour-feature-item {
+        padding: 15px;
+    }
+    
+    .quick-tour-navigation {
+        flex-wrap: wrap;
+        padding: 15px 0 0;
+        gap: 15px;
+    }
+    
+    .quick-tour-progress {
+        order: -1;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .quick-tour-nav-button {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .quick-tour-email-form {
+        flex-direction: column;
+    }
+    
+    .quick-tour-email-submit {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-tour-slide-headline {
+        font-size: clamp(24px, 6vw, 32px);
+    }
+    
+    .quick-tour-slide-emphasis {
+        font-size: clamp(20px, 5vw, 24px);
+    }
+    
+    .quick-tour-slide-copy {
+        font-size: clamp(14px, 3vw, 16px);
+    }
+    
+    .quick-tour-navigation {
+        padding: 12px;
+    }
+    
+    .quick-tour-nav-button {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
