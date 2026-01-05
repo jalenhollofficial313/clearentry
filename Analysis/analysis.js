@@ -615,8 +615,13 @@ async function init() {
     });
 
     // Setup sidebar toggle
-    document.querySelector("#bar-icon")?.addEventListener("click", () => {
-        document.querySelector("#sidebar").style.display = "block";
+    document.querySelector("#head-frame").addEventListener('click', function(event) {
+        if (event.target.closest('#bar-icon')) {
+            console.log("Check")
+            document.querySelector("#sidebar").style.display = "block";
+        } else {
+            // Click originated outside the overlay
+        }
     });
 
     // Don't auto-fetch - wait for button click

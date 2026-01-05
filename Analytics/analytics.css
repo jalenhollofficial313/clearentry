@@ -1169,33 +1169,6 @@ body {
     .empty-description {
         font-size: 13px;
     }
-    }
-
-    .MainFrame_Frame_Frame_MainStats_Calender_div {
-        width: calc(50% - 10px);
-        min-width: 140px;
-    }
-
-    .time-range-selector {
-        margin-left: 2%;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .range-button {
-        padding: 8px 20px;
-        font-size: 14px;
-    }
-
-    .calendar-header {
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 10px;
-    }
-
-    .MainFrame_Frame_Frame_MainStats_CalenderFrame_Title {
-        font-size: 24px;
-    }
 }
 
 @media (max-width: 480px) {

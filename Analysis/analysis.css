@@ -180,6 +180,14 @@ body {
     overflow-y: visible;
 }
 
+.MainFrame_HeadFrame {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
 .MainFrame_Title {
 
     display: flex;
@@ -191,10 +199,7 @@ body {
 
     width: 55%;
 
-
-
-
-    margin-top: 20px;
+    margin-top: 0;
     margin-left: 15px;
     margin-bottom: 0;
 }
@@ -202,7 +207,7 @@ body {
 #bar-icon {
     color: white;
     display: none;
-
+    padding-left: 2.3%;
     z-index: 5;
 }
 
@@ -1734,9 +1739,14 @@ body {
         width: 88%;
     }
 
+    .MainFrame_HeadFrame {
+        margin-top: 10px;
+    }
+
     .MainFrame_Title {
         margin-left: 3%;
         margin-right: 0;
+        font-size: 24px;
     }
 
     .MainFrame_description {
@@ -1746,9 +1756,7 @@ body {
 
     #bar-icon {
         display: block;
-    }
-    .MainFrame_Title {
-        font-size: 24px;
+        padding-left: 3%;
     }
 }
 
