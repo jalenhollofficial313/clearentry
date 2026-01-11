@@ -212,7 +212,7 @@ body {
 }
 
 .maintext-large {
-    font-size: clamp(20px, 10vw, 40px);
+    font-size: clamp(30px, 5vw, 40px);
     font-weight: 700;
     color: white;
     margin-top: auto;
@@ -1758,7 +1758,7 @@ a {
     font-size: clamp(16px, 2.5vw, 20px);
     font-weight: 400;
     color: #86909a;
-    margin: 0 0 30px 0;
+    margin: 20px 0 30px 0;
     line-height: 1.6;
     max-width: 700px;
 }
