@@ -12,6 +12,7 @@
 
 
     <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="hero-visual.css" rel="stylesheet" type="text/css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -42,26 +43,77 @@
         </div>
     </div>
     <div class="frame-1">
-        <div data-aos="fade-down" class="hover-frame">
-            <p class="hover-text inter-text">
-                Trade improvement platform
-            </p>
-        </div>
-        <p data-aos="fade-down" class="maintext-large inter-text">
-            Clear <span class="gradient-text">Entry</span>
-        </p>
-        <p data-aos="fade-down" class="maintext-regular inter-text">
-            Build Execution Discipline. <span class="gradient-text">Stop Breaking Rules.</span>
-        </p>
-        <div data-aos="fade-down" class="middle-text-frame">
-            <h1 class="inter-text maintext-small">
-                The only platform that prevents costly mistakes before they happen. Pre-trade validation stops rule-breaking trades, and analytics prove when strategy consistency—not strategy quality—is holding you back.
-            </h1>
-        </div>
-        <div data-aos="fade-down" class="middle-buttons-frame">
-            <a href="#about-frame" class="left-button inter-text green-button">Learn More</a>
-            <a id="dashboard-button2" href="../Dashboard/dashboard.html" class="right-button inter-text">Log In to Dashboard</a>
-            <a id="signup-button2" href="signup.html" class="right-button inter-text">Sign Up for Free</a>
+        <div class="hero-content-wrapper">
+            <div class="hero-text-section">
+                <p data-aos="fade-down" class="maintext-large inter-text" style="margin-top: 10px;">
+                    Inconsistent results aren't caused by the market. <br> <span class="gradient-text">They're caused by inconsistent execution.</span>
+                </p>
+                <p data-aos="fade-down" class="maintext-small inter-text">
+                    ClearEntry <span class="gradient-text">identifies</span> and <span class="gradient-text">prevents</span> execution inconsistencies</span> <span class="gradient-text inter-text">before</span> they affect performance</span>.
+                </p>
+                <p data-aos="fade-down" class="hero-micro-text inter-text">
+                    Size • Timing • Follow-through • Conviction
+                </p>
+                <div data-aos="fade-down" class="middle-buttons-frame">
+                    <a href="#quick-tour-walkthrough" id="quick-tour-trigger" class="left-button inter-text green-button">See How This Happens</a>
+                    <a id="dashboard-button2" href="../Dashboard/dashboard.html" class="right-button inter-text">Log In to Dashboard</a>
+                    <a id="signup-button2" href="signup.html" class="right-button inter-text">Sign Up for Free</a>
+                </div>
+            </div>
+            
+            <!-- Hero Visual Component -->
+            <div data-aos="fade-left" class="hero-visual-component">
+                <div class="hero-trade-card">
+                    <div class="hero-trade-header">
+                        <h3 class="hero-trade-title inter-text">Trade Entry</h3>
+                    </div>
+                    <div class="hero-screenshot-container">
+                        <img src="hero-chart-screenshot.png" alt="Trade Analysis Screenshot" class="hero-chart-screenshot">
+                    </div>
+                    <div class="hero-trade-fields">
+                        <div class="hero-field-group">
+                            <label class="hero-field-label inter-text">Symbol</label>
+                            <input type="text" class="hero-field-input inter-text" value="AAPL" readonly>
+                        </div>
+                        <div class="hero-field-group">
+                            <label class="hero-field-label inter-text">Position Size</label>
+                            <input type="text" class="hero-field-input inter-text" value="100 shares" readonly>
+                        </div>
+                        <div class="hero-field-group">
+                            <label class="hero-field-label inter-text">Risk %</label>
+                            <input type="text" class="hero-field-input inter-text" value="2.5%" readonly>
+                        </div>
+                        <div class="hero-field-group">
+                            <label class="hero-field-label inter-text">Entry Type</label>
+                            <input type="text" class="hero-field-input inter-text" value="Market" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-validation-panel">
+                        <div class="hero-validation-item">
+                            <i data-lucide="circle-check" class="hero-validation-icon success"></i>
+                            <span class="hero-validation-text inter-text">Position size within plan</span>
+                        </div>
+                        <div class="hero-validation-item">
+                            <i data-lucide="circle-check" class="hero-validation-icon success"></i>
+                            <span class="hero-validation-text inter-text">Risk within limits</span>
+                        </div>
+                        <div class="hero-validation-item">
+                            <i data-lucide="alert-circle" class="hero-validation-icon warning"></i>
+                            <span class="hero-validation-text inter-text">Setup criteria met</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-trade-status">
+                        <div class="hero-status-indicator blocked">
+                            <i data-lucide="shield-alert"></i>
+                            <span class="hero-status-text inter-text">Trade Blocked</span>
+                        </div>
+                    </div>
+                    
+                    <button class="hero-place-trade-button inter-text" disabled>Place Trade</button>
+                </div>
+            </div>
         </div>
         <div class="bottom-frame">
             <div data-aos="fade-down" class="stat-frame left-stat">
@@ -338,115 +390,141 @@
             <i data-lucide="x"></i>
         </button>
         <div class="quick-tour-container">
-            <!-- Slide 1: The Problem -->
+            <!-- Slide 1: Execution break framing -->
             <div class="quick-tour-slide active" data-slide="1">
                 <div class="quick-tour-slide-icon problem-icon">
                     <i data-lucide="alert-circle"></i>
                 </div>
-                <h2 class="quick-tour-slide-headline inter-text">The Problem</h2>
+                <h2 class="quick-tour-slide-headline inter-text">Execution doesn't break all at once.</h2>
                 <p class="quick-tour-slide-copy inter-text">
-                    Breaking your trading rules costs you money. But most traders don't realize they're breaking rules until after the damage is done.
+                    It breaks in small ways like sizing, timing, and follow-through. Usually you don't even notice it happening.
                 </p>
             </div>
 
-            <!-- Slide 2: The Solution -->
+            <!-- Slide 2: Same setup, different execution -->
             <div class="quick-tour-slide" data-slide="2">
                 <div class="quick-tour-slide-icon solution-icon">
-                    <i data-lucide="circle-check"></i>
+                    <i data-lucide="git-compare"></i>
                 </div>
-                <h2 class="quick-tour-slide-headline inter-text">The Solution</h2>
+                <h2 class="quick-tour-slide-headline inter-text">Same setup doesn't mean same execution.</h2>
                 <p class="quick-tour-slide-copy inter-text">
-                    ClearEntry stops rule-breaking before it happens. Pre-trade validation catches violations before you enter the trade.
+                    Two trades can look identical on a chart, but be executed completely differently when you're actually trading.
                 </p>
             </div>
 
-            <!-- Slide 3: Pre-Trade Validation -->
+            <!-- Slide 3: Pre-trade structure -->
             <div class="quick-tour-slide" data-slide="3">
                 <div class="quick-tour-slide-icon validation-icon">
                     <i data-lucide="shield-check"></i>
                 </div>
-                <h2 class="quick-tour-slide-headline inter-text">Pre-Trade Validation</h2>
-                <p class="quick-tour-slide-copy inter-text">
-                    Every trade is validated against your rules before you enter. Our checklist catches violations and prevents costly mistakes.
-                </p>
-                <div class="quick-tour-feature-grid">
-                    <div class="quick-tour-feature-item">
-                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
-                        <p class="quick-tour-feature-text inter-text">Rule Check: Validates setup criteria</p>
+                <h2 class="quick-tour-slide-headline inter-text">ClearEntry adds structure before the trade.</h2>
+                <!-- Checklist Visual -->
+                <div class="walkthrough-checklist-visual">
+                    <div class="walkthrough-checklist-item">
+                        <i data-lucide="circle-check" class="walkthrough-check-icon success"></i>
+                        <span class="walkthrough-checklist-text inter-text">Position size within plan</span>
                     </div>
-                    <div class="quick-tour-feature-item">
-                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
-                        <p class="quick-tour-feature-text inter-text">Risk Guard: Prevents over-leveraging</p>
+                    <div class="walkthrough-checklist-item">
+                        <i data-lucide="circle-check" class="walkthrough-check-icon success"></i>
+                        <span class="walkthrough-checklist-text inter-text">Risk within limits</span>
                     </div>
-                    <div class="quick-tour-feature-item">
-                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
-                        <p class="quick-tour-feature-text inter-text">Screenshot Analysis: AI reviews your setup</p>
+                    <div class="walkthrough-checklist-item">
+                        <i data-lucide="alert-circle" class="walkthrough-check-icon warning"></i>
+                        <span class="walkthrough-checklist-text inter-text">Setup criteria met</span>
                     </div>
-                    <div class="quick-tour-feature-item">
-                        <i data-lucide="check-circle" class="quick-tour-feature-icon"></i>
-                        <p class="quick-tour-feature-text inter-text">Real-time Alerts: Instant violation warnings</p>
+                    <div class="walkthrough-checklist-item">
+                        <i data-lucide="circle-check" class="walkthrough-check-icon success"></i>
+                        <span class="walkthrough-checklist-text inter-text">Entry timing aligned</span>
                     </div>
                 </div>
+                <p class="quick-tour-slide-copy inter-text">
+                    Before you enter a trade, ClearEntry checks if your execution matches your rules. This helps stop inconsistency before you risk any money.
+                </p>
             </div>
 
-            <!-- Slide 4: Analytics -->
+            <!-- Slide 4: Trade journaling -->
             <div class="quick-tour-slide" data-slide="4">
+                <div class="quick-tour-slide-icon analytics-icon">
+                    <i data-lucide="book-open"></i>
+                </div>
+                <h2 class="quick-tour-slide-headline inter-text">Every trade is automatically documented.</h2>
+                <!-- Journal Entry Visual -->
+                <div class="walkthrough-journal-visual">
+                    <div class="walkthrough-journal-header">
+                        <h3 class="walkthrough-journal-title inter-text">Trade Entry</h3>
+                        <span class="walkthrough-journal-date inter-text">Today</span>
+                    </div>
+                    <div class="walkthrough-journal-fields">
+                        <div class="walkthrough-journal-field">
+                            <span class="walkthrough-journal-label inter-text">Symbol:</span>
+                            <span class="walkthrough-journal-value inter-text">AAPL</span>
+                        </div>
+                        <div class="walkthrough-journal-field">
+                            <span class="walkthrough-journal-label inter-text">Position Size:</span>
+                            <span class="walkthrough-journal-value inter-text">100 shares</span>
+                        </div>
+                        <div class="walkthrough-journal-field">
+                            <span class="walkthrough-journal-label inter-text">Risk %:</span>
+                            <span class="walkthrough-journal-value inter-text">2.5%</span>
+                        </div>
+                        <div class="walkthrough-journal-field">
+                            <span class="walkthrough-journal-label inter-text">Execution:</span>
+                            <span class="walkthrough-journal-value inter-text">Matched plan</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="quick-tour-slide-copy inter-text">
+                    After you execute a trade, ClearEntry logs everything with context. It captures how you executed it, not just whether you won or lost.
+                </p>
+            </div>
+
+            <!-- Slide 5: Post-trade reflection -->
+            <div class="quick-tour-slide" data-slide="5">
+                <div class="quick-tour-slide-icon results-icon">
+                    <i data-lucide="brain"></i>
+                </div>
+                <h2 class="quick-tour-slide-headline inter-text">Post-trade reflection turns behavior into insight.</h2>
+                <!-- Insight Visual -->
+                <div class="walkthrough-insight-visual">
+                    <div class="walkthrough-insight-header">
+                        <i data-lucide="lightbulb" class="walkthrough-insight-icon"></i>
+                        <h3 class="walkthrough-insight-title inter-text">AI Insight</h3>
+                    </div>
+                    <p class="walkthrough-insight-text inter-text">
+                        Your execution matched your plan on this trade. The 2.5% risk was consistent with your strategy, and entry timing aligned with your criteria. This suggests the outcome came from market movement, not execution drift.
+                    </p>
+                </div>
+                <p class="quick-tour-slide-copy inter-text">
+                    ClearEntry helps you think about whether your results came from your strategy or your execution. That way you can improve based on facts, not feelings.
+                </p>
+            </div>
+
+            <!-- Slide 6: Analytics/Consistency -->
+            <div class="quick-tour-slide" data-slide="6">
                 <div class="quick-tour-slide-icon analytics-icon">
                     <i data-lucide="bar-chart-3"></i>
                 </div>
-                <h2 class="quick-tour-slide-headline inter-text">Execution Analytics</h2>
+                <h2 class="quick-tour-slide-headline inter-text">Consistency becomes measurable.</h2>
                 <p class="quick-tour-slide-copy inter-text">
-                    Our analytics prove when strategy consistency—not strategy quality—is holding you back.
+                    By combining pre-trade validation, trade journaling, and post-trade reflection, ClearEntry shows you when execution is the real problem, not your strategy.
                 </p>
-                <div class="quick-tour-benefits">
-                    <div class="quick-tour-benefit-item">
-                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
-                        <p class="quick-tour-benefit-text inter-text">Indepth trade journaling and analysis</p>
+                <div style="margin-top: 40px;">
+                    <h3 class="quick-tour-slide-headline inter-text" style="font-size: 24px; margin-bottom: 20px;">Ready to Build Discipline?</h3>
+                    <p class="quick-tour-slide-copy inter-text" style="margin-bottom: 30px;">
+                        Start your 14-day free trial. No credit card required.
+                    </p>
+                    <div class="quick-tour-cta-buttons">
+                        <a href="signup.html" class="quick-tour-cta-primary green-button inter-text">Start Free Trial</a>
+                        <button id="quick-tour-continue" class="quick-tour-cta-secondary inter-text">Continue Browsing</button>
                     </div>
-                    <div class="quick-tour-benefit-item">
-                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
-                        <p class="quick-tour-benefit-text inter-text">Rule-following vs rule-breaking comparison</p>
+                    <div class="quick-tour-email-section">
+                        <p class="quick-tour-email-label inter-text">Not ready yet? Get updates on new features:</p>
+                        <form id="quick-tour-email-form" class="quick-tour-email-form">
+                            <input type="email" id="quick-tour-email-input" class="quick-tour-email-input inter-text" placeholder="Enter your email" required>
+                            <button type="submit" class="quick-tour-email-submit green-button inter-text">Submit</button>
+                        </form>
+                        <div id="quick-tour-email-message" class="quick-tour-email-message"></div>
                     </div>
-                    <div class="quick-tour-benefit-item">
-                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
-                        <p class="quick-tour-benefit-text inter-text">Discipline correlation tracking</p>
-                    </div>
-                    <div class="quick-tour-benefit-item">
-                        <i data-lucide="check" class="quick-tour-benefit-icon"></i>
-                        <p class="quick-tour-benefit-text inter-text">Performance insights</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 5: Results -->
-            <div class="quick-tour-slide" data-slide="5">
-                <div class="quick-tour-slide-icon results-icon">
-                    <i data-lucide="trending-up"></i>
-                </div>
-                <h2 class="quick-tour-slide-headline inter-text">The Result</h2>
-                <p class="quick-tour-slide-emphasis inter-text">Build execution discipline that actually sticks.</p>
-                <p class="quick-tour-slide-copy inter-text">
-                    Stop losing money to preventable mistakes. ClearEntry gives you the accountability system you need to follow your rules consistently.
-                </p>
-            </div>
-
-            <!-- Slide 6: CTA -->
-            <div class="quick-tour-slide" data-slide="6">
-                <h2 class="quick-tour-slide-headline inter-text">Ready to Build Discipline?</h2>
-                <p class="quick-tour-slide-copy inter-text">
-                    Start your 14-day free trial. No credit card required.
-                </p>
-                <div class="quick-tour-cta-buttons">
-                    <a href="signup.html" class="quick-tour-cta-primary green-button inter-text">Start Free Trial</a>
-                    <button id="quick-tour-continue" class="quick-tour-cta-secondary inter-text">Continue Browsing</button>
-                </div>
-                <div class="quick-tour-email-section">
-                    <p class="quick-tour-email-label inter-text">Not ready yet? Get updates on new features:</p>
-                    <form id="quick-tour-email-form" class="quick-tour-email-form">
-                        <input type="email" id="quick-tour-email-input" class="quick-tour-email-input inter-text" placeholder="Enter your email" required>
-                        <button type="submit" class="quick-tour-email-submit green-button inter-text">Submit</button>
-                    </form>
-                    <div id="quick-tour-email-message" class="quick-tour-email-message"></div>
                 </div>
             </div>
 

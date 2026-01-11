@@ -48,13 +48,50 @@ body {
 
 .frame-1 {
     width: 100%;
-    min-height: 870px;
+    min-height: auto;
     height: auto;
     background-color: #11181b;
     margin-top: 70px;
-    padding: 0 20px;
+    padding: 20px 20px;
     padding-bottom: 20px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.hero-content-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    margin: 0 auto;
+    padding: 20px 20px;
+    box-sizing: border-box;
+}
+
+.hero-text-section {
+    flex: 0 1 auto;
+    min-width: 500px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.hero-visual-component {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 700px;
+    min-width: 550px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
 }
 
 /* Left Glow */
@@ -175,14 +212,35 @@ body {
 }
 
 .maintext-large {
-    font-size: clamp(40px, 10vw, 96px);
+    font-size: clamp(20px, 10vw, 40px);
     font-weight: 700;
     color: white;
-    margin-top: 0;
+    margin-top: auto;
     margin-bottom: 0;
     display: block;
     text-align: center;
     line-height: 1.1;
+}
+
+.hero-text-section .maintext-large {
+    text-align: left;
+}
+
+.hero-text-section .maintext-small {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+.hero-text-section .hero-micro-text {
+    text-align: left;
+}
+
+.hero-text-section .middle-buttons-frame {
+    justify-content: flex-start;
+    padding: 0;
 }
 
 .gradient-text {
@@ -192,14 +250,30 @@ body {
 }
 
 .maintext-regular {
-    font-size: clamp(24px, 5vw, 40px);
+    font-size: clamp(24px, 5vw, 30px);
     font-weight: 400;
+
     color: white;
     margin-top: 6px;
     margin-bottom: 0;
     display: block;
     text-align: center;
     line-height: 1.2;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-micro-text {
+    font-size: clamp(14px, 1.8vw, 18px);
+    font-weight: 400;
+    color: #86909a;
+    margin-top: clamp(12px, 2vw, 18px);
+    margin-bottom: 0;
+    display: block;
+    text-align: center;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
 }
 
 .middle-text-frame {
@@ -276,7 +350,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
-    margin-top: clamp(40px, 8vw, 80px);
+    margin-top: clamp(30px, 5vw, 50px);
     padding: 0 20px;
     box-sizing: border-box;
 }
@@ -1277,6 +1351,42 @@ a {
     .frame-1 {
         padding-bottom: 10px;
     }
+    
+    .hero-content-wrapper {
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px 15px;
+    }
+    
+    .hero-visual-component {
+        display: none;
+    }
+    
+    .hero-text-section {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hero-text-section .maintext-large {
+        text-align: center;
+    }
+    
+    .hero-text-section .maintext-small {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-text-section .hero-micro-text {
+        text-align: center;
+    }
+    
+    .hero-text-section .middle-buttons-frame {
+        justify-content: center;
+    }
 
     .frame-3 {
         height: fit-content;
@@ -1648,9 +1758,170 @@ a {
     font-size: clamp(16px, 2.5vw, 20px);
     font-weight: 400;
     color: #86909a;
-    margin: 0 0 40px 0;
+    margin: 0 0 30px 0;
     line-height: 1.6;
     max-width: 700px;
+}
+
+/* Walkthrough Visual Components */
+
+/* Checklist Visual (Slide 3) */
+.walkthrough-checklist-visual {
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border-radius: 19px;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    padding: 24px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.walkthrough-checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background-color: #15181c42;
+    border-radius: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.08);
+}
+
+.walkthrough-checklist-item:last-child {
+    margin-bottom: 0;
+}
+
+.walkthrough-check-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.walkthrough-check-icon.success {
+    color: #00ff99;
+}
+
+.walkthrough-check-icon.warning {
+    color: #ffcc00;
+}
+
+.walkthrough-checklist-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    margin: 0;
+}
+
+/* Journal Entry Visual (Slide 4) */
+.walkthrough-journal-visual {
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border-radius: 19px;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    padding: 24px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.walkthrough-journal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.123);
+}
+
+.walkthrough-journal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.walkthrough-journal-date {
+    font-size: 13px;
+    font-weight: 400;
+    color: #86909a;
+}
+
+.walkthrough-journal-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.walkthrough-journal-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: #15181c42;
+    border-radius: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.08);
+}
+
+.walkthrough-journal-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #86909a;
+}
+
+.walkthrough-journal-value {
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+}
+
+/* Insight Visual (Slide 5) */
+.walkthrough-insight-visual {
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border-radius: 19px;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    padding: 24px;
+    width: 100%;
+    max-width: 550px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.walkthrough-insight-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.123);
+}
+
+.walkthrough-insight-icon {
+    width: 24px;
+    height: 24px;
+    color: #00ff99;
+    flex-shrink: 0;
+}
+
+.walkthrough-insight-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.walkthrough-insight-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: #dbdde0;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* Feature Grid (Slide 3) */
@@ -1843,6 +2114,23 @@ a {
 
 .quick-tour-email-message.error {
     color: #ff4747;
+}
+
+/* Responsive adjustments for walkthrough visuals */
+@media (max-width: 768px) {
+    .walkthrough-checklist-visual,
+    .walkthrough-journal-visual,
+    .walkthrough-insight-visual {
+        max-width: 100%;
+        padding: 20px;
+    }
+    
+    .walkthrough-checklist-text,
+    .walkthrough-journal-label,
+    .walkthrough-journal-value,
+    .walkthrough-insight-text {
+        font-size: 14px;
+    }
 }
 
 /* Navigation */

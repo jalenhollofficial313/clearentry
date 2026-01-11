@@ -365,6 +365,15 @@ if (upgradeButton) {
     if (noButton) {
         noButton.addEventListener('click', closeEntryModal);
     }
+
+    // Handle "See How This Happens" button in hero section
+    const quickTourTrigger = document.getElementById('quick-tour-trigger');
+    if (quickTourTrigger) {
+        quickTourTrigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            showWalkthrough();
+        });
+    }
     
     if (closeButton) {
         closeButton.addEventListener('click', closeWalkthrough);
