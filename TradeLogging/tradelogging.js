@@ -797,19 +797,19 @@ document.querySelector("#continue-button").addEventListener("click", async funct
             showRankingModal(tradeId)
         } else {
             await sleep(500)
-            location.reload()
+            location.href = "../TradeLogging/tradelogging.html";
         }
     } else {
         loadingFrame(1000, "Updating Entry...", "Entry Updated.")
         await saveTrade()
         client_server_debounce = false
         await sleep(500)
-        location.reload()
+        location.href = "../TradeLogging/tradelogging.html";
     }
 })
 
 document.querySelector("#cancel-button").addEventListener("click", function() {
-    location.reload()
+    location.href = "../TradeLogging/tradelogging.html";
 })
 
 // Trade Ranking Modal Functions
@@ -835,7 +835,6 @@ function showRankingModal(tradeId) {
 function hideRankingModal() {
     const modal = document.getElementById("trade-ranking-modal");
     modal.style.display = "none";
-    currentTradeIdForRanking = null;
     selectedRank = null;
 }
 
@@ -852,6 +851,59 @@ document.querySelectorAll(".trade-ranking-option").forEach(option => {
         selectedRank = this.getAttribute("data-rank");
     });
 });
+
+// Post-Trade Reflection Modal State
+let currentTradeIdForReflection = null;
+let reflectionData = {
+    strategyRulesFollowed: null,
+    primaryEntryReason: null,
+    entryReasonOtherText: null,
+    wouldRetakeTrade: null,
+    emotionAfterTrade: null,
+    emotionDescriptionText: "",
+    whatWentWellPoorlyText: ""
+};
+
+// Show reflection modal
+function showReflectionModal(tradeId) {
+    currentTradeIdForReflection = tradeId;
+    resetReflectionModal();
+    
+    const modal = document.getElementById("post-trade-reflection-modal");
+    modal.style.display = "flex";
+}
+
+// Hide reflection modal
+function hideReflectionModal() {
+    const modal = document.getElementById("post-trade-reflection-modal");
+    modal.style.display = "none";
+    resetReflectionModal();
+}
+
+// Reset reflection modal to initial state
+function resetReflectionModal() {
+    reflectionData = {
+        strategyRulesFollowed: null,
+        primaryEntryReason: null,
+        entryReasonOtherText: null,
+        wouldRetakeTrade: null,
+        emotionAfterTrade: null,
+        emotionDescriptionText: "",
+        whatWentWellPoorlyText: ""
+    };
+    
+    // Reset all option buttons
+    document.querySelectorAll(".reflection-option").forEach(option => {
+        option.classList.remove("selected");
+    });
+    
+    // Reset dropdowns and text inputs
+    document.getElementById("emotion-dropdown").value = "";
+    document.getElementById("entry-reason-other").style.display = "none";
+    document.getElementById("entry-reason-other").value = "";
+    document.getElementById("emotion-description").value = "";
+    document.getElementById("what-went-well-poorly").value = "";
+}
 
 // Save ranking button handler
 document.getElementById("trade-ranking-save").addEventListener("click", async function() {
@@ -874,13 +926,17 @@ document.getElementById("trade-ranking-save").addEventListener("click", async fu
                 rank: selectedRank
             })
         });
+
+        console.log(currentTradeIdForRanking)
         
         const result = await response.text();
         
         if (response.ok && result !== "Error") {
             client_server_debounce = false;
             await sleep(500);
-            location.reload();
+            hideRankingModal();
+            // Show reflection modal after ranking is saved
+            await showReflectionModal(currentTradeIdForRanking);
         } else {
             client_server_debounce = false;
             this.disabled = false;
@@ -895,6 +951,256 @@ document.getElementById("trade-ranking-save").addEventListener("click", async fu
     }
 });
 
+// Reflection Modal Event Handlers
+
+// Handle reflection option clicks
+document.querySelectorAll(".reflection-option").forEach(option => {
+    option.addEventListener("click", function() {
+        const questionType = this.closest(".reflection-question");
+        const allOptionsInQuestion = questionType.querySelectorAll(".reflection-option");
+        
+        // Remove selected from all options in this question
+        allOptionsInQuestion.forEach(opt => {
+            opt.classList.remove("selected");
+        });
+        
+        // Add selected to clicked option
+        this.classList.add("selected");
+        const value = this.getAttribute("data-value");
+        
+        // Store the value based on which question it belongs to
+        if (this.closest(".reflection-question").querySelector(".reflection-question-text").textContent.includes("follow your strategy")) {
+            reflectionData.strategyRulesFollowed = value;
+        } else if (this.closest(".reflection-question").querySelector(".reflection-question-text").textContent.includes("primary reason")) {
+            reflectionData.primaryEntryReason = value;
+            
+            // Show/hide "Other" text input
+            if (value === "other-entry") {
+                document.getElementById("entry-reason-other").style.display = "block";
+            } else {
+                document.getElementById("entry-reason-other").style.display = "none";
+                reflectionData.entryReasonOtherText = null;
+            }
+        } else if (this.closest(".reflection-question").querySelector(".reflection-question-text").textContent.includes("take this trade again")) {
+            reflectionData.wouldRetakeTrade = value;
+        }
+    });
+});
+
+// Handle "Other" entry reason text input
+document.getElementById("entry-reason-other").addEventListener("input", function() {
+    reflectionData.entryReasonOtherText = this.value.trim();
+});
+
+// Handle emotion dropdown change
+document.getElementById("emotion-dropdown").addEventListener("change", function() {
+    reflectionData.emotionAfterTrade = this.value;
+});
+
+// Handle emotion description textarea
+document.getElementById("emotion-description").addEventListener("input", function() {
+    reflectionData.emotionDescriptionText = this.value.trim();
+});
+
+// Handle "What went well/poorly" textarea
+document.getElementById("what-went-well-poorly").addEventListener("input", function() {
+    reflectionData.whatWentWellPoorlyText = this.value.trim();
+});
+
+// Save reflection button handler
+document.getElementById("reflection-save").addEventListener("click", async function() {
+    console.log(currentTradeIdForReflection)
+    if (!currentTradeIdForReflection) {
+        return;
+    }
+    
+    // Validate required fields
+    if (!reflectionData.strategyRulesFollowed || !reflectionData.primaryEntryReason || !reflectionData.wouldRetakeTrade || !reflectionData.emotionAfterTrade) {
+        alert("Please answer all required questions before submitting.");
+        return;
+    }
+    
+    // If "Other" was selected for entry reason, require the text
+    if (reflectionData.primaryEntryReason === "other-entry" && !reflectionData.entryReasonOtherText) {
+        alert("Please describe your entry reason.");
+        return;
+    }
+    
+    // Disable button and show loading
+    this.disabled = true;
+    client_server_debounce = true;
+    loadingFrame(1000, "Saving Reflection...", "Reflection Saved.");
+    
+    try {
+        const response = await fetch("https://save-reflection-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                tradeId: currentTradeIdForReflection,
+                reflection: {
+                    strategyRulesFollowed: reflectionData.strategyRulesFollowed,
+                    primaryEntryReason: reflectionData.primaryEntryReason,
+                    entryReasonOtherText: reflectionData.entryReasonOtherText || null,
+                    wouldRetakeTrade: reflectionData.wouldRetakeTrade,
+                    emotionAfterTrade: reflectionData.emotionAfterTrade,
+                    emotionDescriptionText: reflectionData.emotionDescriptionText || "",
+                    whatWentWellPoorlyText: reflectionData.whatWentWellPoorlyText || "",
+                    completedAt: Date.now() / 1000
+                }
+            })
+        });
+        
+        const result = await response.text();
+        
+        if (response.ok && result !== "Error") {
+            client_server_debounce = false;
+            await sleep(300);
+            hideReflectionModal();
+            
+            // Show AI analysis loading modal
+            showAIAnalysisLoading();
+            
+            // Start AI analysis
+            console.log(currentTradeIdForReflection)
+            try {
+                await analyzeTradeReflection(currentTradeIdForReflection);
+            } catch (error) {
+                console.error("Error analyzing reflection:", error);
+                hideAIAnalysisLoading();
+                // Continue to reload even if analysis fails
+                await updateClientData();
+                await sleep(100);
+                location.href = "../TradeLogging/tradelogging.html";
+            }
+        } else {
+            client_server_debounce = false;
+            this.disabled = false;
+            console.error("Failed to save reflection:", result);
+            alert("Failed to save reflection. Please try again.");
+        }
+    } catch (error) {
+        client_server_debounce = false;
+        this.disabled = false;
+        console.error("Error saving reflection:", error);
+        alert("An error occurred. Please try again.");
+    }
+});
+
+// Skip reflection button handler
+document.getElementById("reflection-skip").addEventListener("click", async function() {
+    hideReflectionModal();
+    await updateClientData();
+    await sleep(100);
+    location.href = "../TradeLogging/tradelogging.html";
+});
+
+// AI Analysis Functions
+function showAIAnalysisLoading() {
+    const modal = document.getElementById("ai-analysis-loading-modal");
+    const stepText = document.getElementById("ai-loading-step");
+    const progressBar = document.getElementById("ai-loading-progress-bar");
+    
+    modal.style.display = "flex";
+    stepText.textContent = "Reading trade data...";
+    progressBar.style.width = "20%";
+    
+    // Animate progress steps
+    setTimeout(() => {
+        stepText.textContent = "Analyzing reflection...";
+        progressBar.style.width = "40%";
+    }, 800);
+    
+    setTimeout(() => {
+        stepText.textContent = "Reviewing pre-trade session...";
+        progressBar.style.width = "60%";
+    }, 1600);
+    
+    setTimeout(() => {
+        stepText.textContent = "Generating insights...";
+        progressBar.style.width = "80%";
+    }, 2400);
+}
+
+function hideAIAnalysisLoading() {
+    const modal = document.getElementById("ai-analysis-loading-modal");
+    modal.style.display = "none";
+}
+
+function showAIInsights(insightText) {
+    const modal = document.getElementById("ai-insights-modal");
+    const insightElement = document.getElementById("ai-insights-text");
+    
+    // Clear the element first
+    insightElement.textContent = "";
+    modal.style.display = "flex";
+    lucide.createIcons();
+    
+    // Animate text appearance (typewriter effect)
+    animateTextAppearance(insightElement, insightText);
+}
+
+// Function to animate text appearance (typewriter effect)
+async function animateTextAppearance(element, text) {
+    const speed = 20; // milliseconds per character
+    
+    for (let i = 0; i <= text.length; i++) {
+        const currentText = text.substring(0, i);
+        element.textContent = currentText;
+        
+        if (i < text.length) {
+            await sleep(speed);
+        }
+    }
+}
+
+function hideAIInsights() {
+    const modal = document.getElementById("ai-insights-modal");
+    modal.style.display = "none";
+}
+
+async function analyzeTradeReflection(tradeId) {
+    const stepText = document.getElementById("ai-loading-step");
+    const progressBar = document.getElementById("ai-loading-progress-bar");
+    console.log(tradeId)
+    try {
+        stepText.textContent = "Connecting to AI...";
+        progressBar.style.width = "90%";
+        
+        const response = await fetch("https://analyze-post-trade-reflection-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
+                tradeId: tradeId
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.insight) {
+            progressBar.style.width = "100%";
+            stepText.textContent = "Complete!";
+            await sleep(500);
+            
+            hideAIAnalysisLoading();
+            showAIInsights(result.insight);
+        } else {
+            throw new Error(result.error || "Analysis failed");
+        }
+    } catch (error) {
+        console.error("Error in AI analysis:", error);
+        throw error;
+    }
+}
+
+// AI Insights close button handler
+document.getElementById("ai-insights-close").addEventListener("click", async function() {
+    // Don't hide the modal, just reload the page
+    await updateClientData();
+    await sleep(100);
+    location.href = "../TradeLogging/tradelogging.html";
+});
 
 // Fetch recent pre-trades from clientData
 function fetchRecentPreTrades() {
@@ -996,7 +1302,7 @@ function populatePreTradeDropdown() {
 function linkPreTradeSession(sessionId) {
     try {
         let session = recentPreTrades.find(s => s.id === sessionId);
-        
+        console.log(session)
         if (!session && clientData && clientData.result) {
             // Try to get from clientData if not in recent list
             const preTradeSessions = clientData.result.preTradeSessions || {};
@@ -1292,8 +1598,17 @@ function handleURLParams() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // Initialize pre-trade UI
+    await getClientData()
+    await sleep(100)
+
+    console.log(clientData.result)
+    
+    reloadPage()
+    loadDropDowns()
+
+
     updatePreTradeUI();
     
     // Fetch recent pre-trades from clientData, then handle URL params
@@ -1332,18 +1647,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 async function logINIT() {
-    await getClientData()
-    await sleep(100)
 
-    console.log(clientData.result)
-    
-    reloadPage()
-    loadDropDowns()
-    fetchRecentPreTrades() // Load pre-trade sessions from clientData
-    
-    // Handle URL params after data is loaded
-    await sleep(100); // Small delay to ensure fetchRecentPreTrades completes
-    handleURLParams();
 }
 
 

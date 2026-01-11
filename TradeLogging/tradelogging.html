@@ -402,6 +402,111 @@
         </div>
     </div>
 
+    <!-- AI Analysis Loading Modal -->
+    <div id="ai-analysis-loading-modal" class="ai-analysis-loading-modal" style="display: none;">
+        <div class="ai-analysis-loading-content">
+            <div class="ai-loading-spinner">
+                <i class="spin-icon-large" data-lucide="loader"></i>
+            </div>
+            <p class="ai-loading-title inter-text">Analyzing Your Trade</p>
+            <p class="ai-loading-step inter-text" id="ai-loading-step">Reading trade data...</p>
+            <div class="ai-loading-progress">
+                <div class="ai-loading-progress-bar" id="ai-loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Insights Display Modal -->
+    <div id="ai-insights-modal" class="ai-insights-modal" style="display: none;">
+        <div class="ai-insights-content">
+            <div class="ai-insights-header">
+                <i class="ai-insights-icon" data-lucide="brain"></i>
+                <p class="ai-insights-title inter-text">Trade Insight</p>
+            </div>
+            <div class="ai-insights-body">
+                <p class="ai-insights-text inter-text" id="ai-insights-text"></p>
+            </div>
+            <div class="ai-insights-footer">
+                <button id="ai-insights-close" class="ai-insights-close-button inter-text green-button">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post-Trade Reflection Modal -->
+    <div id="post-trade-reflection-modal" class="post-trade-reflection-modal" style="display: none;">
+        <div class="post-trade-reflection-content">
+            <p class="reflection-title inter-text">Trade Reflection</p>
+            <p class="reflection-subtitle inter-text">Help us understand your execution and mindset</p>
+            
+            <div class="reflection-form">
+                <!-- Question 1: Strategy Adherence -->
+                <div class="reflection-question">
+                    <p class="reflection-question-text inter-text">Did you follow your strategy rules on this trade?</p>
+                    <div class="reflection-options">
+                        <button class="reflection-option" data-value="yes">Yes</button>
+                        <button class="reflection-option" data-value="mostly">Mostly</button>
+                        <button class="reflection-option" data-value="partially">Partially</button>
+                        <button class="reflection-option" data-value="no">No</button>
+                    </div>
+                </div>
+
+                <!-- Question 2: Entry Motivation -->
+                <div class="reflection-question">
+                    <p class="reflection-question-text inter-text">What was your primary reason for entering this trade?</p>
+                    <div class="reflection-options">
+                        <button class="reflection-option" data-value="setup-matched">Setup matched my criteria</button>
+                        <button class="reflection-option" data-value="fomo">FOMO</button>
+                        <button class="reflection-option" data-value="revenge">Revenge trading</button>
+                        <button class="reflection-option" data-value="boredom">Boredom</button>
+                        <button class="reflection-option" data-value="recover-losses">Trying to recover losses</button>
+                        <button class="reflection-option" data-value="other-entry">Other</button>
+                    </div>
+                    <input type="text" id="entry-reason-other" class="reflection-text-input inter-text" placeholder="Describe" style="display: none; margin-top: 10px;">
+                </div>
+
+                <!-- Question 3: Re-take Decision -->
+                <div class="reflection-question">
+                    <p class="reflection-question-text inter-text">If you could take this trade again, would you?</p>
+                    <div class="reflection-options">
+                        <button class="reflection-option" data-value="definitely">Definitely</button>
+                        <button class="reflection-option" data-value="probably">Probably</button>
+                        <button class="reflection-option" data-value="unsure">Unsure</button>
+                        <button class="reflection-option" data-value="probably-not">Probably not</button>
+                        <button class="reflection-option" data-value="definitely-not">Definitely not</button>
+                    </div>
+                </div>
+
+                <!-- Question 4: Emotional State -->
+                <div class="reflection-question">
+                    <p class="reflection-question-text inter-text">How do you feel after this trade?</p>
+                    <select id="emotion-dropdown" class="reflection-dropdown inter-text">
+                        <option value="">Select an emotion...</option>
+                        <option value="relieved">Relieved</option>
+                        <option value="disappointed">Disappointed</option>
+                        <option value="vindicated">Vindicated</option>
+                        <option value="regretful">Regretful</option>
+                        <option value="confident">Confident</option>
+                        <option value="frustrated">Frustrated</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="other-emotion">Other</option>
+                    </select>
+                    <textarea id="emotion-description" class="reflection-textarea inter-text" placeholder="Describe how you're feeling" style="margin-top: 10px;"></textarea>
+                </div>
+
+                <!-- Question 5: What went well/poorly -->
+                <div class="reflection-question">
+                    <p class="reflection-question-text inter-text">What did you do well or poorly on this trade? (Optional)</p>
+                    <textarea id="what-went-well-poorly" class="reflection-textarea inter-text" placeholder="Share your thoughts..."></textarea>
+                </div>
+            </div>
+
+            <div class="reflection-buttons">
+                <button id="reflection-save" class="reflection-save-button inter-text green-button">Submit</button>
+                <button id="reflection-skip" class="reflection-skip-button inter-text">Skip</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../dataHandler.js"></script>
     <script src="tradelogging.js"></script>
     <script>
