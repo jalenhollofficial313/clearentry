@@ -904,8 +904,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Initialize Lucide icons
     lucide.createIcons();
-});
-    
+ 
     // Load data button
     document.getElementById('load-data-button').addEventListener('click', loadHistoricalData);
     
@@ -954,39 +953,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
     
-    // Sidebar toggle (mobile)
-    const barIcon = document.querySelector("#bar-icon");
-    const headFrame = document.querySelector(".MainFrame_HeadFrame");
-    
-    // Handle clicks on headframe - check if it's specifically the bar-icon
-    if (headFrame) {
-      headFrame.addEventListener("click", (e) => {
-        // Check if the click target is the bar-icon or inside it
-        const clickedBarIcon = e.target.closest("#bar-icon");
-        
-        if (clickedBarIcon) {
-          // Click was on the bar-icon, toggle sidebar
-          e.stopPropagation();
-          console.log("Check")
-          const sidebar = document.querySelector("#sidebar");
-          if (sidebar) {
-            sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
-          }
+    document.querySelector("#head-frame").addEventListener('click', function(event) {
+        if (event.target.closest('#bar-icon')) {
+            console.log("Check")
+            document.querySelector("#sidebar").style.display = "block";
+        } else {
+            // Click originated outside the overlay
         }
-        // If click is not on bar-icon, do nothing (prevents accidental triggers)
-      });
-    }
-    
-    // Also add direct handler to bar-icon as backup
-    if (barIcon) {
-      barIcon.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevent event bubbling
-        console.log("Check")
-        const sidebar = document.querySelector("#sidebar");
-        if (sidebar) {
-          sidebar.style.display = sidebar.style.display === "block" ? "none" : "block";
-        }
-      });
-    }
+    });
 });
 

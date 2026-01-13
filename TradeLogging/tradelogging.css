@@ -673,6 +673,30 @@ body {
     outline: 1px solid #00ff99;
 }
 
+.entry-select {
+    width: 92%;
+    height: 35px;
+    margin-left: 0;
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    padding-left: 10px;
+    background-color: #191d23e7;
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.entry-select:focus {
+    outline: 1px solid #00ff99;
+}
+
+.entry-select option {
+    background-color: #191d23e7;
+    color: white;
+}
+
 .entry-textarea {
 
     width: 92%;

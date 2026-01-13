@@ -5,7 +5,7 @@
     backdrop-filter: blur(10px);
     border-radius: 19px;
     border: 1px solid rgba(128, 128, 128, 0.123);
-    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    box-shadow: 0px 0px 30px -4px rgba(0, 255, 153, 0.3);
     padding: 18px;
     width: 100%;
     box-sizing: border-box;

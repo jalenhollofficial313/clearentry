@@ -286,19 +286,22 @@ async function reloadPage() {
                 document.querySelector("#img_Frame").style.display = "block";                
             }
 
-            // Update display fields (not dropdowns)
-            const typeDisplay = document.getElementById("type-display")
-            const directionDisplay = document.getElementById("direction-display")
-            const strategyDisplay = document.getElementById("strategy-display")
+            // Update dropdowns for existing trade
+            const typeText = document.getElementById("type-text")
+            const directionText = document.getElementById("direction-text")
+            const strategyText = document.getElementById("strategy-text")
             
-            if (typeDisplay) typeDisplay.textContent = trade['type'] || "-"
-            if (directionDisplay) directionDisplay.textContent = trade['direction'] || "-"
-            if (strategyDisplay) {
-                if (trade['strategy'] && trade['strategy'].length > 0) {
-                    strategyDisplay.textContent = trade['strategy'].join(", ")
-                } else {
-                    strategyDisplay.textContent = "-"
-                }
+            if (typeText && trade['type']) {
+                typeText.textContent = trade['type']
+                tradeEntry['type'] = trade['type']
+            }
+            if (directionText && trade['direction']) {
+                directionText.textContent = trade['direction']
+                tradeEntry['direction'] = trade['direction']
+            }
+            if (strategyText && trade['strategy'] && trade['strategy'].length > 0) {
+                strategyText.textContent = trade['strategy'].join(", ")
+                tradeEntry['strategy'] = trade['strategy']
             }
             
             document.querySelector("#state-text").innerHTML = trade['emotion'] || "State"
@@ -316,12 +319,11 @@ async function reloadPage() {
             document.querySelector("#entry-Vega").value = trade['Vega']
             document.querySelector("#entry-notes").value = trade['notes']
 
-            // Show type/direction row when viewing existing trade
-            const typeDirectionRow = document.getElementById("type-direction-row")
-            if (typeDirectionRow) typeDirectionRow.style.display = "flex"
-
+            // Show options data if type is Options
             if (trade['type'] == "Options") {
                 document.querySelector("#options-data").style.display = "block"
+            } else {
+                document.querySelector("#options-data").style.display = "none"
             }
             
             // Update continue button state (enabled for editing existing trades)
@@ -332,7 +334,171 @@ async function reloadPage() {
         }
     }
     
-    // Note: Strategy is now display-only, populated from pre-trade sessions
+    // Populate type, direction, and strategy dropdowns
+    populateTypeDropdown()
+    populateDirectionDropdown()
+    await populateStrategiesDropdown()
+    
+    // Setup event listeners for type/direction/strategy dropdowns
+    setupTradeDropdownListeners()
+}
+
+// Populate type dropdown
+function populateTypeDropdown() {
+    const typeDropdown = document.getElementById("type-dropdown");
+    if (!typeDropdown) return;
+    
+    typeDropdown.innerHTML = "";
+    const types = ["Stocks", "Options", "Futures", "Crypto", "Forex"];
+    
+    types.forEach(type => {
+        const button = document.createElement("button");
+        button.innerHTML = type;
+        button.classList.add("dropdown-item");
+        button.classList.add("inter-text");
+        
+        button.addEventListener("click", function() {
+            document.getElementById("type-text").textContent = type;
+            tradeEntry['type'] = type;
+            typeDropdown.style.display = "none";
+            
+            // Show/hide options data based on type
+            const optionsData = document.getElementById("options-data");
+            if (optionsData) {
+                if (type === "Options") {
+                    optionsData.style.display = "block";
+                } else {
+                    optionsData.style.display = "none";
+                }
+            }
+        });
+        
+        typeDropdown.appendChild(button);
+    });
+}
+
+// Populate direction dropdown
+function populateDirectionDropdown() {
+    const directionDropdown = document.getElementById("direction-dropdown");
+    if (!directionDropdown) return;
+    
+    directionDropdown.innerHTML = "";
+    const directions = ["Long", "Short"];
+    
+    directions.forEach(direction => {
+        const button = document.createElement("button");
+        button.innerHTML = direction;
+        button.classList.add("dropdown-item");
+        button.classList.add("inter-text");
+        
+        button.addEventListener("click", function() {
+            document.getElementById("direction-text").textContent = direction;
+            tradeEntry['direction'] = direction;
+            directionDropdown.style.display = "none";
+        });
+        
+        directionDropdown.appendChild(button);
+    });
+}
+
+// Fetch and populate strategies dropdown
+async function populateStrategiesDropdown() {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
+        const response = await fetch("https://us-central1-clearentry-5353e.cloudfunctions.net/getPreTradeContext", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+        });
+        
+        if (!response.ok) {
+            console.error("Failed to fetch strategies");
+            return;
+        }
+        
+        const context = await response.json();
+        const strategies = context.strategies || {};
+        const strategyDropdown = document.getElementById("strategy-dropdown");
+        
+        if (!strategyDropdown) return;
+        
+        strategyDropdown.innerHTML = "";
+        
+        if (Object.keys(strategies).length === 0) {
+            const button = document.createElement("button");
+            button.innerHTML = "No strategies available";
+            button.classList.add("dropdown-item");
+            button.classList.add("inter-text");
+            button.disabled = true;
+            strategyDropdown.appendChild(button);
+            return;
+        }
+        
+        for (const [id, strategy] of Object.entries(strategies)) {
+            const button = document.createElement("button");
+            button.innerHTML = `${strategy.name || "Unnamed"} (${strategy.type || "N/A"})`;
+            button.classList.add("dropdown-item");
+            button.classList.add("inter-text");
+            
+            button.addEventListener("click", function() {
+                document.getElementById("strategy-text").textContent = strategy.name || "Unnamed";
+                tradeEntry['strategy'] = [id];
+                strategyDropdown.style.display = "none";
+            });
+            
+            strategyDropdown.appendChild(button);
+        }
+    } catch (error) {
+        console.error("Error populating strategies:", error);
+    }
+}
+
+// Setup event listeners for trade type, direction, and strategy dropdowns
+function setupTradeDropdownListeners() {
+    const typeButton = document.getElementById("type-dropdown-button");
+    const directionButton = document.getElementById("direction-dropdown-button");
+    const strategyButton = document.getElementById("strategy-dropdown-button");
+    const typeDropdown = document.getElementById("type-dropdown");
+    const directionDropdown = document.getElementById("direction-dropdown");
+    const strategyDropdown = document.getElementById("strategy-dropdown");
+    
+    if (typeButton && typeDropdown) {
+        typeButton.addEventListener("click", function() {
+            if (typeDropdown.style.display == "block") {
+                typeDropdown.style.display = "none";
+            } else {
+                typeDropdown.style.display = "block";
+                directionDropdown.style.display = "none";
+                strategyDropdown.style.display = "none";
+            }
+        });
+    }
+    
+    if (directionButton && directionDropdown) {
+        directionButton.addEventListener("click", function() {
+            if (directionDropdown.style.display == "block") {
+                directionDropdown.style.display = "none";
+            } else {
+                directionDropdown.style.display = "block";
+                typeDropdown.style.display = "none";
+                strategyDropdown.style.display = "none";
+            }
+        });
+    }
+    
+    if (strategyButton && strategyDropdown) {
+        strategyButton.addEventListener("click", function() {
+            if (strategyDropdown.style.display == "block") {
+                strategyDropdown.style.display = "none";
+            } else {
+                strategyDropdown.style.display = "block";
+                typeDropdown.style.display = "none";
+                directionDropdown.style.display = "none";
+            }
+        });
+    }
 }
 
 async function loadDropDowns(params) {
@@ -779,12 +945,6 @@ async function loadingFrame(ms, text1, text2) {
 }
 
 document.querySelector("#continue-button").addEventListener("click", async function() {
-    // Require pre-trade session for new trades
-    if (tradeEntry['id'] == "" && !linkedPreTradeSessionId) {
-        alert("Please select a Pre-Trade Session before logging a trade.");
-        return;
-    }
-    
     client_server_debounce = true
     if (tradeEntry['id'] == "") {
         loadingFrame(1000, "Logging Entry...", "Entry Logged.")
@@ -1357,9 +1517,9 @@ function autoFillFromPreTrade() {
     if (!linkedPreTradeSession) return;
     
     const symbolInput = document.querySelector("#entry-SYMBOL");
-    const typeDisplay = document.getElementById("type-display");
-    const directionDisplay = document.getElementById("direction-display");
-    const strategyDisplay = document.getElementById("strategy-display");
+    const typeText = document.getElementById("type-text");
+    const directionText = document.getElementById("direction-text");
+    const strategyText = document.getElementById("strategy-text");
     const optionsDataSection = document.getElementById("options-data");
     
     // Auto-fill symbol (read-only when linked)
@@ -1370,11 +1530,11 @@ function autoFillFromPreTrade() {
         symbolInput.style.cursor = "not-allowed";
     }
     
-    // Auto-fill type (read-only display)
+    // Auto-fill type
     if (linkedPreTradeSession.type) {
         tradeEntry['type'] = linkedPreTradeSession.type;
-        if (typeDisplay) {
-            typeDisplay.textContent = linkedPreTradeSession.type;
+        if (typeText) {
+            typeText.textContent = linkedPreTradeSession.type;
         }
         
         // Show options data if type is Options
@@ -1387,19 +1547,19 @@ function autoFillFromPreTrade() {
         }
     }
     
-    // Auto-fill direction (read-only display)
+    // Auto-fill direction
     if (linkedPreTradeSession.direction) {
         tradeEntry['direction'] = linkedPreTradeSession.direction;
-        if (directionDisplay) {
-            directionDisplay.textContent = linkedPreTradeSession.direction;
+        if (directionText) {
+            directionText.textContent = linkedPreTradeSession.direction;
         }
     }
     
-    // Auto-fill strategy (read-only display)
-    if (linkedPreTradeSession.strategyName) {
-        tradeEntry['strategy'] = [linkedPreTradeSession.strategyName];
-        if (strategyDisplay) {
-            strategyDisplay.textContent = linkedPreTradeSession.strategyName;
+    // Auto-fill strategy
+    if (linkedPreTradeSession.strategyId) {
+        tradeEntry['strategy'] = [linkedPreTradeSession.strategyId];
+        if (strategyText && linkedPreTradeSession.strategyName) {
+            strategyText.textContent = linkedPreTradeSession.strategyName;
         }
     }
     
@@ -1409,9 +1569,9 @@ function autoFillFromPreTrade() {
 // Reset fields when unlinked
 function resetFieldsAfterUnlink() {
     const symbolInput = document.querySelector("#entry-SYMBOL");
-    const typeDisplay = document.getElementById("type-display");
-    const directionDisplay = document.getElementById("direction-display");
-    const strategyDisplay = document.getElementById("strategy-display");
+    const typeText = document.getElementById("type-text");
+    const directionText = document.getElementById("direction-text");
+    const strategyText = document.getElementById("strategy-text");
     const optionsDataSection = document.getElementById("options-data");
     
     if (symbolInput) {
@@ -1421,9 +1581,9 @@ function resetFieldsAfterUnlink() {
         symbolInput.value = "";
     }
     
-    if (typeDisplay) typeDisplay.textContent = "-";
-    if (directionDisplay) directionDisplay.textContent = "-";
-    if (strategyDisplay) strategyDisplay.textContent = "-";
+    if (typeText) typeText.textContent = "Select Type";
+    if (directionText) directionText.textContent = "Select Direction";
+    if (strategyText) strategyText.textContent = "Select Strategy";
     
     if (optionsDataSection) optionsDataSection.style.display = "none";
     
@@ -1438,49 +1598,19 @@ function updateContinueButtonState() {
     const continueButton = document.getElementById("continue-button");
     if (!continueButton) return;
     
-    // Only disable for new trades (not when editing existing trade)
-    if (tradeEntry['id'] == "" && !linkedPreTradeSessionId) {
-        continueButton.disabled = true;
-        continueButton.style.opacity = "0.5";
-        continueButton.style.cursor = "not-allowed";
-    } else {
-        continueButton.disabled = false;
-        continueButton.style.opacity = "1";
-        continueButton.style.cursor = "pointer";
-    }
+    // Always enabled (pre-trade linking is optional)
+    continueButton.disabled = false;
+    continueButton.style.opacity = "1";
+    continueButton.style.cursor = "pointer";
 }
 
 // Update Pre-Trade UI
 function updatePreTradeUI() {
-    const typeDirectionRow = document.getElementById("type-direction-row");
     const unlinkButton = document.getElementById("unlink-pretrade-btn");
     
     if (linkedPreTradeSessionId && linkedPreTradeSession) {
-        // Linked state - show type/direction as read-only displays
-        if (typeDirectionRow) typeDirectionRow.style.display = "flex";
-        
-        // Show info section and unlink button
+        // Show unlink button
         if (unlinkButton) unlinkButton.style.display = "block";
-        
-        // Update pretrade info display
-        const typeDisplay = document.getElementById("pretrade-type-display");
-        const symbolDisplay = document.getElementById("pretrade-symbol-display");
-        const directionDisplay = document.getElementById("pretrade-direction-display");
-        const strategyDisplay = document.getElementById("pretrade-strategy-display");
-        
-        if (typeDisplay) typeDisplay.textContent = linkedPreTradeSession.type || "N/A";
-        if (symbolDisplay) symbolDisplay.textContent = linkedPreTradeSession.symbol || "N/A";
-        if (directionDisplay) directionDisplay.textContent = linkedPreTradeSession.direction || "N/A";
-        if (strategyDisplay) strategyDisplay.textContent = linkedPreTradeSession.strategyName || "N/A";
-        
-        const warningBadge = document.getElementById("pretrade-warning-badge");
-        if (warningBadge) {
-            if (linkedPreTradeSession.proceededWithViolations) {
-                warningBadge.style.display = "inline-block";
-            } else {
-                warningBadge.style.display = "none";
-            }
-        }
         
         // Update dropdown button text
         const timeStr = linkedPreTradeSession.time || new Date(linkedPreTradeSession.createdAt * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
@@ -1489,15 +1619,12 @@ function updatePreTradeUI() {
             pretradeText.innerHTML = `${timeStr} - ${linkedPreTradeSession.symbol || ""} ${linkedPreTradeSession.direction || ""}`;
         }
     } else {
-        // Not linked state - hide type/direction row
-        if (typeDirectionRow) typeDirectionRow.style.display = "none";
-        
-        // Hide info section and unlink button when not linked
+        // Hide unlink button when not linked
         if (unlinkButton) unlinkButton.style.display = "none";
         
         const pretradeText = document.getElementById("pretrade-text");
         if (pretradeText) {
-            pretradeText.innerHTML = "Select a Pre-Trade";
+            pretradeText.textContent = "Select a Pre-Trade";
         }
     }
     
@@ -1599,7 +1726,6 @@ function handleURLParams() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // Initialize pre-trade UI
     await getClientData()
     await sleep(100)
 
@@ -1607,7 +1733,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     reloadPage()
     loadDropDowns()
-
 
     updatePreTradeUI();
     

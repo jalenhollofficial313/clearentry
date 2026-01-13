@@ -255,22 +255,32 @@
                     </div>
                 </div>
 
-                <!-- Trade Type and Direction (Read-only display when pre-trade is linked) -->
-                <div class="flex-box entry-flexdiv" id="type-direction-row" style="display: none;">
+                <!-- Trade Type and Direction -->
+                <div class="flex-box entry-flexdiv">
                     <div class="flexbox-div">
                         <p class="inter-text entry-title2">
                             Trade Type
                         </p>
-                        <div id="type-display" class="inter-text" style="padding: 12px 15px; background-color: #191d23e7; border: 1px solid rgba(128, 128, 128, 0.123); border-radius: 10px; color: #86909a; width: 83%;">
-                            -
+                        <div id="type-dropdown-button" class="dropdown-button inter-text">
+                            <p id="type-text" class="truncate text-div">Select Type</p>
+                            <span class="dropdown-icon">
+                                <i class="icon2" data-lucide="chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="type-dropdown" class="dropdown-div">
                         </div>
                     </div>
                     <div class="flexbox-div">
                         <p class="inter-text entry-title2">
                             Direction                       
                         </p>
-                        <div id="direction-display" class="inter-text" style="padding: 12px 15px; background-color: #191d23e7; border: 1px solid rgba(128, 128, 128, 0.123); border-radius: 10px; color: #86909a; width: 83%;">
-                            -
+                        <div id="direction-dropdown-button" class="dropdown-button inter-text">
+                            <p id="direction-text" class="truncate text-div">Select Direction</p>
+                            <span class="dropdown-icon">
+                                <i class="icon2" data-lucide="chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="direction-dropdown" class="dropdown-div">
                         </div>
                     </div>
                 </div>
@@ -295,10 +305,16 @@
                     </div>
                     <div class="flexbox-div">
                         <p class="inter-text entry-title2">
-                            Strategy                       
+                            Strategy     
+
                         </p>
-                        <div id="strategy-display" class="inter-text" style="padding: 12px 15px; background-color: #191d23e7; border: 1px solid rgba(128, 128, 128, 0.123); border-radius: 10px; color: #86909a;">
-                            -
+                        <div id="strategy-dropdown-button" class="dropdown-button inter-text">
+                            <p id="strategy-text" class="truncate text-div">Select Strategy</p>
+                            <span class="dropdown-icon">
+                                <i class="icon2" data-lucide="chevron-down"></i>
+                            </span>
+                        </div>
+                        <div id="strategy-dropdown" class="dropdown-div">
                         </div>
                     </div>
                 </div>
@@ -319,7 +335,7 @@
                         <p style="margin-top: 5px;" class="inter-text entry-title2">
                             Risk to Reward
                         </p>
-                        <input id="entry-RR" placeholder="EX: 1:2" class="inter-text entry-input2">
+                        <input id="entry-RR" placeholder="EX: 1.2" class="inter-text entry-input2">
                     </div>
 
                 </div>

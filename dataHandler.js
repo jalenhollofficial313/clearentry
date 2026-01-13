@@ -1,5 +1,9 @@
 let clientData = null
 
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function showTokenFailureNotification() {
     // Create notification element if it doesn't exist
     let notification = document.getElementById("token-failure-notification")
