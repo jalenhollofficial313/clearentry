@@ -127,6 +127,27 @@ if (paymentSuccessModal) {
     });
 }
 
+// Extension notification (show once)
+(function() {
+    const EXTENSION_NOTICE_KEY = "extensionNoticeDismissed";
+    const extensionNotification = document.getElementById("extension-notification");
+    const extensionClose = document.getElementById("extension-notification-close");
+
+    extensionNotification.style.display = "block";
+
+    if (extensionClose) {
+        extensionClose.addEventListener("click", () => {
+            if (extensionNotification) {
+                extensionNotification.classList.add("hide");
+                setTimeout(() => {
+                    extensionNotification.style.display = "none";
+                    extensionNotification.classList.remove("hide");
+                }, 300);
+            }
+        });
+    }
+})();
+
 if (paymentCancelModal) {
     paymentCancelModal.addEventListener('click', (e) => {
         if (e.target === paymentCancelModal) {

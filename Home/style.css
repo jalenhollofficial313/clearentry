@@ -1101,6 +1101,17 @@ a {
     height: 16px;
 }
 
+.extension-notification-link {
+    color: #00ff99;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+.extension-notification-link:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .free-notification {
         top: 80px;

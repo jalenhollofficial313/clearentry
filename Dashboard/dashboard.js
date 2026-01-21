@@ -12,6 +12,27 @@ const plCurve = document.getElementById("plCurve")
 const TradeFrame = document.getElementById("TradeFrame")
 const DailyReflectionText = document.getElementById("DailyReflectionText")
 
+// Extension notification (show once)
+function extension_Notice() {
+    const EXTENSION_NOTICE_KEY = "extensionNoticeDismissed";
+    const extensionNotification = document.getElementById("extension-notification");
+    const extensionClose = document.getElementById("extension-notification-close");
+
+    extensionNotification.style.display = "block";
+
+    if (extensionClose) {
+        extensionClose.addEventListener("click", () => {
+            if (extensionNotification) {
+                extensionNotification.classList.add("hide");
+                setTimeout(() => {
+                    extensionNotification.style.display = "none";
+                    extensionNotification.classList.remove("hide");
+                }, 300);
+            }
+        });
+    }
+};
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -618,6 +639,7 @@ async function dashboardINIT() {
     // Hide full page loader
     document.getElementById("dashboard-full-loader").style.display = "none";
     
+    extension_Notice();
     // Check if first time user
     if (clientData && clientData.result && clientData.result.isFirstTimeUser === true) {
         // Hide dashboard content
