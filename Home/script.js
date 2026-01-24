@@ -65,27 +65,42 @@ if (localStorage.getItem("token") != null) {
 
 console.log("check2")
 // Payment modal handling
+const pendingCheckoutKey = "pendingProCheckout";
 const paymentSuccessModal = document.getElementById("payment-success-modal");
 const paymentCancelModal = document.getElementById("payment-cancel-modal");
 const successCloseButton = document.getElementById("success-close-button");
 const cancelCloseButton = document.getElementById("cancel-close-button");
+const successMessage = paymentSuccessModal?.querySelector(".payment-modal-message");
+const defaultSuccessMessage = successMessage ? successMessage.textContent : "";
 
 // Check URL parameters for payment status
 const urlParams = new URLSearchParams(window.location.search);
 const sessionId = urlParams.get('session_id');
 console.log(sessionId)
 const isCancel = window.location.pathname.includes('cancel') || urlParams.get('canceled') === 'true';
+const hasPendingCheckout = localStorage.getItem(pendingCheckoutKey) === "true";
 
 // Show success modal if session_id is present
 if (sessionId) {
     console.log("Payment Successful")
+    localStorage.setItem(pendingCheckoutKey, "true");
     paymentSuccessModal.classList.add('show');
+    if (successMessage) {
+        successMessage.textContent = "Finalizing your subscription. Please wait...";
+    }
     // Reinitialize icons for the modal
     setTimeout(() => {
         lucide.createIcons();
     }, 100);
     // Clean URL
     window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+if (hasPendingCheckout && !sessionId) {
+    paymentSuccessModal.classList.add('show');
+    if (successMessage) {
+        successMessage.textContent = "Finalizing your subscription. Please wait...";
+    }
 }
 
 // Show cancel modal if on cancel page
@@ -102,6 +117,9 @@ if (isCancel) {
 // Close success modal and redirect to dashboard
 if (successCloseButton) {
     successCloseButton.addEventListener('click', () => {
+        if (localStorage.getItem(pendingCheckoutKey) === "true") {
+            return;
+        }
         paymentSuccessModal.classList.remove('show');
         if (localStorage.getItem("token")) {
             window.location.href = "../Dashboard/dashboard.html";
@@ -118,10 +136,83 @@ if (cancelCloseButton) {
     });
 }
 
+function setDashboardButtonsPendingState(isPending) {
+    const disabledStyle = isPending ? "0.6" : "";
+    if (dashboardButton) {
+        dashboardButton.style.pointerEvents = isPending ? "none" : "auto";
+        dashboardButton.style.opacity = disabledStyle;
+    }
+    if (dashboardButton2) {
+        dashboardButton2.style.pointerEvents = isPending ? "none" : "auto";
+        dashboardButton2.style.opacity = disabledStyle;
+    }
+}
+
+async function fetchAccountData(token) {
+    const response = await fetch("https://get-accountdata-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token })
+    });
+    const responseText = await response.text();
+    if (responseText === "Invalid Token") {
+        return null;
+    }
+    try {
+        return JSON.parse(responseText);
+    } catch (e) {
+        return null;
+    }
+}
+
+async function waitForProMembership() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        return false;
+    }
+
+    const maxAttempts = 30;
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+        const data = await fetchAccountData(token);
+        const membership = data?.result?.membership?.toLowerCase();
+
+        if (membership === "pro") {
+            localStorage.removeItem(pendingCheckoutKey);
+            if (successMessage) {
+                successMessage.textContent = defaultSuccessMessage || "Welcome to ClearEntry Pro! Your subscription is now active.";
+            }
+            if (successCloseButton) {
+                successCloseButton.textContent = "Continue to Dashboard";
+                successCloseButton.disabled = false;
+            }
+            setDashboardButtonsPendingState(false);
+            return true;
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+
+    return false;
+}
+
+if (localStorage.getItem(pendingCheckoutKey) === "true") {
+    setDashboardButtonsPendingState(true);
+    if (successCloseButton) {
+        successCloseButton.disabled = true;
+        successCloseButton.textContent = "Finalizing...";
+    }
+    waitForProMembership();
+}
+
 // Close modals when clicking outside
 if (paymentSuccessModal) {
     paymentSuccessModal.addEventListener('click', (e) => {
         if (e.target === paymentSuccessModal) {
+            if (localStorage.getItem(pendingCheckoutKey) === "true") {
+                return;
+            }
             paymentSuccessModal.classList.remove('show');
         }
     });

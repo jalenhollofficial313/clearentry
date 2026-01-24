@@ -637,6 +637,17 @@ async function dashboardINIT() {
         await getClientData()
         await sleep(100)
     }
+
+    if (localStorage.getItem("pendingProCheckout") === "true") {
+        const loaderText = document.querySelector("#dashboard-full-loader .loader-text");
+        if (loaderText) {
+            loaderText.textContent = "Finalizing your subscription...";
+        }
+        const synced = await waitForProMembershipSync();
+        if (!synced) {
+            return;
+        }
+    }
     
     // Hide full page loader
     document.getElementById("dashboard-full-loader").style.display = "none";
@@ -652,6 +663,22 @@ async function dashboardINIT() {
         // Check membership and show subscription gate if Standard
         checkAndShowSubscriptionGate();
     }
+}
+
+async function waitForProMembershipSync() {
+    const maxAttempts = 45;
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+        const membership = clientData?.result?.membership?.toLowerCase();
+        if (membership === "pro") {
+            localStorage.removeItem("pendingProCheckout");
+            return true;
+        }
+
+        await sleep(2000);
+        await getClientData();
+    }
+
+    return false;
 }
 
 function checkAndShowSubscriptionGate() {
