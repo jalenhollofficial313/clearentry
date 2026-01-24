@@ -136,16 +136,20 @@
     border: 1px solid rgba(255, 85, 85, 0.3);
 }
 
+.hero-status-indicator.blocked {
+    color: #ff5555;
+}
+
 .hero-status-indicator.blocked i {
     width: 18px;
     height: 18px;
-    color: #ff5555;
+    color: currentColor;
 }
 
 .hero-status-text {
     font-size: 13px;
     font-weight: 600;
-    color: #ff5555;
+    color: currentColor;
     margin: 0;
 }
 

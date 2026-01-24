@@ -623,6 +623,8 @@ async function loadingFrame(ms, text1, text2) {
 async function dashboardINIT() {
     // Show full page loader
     document.getElementById("dashboard-full-loader").style.display = "flex";
+    document.getElementById("subscription-gate").style.display = "none";
+    document.querySelector(".MainFrame").style.display = "none";
     
     if (localStorage.getItem("firstsign") == "true") {
         loadingFrame(5100, "Loading Data.", "Data Loaded.")
@@ -653,10 +655,18 @@ async function dashboardINIT() {
 }
 
 function checkAndShowSubscriptionGate() {
-    const membership = clientData?.result?.membership || "Standard";
-    const isPro = membership.toLowerCase() === "pro";
+    const membership = clientData?.result?.membership;
+    if (!membership) {
+        document.getElementById("subscription-gate").style.display = "none";
+        document.querySelector(".MainFrame").style.display = "block";
+        return;
+    }
+
+    const normalizedMembership = membership.toLowerCase();
+    const isStandard = normalizedMembership === "standard";
+    const isPro = normalizedMembership === "pro";
     
-    if (!isPro) {
+    if (isStandard) {
         // Show subscription gate
         document.getElementById("subscription-gate").style.display = "flex";
         document.querySelector(".MainFrame").style.display = "none";
@@ -669,12 +679,15 @@ function checkAndShowSubscriptionGate() {
                 window.location.href = "../Home/index.html#pricing";
             });
         }
-    } else {
+    } else if (isPro) {
         // Hide gate and show dashboard
         document.getElementById("subscription-gate").style.display = "none";
         document.querySelector(".MainFrame").style.display = "block";
         loadStats();
         loadGraphs();
+    } else {
+        document.getElementById("subscription-gate").style.display = "none";
+        document.querySelector(".MainFrame").style.display = "block";
     }
 }
 

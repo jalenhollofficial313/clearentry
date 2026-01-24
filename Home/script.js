@@ -221,7 +221,7 @@ if (upgradeButton) {
     const emailMessage = document.getElementById('quick-tour-email-message');
     
     let currentSlide = 1;
-    const totalSlides = 6;
+    const totalSlides = 7;
     
     // Check if modal should be shown (first visit only)
     function shouldShowEntryModal() {
