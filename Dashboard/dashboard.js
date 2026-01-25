@@ -669,12 +669,22 @@ async function dashboardINIT() {
     document.getElementById("dashboard-full-loader").style.display = "none";
     
     extension_Notice();
+    const walkthroughShown = maybeShowPostSignupWalkthrough();
+    if (walkthroughShown) {
+        return;
+    }
+
     // Check if first time user
     if (clientData && clientData.result && clientData.result.isFirstTimeUser === true) {
-        // Hide dashboard content
-        document.querySelector(".MainFrame").style.display = "none";
-        // Show onboarding wizard
-        initOnboarding();
+        const membership = clientData?.result?.membership?.toLowerCase();
+        if (membership === "pro") {
+            // Hide dashboard content
+            document.querySelector(".MainFrame").style.display = "none";
+            // Show onboarding wizard
+            initOnboarding();
+        } else {
+            checkAndShowSubscriptionGate();
+        }
     } else {
         // Check membership and show subscription gate if Standard
         checkAndShowSubscriptionGate();
@@ -731,6 +741,206 @@ function checkAndShowSubscriptionGate() {
     } else {
         document.getElementById("subscription-gate").style.display = "none";
         document.querySelector(".MainFrame").style.display = "block";
+    }
+}
+
+function maybeShowPostSignupWalkthrough() {
+    const walkthroughModal = document.getElementById("post-signup-walkthrough");
+    if (!walkthroughModal || !clientData?.result) {
+        return false;
+    }
+
+    const isFirstTimeUser = clientData.result.isFirstTimeUser === true;
+    const cameFromSignup = localStorage.getItem("firstsign") === "true";
+    if (isFirstTimeUser || cameFromSignup) {
+        showPostSignupWalkthrough();
+        return true;
+    }
+
+    return false;
+}
+
+async function startProCheckout(button) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "../Home/login.html";
+        return;
+    }
+
+    const originalText = button ? button.textContent : "";
+    try {
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Processing...";
+        }
+
+        const response = await fetch("https://create-checkout-session-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token })
+        });
+
+        const checkoutUrl = await response.text();
+        if (response.ok && checkoutUrl) {
+            localStorage.setItem("pendingProCheckout", "true");
+            window.location.href = checkoutUrl;
+        } else {
+            console.error("Failed to create checkout session:", checkoutUrl);
+            alert("Failed to start checkout. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error creating checkout session:", error);
+        alert("An error occurred. Please try again.");
+    } finally {
+        if (button) {
+            button.disabled = false;
+            button.textContent = originalText;
+        }
+    }
+}
+
+async function markPostSignupWalkthroughComplete() {
+    try {
+        const token = localStorage.getItem("token") || "";
+        if (!token) {
+            return;
+        }
+        await fetch("https://complete-post-signup-walkthrough-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token })
+        });
+    } catch (error) {
+        console.warn("Failed to mark walkthrough complete:", error);
+    }
+}
+
+function showPostSignupWalkthrough() {
+    const walkthroughModal = document.getElementById("post-signup-walkthrough");
+    const closeButton = document.getElementById("post-signup-close");
+    const prevButton = document.getElementById("post-signup-prev");
+    const nextButton = document.getElementById("post-signup-next");
+    const ctaButton = document.getElementById("post-signup-cta");
+    const progressDots = walkthroughModal.querySelectorAll(".quick-tour-progress-dot");
+    const slides = walkthroughModal.querySelectorAll(".quick-tour-slide");
+
+    let currentSlide = 1;
+    const totalSlides = slides.length;
+
+    function updateSlide() {
+        slides.forEach((slide, index) => {
+            if (index + 1 === currentSlide) {
+                slide.classList.add("active");
+            } else {
+                slide.classList.remove("active");
+            }
+        });
+
+        progressDots.forEach((dot, index) => {
+            if (index + 1 === currentSlide) {
+                dot.classList.add("active");
+            } else {
+                dot.classList.remove("active");
+            }
+        });
+
+        if (prevButton) {
+            prevButton.disabled = currentSlide === 1;
+        }
+        if (nextButton) {
+            nextButton.style.display = currentSlide === totalSlides ? "none" : "inline-flex";
+        }
+
+        slides.forEach((slide, index) => {
+            const video = slide.querySelector(".walkthrough-video");
+            if (!video) {
+                return;
+            }
+
+            if (index + 1 === currentSlide) {
+                if (!video.getAttribute("src") && video.dataset.src) {
+                    video.setAttribute("src", video.dataset.src);
+                    video.load();
+                }
+                video.currentTime = 0;
+                const playPromise = video.play();
+                if (playPromise && typeof playPromise.catch === "function") {
+                    playPromise.catch(() => {});
+                }
+            } else {
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+
+        lucide.createIcons();
+    }
+
+    function nextSlide() {
+        if (currentSlide < totalSlides) {
+            currentSlide += 1;
+            updateSlide();
+        }
+    }
+
+    function prevSlide() {
+        if (currentSlide > 1) {
+            currentSlide -= 1;
+            updateSlide();
+        }
+    }
+
+    function closeWalkthrough() {
+        walkthroughModal.classList.remove("show");
+    }
+
+    async function finishWalkthrough() {
+        const membership = clientData?.result?.membership?.toLowerCase();
+        if (membership !== "pro") {
+            closeWalkthrough();
+            checkAndShowSubscriptionGate();
+            return;
+        }
+
+        await markPostSignupWalkthroughComplete();
+        closeWalkthrough();
+        if (clientData?.result?.isFirstTimeUser === true) {
+            initOnboarding();
+        } else {
+            checkAndShowSubscriptionGate();
+        }
+    }
+
+    walkthroughModal.classList.add("show");
+    document.getElementById("subscription-gate").style.display = "none";
+    document.querySelector(".MainFrame").style.display = "none";
+
+    updateSlide();
+
+    if (nextButton) {
+        nextButton.addEventListener("click", nextSlide);
+    }
+    if (prevButton) {
+        prevButton.addEventListener("click", prevSlide);
+    }
+    progressDots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+            currentSlide = index + 1;
+            updateSlide();
+        });
+    });
+    if (ctaButton) {
+        ctaButton.addEventListener("click", () => startProCheckout(ctaButton));
+    }
+    if (closeButton) {
+        closeButton.addEventListener("click", () => {
+            closeWalkthrough();
+            checkAndShowSubscriptionGate();
+        });
     }
 }
 

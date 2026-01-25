@@ -334,6 +334,7 @@
     background-color: #00ff99;
     color: black;
     box-shadow: 0px 0px 35px -10px #00ff99;
+    border: none;
 }
 
 .green-button:hover {
@@ -375,6 +376,356 @@
     font-size: 18px;
     font-weight: 600;
     margin: 0 0 15px 0;
+}
+
+/* Post-Signup Walkthrough */
+.quick-tour-walkthrough {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 10002;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.quick-tour-walkthrough.show {
+    display: flex;
+}
+
+.quick-tour-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(128, 128, 128, 0.2);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 250ms;
+    z-index: 10003;
+}
+
+.quick-tour-close-btn:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+    transform: scale(1.1);
+}
+
+.quick-tour-close-btn i {
+    width: 24px;
+    height: 24px;
+}
+
+.quick-tour-container {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    background-color: #191d23e7;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
+    border-radius: 19px;
+    padding: 60px 40px 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    animation: scaleIn 0.4s ease-out;
+    box-sizing: border-box;
+}
+
+.quick-tour-slide {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: slideScaleIn 0.4s ease-out;
+    margin-bottom: 15px;
+}
+
+.quick-tour-slide.active {
+    display: flex;
+}
+
+.quick-tour-slide-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 50px;
+}
+
+.quick-tour-slide-icon.problem-icon {
+    background-color: #ff47472c;
+    color: #ff4747;
+}
+
+.quick-tour-slide-icon.solution-icon,
+.quick-tour-slide-icon.validation-icon,
+.quick-tour-slide-icon.analytics-icon,
+.quick-tour-slide-icon.results-icon {
+    background-color: #00ff992c;
+    color: #00ff99;
+}
+
+.quick-tour-slide-icon i {
+    width: 60px;
+    height: 60px;
+}
+
+.quick-tour-slide-headline {
+    font-size: clamp(30px, 4.8vw, 44px);
+    font-weight: 700;
+    color: white;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.quick-tour-slide-copy {
+    font-size: clamp(16px, 2.4vw, 20px);
+    font-weight: 400;
+    color: #86909a;
+    margin: 20px 0 30px 0;
+    line-height: 1.6;
+    max-width: 700px;
+}
+
+.walkthrough-video-frame {
+    width: 100%;
+    max-width: 720px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(128, 128, 128, 0.12);
+    box-shadow: 0px 10px 30px -15px rgba(0, 0, 0, 0.7);
+    background-color: #0f1115;
+}
+
+.walkthrough-video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background-color: #0f1115;
+}
+
+.walkthrough-pricing-card {
+    width: 100%;
+    max-width: 520px;
+    background: #0f1115;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 28px 24px 24px;
+    box-shadow: 0px 20px 40px -25px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.walkthrough-pricing-badge {
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    background: #00ff99;
+    color: #0a0c0f;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.walkthrough-pricing-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.walkthrough-pricing-plan-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: #ffffff;
+}
+
+.walkthrough-pricing-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.walkthrough-pricing-amount {
+    font-size: 40px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.walkthrough-pricing-period {
+    font-size: 16px;
+    color: #86909a;
+}
+
+.walkthrough-pricing-trial {
+    margin: 0;
+    color: #00ff99;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.walkthrough-pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    display: grid;
+    gap: 10px;
+}
+
+.walkthrough-pricing-feature-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.walkthrough-pricing-check-icon {
+    width: 18px;
+    height: 18px;
+    color: #00ff99;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.walkthrough-pricing-feature-text {
+    color: #d6dbe1;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.walkthrough-pricing-button {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    margin-top: 6px;
+}
+
+.walkthrough-pricing-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.walkthrough-pricing-subtext {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: #86909a;
+    text-align: center;
+}
+
+.quick-tour-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 10px;
+}
+
+.quick-tour-nav-button {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 250ms;
+}
+
+.quick-tour-nav-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.quick-tour-nav-button:not(:disabled):hover {
+    transform: scale(1.03);
+}
+
+.quick-tour-nav-button.green-button {
+    background-color: #00ff99;
+    color: black;
+    border: none;
+    box-shadow: 0px 0px 35px -10px #00ff99;
+}
+
+.quick-tour-nav-button.green-button:not(:disabled):hover {
+    background-color: #00ff99;
+    box-shadow: 0px 0px 35px -10px #00ff99;
+}
+
+.quick-tour-progress {
+    display: flex;
+    gap: 10px;
+}
+
+.quick-tour-progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: 250ms;
+}
+
+.quick-tour-progress-dot.active {
+    background-color: #00ff99;
+    box-shadow: 0 0 10px #00ff99;
+}
+
+.quick-tour-cta-buttons {
+    margin-top: 10px;
+}
+
+.quick-tour-cta-primary {
+    padding: 12px 28px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px -12px #00ff99;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideScaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .summary-item {
