@@ -558,7 +558,7 @@ a {
     width: 100%;
     min-height: 470px;
     height: auto;
-    display: flex;
+    display: none; /* Temporary: hide video section */
     flex-direction: column;
     background-color: #11181b;
     padding: 0 20px 40px;
