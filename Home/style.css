@@ -1236,6 +1236,12 @@ a {
     text-decoration: underline;
 }
 
+@media (max-width: 900px) {
+    #extension-notification {
+        display: none !important;
+    }
+}
+
 @media (max-width: 768px) {
     .free-notification {
         top: 80px;
