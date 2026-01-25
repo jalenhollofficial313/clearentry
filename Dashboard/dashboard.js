@@ -37,6 +37,20 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function resolveTradeStrategies(strategyField, strategies = {}) {
+    if (!strategyField || strategyField === "") {
+        return [];
+    }
+
+    const values = Array.isArray(strategyField) ? strategyField : [strategyField];
+    return values
+        .map(value => {
+            const strategy = strategies[value];
+            return strategy && strategy.name ? strategy.name : value;
+        })
+        .filter(value => value);
+}
+
 function convertUnixToMonthDay(timestamp) {
   const date = new Date(timestamp * 1000); 
   const options = { month: 'long', day: 'numeric' };
@@ -243,7 +257,9 @@ async function loadStats() {
         tradediv.appendChild(symboltext)
 
         const strategyText = document.createElement("p")
-        strategyText.innerHTML = trades[trade]["strategy"]
+        const strategies = clientData?.result?.strategies || {}
+        const resolvedStrategies = resolveTradeStrategies(trades[trade]["strategy"], strategies)
+        strategyText.textContent = resolvedStrategies.join(", ")
         strategyText.classList.add("inter-text")
         strategyText.classList.add("trade-text")
         strategyText.classList.add("truncate")
