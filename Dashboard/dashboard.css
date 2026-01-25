@@ -183,6 +183,12 @@
     text-decoration: underline;
 }
 
+@media (max-width: 900px) {
+    #extension-notification {
+        display: none !important;
+    }
+}
+
 .dashboard-notification-close {
     width: 28px;
     height: 28px;
