@@ -296,6 +296,7 @@ if (upgradeButton) {
 (function() {
     const ENTRY_MODAL_KEY = 'quickTourEntryShown';
     const TOUR_COMPLETE_KEY = 'quickTourCompleted';
+    const DEMO_TRACK_ENDPOINT = 'https://track-demo-use-b52ovbio5q-uc.a.run.app';
     
     const entryModal = document.getElementById('quick-tour-entry-modal');
     const walkthroughModal = document.getElementById('quick-tour-walkthrough');
@@ -344,6 +345,22 @@ if (upgradeButton) {
         }
     }
     
+    async function trackDemoUse(source) {
+        try {
+            await fetch(DEMO_TRACK_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    source: source || 'unknown'
+                })
+            });
+        } catch (error) {
+            console.warn('Demo tracking failed:', error);
+        }
+    }
+
     // Show walkthrough modal
     function showWalkthrough() {
         entryModal.classList.remove('show');
@@ -353,6 +370,11 @@ if (upgradeButton) {
         updateSlide();
         lucide.createIcons();
     }
+
+    window.openDemoFromSource = (source) => {
+        trackDemoUse(source);
+        showWalkthrough();
+    };
     
     // Close entry modal
     function closeEntryModal() {
@@ -471,7 +493,9 @@ if (upgradeButton) {
     
     // Event listeners
     if (yesButton) {
-        yesButton.addEventListener('click', showWalkthrough);
+        yesButton.addEventListener('click', () => {
+            window.openDemoFromSource?.('entry_modal');
+        });
     }
     
     if (noButton) {
@@ -483,7 +507,7 @@ if (upgradeButton) {
     if (quickTourTrigger) {
         quickTourTrigger.addEventListener('click', function(e) {
             e.preventDefault();
-            showWalkthrough();
+            window.openDemoFromSource?.('hero_cta');
         });
     }
     
@@ -526,8 +550,85 @@ if (upgradeButton) {
         }
     });
     
-    // Initialize on page load
-    if (shouldShowEntryModal()) {
-        showEntryModal();
+})();
+
+// Exit intent modal (desktop only)
+(function() {
+    const EXIT_INTENT_KEY = 'exitIntentShown';
+    const exitModal = document.getElementById('exit-intent-modal');
+    if (!exitModal) {
+        return;
     }
+
+    const watchButton = document.getElementById('exit-intent-watch');
+    const closeButton = document.getElementById('exit-intent-close');
+    const quickTourTrigger = document.getElementById('quick-tour-trigger');
+    const entryModal = document.getElementById('quick-tour-entry-modal');
+    const walkthroughModal = document.getElementById('quick-tour-walkthrough');
+    const supportsExitIntent = window.matchMedia('(pointer: fine)').matches;
+
+    function canShowExitIntent() {
+        if (!supportsExitIntent) {
+            return false;
+        }
+        if (sessionStorage.getItem(EXIT_INTENT_KEY)) {
+            return false;
+        }
+        if (exitModal.classList.contains('show')) {
+            return false;
+        }
+        if (entryModal?.classList.contains('show') || walkthroughModal?.classList.contains('show')) {
+            return false;
+        }
+        return true;
+    }
+
+    function showExitIntent() {
+        if (!canShowExitIntent()) {
+            return;
+        }
+        exitModal.classList.add('show');
+        sessionStorage.setItem(EXIT_INTENT_KEY, 'true');
+        lucide.createIcons();
+    }
+
+    function closeExitIntent() {
+        exitModal.classList.remove('show');
+    }
+
+    if (watchButton) {
+        watchButton.addEventListener('click', () => {
+            closeExitIntent();
+            if (window.openDemoFromSource) {
+                window.openDemoFromSource('exit_intent');
+            } else if (quickTourTrigger) {
+                quickTourTrigger.click();
+            }
+        });
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', closeExitIntent);
+    }
+
+    exitModal.addEventListener('click', (event) => {
+        if (event.target === exitModal) {
+            closeExitIntent();
+        }
+    });
+
+    document.addEventListener('mouseleave', (event) => {
+        if (event.clientY <= 0) {
+            showExitIntent();
+        }
+    });
+
+    document.addEventListener('mouseout', (event) => {
+        if (event.relatedTarget || event.toElement) {
+            return;
+        }
+        if (event.clientY <= 0) {
+            showExitIntent();
+        }
+    });
 })();
