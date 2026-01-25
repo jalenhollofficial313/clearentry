@@ -443,8 +443,9 @@ async function populateStrategiesDropdown() {
             button.classList.add("inter-text");
             
             button.addEventListener("click", function() {
-                document.getElementById("strategy-text").textContent = strategy.name || "Unnamed";
-                tradeEntry['strategy'] = [id];
+                const strategyName = strategy.name || "Unnamed";
+                document.getElementById("strategy-text").textContent = strategyName;
+                tradeEntry['strategy'] = [strategyName];
                 strategyDropdown.style.display = "none";
             });
             
@@ -1557,7 +1558,7 @@ function autoFillFromPreTrade() {
     
     // Auto-fill strategy
     if (linkedPreTradeSession.strategyId) {
-        tradeEntry['strategy'] = [linkedPreTradeSession.strategyId];
+        tradeEntry['strategy'] = [linkedPreTradeSession.strategyName || "Unnamed Strategy"];
         if (strategyText && linkedPreTradeSession.strategyName) {
             strategyText.textContent = linkedPreTradeSession.strategyName;
         }

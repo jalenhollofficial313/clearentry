@@ -13,6 +13,7 @@ const clearFiltersButton = document.getElementById("clear-filters");
 
 // Store all trades for filtering
 let allTrades = [];
+let strategyLookup = {};
 
 const entryView = document.getElementById("TradeView")
 const entryViewList = document.getElementsByClassName("MainFrame_TradeEntryView_TradeFrame_div_dropdown")
@@ -45,6 +46,20 @@ function formatTime(seconds) {
     }
 
     return result.join(' ');
+}
+
+function resolveTradeStrategies(strategyField) {
+  if (!strategyField || strategyField === "") {
+    return [];
+  }
+
+  const values = Array.isArray(strategyField) ? strategyField : [strategyField];
+  return values
+    .map(value => {
+      const strategy = strategyLookup[value];
+      return strategy && strategy.name ? strategy.name : value;
+    })
+    .filter(value => value);
 }
 
 let client_server_debounce = false
@@ -121,11 +136,7 @@ function populateFilterOptions(trades) {
   
   trades.forEach(trade => {
     if (trade.strategy && trade.strategy !== "") {
-      if (Array.isArray(trade.strategy)) {
-        trade.strategy.forEach(s => strategies.add(s));
-      } else {
-        strategies.add(trade.strategy);
-      }
+      resolveTradeStrategies(trade.strategy).forEach(s => strategies.add(s));
     }
     if (trade.emotion && trade.emotion !== "") {
       emotions.add(trade.emotion);
@@ -184,14 +195,9 @@ function filterTrades(trades) {
     
     // Filter by strategy
     if (filterStrategy.value !== "all") {
-      if (Array.isArray(trade.strategy)) {
-        if (!trade.strategy.includes(filterStrategy.value)) {
-          return false;
-        }
-      } else {
-        if (trade.strategy !== filterStrategy.value) {
-          return false;
-        }
+      const resolvedStrategies = resolveTradeStrategies(trade.strategy);
+      if (resolvedStrategies.length === 0 || !resolvedStrategies.includes(filterStrategy.value)) {
+        return false;
       }
     }
     
@@ -247,7 +253,7 @@ function renderTrades(trades) {
     clone.id = ""
 
     // Fill inside the clone (not the whole document)
-    const strategyText = Array.isArray(t.strategy) ? t.strategy.join(", ") : (t.strategy ?? "");
+    const strategyText = resolveTradeStrategies(t.strategy).join(", ");
     clone.querySelector(".strategy-text").textContent = strategyText;
     clone.querySelector(".emotion-text").textContent = t.emotion ?? "";
 
@@ -396,6 +402,7 @@ async function entries_init() {
     await getClientData()
     await sleep(100)
     
+    strategyLookup = clientData?.result?.strategies || {};
 
     loadTrades()
 }
