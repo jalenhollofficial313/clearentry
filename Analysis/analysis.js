@@ -103,12 +103,12 @@ async function fetchAnalysis() {
     showLoading();
     
     try {
-        const response = await fetch("https://ai-reflection-request-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
+    const response = await fetch("https://ai-reflection-request-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
                 token: localStorage.getItem("token"),
                 ...analysisData
             })
@@ -617,8 +617,8 @@ async function init() {
     // Setup sidebar toggle
     document.querySelector("#head-frame").addEventListener('click', function(event) {
         if (event.target.closest('#bar-icon')) {
-            console.log("Check")
-            document.querySelector("#sidebar").style.display = "block";
+    console.log("Check")
+    document.querySelector("#sidebar").style.display = "block";
         } else {
             // Click originated outside the overlay
         }

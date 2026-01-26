@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
     <link rel="icon" type="image/png" href="../Home/clearentrylogo.png">
@@ -17,6 +16,8 @@
 
     <!-- Vercel Web Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
+
+<link href=../Shared/design-system.css rel=stylesheet type=text/css>
 </head>
 <body>
     <div id="sidebar" class="SideBar">
@@ -146,7 +147,7 @@
                 Start Your 10-Day Free Trial
             </h2>
             <p class="subscription-gate-description inter-text">
-                ClearEntry Pro helps you maintain execution discipline with real-time rule validation and accountability tracking.
+                Full access for 10 days. No credit card required.
             </p>
             <ul class="subscription-gate-features">
                 <li class="subscription-gate-feature inter-text">
@@ -180,11 +181,14 @@
             </ul>
             <div class="subscription-gate-buttons">
                 <button id="subscription-gate-cta" class="subscription-gate-button green-button inter-text">
-                    Start 10-day Free Trial
+                    Start Free Trial
                 </button>
             </div>
             <p class="subscription-gate-price inter-text">
                 $12.99/month after trial • Cancel anytime
+            </p>
+            <p class="subscription-gate-subtext inter-text">
+                No credit card required for the first 10 days.
             </p>
             <a href="../Home/index.html" id="subscription-gate-home" class="subscription-gate-link inter-text">
                 Go to Home
@@ -203,6 +207,39 @@
                 <a class="dashboard-notification-link" href="https://chromewebstore.google.com/detail/clearentry/nfkdlajkgidapoepjopaacapgjpigeoa" target="_blank" rel="noreferrer">Get the extension</a>
             </p>
             <button id="extension-notification-close" class="dashboard-notification-close">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Trial Reminder Notification -->
+    <div id="trial-notification" class="dashboard-notification" style="display: none;">
+        <div class="dashboard-notification-content trial-notification-content">
+            <div class="dashboard-notification-icon">
+                <i data-lucide="alarm-clock"></i>
+            </div>
+            <p class="dashboard-notification-text inter-text">
+                Your trial ends in 3 days. Add payment to continue uninterrupted access.
+            </p>
+            <button id="trial-notification-cta" class="trial-notification-button inter-text">
+                Add Payment
+            </button>
+            <button id="trial-notification-close" class="dashboard-notification-close">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Trial Started Notification -->
+    <div id="trial-started-notification" class="dashboard-notification" style="display: none;">
+        <div class="dashboard-notification-content trial-notification-content">
+            <div class="dashboard-notification-icon">
+                <i data-lucide="sparkles"></i>
+            </div>
+            <p class="dashboard-notification-text inter-text">
+                Your free trial is active. You have full access for 10 days.
+            </p>
+            <button id="trial-started-close" class="dashboard-notification-close">
                 <i data-lucide="x"></i>
             </button>
         </div>
@@ -283,57 +320,13 @@
                 <div class="quick-tour-slide-icon validation-icon">
                     <i data-lucide="sparkles"></i>
                 </div>
-                <h2 class="quick-tour-slide-headline inter-text">Start your free trial</h2>
+                <h2 class="quick-tour-slide-headline inter-text">You are ready to trade with structure</h2>
                 <p class="quick-tour-slide-copy inter-text">
-                    Unlock all Pro features and start building discipline with ClearEntry.
+                    Your workspace is set up and your trial is active. Start logging trades and let ClearEntry keep you accountable.
                 </p>
-                <div class="walkthrough-pricing-card">
-                    <div class="walkthrough-pricing-badge inter-text">Popular</div>
-                    <div class="walkthrough-pricing-header">
-                        <p class="inter-text walkthrough-pricing-plan-name">ClearEntry Pro</p>
-                        <div class="walkthrough-pricing-price">
-                            <span class="inter-text walkthrough-pricing-amount">$12.99</span>
-                            <span class="inter-text walkthrough-pricing-period">/month</span>
-                        </div>
-                        <p class="inter-text walkthrough-pricing-trial">10-day free trial</p>
-                    </div>
-                    <ul class="walkthrough-pricing-features">
-                        <li class="walkthrough-pricing-feature-item">
-                            <i class="walkthrough-pricing-check-icon" data-lucide="circle-check"></i>
-                            <span class="inter-text walkthrough-pricing-feature-text">Trade Journaling</span>
-                        </li>
-                        <li class="walkthrough-pricing-feature-item">
-                            <i class="walkthrough-pricing-check-icon" data-lucide="circle-check"></i>
-                            <span class="inter-text walkthrough-pricing-feature-text">Pre-trade checklist & rule validation</span>
-                        </li>
-                        <li class="walkthrough-pricing-feature-item">
-                            <i class="walkthrough-pricing-check-icon" data-lucide="circle-check"></i>
-                            <span class="inter-text walkthrough-pricing-feature-text">Rule-breaking warnings and accountability</span>
-                        </li>
-                        <li class="walkthrough-pricing-feature-item">
-                            <i class="walkthrough-pricing-check-icon" data-lucide="circle-check"></i>
-                            <span class="inter-text walkthrough-pricing-feature-text">AI screenshot analysis + rule compliance detection</span>
-                        </li>
-                        <li class="walkthrough-pricing-feature-item">
-                            <i class="walkthrough-pricing-check-icon" data-lucide="circle-check"></i>
-                            <span class="inter-text walkthrough-pricing-feature-text">Rule-following analytics (discipline correlation)</span>
-                        </li>
-                        <li class="walkthrough-pricing-feature-item">
-                            <i class="walkthrough-pricing-check-icon" data-lucide="circle-check"></i>
-                            <span class="inter-text walkthrough-pricing-feature-text">Trade logging linked to pre-trade</span>
-                        </li>
-                        <li class="walkthrough-pricing-feature-item">
-                            <i class="walkthrough-pricing-check-icon" data-lucide="circle-check"></i>
-                            <span class="inter-text walkthrough-pricing-feature-text">Cross-device web app support</span>
-                        </li>
-                    </ul>
-                    <button id="post-signup-cta" class="walkthrough-pricing-button green-button inter-text">
-                        Start 10-day Free Trial
-                    </button>
-                    <p class="walkthrough-pricing-subtext inter-text">
-                        Cancel anytime • Secure checkout
-                    </p>
-                </div>
+                <button id="post-signup-cta" class="walkthrough-pricing-button green-button inter-text">
+                    Continue to Dashboard
+                </button>
             </div>
 
             <div class="quick-tour-navigation">
@@ -856,3 +849,11 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+

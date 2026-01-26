@@ -102,6 +102,14 @@
     margin: 0;
 }
 
+.subscription-gate-subtext {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 8px 0 0 0;
+    text-align: center;
+}
+
 .subscription-gate-link {
     display: inline-block;
     margin-top: 12px;
@@ -143,6 +151,32 @@
     gap: 15px;
     position: relative;
     border-left: 3px solid #00ff99;
+}
+
+.trial-notification-content {
+    gap: 12px;
+}
+
+.trial-notification-button {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background-color: #00ff99;
+    color: #0b0f11;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 200ms;
+    white-space: nowrap;
+}
+
+.trial-notification-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 3px 18px -6px rgba(0, 255, 153, 0.6);
+}
+
+#trial-started-notification .dashboard-notification-content {
+    border-left-color: #00ff99;
 }
 
 .dashboard-notification-icon {

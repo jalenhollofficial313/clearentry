@@ -18,6 +18,16 @@ function extension_Notice() {
     const extensionNotification = document.getElementById("extension-notification");
     const extensionClose = document.getElementById("extension-notification-close");
 
+    if (!extensionNotification) {
+        return;
+    }
+
+    const isMobile = (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) || window.innerWidth <= 900;
+    if (isMobile) {
+        extensionNotification.style.display = "none";
+        return;
+    }
+
     extensionNotification.style.display = "block";
 
     if (extensionClose) {
@@ -669,6 +679,8 @@ async function dashboardINIT() {
     document.getElementById("dashboard-full-loader").style.display = "none";
     
     extension_Notice();
+    await maybeStartAutoTrial();
+    maybeShowTrialReminder();
     const walkthroughShown = maybeShowPostSignupWalkthrough();
     if (walkthroughShown) {
         return;
@@ -718,8 +730,10 @@ function checkAndShowSubscriptionGate() {
     const normalizedMembership = membership.toLowerCase();
     const isStandard = normalizedMembership === "standard";
     const isPro = normalizedMembership === "pro";
+    const daysLeft = getTrialDaysLeft();
+    const hasActiveTrial = daysLeft !== null && daysLeft > 0;
     
-    if (isStandard) {
+    if (isStandard && !hasActiveTrial) {
         // Show subscription gate
         document.getElementById("subscription-gate").style.display = "flex";
         document.querySelector(".MainFrame").style.display = "none";
@@ -728,11 +742,9 @@ function checkAndShowSubscriptionGate() {
         // Setup CTA button
         const ctaButton = document.getElementById("subscription-gate-cta");
         if (ctaButton) {
-            ctaButton.addEventListener("click", function() {
-                window.location.href = "../Home/index.html#pricing";
-            });
+            ctaButton.onclick = () => startTrialOrCheckout(ctaButton);
         }
-    } else if (isPro) {
+    } else if (isPro || hasActiveTrial) {
         // Hide gate and show dashboard
         document.getElementById("subscription-gate").style.display = "none";
         document.querySelector(".MainFrame").style.display = "block";
@@ -752,7 +764,8 @@ function maybeShowPostSignupWalkthrough() {
 
     const isFirstTimeUser = clientData.result.isFirstTimeUser === true;
     const cameFromSignup = localStorage.getItem("firstsign") === "true";
-    if (isFirstTimeUser || cameFromSignup) {
+    const completedWalkthrough = clientData.result.postSignupWalkthroughCompleted === true;
+    if ((isFirstTimeUser || cameFromSignup) && !completedWalkthrough) {
         showPostSignupWalkthrough();
         return true;
     }
@@ -760,7 +773,142 @@ function maybeShowPostSignupWalkthrough() {
     return false;
 }
 
-async function startProCheckout(button) {
+function getTrialDaysLeft() {
+    const trialStartedAt = clientData?.result?.trialStartedAt;
+    if (!trialStartedAt) {
+        return null;
+    }
+    const elapsedSeconds = Math.max(0, Date.now() / 1000 - trialStartedAt);
+    const daysElapsed = Math.floor(elapsedSeconds / 86400);
+    return Math.max(0, 10 - daysElapsed);
+}
+
+function maybeShowTrialReminder() {
+    const trialStartedAt = clientData?.result?.trialStartedAt;
+    const stripeSubscriptionId = clientData?.result?.stripe_subscription_id;
+    const membership = clientData?.result?.membership?.toLowerCase();
+    if (!trialStartedAt || stripeSubscriptionId || (membership !== "pro" && membership !== "standard")) {
+        return;
+    }
+
+    const daysLeft = getTrialDaysLeft();
+    if (daysLeft === null || daysLeft > 3 || daysLeft <= 0) {
+        return;
+    }
+
+    const notification = document.getElementById("trial-notification");
+    const closeButton = document.getElementById("trial-notification-close");
+    const ctaButton = document.getElementById("trial-notification-cta");
+    if (!notification) {
+        return;
+    }
+
+    notification.style.display = "block";
+    if (ctaButton) {
+        ctaButton.onclick = () => startCheckout(ctaButton);
+    }
+    if (closeButton) {
+        closeButton.onclick = () => {
+            notification.classList.add("hide");
+            setTimeout(() => {
+                notification.style.display = "none";
+                notification.classList.remove("hide");
+            }, 300);
+        };
+    }
+}
+
+async function maybeStartAutoTrial() {
+    const trialUsed = Boolean(clientData?.result?.trialUsed || clientData?.result?.trialStartedAt);
+    if (trialUsed) {
+        return;
+    }
+
+    const membership = clientData?.result?.membership?.toLowerCase();
+    if (membership && membership !== "standard") {
+        return;
+    }
+
+    const started = await startFreeTrial();
+    if (started) {
+        showTrialStartedNotification();
+    }
+}
+
+function showTrialStartedNotification() {
+    const notification = document.getElementById("trial-started-notification");
+    const closeButton = document.getElementById("trial-started-close");
+    if (!notification) {
+        return;
+    }
+
+    notification.style.display = "block";
+    lucide.createIcons();
+    if (closeButton) {
+        closeButton.onclick = () => {
+            notification.classList.add("hide");
+            setTimeout(() => {
+                notification.style.display = "none";
+                notification.classList.remove("hide");
+            }, 300);
+        };
+    }
+}
+
+async function startTrialOrCheckout(button) {
+    const trialUsed = Boolean(clientData?.result?.trialUsed || clientData?.result?.trialStartedAt);
+    if (!trialUsed) {
+        await startFreeTrial(button);
+        return;
+    }
+    await startCheckout(button);
+}
+
+async function startFreeTrial(button) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "../Home/login.html";
+        return false;
+    }
+
+    const originalText = button ? button.textContent : "";
+    try {
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Starting...";
+        }
+
+        const response = await fetch("https://start-free-trial-b52ovbio5q-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token })
+        });
+
+        const result = await response.text();
+        if (response.ok && result === "Success") {
+            await getClientData();
+            checkAndShowSubscriptionGate();
+            maybeShowTrialReminder();
+            return true;
+        } else {
+            console.error("Failed to start trial:", result);
+            alert("Unable to start trial. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error starting trial:", error);
+        alert("An error occurred. Please try again.");
+    } finally {
+        if (button) {
+            button.disabled = false;
+            button.textContent = originalText;
+        }
+    }
+    return false;
+}
+
+async function startCheckout(button) {
     const token = localStorage.getItem("token");
     if (!token) {
         window.location.href = "../Home/login.html";
@@ -899,13 +1047,6 @@ function showPostSignupWalkthrough() {
     }
 
     async function finishWalkthrough() {
-        const membership = clientData?.result?.membership?.toLowerCase();
-        if (membership !== "pro") {
-            closeWalkthrough();
-            checkAndShowSubscriptionGate();
-            return;
-        }
-
         await markPostSignupWalkthroughComplete();
         closeWalkthrough();
         if (clientData?.result?.isFirstTimeUser === true) {
@@ -934,10 +1075,11 @@ function showPostSignupWalkthrough() {
         });
     });
     if (ctaButton) {
-        ctaButton.addEventListener("click", () => startProCheckout(ctaButton));
+        ctaButton.addEventListener("click", () => finishWalkthrough());
     }
     if (closeButton) {
         closeButton.addEventListener("click", () => {
+            markPostSignupWalkthroughComplete();
             closeWalkthrough();
             checkAndShowSubscriptionGate();
         });

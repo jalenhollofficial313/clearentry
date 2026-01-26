@@ -149,7 +149,7 @@ async function initAnalyzer() {
 // Function to process an image file (extracted for reuse)
 async function processImageFile(file) {
     if (!file) return;
-    
+
     // Validate file type
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     const validExtensions = ['.jpg', '.jpeg', '.png'];
@@ -333,7 +333,7 @@ async function reloadPage() {
             console.log("Error occured, trade ID most likely invalid")
         }
     }
-    
+
     // Populate type, direction, and strategy dropdowns
     populateTypeDropdown()
     populateDirectionDropdown()
@@ -469,7 +469,7 @@ function setupTradeDropdownListeners() {
         typeButton.addEventListener("click", function() {
             if (typeDropdown.style.display == "block") {
                 typeDropdown.style.display = "none";
-            } else {
+                } else {
                 typeDropdown.style.display = "block";
                 directionDropdown.style.display = "none";
                 strategyDropdown.style.display = "none";
@@ -516,7 +516,7 @@ async function loadDropDowns(params) {
     for (let child of children3) {
         child.remove();
     }
-    
+
     // Note: Type and Direction dropdowns removed - now populated from pre-trade sessions
 
 
@@ -555,7 +555,7 @@ async function loadDropDowns(params) {
             
             try {
                 // Remove from UI first
-                item.remove()
+            item.remove()
                 // Also remove from emotions dropdown
                 const emotionButtons = document.querySelectorAll("#mental-dropdown .dropdown-item");
                 emotionButtons.forEach(btn => {
@@ -565,12 +565,12 @@ async function loadDropDowns(params) {
                 });
                 
                 const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        token: localStorage.getItem("token"),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
                         emotion: emotionToRemove,
                     })
                 });
@@ -620,7 +620,7 @@ async function loadDropDowns(params) {
             
             try {
                 // Remove from UI first
-                item.remove()
+            item.remove()
                 // Also remove from confluences dropdown
                 const confluencesButtons = document.querySelectorAll("#strategy-dropdown .dropdown-item");
                 confluencesButtons.forEach(btn => {
@@ -630,12 +630,12 @@ async function loadDropDowns(params) {
                 });
                 
                 const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        token: localStorage.getItem("token"),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
                         strategy: strategyToRemove,
                     })
                 });
@@ -695,12 +695,12 @@ document.querySelector("#strategy-add").addEventListener("click", async function
         
         try {
             const response = await fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token: localStorage.getItem("token"),
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
                     strategy: strategyValue,
                 })
             });
@@ -714,28 +714,28 @@ document.querySelector("#strategy-add").addEventListener("click", async function
             if (response.ok && result !== "Invalid") {
                 // Add to settings dropdown
 
-                const item = document.createElement("p")
+        const item = document.createElement("p")
 
-                item.classList.add("settings-listitem")
-                item.classList.add("inter-text")
-        
-                const span = document.createElement("span")
+        item.classList.add("settings-listitem")
+        item.classList.add("inter-text")
+
+        const span = document.createElement("span")
                 span.classList.add("dropdown-icon2")
         
                 const span2 = document.createElement("span")
                 span2.classList.add("inter-text")
         
                 span2.innerHTML = strategyValue
-        
-                const icon = document.createElement("i")
-                icon.classList.add("icon2")
-                icon.classList.add("close-icon")
-                icon.classList.add("remove-icon")
-                icon.setAttribute("data-lucide", "x");
-        
-                span.appendChild(icon)
+
+        const icon = document.createElement("i")
+        icon.classList.add("icon2")
+        icon.classList.add("close-icon")
+        icon.classList.add("remove-icon")
+        icon.setAttribute("data-lucide", "x");
+
+        span.appendChild(icon)
                 item.appendChild(span2)
-                item.appendChild(span)
+        item.appendChild(span)
 
                 span.addEventListener("click", async function() {
                     // Set debounce and show loading frame
@@ -744,17 +744,17 @@ document.querySelector("#strategy-add").addEventListener("click", async function
                     
                     try {
                         // Remove from UI first
-                        item.remove()
+            item.remove()
                         
                         const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                token: localStorage.getItem("token"),
-                                strategy: strategyValue,
-                            })
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
+                    strategy: strategyValue,
+                })
                         });
                         
                         const result = await response.text();
@@ -763,8 +763,8 @@ document.querySelector("#strategy-add").addEventListener("click", async function
                         client_server_debounce = false;
                         console.error("Error removing strategy:", error);
                     }
-                })
-                document.querySelector("#strategy-settings-dropdown").appendChild(item)
+        })
+        document.querySelector("#strategy-settings-dropdown").appendChild(item)
                 
                 // Note: Strategy dropdown removed - strategies are now display-only from pre-trade sessions
                 
@@ -792,12 +792,12 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
         
         try {
             const response = await fetch("https://add-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token: localStorage.getItem("token"),
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token: localStorage.getItem("token"),
                     emotion: emotionValue,
                 })
             });
@@ -808,28 +808,28 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
             // Only add to UI if successful
             if (response.ok && result !== "Invalid") {
                 // Add to settings dropdown
-                const item = document.createElement("p")
+        const item = document.createElement("p")
 
-                item.classList.add("settings-listitem")
-                item.classList.add("inter-text")
-        
-                const span = document.createElement("span")
+        item.classList.add("settings-listitem")
+        item.classList.add("inter-text")
+
+        const span = document.createElement("span")
                 span.classList.add("dropdown-icon2")
         
                 const span2 = document.createElement("span")
                 span2.classList.add("inter-text")
         
                 span2.innerHTML = emotionValue
-        
-                const icon = document.createElement("i")
-                icon.classList.add("icon2")
-                icon.classList.add("close-icon")
-                icon.classList.add("remove-icon")
-                icon.setAttribute("data-lucide", "x");
-        
-                span.appendChild(icon)
+
+        const icon = document.createElement("i")
+        icon.classList.add("icon2")
+        icon.classList.add("close-icon")
+        icon.classList.add("remove-icon")
+        icon.setAttribute("data-lucide", "x");
+
+        span.appendChild(icon)
                 item.appendChild(span2)
-                item.appendChild(span)
+        item.appendChild(span)
 
                 span.addEventListener("click", async function() {
                     // Set debounce and show loading frame
@@ -838,7 +838,7 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
                     
                     try {
                         // Remove from UI first
-                        item.remove()
+            item.remove()
                         // Also remove from emotions dropdown
                         const emotionButtons = document.querySelectorAll("#mental-dropdown .dropdown-item");
                         emotionButtons.forEach(btn => {
@@ -848,14 +848,14 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
                         });
                         
                         const response = await fetch("https://remove-emotion-strategy-b52ovbio5q-uc.a.run.app", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({
-                                token: localStorage.getItem("token"),
-                                emotion: emotionValue,
-                            })
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token"),
+                    emotion: emotionValue,
+                })
                         });
                         
                         const result = await response.text();
@@ -864,8 +864,8 @@ document.querySelector("#emotion-add").addEventListener("click", async function(
                         client_server_debounce = false;
                         console.error("Error removing emotion:", error);
                     }
-                })
-                document.querySelector("#mental-settings-dropdown").appendChild(item)
+        })
+        document.querySelector("#mental-settings-dropdown").appendChild(item)
                 
                 // Add to emotions dropdown (mental-dropdown)
                 const emotionButton = document.createElement("button")
@@ -950,7 +950,7 @@ document.querySelector("#continue-button").addEventListener("click", async funct
     if (tradeEntry['id'] == "") {
         loadingFrame(1000, "Logging Entry...", "Entry Logged.")
         const tradeId = await log_Trade(localStorage.getItem("token"))
-        client_server_debounce = false
+        client_server_debounce = false        
         
         // Show ranking modal for new trade
         if (tradeId && tradeId !== "Token Error") {
@@ -1773,7 +1773,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 async function logINIT() {
-
+    
 }
 
 
