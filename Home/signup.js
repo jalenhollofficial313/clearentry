@@ -1,12 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector(".auth-form");
-    const nameInput = document.getElementById("name");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
-    const confirmPasswordInput = document.getElementById("confirm-password");
-    const termsCheckbox = form.querySelector('input[name="terms"]');
     const continuebutton = document.getElementById("continue-button");
-    const affiliateInput = document.getElementById("affiliate-code");
+    const FUNNEL_TRACK_ENDPOINT = "https://track-funnel-event-b52ovbio5q-uc.a.run.app";
+
+    async function trackFunnelEvent(event, source) {
+        try {
+            await fetch(FUNNEL_TRACK_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    event: event || "unknown",
+                    source: source || "signup_form",
+                    page: "signup"
+                })
+            });
+        } catch (error) {
+            console.warn("Funnel tracking failed:", error);
+        }
+    }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // stop normal form post
@@ -15,20 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
     clearFieldErrors();
 
     continuebutton.innerHTML = "Loading..."
-    const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
-    const termsAccepted = termsCheckbox.checked;
-    const affiliate = affiliateInput.value.trim();
+    const name = email ? email.split("@")[0].replace(/[._-]+/g, " ") : "";
 
     // --- basic validation ---
     let hasError = false;
-
-    if (!name) {
-      showFieldError(nameInput, "Please enter your full name.");
-      hasError = true;
-    }
 
     if (!email || !isValidEmail(email)) {
       showFieldError(emailInput, "Please enter a valid email address.");
@@ -40,16 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
         passwordInput,
         "Password must be at least 6 characters long."
       );
-      hasError = true;
-    }
-
-    if (password !== confirmPassword) {
-      showFieldError(confirmPasswordInput, "Passwords do not match.");
-      hasError = true;
-    }
-
-    if (!termsAccepted) {
-      alert("You must agree to the Terms & Conditions to continue.");
       hasError = true;
     }
 
@@ -68,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 name: name,
                 email: email,
                 password: password,
-                referal: affiliate
             })
         });
 
@@ -92,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             localStorage.setItem("firstsign", true)
             localStorage.setItem("token", data)
+            trackFunnelEvent("signup_completed", "email_password");
             window.location.href = "../Dashboard/dashboard.html"
         }
 
@@ -129,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
             inputEl.parentElement.appendChild(errorEl);
             await sleep(1000)
             await removeEL(errorEl)
-            continuebutton.innerHTML = "Continue"
+            continuebutton.innerHTML = "Start Free Trial"
         }
 
     }
@@ -140,4 +137,68 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(".input-error")
       .forEach((el) => el.classList.remove("input-error"));
   }
+
+  const googleButton = document.getElementById("google-signin-button");
+
+  function hideGoogleAuth() {
+    const oauthWrapper = googleButton?.closest(".auth-oauth");
+    if (oauthWrapper) {
+      oauthWrapper.style.display = "none";
+    }
+  }
+
+  async function handleGoogleSignin() {
+    try {
+      if (!window.firebase || !firebase.auth) {
+        alert("Google sign-in is not available. Please try again.");
+        return;
+      }
+
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await firebase.auth().signInWithPopup(provider);
+      const idToken = await result.user.getIdToken();
+
+      const apiResponse = await fetch("https://firebase-auth-login-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ idToken })
+      });
+
+      const token = await apiResponse.text().catch(() => "");
+      if (!apiResponse.ok || !token || token.includes("Error")) {
+        alert("Google sign-in failed. Please try again.");
+        return;
+      }
+
+      localStorage.setItem("firstsign", true);
+      localStorage.setItem("token", token);
+      trackFunnelEvent("signup_completed", "google");
+      window.location.href = "../Dashboard/dashboard.html";
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      alert("Google sign-in failed. Please try again.");
+    }
+  }
+
+  function initializeGoogleAuth() {
+    if (!googleButton) {
+      return;
+    }
+
+    const firebaseConfig = window.CLEARENTRY_FIREBASE_CONFIG;
+    if (!firebaseConfig || !firebaseConfig.apiKey) {
+      hideGoogleAuth();
+      return;
+    }
+
+    if (!firebase.apps?.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    googleButton.addEventListener("click", handleGoogleSignin);
+  }
+
+  initializeGoogleAuth();
 });

@@ -5,6 +5,25 @@ signoutButton = document.getElementById("signout-button");
 dashboardButton = document.getElementById("dashboard-button");
 dashboardButton2 = document.getElementById("dashboard-button2");
 upgradeButton = document.getElementById("upgrade-button");
+const FUNNEL_TRACK_ENDPOINT = "https://track-funnel-event-b52ovbio5q-uc.a.run.app";
+
+async function trackFunnelEvent(event, source, page) {
+    try {
+        await fetch(FUNNEL_TRACK_ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                event: event || "unknown",
+                source: source || "unknown",
+                page: page || window.location.pathname
+            })
+        });
+    } catch (error) {
+        console.warn("Funnel tracking failed:", error);
+    }
+}
 
 
 
@@ -44,6 +63,18 @@ signoutButton.addEventListener("click", async function(){
     // Redirect to home page
     window.location.href = "index.html";
 })
+
+if (signupButton) {
+    signupButton.addEventListener("click", () => {
+        trackFunnelEvent("signup_click", "header_button", "home");
+    });
+}
+
+if (signupButton2) {
+    signupButton2.addEventListener("click", () => {
+        trackFunnelEvent("signup_click", "hero_button", "home");
+    });
+}
 
 
 if (localStorage.getItem("token") != null) {
@@ -106,6 +137,7 @@ if (hasPendingCheckout && !sessionId) {
 // Show cancel modal if on cancel page
 if (isCancel) {
     paymentCancelModal.classList.add('show');
+    trackFunnelEvent("checkout_abandoned", "stripe_cancel", "home");
     // Reinitialize icons for the modal
     setTimeout(() => {
         lucide.createIcons();
@@ -177,8 +209,9 @@ async function waitForProMembership() {
     for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
         const data = await fetchAccountData(token);
         const membership = data?.result?.membership?.toLowerCase();
+        const subscriptionId = data?.result?.stripe_subscription_id;
 
-        if (membership === "pro") {
+        if (membership === "pro" || subscriptionId) {
             localStorage.removeItem(pendingCheckoutKey);
             if (successMessage) {
                 successMessage.textContent = defaultSuccessMessage || "Welcome to ClearEntry Pro! Your subscription is now active.";
@@ -198,12 +231,32 @@ async function waitForProMembership() {
 }
 
 if (localStorage.getItem(pendingCheckoutKey) === "true") {
-    setDashboardButtonsPendingState(true);
-    if (successCloseButton) {
-        successCloseButton.disabled = true;
-        successCloseButton.textContent = "Finalizing...";
+    const token = localStorage.getItem("token");
+    if (!token) {
+        localStorage.removeItem(pendingCheckoutKey);
+        if (paymentSuccessModal) {
+            paymentSuccessModal.classList.remove('show');
+        }
+    } else {
+        setDashboardButtonsPendingState(true);
+        if (successCloseButton) {
+            successCloseButton.disabled = true;
+            successCloseButton.textContent = "Finalizing...";
+        }
+        waitForProMembership().then((synced) => {
+            if (!synced) {
+                localStorage.removeItem(pendingCheckoutKey);
+                if (successMessage) {
+                    successMessage.textContent = "We couldn't confirm your subscription yet. You can continue and we'll sync it in the dashboard.";
+                }
+                if (successCloseButton) {
+                    successCloseButton.disabled = false;
+                    successCloseButton.textContent = "Continue";
+                }
+                setDashboardButtonsPendingState(false);
+            }
+        });
     }
-    waitForProMembership();
 }
 
 // Close modals when clicking outside
@@ -223,6 +276,16 @@ if (paymentSuccessModal) {
     const EXTENSION_NOTICE_KEY = "extensionNoticeDismissed";
     const extensionNotification = document.getElementById("extension-notification");
     const extensionClose = document.getElementById("extension-notification-close");
+
+    if (!extensionNotification) {
+        return;
+    }
+
+    const isMobile = (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) || window.innerWidth <= 900;
+    if (isMobile) {
+        extensionNotification.style.display = "none";
+        return;
+    }
 
     extensionNotification.style.display = "block";
 
@@ -249,6 +312,7 @@ if (paymentCancelModal) {
 
 if (upgradeButton) {
     upgradeButton.addEventListener("click", async function() {
+        trackFunnelEvent("signup_click", "pricing_button", "home");
         const token = localStorage.getItem("token");
         
         if (!token) {
@@ -261,6 +325,31 @@ if (upgradeButton) {
             // Disable button during request
             upgradeButton.disabled = true;
             upgradeButton.textContent = "Processing...";
+
+            const trialResponse = await fetch("https://start-free-trial-b52ovbio5q-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: token
+                })
+            });
+
+            const trialResult = await trialResponse.text();
+
+            if (trialResponse.ok && trialResult === "Success") {
+                window.location.href = "../Dashboard/dashboard.html";
+                return;
+            }
+
+            if (!trialResponse.ok || trialResult !== "Trial Used") {
+                console.error("Failed to start trial:", trialResult);
+                alert("Failed to start trial. Please try again.");
+                upgradeButton.disabled = false;
+                upgradeButton.textContent = "Start Free Trial";
+                return;
+            }
 
             const response = await fetch("https://create-checkout-session-b52ovbio5q-uc.a.run.app", {
                 method: "POST",
@@ -275,19 +364,20 @@ if (upgradeButton) {
             const checkoutUrl = await response.text();
 
             if (response.ok && checkoutUrl) {
+                trackFunnelEvent("checkout_started", "pricing_button", "home");
                 // Redirect to Stripe checkout
                 window.location.href = checkoutUrl;
             } else {
                 console.error("Failed to create checkout session:", checkoutUrl);
                 alert("Failed to start checkout. Please try again.");
                 upgradeButton.disabled = false;
-                upgradeButton.textContent = "Upgrade to Pro";
+                upgradeButton.textContent = "Start Free Trial";
             }
         } catch (error) {
             console.error("Error creating checkout session:", error);
             alert("An error occurred. Please try again.");
             upgradeButton.disabled = false;
-            upgradeButton.textContent = "Upgrade to Pro";
+            upgradeButton.textContent = "Start Free Trial";
         }
     });
 }

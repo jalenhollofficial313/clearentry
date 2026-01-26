@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
     <link rel="icon" type="image/png" href="clearentrylogo.png">
@@ -17,6 +16,8 @@
 
     <!-- Vercel Web Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
+
+<link href=../Shared/design-system.css rel=stylesheet type=text/css>
 </head>
 <body>
     <div class="head-frame">
@@ -33,20 +34,20 @@
                 Create Account
             </p>
             <p class="auth-description inter-text">
-                Start your trading psychology journey
+                Create your free account
             </p>
-            <form class="auth-form" action="#" method="post">
-                <div class="form-group">
-                    <label class="inter-text auth-text" for="name">Full Name</label>
-                    <input
-                        class="auth-input inter-text"
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="John Doe"
-                        required
-                    />
+            <p class="auth-subtext inter-text">
+                Start your 10-day free trial. No credit card required.
+            </p>
+            <div class="auth-oauth">
+                <button id="google-signin-button" type="button" class="google-auth-button inter-text">
+                    Continue with Google
+                </button>
+                <div class="auth-divider inter-text">
+                    <span>or</span>
                 </div>
+            </div>
+            <form class="auth-form" action="#" method="post">
 
                 <div class="form-group">
                     <label class="inter-text auth-text" for="email">Email address</label>
@@ -73,37 +74,14 @@
                     />
                 </div>
 
-                <div class="form-group">
-                    <label class="inter-text auth-text" for="confirm-password">Confirm password</label>
-                    <input
-                        class="auth-input inter-text"
-                        type="password"
-                        id="confirm-password"
-                        name="confirm_password"
-                        placeholder="••••••••"
-                        minlength="6"
-                        required
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label class="inter-text auth-text" for="affiliate-code">Affiliate Code</label>
-                    <input
-                        class="auth-input inter-text"
-                        type="text"
-                        id="affiliate-code"
-                        name="affiliate_code"
-                        placeholder="NAMExCLEARENTRY"
-                    />
-                </div>
-
                 <div class="form-footer">
-                    <label class="checkbox inter-text">
-                        <input class="form-checkbox" type="checkbox" name="terms" required />
-                        <span>I agree to the Terms &amp; Conditions</span>
-                    </label>
-
-                    <button id="continue-button" type="submit" class="btn-primary inter-text green-button">Continue</button>
+                    <button id="continue-button" type="submit" class="btn-primary inter-text green-button">Start Free Trial — No Credit Card Required</button>
+                    <p class="auth-legal inter-text">
+                        By continuing, you agree to the
+                        <a class="inter-text gradient-text alt-anchor" href="../Home/terms.html">Terms of Service</a>
+                        and
+                        <a class="inter-text gradient-text alt-anchor" href="../Home/privacy.html">Privacy Policy</a>.
+                    </p>
                 </div>
             </form>
 
@@ -113,6 +91,9 @@
             </p>
         </div>
     </div>
+    <script src="../Shared/auth-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="signup.js"></script>
     <script>
         lucide.createIcons();
@@ -130,3 +111,11 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+

@@ -131,4 +131,67 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelectorAll(".input-error")
       .forEach((el) => el.classList.remove("input-error"));
   }
+
+  const googleButton = document.getElementById("google-signin-button");
+
+  function hideGoogleAuth() {
+    const oauthWrapper = googleButton?.closest(".auth-oauth");
+    if (oauthWrapper) {
+      oauthWrapper.style.display = "none";
+    }
+  }
+
+  async function handleGoogleSignin() {
+    try {
+      if (!window.firebase || !firebase.auth) {
+        alert("Google sign-in is not available. Please try again.");
+        return;
+      }
+
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await firebase.auth().signInWithPopup(provider);
+      const idToken = await result.user.getIdToken();
+
+      const apiResponse = await fetch("https://firebase-auth-login-b52ovbio5q-uc.a.run.app", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ idToken })
+      });
+
+      const token = await apiResponse.text().catch(() => "");
+      if (!apiResponse.ok || !token || token.includes("Error")) {
+        alert("Google sign-in failed. Please try again.");
+        return;
+      }
+
+      localStorage.setItem("firstsign", true);
+      localStorage.setItem("token", token);
+      window.location.href = "../Dashboard/dashboard.html";
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      alert("Google sign-in failed. Please try again.");
+    }
+  }
+
+  function initializeGoogleAuth() {
+    if (!googleButton) {
+      return;
+    }
+
+    const firebaseConfig = window.CLEARENTRY_FIREBASE_CONFIG;
+    if (!firebaseConfig || !firebaseConfig.apiKey) {
+      hideGoogleAuth();
+      return;
+    }
+
+    if (!firebase.apps?.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    googleButton.addEventListener("click", handleGoogleSignin);
+  }
+
+  initializeGoogleAuth();
 });

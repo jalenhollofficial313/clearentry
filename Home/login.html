@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
     <link rel="icon" type="image/png" href="clearentrylogo.png">
@@ -17,6 +16,8 @@
 
     <!-- Vercel Web Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
+
+<link href=../Shared/design-system.css rel=stylesheet type=text/css>
 </head>
 <body>
     <div class="head-frame">
@@ -35,6 +36,14 @@
             <p class="auth-description inter-text">
                 Log in to your trading dashboard
             </p>
+            <div class="auth-oauth">
+                <button id="google-signin-button" type="button" class="google-auth-button inter-text">
+                    Continue with Google
+                </button>
+                <div class="auth-divider inter-text">
+                    <span>or</span>
+                </div>
+            </div>
             <form class="auth-form" action="#" method="post">
 
                 <div class="form-group">
@@ -202,6 +211,9 @@
         </div>
     </div>
     
+    <script src="../Shared/auth-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
     <script src="login.js"></script>
     <script>
         lucide.createIcons();
@@ -219,3 +231,11 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+

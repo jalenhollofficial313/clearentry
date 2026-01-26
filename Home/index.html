@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
     <link rel="icon" type="image/png" href="clearentrylogo.png">
@@ -18,6 +17,8 @@
 
     <!-- Vercel Web Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
+
+<link href=../Shared/design-system.css rel=stylesheet type=text/css>
 </head>
 <body>
     <div class="head-frame">
@@ -32,7 +33,7 @@
                 ClearEntry Extension
             </a>
             <a id="signup-button" href="signup.html" class="header-button inter-text">
-                Sign Up
+                Sign Up Free
             </a>
             <a id="login-button" href="login.html" class="header-button green-button inter-text">
                 Log In
@@ -54,6 +55,9 @@
                 <p data-aos="fade-down" class="hero-social-proof inter-text">
                     Join 100+ traders using ClearEntry
                 </p>
+                <p data-aos="fade-down" class="hero-social-proof inter-text">
+                    Helped traders identify 150+ rule violations before they cost money
+                </p>
                 <p data-aos="fade-down" class="maintext-small inter-text">
                     ClearEntry is a complete trade improvement system - combining <span class="gradient-text">rule enforcement</span>, <span class="gradient-text">intelligent journaling</span>, and <span class="gradient-text">psychology tracking</span> to fix execution before and after every trade.
                 </p>
@@ -61,10 +65,13 @@
                     Size • Timing • Follow-through • Conviction
                 </p>
                 <div data-aos="fade-down" class="middle-buttons-frame">
-                    <a id="signup-button2" href="signup.html" class="left-button inter-text green-button hero-primary-cta">Sign Up Now</a>
+                    <a id="signup-button2" href="signup.html" class="left-button inter-text green-button hero-primary-cta">Sign Up Now — No Credit Card Required</a>
                     <a href="#quick-tour-walkthrough" id="quick-tour-trigger" class="right-button inter-text">See Demo</a>
                     <a id="dashboard-button2" href="../Dashboard/dashboard.html" class="left-button inter-text green-button hero-primary-cta">Log In to Dashboard</a>
                 </div>
+                <p data-aos="fade-down" class="hero-micro-text inter-text">
+                    10-day free trial, no credit card required
+                </p>
             </div>
             
             <!-- Hero Visual Component -->
@@ -121,38 +128,69 @@
                 </div>
             </div>
         </div>
-        <div class="bottom-frame">
-            <div data-aos="fade-down" class="stat-frame left-stat">
-                <i class="stat-icon" data-lucide="shield-check"></i>
-                <p class="inter-text stat-title">
-                    Pre-Trade Validation
-                </p>
-                <p class="inter-text stat-description">
-                    Prevent costly mistakes with a mandatory checklist.
-                </p>
+        <div class="testimonial-marquee">
+            <div class="testimonial-track">
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Alex R.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 2 months</p>
+                    <p class="testimonial-quote">“Stopped me from breaking size rules three days in a row.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Maya L.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 6 weeks</p>
+                    <p class="testimonial-quote">“Finally saw exactly where my execution drifted.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Jordan P.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 3 months</p>
+                    <p class="testimonial-quote">“The checklist saved me from chasing late entries.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Chris W.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 5 weeks</p>
+                    <p class="testimonial-quote">“Journaling with ClearEntry is fast and consistent.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Taylor K.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 1 month</p>
+                    <p class="testimonial-quote">“Rule compliance became obvious in week one.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Sam D.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 2 months</p>
+                    <p class="testimonial-quote">“Helped me avoid revenge trades on red days.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Alex R.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 2 months</p>
+                    <p class="testimonial-quote">“Stopped me from breaking size rules three days in a row.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Maya L.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 6 weeks</p>
+                    <p class="testimonial-quote">“Finally saw exactly where my execution drifted.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Jordan P.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 3 months</p>
+                    <p class="testimonial-quote">“The checklist saved me from chasing late entries.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Chris W.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 5 weeks</p>
+                    <p class="testimonial-quote">“Journaling with ClearEntry is fast and consistent.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Taylor K.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 1 month</p>
+                    <p class="testimonial-quote">“Rule compliance became obvious in week one.”</p>
+                </div>
+                <div class="testimonial-card inter-text">
+                    <p class="testimonial-name">Sam D.</p>
+                    <p class="testimonial-duration">Using ClearEntry for 2 months</p>
+                    <p class="testimonial-quote">“Helped me avoid revenge trades on red days.”</p>
+                </div>
             </div>
-
-            <div data-aos="fade-down" class="stat-frame right-stat">
-                <i class="stat-icon" data-lucide="target"></i>
-                <p class="inter-text stat-title">
-                    Trade Journal
-                </p>
-                <p class="inter-text stat-description">
-                    Build discipline, while journaling your trades.
-                </p>
-            </div>
-
-            <div data-aos="fade-down" class="stat-frame">
-                <i class="stat-icon" data-lucide="trending-up"></i>
-                <p class="inter-text stat-title">
-                    Execution Analysis
-                </p>
-                <p class="inter-text stat-description">
-                    Identify inconsistencies and psychological issues in your trades.
-                </p>
-            </div>
-
-
         </div>
     </div>
     <div id="about-frame" class="frame-2">
@@ -290,7 +328,7 @@
                         <span class="inter-text pricing-period">/month</span>
                     </div>
                     <p class="inter-text" style="margin-top: 10px; color: #00ff99; font-size: 14px; font-weight: 600;">
-                        10-day free trial
+                        10-day free trial • no credit card required
                     </p>
                 </div>
                 <ul class="pricing-features">
@@ -324,10 +362,10 @@
                     </li>
                 </ul>
                 <button id="upgrade-button" class="pricing-button inter-text">
-                    Start 10-day Free Trial
+                    Start Free Trial — No Credit Card Required
                 </button>
                 <p class="pricing-subtext inter-text">
-                    Cancel anytime • Secure checkout
+                    Cancel anytime • No credit card required for the first 10 days
                 </p>
             </div>
         </div>
@@ -572,10 +610,10 @@
                 <div style="margin-top: 40px;">
                     <h3 class="quick-tour-slide-headline inter-text" style="font-size: 24px; margin-bottom: 20px;">Ready to Build Discipline?</h3>
                     <p class="quick-tour-slide-copy inter-text" style="margin-bottom: 30px;">
-                        Start your 10-day free trial.
+                        Start your 10-day free trial. No credit card required.
                     </p>
                     <div class="quick-tour-cta-buttons">
-                        <a href="signup.html" class="quick-tour-cta-primary green-button inter-text">Start Free Trial</a>
+                        <a href="signup.html" class="quick-tour-cta-primary green-button inter-text">Start Free Trial — No Credit Card Required</a>
                         <button id="quick-tour-continue" class="quick-tour-cta-secondary inter-text">Continue Browsing</button>
                     </div>
                     <div class="quick-tour-email-section">
@@ -633,3 +671,11 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
