@@ -83,13 +83,20 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = DASHBOARD_REDIRECT;
     } catch (err) {
         console.error("Login error:", err);
+        const code = err?.code || "";
+        const hasFirebaseAccount = await hasFirebaseAuthAccount(email);
+        if (hasFirebaseAccount) {
+            showFieldError(passwordInput, "Incorrect password.");
+            continuebutton.innerHTML = "Continue";
+            return;
+        }
+
         const legacyHandled = await attemptLegacyLoginCheck(email, password);
         if (legacyHandled) {
             continuebutton.innerHTML = "Continue";
             return;
         }
 
-        const code = err?.code || "";
         if (code.includes("user-not-found")) {
             showFieldError(emailInput, "No account found for this email.");
         } else if (code.includes("wrong-password")) {
@@ -100,6 +107,20 @@ document.addEventListener("DOMContentLoaded", () => {
         continuebutton.innerHTML = "Continue";
     }
     });
+
+    async function hasFirebaseAuthAccount(email) {
+        try {
+            const fb = ensureFirebase();
+            if (!fb?.auth || !email) {
+                return false;
+            }
+            const methods = await fb.auth().fetchSignInMethodsForEmail(email);
+            return Array.isArray(methods) && methods.length > 0;
+        } catch (error) {
+            console.warn("Failed to check Firebase auth methods:", error);
+            return false;
+        }
+    }
 
     async function attemptLegacyLoginCheck(email, password) {
         try {
