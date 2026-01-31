@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ClearEntry Update Log</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="../Shared/auth-config.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+        <link rel="stylesheet" href="../DashboardRewrite/dashboard.css" />
+        <link rel="stylesheet" href="updatelog.css" />
+    </head>
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <a class="brand-title" href="../Home/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <p class="nav-label">Overview</p>
+                        <a class="nav-item" href="../DashboardRewrite/dashboard.html"
+                            >Dashboard</a
+                        >
+                        <a class="nav-item" href="../EntriesRewrite/Entries.html"
+                            >Journal</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Daily</p>
+                        <a class="nav-item" href="../JournalRewrite/journal.html"
+                            >Notebook</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >Pre Execution</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PsychologyRewrite/psychology.html"
+                            >Psychology</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../TradeLoggingRewrite/tradelogging.html"
+                            >Trade Logging</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Analytics</p>
+                        <a class="nav-item" href="../AnalyticsRewrite/analytics.html"
+                            >Analytics</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../ConsistencyRewrite/consistency.html"
+                            >Consistency</a
+                        >
+                        <button class="nav-item nav-item-parent" type="button">
+                            My Reports
+                            <span class="nav-caret">▾</span>
+                        </button>
+                        <div class="nav-sub">
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=overview"
+                                >Analysis Overview</a
+                            >
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=smart"
+                                >Smart Analysis</a
+                            >
+                        </div>
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Account</p>
+                        <a
+                            class="nav-item"
+                            href="../ProfileRewrite/profile.html"
+                            >Profile</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../SupportRewrite/support.html"
+                            >Support</a
+                        >
+                        <a
+                            class="nav-item is-active"
+                            href="../UpdateLogRewrite/updatelog.html"
+                            >Update Log</a
+                        >
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main">
+                <header class="topbar">
+                    <div class="breadcrumbs">
+                        <span class="crumb">Account</span>
+                        <span class="crumb-sep">›</span>
+                        <span class="crumb is-current">Update Log</span>
+                    </div>
+                    <div class="topbar-actions">
+                        <button class="btn btn-ghost" id="theme-toggle">
+                            Dark mode
+                        </button>
+                        <div class="avatar">
+                            <div class="avatar-dot"></div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Update Log</h1>
+                            <p class="subtle">
+                                Track the latest ClearEntry releases, fixes, and
+                                feature launches.
+                            </p>
+                        </div>
+                        <div class="header-actions">
+                            <span class="chip chip-neutral"
+                                >Updated January 30, 2026</span
+                            >
+                        </div>
+                    </div>
+
+                    <div class="update-log-list">
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #10</p>
+                            <p class="updlog_date">Friday, January 30th, 2026</p>
+                            <p class="updlog_infoTitle">Authentication &amp; Access</p>
+                            <p class="updlog_info">
+                                • Firebase Authentication now powers login, signup,
+                                and Google sign-in <br />
+                                • Login page auto-redirects to Dashboard when already
+                                signed in <br />
+                                • Profile page now includes a logout action <br />
+                                • Legacy token handling improved for smoother
+                                migrations <br />
+                            </p>
+                            <p class="updlog_infoTitle">Rewrite UI &amp; Navigation</p>
+                            <p class="updlog_info">
+                                • Sidebar standardized across all rewrite pages <br />
+                                • My Reports dropdown added with Overview and Smart
+                                Analysis views <br />
+                                • New sidebar icon system using Lucide icons <br />
+                                • Sidebar title updated with larger centered styling
+                                and divider <br />
+                                • Dark mode fixes for sidebar title and status
+                                indicators <br />
+                            </p>
+                            <p class="updlog_infoTitle">New Pages &amp; Insights</p>
+                            <p class="updlog_info">
+                                • Psychology page added with rules, insights, and
+                                action planning <br />
+                                • Consistency page added with heatmap and KPI
+                                tracking <br />
+                                • Reports Overview page rebuilt to match the new UIX
+                                template <br />
+                            </p>
+                            <p class="updlog_infoTitle">UX Improvements</p>
+                            <p class="updlog_info">
+                                • Notification UI replaces browser alerts <br />
+                                • Pre-Execution strategy modal layout fixed <br />
+                                • Dark mode readability improvements across rewrite
+                                pages <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #9</p>
+                            <p class="updlog_date">Monday, January 26th, 2026</p>
+                            <p class="updlog_infoTitle">Trial &amp; Paywall</p>
+                            <p class="updlog_info">
+                                • Free trial now auto-starts on dashboard login
+                                (first-time only) <br />
+                                • Trial start notification added with 10-day access
+                                messaging <br />
+                                • Paywall appears only after trial ends without an
+                                active subscription <br />
+                            </p>
+                            <p class="updlog_infoTitle">Onboarding Walkthrough</p>
+                            <p class="updlog_info">
+                                • Walkthrough now shows only on first signup <br />
+                                • Final slide updated to a “you’re ready” completion
+                                state <br />
+                            </p>
+                            <p class="updlog_infoTitle">Authentication &amp; Security</p>
+                            <p class="updlog_info">
+                                • Google sign-in now uses Firebase Authentication <br />
+                                • Backend moved to Admin SDK database access
+                                (rules-safe) <br />
+                            </p>
+                            <p class="updlog_infoTitle">Landing Page &amp; Growth</p>
+                            <p class="updlog_info">
+                                • “No credit card required” messaging added across
+                                hero, pricing, and CTAs <br />
+                                • Animated testimonial marquee added with names and
+                                durations <br />
+                                • Funnel analytics added for signup clicks, signup
+                                completion, and checkout abandonment <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #8</p>
+                            <p class="updlog_date">Tuesday, January 20th, 2026</p>
+                            <p class="updlog_infoTitle">Pricing &amp; Billing</p>
+                            <p class="updlog_info">
+                                • Updated Pro pricing to $12.99/month with a 10-day
+                                free trial <br />
+                                • Free trial is now one-time per account (tracks
+                                trial start/usage) <br />
+                                • Failed subscription payments auto-downgrade to
+                                Standard <br />
+                            </p>
+                            <p class="updlog_infoTitle">Chrome Extension</p>
+                            <p class="updlog_info">
+                                • New Chrome extension launched for in-market
+                                pre-trade validation <br />
+                                • Notification banner added on Home and Dashboard
+                                with extension link <br />
+                            </p>
+                            <p class="updlog_infoTitle">Paywall</p>
+                            <p class="updlog_info">
+                                • Added a “Go to Home” option on the paywall for
+                                easier navigation <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #7</p>
+                            <p class="updlog_date">Monday, January 13th, 2026</p>
+                            <p class="updlog_infoTitle">Trade Logging</p>
+                            <p class="updlog_info">
+                                • Pre-trade session linking is now optional (trades
+                                can be logged without linking) <br />
+                                • Trade type, direction, and strategy now use
+                                dropdown menus matching mental state dropdown style
+                                <br />
+                                • Type dropdown includes: Stocks, Options, Futures,
+                                Crypto, Forex <br />
+                                • Direction dropdown includes: Long, Short <br />
+                                • Strategy dropdown populated from pre-trade
+                                validation strategies <br />
+                                • Options data fields automatically show/hide when
+                                "Options" is selected as trade type <br />
+                                • Pre-trade linking section restored with improved
+                                UI consistency <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #6</p>
+                            <p class="updlog_date">Sunday, January 4th, 2026</p>
+                            <p class="updlog_infoTitle">Landing Page Quick Tour</p>
+                            <p class="updlog_info">
+                                • New interactive showcase tour on landing page <br />
+                                • Entry modal appears after delay on first visit
+                                (session-based) <br />
+                                • 6-slide walkthrough covering problem, solution,
+                                features, and benefits <br />
+                                • Slide navigation with progress indicators and
+                                keyboard support <br />
+                                • Email capture form at end of tour for feature
+                                updates <br />
+                                • Backend endpoint for secure email storage <br />
+                                • Modal design optimized for mobile responsiveness
+                                <br />
+                            </p>
+                            <p class="updlog_infoTitle">Trade Types</p>
+                            <p class="updlog_info">
+                                • Added "Forex" as a new trade type option <br />
+                                • Available in Pre-Trade strategy creation modal <br />
+                                • Added to Dashboard onboarding markets selection
+                                <br />
+                                • Fully integrated across trade logging and analysis
+                                systems <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #5</p>
+                            <p class="updlog_date">Thursday, December 25th, 2025</p>
+                            <p class="updlog_infoTitle">Pre-Trade System</p>
+                            <p class="updlog_info">
+                                • Complete Pre-Trade session system with checklist
+                                and rule validation <br />
+                                • Strategy creation and management directly from
+                                Pre-Trade page <br />
+                                • Pre-trade sessions now required before logging
+                                trades <br />
+                                • Automatic linking between pre-trade sessions and
+                                trades <br />
+                            </p>
+                            <p class="updlog_infoTitle">Trade Logging</p>
+                            <p class="updlog_info">
+                                • Trade logging now requires a linked pre-trade
+                                session <br />
+                                • Post-trade emotion tracking added alongside
+                                pre-trade emotions <br />
+                                • Rule compliance tracking with detailed violation
+                                reporting <br />
+                                • Improved trade-to-strategy linking for better
+                                analytics <br />
+                            </p>
+                            <p class="updlog_infoTitle">Smart Analysis</p>
+                            <p class="updlog_info">
+                                • Complete rebuild with AI-powered coaching system
+                                <br />
+                                • Answers "Why am I not improving?" with actionable
+                                insights <br />
+                                • Four-pillar analysis: Rule-breaking patterns,
+                                Emotional correlation, Setup execution, Consistency
+                                trends <br />
+                                • Personalized action plans with 7-day goals and
+                                weekly challenges <br />
+                                • Cost analysis showing financial impact of
+                                rule-breaking <br />
+                            </p>
+                            <p class="updlog_infoTitle">Analytics</p>
+                            <p class="updlog_info">
+                                • Complete rebuild focused on execution discipline
+                                <br />
+                                • Three-section layout: Execution Quality, Proof,
+                                Patterns <br />
+                                • Rule-following rate, discipline streak, and top
+                                broken rules tracking <br />
+                                • Performance comparison: rule-following vs
+                                rule-breaking trades <br />
+                                • Strategy compliance table with win rates and
+                                expectancy <br />
+                                • Time-of-day and emotion trigger analysis <br />
+                            </p>
+                            <p class="updlog_infoTitle">Password Reset</p>
+                            <p class="updlog_info">
+                                • New password reset system with email verification
+                                codes <br />
+                                • 6-digit code sent via email (10-minute expiration)
+                                <br />
+                                • Available from login page ("Forgot password?") and
+                                profile page <br />
+                                • Secure code verification with attempt limits <br />
+                            </p>
+                            <p class="updlog_infoTitle">Pricing &amp; Subscription</p>
+                            <p class="updlog_info">
+                                • Updated pricing to $12.99/month with 10-day free
+                                trial <br />
+                                • Unified subscription gate on Dashboard after
+                                onboarding <br />
+                                • Removed all legacy paywalls across the app <br />
+                                • Streamlined subscription flow <br />
+                            </p>
+                            <p class="updlog_infoTitle">Navigation</p>
+                            <p class="updlog_info">
+                                • "Journal" renamed to "Notes" across all pages <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #4</p>
+                            <p class="updlog_date">Saturday, December 20th, 2025</p>
+                            <p class="updlog_infoTitle">Trade Logging</p>
+                            <p class="updlog_info">
+                                • Trade ranking system added - rank trades
+                                immediately after logging <br />
+                                • Ranking options: Terrible, Bad, Mediocre, Good,
+                                Great, Excellent <br />
+                                • Rank display on Entries page replaces "Opened/Closed"
+                                for closed trades with color-coded badges <br />
+                            </p>
+                            <p class="updlog_infoTitle">Dashboard &amp; Analytics</p>
+                            <p class="updlog_info">
+                                • Fixed PL (Profit/Loss) calculation bugs that
+                                caused incorrect totals <br />
+                                • Added validation to handle missing or null PL
+                                values (defaults to 0) <br />
+                                • Fixed string concatenation issue by converting PL
+                                values to numbers <br />
+                                • Added proper number formatting with commas for
+                                better readability <br />
+                            </p>
+                            <p class="updlog_infoTitle">Backtesting</p>
+                            <p class="updlog_info">
+                                • New Backtesting Replay feature - replay historical
+                                market data with interactive controls <br />
+                                • Supports multiple timeframes (1m, 5m, 15m, 1h, 1D)
+                                with automatic aggregation <br />
+                                • Interactive playback controls: play, pause, step
+                                forward, step back, reset, and speed control <br />
+                                • Real-time price indicators showing Open, High, Low,
+                                Close, and Volume <br />
+                                • Pro members only feature with paywall overlay <br />
+                            </p>
+                            <p class="updlog_infoTitle">Navigation</p>
+                            <p class="updlog_info">
+                                • New Info page added to Account section in sidebar
+                                <br />
+                                • Matches styling and format of Update Log page <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #3</p>
+                            <p class="updlog_date">Wednesday, December 17th, 2025</p>
+                            <p class="updlog_infoTitle">Support Page</p>
+                            <p class="updlog_info">
+                                • New Support page added to navigation <br />
+                                • Support request form with email, Discord username,
+                                and problem description <br />
+                                • Form validation and error handling <br />
+                                • Integration with Discord webhook for support
+                                requests <br />
+                                • Backend endpoint for secure support request handling
+                                <br />
+                            </p>
+                            <p class="updlog_infoTitle">Profile</p>
+                            <p class="updlog_info">
+                                • Cancel subscription feature added <br />
+                                • Only visible for Pro members <br />
+                                • Improved Save button styling with box-shadow <br />
+                            </p>
+                            <p class="updlog_infoTitle">Pricing</p>
+                            <p class="updlog_info">
+                                • Added Standard (Free) plan to pricing section <br />
+                                • Standard plan features: Unlimited logging,
+                                Unlimited journal, Limited statistics, No trading
+                                plan, No AI <br />
+                                • Enhanced Pro plan styling with larger size and
+                                highlight effects <br />
+                                • "Popular" badge added to Pro plan <br />
+                            </p>
+                            <p class="updlog_infoTitle">Smart Analysis</p>
+                            <p class="updlog_info">
+                                • Paywall overlay for Standard members <br />
+                                • Upgrade prompt with link to pricing section <br />
+                                • Pro members have full access to Smart Analysis <br />
+                            </p>
+                            <p class="updlog_infoTitle">Analytics</p>
+                            <p class="updlog_info">
+                                • Complete layout restructure - stats moved to top,
+                                calendar to bottom <br />
+                                • Calendar rebuild with left-aligned grid and month
+                                navigation <br />
+                                • Previous/Next month controls added <br />
+                                • Calendar paywall for Standard members <br />
+                                • Time range selector (Week/Month/Year) added <br />
+                                • Standard members limited to Week view, Month/Year
+                                locked with upgrade prompts <br />
+                                • Fixed Profit Factor calculation (handles edge
+                                cases) <br />
+                                • Fixed Expectancy calculation formula <br />
+                                • Removed Best Trading Time stat <br />
+                                • Fixed green color consistency (#00ff99) <br />
+                                • Improved responsive design for all screen sizes
+                                <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #2</p>
+                            <p class="updlog_date">Sunday, December 14th, 2025</p>
+                            <p class="updlog_infoTitle">General</p>
+                            <p class="updlog_info">
+                                • Complete UIX Rewrite <br />
+                                • Discord Integration with support. <br />
+                            </p>
+                        </div>
+
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #1</p>
+                            <p class="updlog_date">Sunday, December 7th, 2025</p>
+                            <p class="updlog_infoTitle">Trade Logging</p>
+                            <p class="updlog_info">
+                                • Image Analyzer (Gets data from your screenshot of
+                                your trades if visible) <br />
+                                • Entry Type (Options, Futures more soon) <br />
+                                • Entry Direction (Long, Short) <br />
+                                • Strategy → Confluences <br />
+                                • Confluences Multi Select <br />
+                                • Risk to Reward Input <br />
+                            </p>
+                            <p class="updlog_infoTitle">Entries</p>
+                            <p class="updlog_info">
+                                • View/Edit has been implemented into trade logging
+                                page <br />
+                                • Trade delete rework <br />
+                            </p>
+                            <p class="updlog_infoTitle">Journal</p>
+                            <p class="updlog_info">
+                                • Complete UI rework <br />
+                                • Journal delete rework <br />
+                                • Journal View and Add rework <br />
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <script>
+            const toggleButton = document.getElementById("theme-toggle");
+            const setTheme = (mode) => {
+                document.body.classList.toggle("dark", mode === "dark");
+                toggleButton.textContent =
+                    mode === "dark" ? "Light mode" : "Dark mode";
+                localStorage.setItem("dashboardTheme", mode);
+            };
+
+            const storedTheme = localStorage.getItem("dashboardTheme") || "light";
+            setTheme(storedTheme);
+
+            toggleButton.addEventListener("click", () => {
+                const nextTheme = document.body.classList.contains("dark")
+                    ? "light"
+                    : "dark";
+                setTheme(nextTheme);
+            });
+        </script>
+        <script src="../Shared/reports-nav.js"></script>
+        <script src="../Shared/sidebar-icons.js"></script>
+    </body>
+</html>
+

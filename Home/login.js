@@ -3,6 +3,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     const continuebutton = document.getElementById("continue-button");
+    const LEGACY_LOGIN_CHECK_ENDPOINT = "https://legacy-login-check-b52ovbio5q-uc.a.run.app";
+    const DASHBOARD_REDIRECT = "../DashboardRewrite/dashboard.html";
+    const notify = (message, type = "error") => {
+        if (window.showNotification) {
+            window.showNotification(message, type);
+        } else {
+            console.warn(message);
+        }
+    };
+
+    const ensureFirebase = () => {
+        const config = window.CLEARENTRY_FIREBASE_CONFIG;
+        if (!window.firebase || !config?.apiKey) {
+            return null;
+        }
+        if (!firebase.apps?.length) {
+            firebase.initializeApp(config);
+        }
+        return firebase;
+    };
+
+    const redirectIfSignedIn = () => {
+        const fb = ensureFirebase();
+        if (!fb?.auth) {
+            return;
+        }
+        fb.auth().onAuthStateChanged((user) => {
+            if (user) {
+                window.location.href = DASHBOARD_REDIRECT;
+            }
+        });
+    };
+
+    redirectIfSignedIn();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // stop normal form post
@@ -31,55 +65,63 @@ document.addEventListener("DOMContentLoaded", () => {
       hasError = true;
     }
 
-    if (hasError) return;
+    if (hasError) {
+      continuebutton.innerHTML = "Continue";
+      return;
+    }
 
 
-    // --- send to backend API (example) ---
     try {
-    // change this to your real endpoint
-        const response = await fetch("https://login-request-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            })
-        });
-
-        if (!response.ok) {
-            // handle server error
-            const errorData = await response.json().catch(() => ({}));
-            const msg =
-            errorData.message || "Something went wrong. Please try again.";
-            alert(msg);
+        if (!window.firebase || !firebase.auth) {
+            notify("Login is not available right now. Please try again.", "error");
+            continuebutton.innerHTML = "Continue";
             return;
         }
 
-    // success
-        const data = await response.text().catch(() => ({}));
-        if (data == "Invalid Email" || data == "Invalid Credentials") {
-            showFieldError(
-                emailInput,
-                "Invalid Email."
-            );
-        } else if (data == "Invalid Password" ) {
-            showFieldError(
-                passwordInput,
-                "Invalid Password."
-            );
-        } else {
-            localStorage.setItem("firstsign", true)
-            localStorage.setItem("token", data)
-            window.location.href = "../Dashboard/dashboard.html"
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        localStorage.setItem("firstsign", true);
+        window.location.href = DASHBOARD_REDIRECT;
+    } catch (err) {
+        console.error("Login error:", err);
+        const legacyHandled = await attemptLegacyLoginCheck(email, password);
+        if (legacyHandled) {
+            continuebutton.innerHTML = "Continue";
+            return;
         }
 
-    } catch (err) {
-            console.error("Network error:", err);
-            alert("Network error. Please check your connection and try again.");
+        const code = err?.code || "";
+        if (code.includes("user-not-found")) {
+            showFieldError(emailInput, "No account found for this email.");
+        } else if (code.includes("wrong-password")) {
+            showFieldError(passwordInput, "Incorrect password.");
+        } else {
+            notify("Login failed. Please try again.", "error");
         }
+        continuebutton.innerHTML = "Continue";
+    }
     });
+
+    async function attemptLegacyLoginCheck(email, password) {
+        try {
+            const response = await fetch(LEGACY_LOGIN_CHECK_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const result = await response.json().catch(() => ({}));
+            if (result?.ok) {
+                notify("Legacy account found. Check your email to reset your password.", "success");
+                return true;
+            }
+        } catch (error) {
+            console.error("Legacy login check error:", error);
+        }
+
+        return false;
+    }
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -144,34 +186,17 @@ document.addEventListener("DOMContentLoaded", () => {
   async function handleGoogleSignin() {
     try {
       if (!window.firebase || !firebase.auth) {
-        alert("Google sign-in is not available. Please try again.");
+        notify("Google sign-in is not available. Please try again.", "error");
         return;
       }
 
       const provider = new firebase.auth.GoogleAuthProvider();
       const result = await firebase.auth().signInWithPopup(provider);
-      const idToken = await result.user.getIdToken();
-
-      const apiResponse = await fetch("https://firebase-auth-login-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ idToken })
-      });
-
-      const token = await apiResponse.text().catch(() => "");
-      if (!apiResponse.ok || !token || token.includes("Error")) {
-        alert("Google sign-in failed. Please try again.");
-        return;
-      }
-
       localStorage.setItem("firstsign", true);
-      localStorage.setItem("token", token);
-      window.location.href = "../Dashboard/dashboard.html";
+      window.location.href = DASHBOARD_REDIRECT;
     } catch (error) {
       console.error("Google sign-in error:", error);
-      alert("Google sign-in failed. Please try again.");
+      notify("Google sign-in failed. Please try again.", "error");
     }
   }
 

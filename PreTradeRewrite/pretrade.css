@@ -1,0 +1,629 @@
+.pretrade-page {
+    display: grid;
+    gap: 16px;
+}
+
+#bar-icon {
+    display: none;
+    color: #64748b;
+}
+
+@media (max-width: 900px) {
+    #bar-icon {
+        display: inline-flex;
+    }
+}
+
+.pretrade-full-loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.loader-content {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.loader-spinner {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 3px solid rgba(148, 163, 184, 0.4);
+    border-top-color: #0f172a;
+    animation: spin 1s linear infinite;
+}
+
+.loader-text {
+    margin: 0;
+}
+
+.pretrade-header {
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    z-index: 10;
+}
+
+.header-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.header-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pretrade-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+.pretrade-select,
+.pretrade-input,
+.pretrade-textarea {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    background: #f8fafc;
+    color: #0f172a;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.pretrade-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.direction-toggle {
+    display: flex;
+    gap: 8px;
+}
+
+.direction-btn {
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #475569;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.direction-btn.active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+
+.session-label,
+.time-display {
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    font-size: 13px;
+    color: #475569;
+}
+
+.pretrade-content {
+    display: grid;
+    gap: 16px;
+}
+
+.pretrade-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card-description {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.edit-link {
+    font-size: 12px;
+    color: #64748b;
+    text-decoration: none;
+}
+
+.edit-link:hover {
+    color: #0f172a;
+}
+
+.rules-content {
+    display: grid;
+    gap: 12px;
+}
+
+.rule-section {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f8fafc;
+}
+
+.rule-section-title {
+    margin: 0 0 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+.rule-section-content {
+    display: grid;
+    gap: 8px;
+}
+
+.rule-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.rule-item-value {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.checklist-items {
+    display: grid;
+    gap: 10px;
+}
+
+.checklist-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.checklist-item-content {
+    display: grid;
+    gap: 6px;
+}
+
+.checklist-item-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+}
+
+.checklist-item-helper {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0;
+}
+
+.checklist-item-status {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.status-pass {
+    background: #dcfce7;
+    color: #15803d;
+    border-color: #bbf7d0;
+}
+
+.status-warn {
+    background: #fef3c7;
+    color: #b45309;
+    border-color: #fde68a;
+}
+
+.status-fail {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+.status-unknown {
+    background: #f1f5f9;
+    color: #64748b;
+    border-color: #e2e8f0;
+}
+
+.checklist-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.emotional-state-section {
+    display: grid;
+    gap: 6px;
+}
+
+.warning-card {
+    border-color: rgba(234, 88, 12, 0.35);
+    background: rgba(234, 88, 12, 0.06);
+}
+
+.warnings-list {
+    display: grid;
+    gap: 8px;
+}
+
+.warning-item {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(234, 88, 12, 0.3);
+    background: rgba(234, 88, 12, 0.08);
+    font-size: 12px;
+    color: #9a3412;
+}
+
+.acknowledgement-content {
+    display: grid;
+    gap: 12px;
+}
+
+.acknowledgement-checkbox {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.acknowledgement-fields {
+    display: grid;
+    gap: 10px;
+}
+
+.error-card {
+    border-color: rgba(185, 28, 28, 0.3);
+    background: rgba(185, 28, 28, 0.08);
+}
+
+.error-text {
+    margin: 0;
+    font-size: 13px;
+    color: #b91c1c;
+}
+
+.pretrade-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-start;
+}
+
+.cta-status {
+    margin: 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.green-button,
+.pretrade-button-primary {
+    border: 1px solid #0f172a;
+    background: #0f172a;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.green-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.warning-state {
+    background: #b91c1c;
+    border-color: #b91c1c;
+}
+
+.pretrade-button-secondary {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pretrade-button-small {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.strategy-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 60;
+    padding: 24px;
+}
+
+.strategy-modal-content {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px;
+    width: min(920px, 92vw);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.strategy-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.strategy-modal-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.close-modal-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.strategy-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.strategy-step {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.strategy-step-title {
+    margin: 0 0 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.strategy-field {
+    display: grid;
+    gap: 8px;
+}
+
+.strategy-hint {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.criteria-list {
+    display: grid;
+    gap: 8px;
+}
+
+.criteria-item {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 12px;
+    color: #475569;
+}
+
+.add-criteria-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-criteria-container .pretrade-input {
+    flex: 1;
+    min-width: 240px;
+}
+
+.inline-field {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+}
+
+.checkbox-label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    color: #475569;
+}
+
+.strategy-checkbox {
+    width: 14px;
+    height: 14px;
+    accent-color: #0f172a;
+}
+
+.strategy-summary-content {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    display: grid;
+    gap: 10px;
+    font-size: 12px;
+    color: #475569;
+}
+
+.strategy-modal-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.required {
+    color: #ff4747;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+body.dark .pretrade-full-loader {
+    background: rgba(2, 6, 12, 0.7);
+}
+
+body.dark .loader-content,
+body.dark .pretrade-header,
+body.dark .rule-section,
+body.dark .checklist-item,
+body.dark .pretrade-select,
+body.dark .pretrade-input,
+body.dark .pretrade-textarea,
+body.dark .session-label,
+body.dark .time-display,
+body.dark .strategy-modal-content,
+body.dark .criteria-item,
+body.dark .strategy-summary-content {
+    background: #14181f;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #ffffff;
+}
+
+body.dark .card-description,
+body.dark .edit-link,
+body.dark .pretrade-label,
+body.dark .checklist-item-helper,
+body.dark .cta-status,
+body.dark .strategy-hint,
+body.dark .checkbox-label,
+body.dark .loader-text {
+    color: #8c98a4;
+}
+
+body.dark .direction-btn {
+    background: #0f1317;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #8c98a4;
+}
+
+body.dark .direction-btn.active {
+    background: #00ff99;
+    border-color: #00ff99;
+    color: #0b1b12;
+}
+
+body.dark .pretrade-button-secondary {
+    background: #0f1317;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #ffffff;
+}
+
+body.dark .warning-card {
+    border-color: rgba(234, 88, 12, 0.35);
+    background: rgba(234, 88, 12, 0.12);
+}
+
+body.dark .warning-item {
+    border-color: rgba(234, 88, 12, 0.4);
+    background: rgba(234, 88, 12, 0.18);
+    color: #fdba74;
+}
+
+body.dark .error-card {
+    border-color: rgba(248, 113, 113, 0.35);
+    background: rgba(248, 113, 113, 0.15);
+}
+
+body.dark .error-text {
+    color: #fca5a5;
+}
+
+body.dark .status-pass {
+    background: rgba(34, 197, 94, 0.15);
+    color: #86efac;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+body.dark .status-warn {
+    background: rgba(234, 179, 8, 0.2);
+    color: #fde68a;
+    border-color: rgba(234, 179, 8, 0.35);
+}
+
+body.dark .status-fail {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+body.dark .status-unknown {
+    background: #0f1318;
+    color: #94a3b8;
+    border-color: #1f2937;
+}
+
+body.dark .warning-state {
+    background: #ef4444;
+    border-color: #ef4444;
+}
+

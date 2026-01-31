@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ClearEntry Trade Logging</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../DashboardRewrite/dashboard.css" />
+        <link rel="stylesheet" href="tradelogging.css" />
+        <link rel="stylesheet" href="../Shared/notifications.css" />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="../Shared/auth-config.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    </head>
+    <body>
+        <div id="settings-div" class="settings-overlay">
+            <div id="mental-settings" class="settings-card">
+                <p class="entry-title">
+                    Manage Mental States
+                    <span class="dropdown-icon close-settingsbutton">
+                        <i class="icon2 close-icon" data-lucide="x"></i>
+                    </span>
+                </p>
+                <p class="entry-description">
+                    Add or remove mental state options.
+                </p>
+                <div class="settings-input-row">
+                    <input
+                        id="emotion-input"
+                        placeholder="Add new state..."
+                        class="settings-input"
+                    />
+                    <button id="emotion-add" class="btn btn-ghost btn-sm">
+                        Add
+                    </button>
+                </div>
+                <div id="mental-settings-dropdown" class="settings-list"></div>
+            </div>
+            <div id="strategy-settings" class="settings-card">
+                <p class="entry-title">
+                    Manage Strategies
+                    <span class="dropdown-icon close-settingsbutton">
+                        <i class="icon2 close-icon" data-lucide="x"></i>
+                    </span>
+                </p>
+                <p class="entry-description">
+                    Add or remove strategy options.
+                </p>
+                <div class="settings-input-row">
+                    <input
+                        id="strategy-input"
+                        placeholder="Add new strategy..."
+                        class="settings-input"
+                    />
+                    <button id="strategy-add" class="btn btn-ghost btn-sm">
+                        Add
+                    </button>
+                </div>
+                <div id="strategy-settings-dropdown" class="settings-list"></div>
+            </div>
+        </div>
+
+        <div class="app">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-brand">
+                    <a class="brand-title" href="../Home/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <p class="nav-label">Overview</p>
+                        <a class="nav-item" href="../DashboardRewrite/dashboard.html"
+                            >Dashboard</a
+                        >
+                        <a class="nav-item" href="../EntriesRewrite/Entries.html"
+                            >Journal</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Daily</p>
+                        <a class="nav-item" href="../JournalRewrite/journal.html"
+                            >Notebook</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >Pre Execution</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PsychologyRewrite/psychology.html"
+                            >Psychology</a
+                        >
+                        <a class="nav-item is-active" href="#"
+                            >Trade Logging</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Analytics</p>
+                        <a class="nav-item" href="../AnalyticsRewrite/analytics.html"
+                            >Analytics</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../ConsistencyRewrite/consistency.html"
+                            >Consistency</a
+                        >
+                        <button class="nav-item nav-item-parent" type="button">
+                            My Reports
+                            <span class="nav-caret">▾</span>
+                        </button>
+                        <div class="nav-sub">
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=overview"
+                                >Analysis Overview</a
+                            >
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=smart"
+                                >Smart Analysis</a
+                            >
+                        </div>
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Account</p>
+                        <a class="nav-item" href="../ProfileRewrite/profile.html"
+                            >Profile</a
+                        >
+                        <a class="nav-item" href="../SupportRewrite/support.html"
+                            >Support</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../UpdateLogRewrite/updatelog.html"
+                            >Update Log</a
+                        >
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main">
+                <header class="topbar" id="head-frame">
+                    <div class="breadcrumbs">
+                        <span class="crumb">Daily</span>
+                        <span class="crumb-sep">›</span>
+                        <span class="crumb is-current">Trade Logging</span>
+                    </div>
+                    <div class="topbar-actions">
+                        <i id="bar-icon" data-lucide="text-align-justify"></i>
+                        <a
+                            class="btn btn-primary"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >+ Pre Execution</a
+                        >
+                        <button class="btn btn-ghost" id="theme-toggle">
+                            Dark mode
+                        </button>
+                        <div class="avatar">
+                            <div class="avatar-dot"></div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Trade Logging</h1>
+                            <p class="subtle">
+                                Log your trade details and track performance.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mainframe-loading">
+                        <div id="load-frame" class="loading-frame">
+                            <i class="spin-icon" data-lucide="loader"></i>
+                            <p>Loading Data</p>
+                        </div>
+                        <div id="loaded-frame" class="loading-frame">
+                            <i class="done-icon" data-lucide="circle-check"></i>
+                            <p>Data Loaded</p>
+                        </div>
+                    </div>
+
+                    <div class="trade-grid">
+                        <div class="trade-column">
+                            <div class="card trade-card image-card">
+                            <p class="entry-title">Trade Image Analyzer</p>
+                            <p class="entry-description">
+                                Upload a trade screenshot to auto-fill details.
+                            </p>
+                            <label id="img_Input" class="img-frame">
+                                <i class="upload-icon" data-lucide="upload"></i>
+                                <p class="upload-img">Paste or click to upload</p>
+                                <p class="upload-description">
+                                    PNG, JPG up to 10MB
+                                </p>
+                            </label>
+                            <input
+                                type="file"
+                                id="tradeImageInput"
+                                accept=".jpg,.jpeg,.png"
+                                hidden
+                            />
+                            <p id="img-analyze" class="analyze-status">
+                                Analyzing... (0%)
+                            </p>
+                            <img
+                                id="img_Frame"
+                                class="img-frame real-img"
+                                src=""
+                                alt="Trade Chart Preview"
+                                style="display: none;"
+                            />
+                            </div>
+
+                            <div class="card trade-card extracted-card">
+                                <p class="entry-title">Extracted Data</p>
+                                <div
+                                    class="extracted-grid"
+                                    id="extracted-data-list"
+                                >
+                                    <p class="extracted-empty">
+                                        No data extracted yet.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card trade-card">
+                            <p class="entry-title">Trade Input Fields</p>
+                            <p class="entry-description">
+                                Enter or verify your trade details below.
+                            </p>
+
+                            <div class="section-block">
+                                <p class="link-title">Link Pre-Trade Session</p>
+                                <div class="link-flexdiv">
+                                    <div class="link-flexbox-div">
+                                        <div
+                                            id="pretrade-dropdown-button"
+                                            class="dropdown-button"
+                                        >
+                                            <p
+                                                id="pretrade-text"
+                                                class="truncate text-div"
+                                            >
+                                                Select a Pre-Trade
+                                            </p>
+                                            <span class="dropdown-icon">
+                                                <i
+                                                    class="icon2"
+                                                    data-lucide="chevron-down"
+                                                ></i>
+                                            </span>
+                                        </div>
+                                        <div
+                                            id="pretrade-dropdown"
+                                            class="dropdown-div"
+                                        ></div>
+                                    </div>
+                                    <div class="link-flexbox-button">
+                                        <button
+                                            id="unlink-pretrade-btn"
+                                            class="btn btn-ghost btn-sm"
+                                        >
+                                            Clear
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="rule-compliance-section" class="section-block">
+                                <p class="entry-title2">
+                                    Rule Compliance Analysis
+                                </p>
+                                <div id="compliance-badge" class="badge-pill"></div>
+                                <div id="compliance-reasons" class="compliance-list">
+                                </div>
+                            </div>
+
+                            <div class="entry-grid">
+                                <div class="flexbox-div">
+                                    <p class="entry-title2">Trade Type</p>
+                                    <div
+                                        id="type-dropdown-button"
+                                        class="dropdown-button"
+                                    >
+                                        <p id="type-text" class="truncate text-div">
+                                            Select Type
+                                        </p>
+                                        <span class="dropdown-icon">
+                                            <i
+                                                class="icon2"
+                                                data-lucide="chevron-down"
+                                            ></i>
+                                        </span>
+                                    </div>
+                                    <div
+                                        id="type-dropdown"
+                                        class="dropdown-div"
+                                    ></div>
+                                </div>
+                                <div class="flexbox-div">
+                                    <p class="entry-title2">Direction</p>
+                                    <div
+                                        id="direction-dropdown-button"
+                                        class="dropdown-button"
+                                    >
+                                        <p
+                                            id="direction-text"
+                                            class="truncate text-div"
+                                        >
+                                            Select Direction
+                                        </p>
+                                        <span class="dropdown-icon">
+                                            <i
+                                                class="icon2"
+                                                data-lucide="chevron-down"
+                                            ></i>
+                                        </span>
+                                    </div>
+                                    <div
+                                        id="direction-dropdown"
+                                        class="dropdown-div"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <div class="entry-grid single-column">
+                                <div class="flexbox-div">
+                                    <p class="entry-title2">Strategy</p>
+                                    <div
+                                        id="strategy-dropdown-button"
+                                        class="dropdown-button"
+                                    >
+                                        <p
+                                            id="strategy-text"
+                                            class="truncate text-div"
+                                        >
+                                            Select Strategy
+                                        </p>
+                                        <span class="dropdown-icon">
+                                            <i
+                                                class="icon2"
+                                                data-lucide="chevron-down"
+                                            ></i>
+                                        </span>
+                                    </div>
+                                    <div
+                                        id="strategy-dropdown"
+                                        class="dropdown-div"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <div class="section-block">
+                                <p class="entry-title">Entry Symbol</p>
+                                <input
+                                    id="entry-SYMBOL"
+                                    placeholder="EX: AAPL"
+                                    class="entry-input"
+                                />
+                            </div>
+
+                            <div class="entry-grid">
+                                <div class="flexbox-div">
+                                    <p class="entry-title2">Entry P/L</p>
+                                    <input
+                                        id="entry-PL"
+                                        placeholder="EX: 120"
+                                        class="entry-input2"
+                                    />
+                                </div>
+                                <div class="flexbox-div">
+                                    <p class="entry-title2">Risk to Reward</p>
+                                    <input
+                                        id="entry-RR"
+                                        placeholder="EX: 1.2"
+                                        class="entry-input2"
+                                    />
+                                </div>
+                            </div>
+
+                            <div
+                                id="options-data"
+                                class="section-block"
+                                style="display: none;"
+                            >
+                                <p class="entry-title">Options Data</p>
+                                <div class="entry-grid">
+                                    <div class="flexbox-div">
+                                        <p class="entry-title2">IV</p>
+                                        <input
+                                            id="entry-IV"
+                                            placeholder="EX: 34.77"
+                                            class="entry-input2"
+                                        />
+                                    </div>
+                                    <div class="flexbox-div">
+                                        <p class="entry-title2">Gamma</p>
+                                        <input
+                                            id="entry-Gamma"
+                                            placeholder="EX: .0254"
+                                            class="entry-input2"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="entry-grid">
+                                    <div class="flexbox-div">
+                                        <p class="entry-title2">Delta</p>
+                                        <input
+                                            id="entry-Delta"
+                                            placeholder="EX: .2499"
+                                            class="entry-input2"
+                                        />
+                                    </div>
+                                    <div class="flexbox-div">
+                                        <p class="entry-title2">Theta</p>
+                                        <input
+                                            id="entry-Theta"
+                                            placeholder="EX: -.0216"
+                                            class="entry-input2"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="entry-grid">
+                                    <div class="flexbox-div">
+                                        <p class="entry-title2">Vega</p>
+                                        <input
+                                            id="entry-Vega"
+                                            placeholder="EX: .1145"
+                                            class="entry-input2"
+                                        />
+                                    </div>
+                                    <div class="flexbox-div">
+                                        <p class="entry-title2">Rho</p>
+                                        <input
+                                            id="entry-Rho"
+                                            placeholder="EX: .0425"
+                                            class="entry-input2"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section-block">
+                                <p class="entry-title">Entry Notes</p>
+                                <textarea
+                                    id="entry-notes"
+                                    placeholder="Describe your trade..."
+                                    class="entry-textarea"
+                                ></textarea>
+                            </div>
+
+                            <div class="bottom-div">
+                                <button
+                                    id="continue-button"
+                                    class="btn btn-primary"
+                                >
+                                    Continue
+                                </button>
+                                <button
+                                    id="cancel-button"
+                                    class="btn btn-ghost"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div id="trade-ranking-modal" class="modal trade-ranking-modal">
+            <div class="modal-card">
+                <p class="modal-title">Rank this trade</p>
+                <div class="modal-options trade-ranking-options">
+                    <button class="trade-ranking-option" data-rank="Terrible">
+                        Terrible
+                    </button>
+                    <button class="trade-ranking-option" data-rank="Bad">
+                        Bad
+                    </button>
+                    <button class="trade-ranking-option" data-rank="Mediocre">
+                        Mediocre
+                    </button>
+                    <button class="trade-ranking-option" data-rank="Good">
+                        Good
+                    </button>
+                    <button class="trade-ranking-option" data-rank="Great">
+                        Great
+                    </button>
+                    <button class="trade-ranking-option" data-rank="Excellent">
+                        Excellent
+                    </button>
+                </div>
+                <button id="trade-ranking-save" class="btn btn-primary">
+                    Save
+                </button>
+            </div>
+        </div>
+
+        <div id="ai-analysis-loading-modal" class="modal ai-analysis-loading-modal">
+            <div class="modal-card">
+                <div class="ai-loading-spinner">
+                    <i class="spin-icon-large" data-lucide="loader"></i>
+                </div>
+                <p class="modal-title">Analyzing Your Trade</p>
+                <p class="modal-subtitle" id="ai-loading-step">
+                    Reading trade data...
+                </p>
+                <div class="ai-loading-progress">
+                    <div
+                        class="ai-loading-progress-bar"
+                        id="ai-loading-progress-bar"
+                    ></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ai-insights-modal" class="modal ai-insights-modal">
+            <div class="modal-card">
+                <div class="ai-insights-header">
+                    <i class="ai-insights-icon" data-lucide="brain"></i>
+                    <p class="modal-title">Trade Insight</p>
+                </div>
+                <p class="modal-subtitle" id="ai-insights-text"></p>
+                <button id="ai-insights-close" class="btn btn-primary">
+                    Got it
+                </button>
+            </div>
+        </div>
+
+        <div
+            id="post-trade-reflection-modal"
+            class="modal post-trade-reflection-modal"
+        >
+            <div class="modal-card wide">
+                <p class="modal-title">Trade Reflection</p>
+                <p class="modal-subtitle">
+                    Help us understand your execution and mindset.
+                </p>
+                <div class="reflection-form">
+                    <div class="reflection-question">
+                        <p class="reflection-question-text">
+                            Did you follow your strategy rules on this trade?
+                        </p>
+                        <div class="reflection-options">
+                            <button class="reflection-option" data-value="yes">
+                                Yes
+                            </button>
+                            <button class="reflection-option" data-value="mostly">
+                                Mostly
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="partially"
+                            >
+                                Partially
+                            </button>
+                            <button class="reflection-option" data-value="no">
+                                No
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="reflection-question">
+                        <p class="reflection-question-text">
+                            What was your primary reason for entering this trade?
+                        </p>
+                        <div class="reflection-options">
+                            <button
+                                class="reflection-option"
+                                data-value="setup-matched"
+                            >
+                                Setup matched my criteria
+                            </button>
+                            <button class="reflection-option" data-value="fomo">
+                                FOMO
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="revenge"
+                            >
+                                Revenge trading
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="boredom"
+                            >
+                                Boredom
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="recover-losses"
+                            >
+                                Trying to recover losses
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="other-entry"
+                            >
+                                Other
+                            </button>
+                        </div>
+                        <input
+                            type="text"
+                            id="entry-reason-other"
+                            class="reflection-text-input"
+                            placeholder="Describe"
+                            style="display: none; margin-top: 10px;"
+                        />
+                    </div>
+
+                    <div class="reflection-question">
+                        <p class="reflection-question-text">
+                            If you could take this trade again, would you?
+                        </p>
+                        <div class="reflection-options">
+                            <button
+                                class="reflection-option"
+                                data-value="definitely"
+                            >
+                                Definitely
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="probably"
+                            >
+                                Probably
+                            </button>
+                            <button class="reflection-option" data-value="unsure">
+                                Unsure
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="probably-not"
+                            >
+                                Probably not
+                            </button>
+                            <button
+                                class="reflection-option"
+                                data-value="definitely-not"
+                            >
+                                Definitely not
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="reflection-question">
+                        <p class="reflection-question-text">
+                            How do you feel after this trade?
+                        </p>
+                        <select id="emotion-dropdown" class="reflection-dropdown">
+                            <option value="">Select an emotion...</option>
+                            <option value="relieved">Relieved</option>
+                            <option value="disappointed">Disappointed</option>
+                            <option value="vindicated">Vindicated</option>
+                            <option value="regretful">Regretful</option>
+                            <option value="confident">Confident</option>
+                            <option value="frustrated">Frustrated</option>
+                            <option value="neutral">Neutral</option>
+                            <option value="other-emotion">Other</option>
+                        </select>
+                        <textarea
+                            id="emotion-description"
+                            class="reflection-textarea"
+                            placeholder="Describe how you're feeling"
+                            style="margin-top: 10px;"
+                        ></textarea>
+                    </div>
+
+                    <div class="reflection-question">
+                        <p class="reflection-question-text">
+                            What did you do well or poorly on this trade?
+                            (Optional)
+                        </p>
+                        <textarea
+                            id="what-went-well-poorly"
+                            class="reflection-textarea"
+                            placeholder="Share your thoughts..."
+                        ></textarea>
+                    </div>
+                </div>
+                <div class="reflection-buttons">
+                    <button id="reflection-save" class="btn btn-primary">
+                        Submit
+                    </button>
+                    <button id="reflection-skip" class="btn btn-ghost">
+                        Skip
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const toggleButton = document.getElementById("theme-toggle");
+            const setTheme = (mode) => {
+                document.body.classList.toggle("dark", mode === "dark");
+                toggleButton.textContent =
+                    mode === "dark" ? "Light mode" : "Dark mode";
+                localStorage.setItem("dashboardTheme", mode);
+            };
+
+            const storedTheme = localStorage.getItem("dashboardTheme") || "light";
+            setTheme(storedTheme);
+
+            toggleButton.addEventListener("click", () => {
+                const nextTheme = document.body.classList.contains("dark")
+                    ? "light"
+                    : "dark";
+                setTheme(nextTheme);
+            });
+        </script>
+        <script src="../Shared/notifications.js"></script>
+        <script src="../Shared/reports-nav.js"></script>
+        <script src="../Shared/client-data-lite.js"></script>
+        <script src="../Shared/sidebar-icons.js"></script>
+        <script src="../TradeLogging/tradelogging.js"></script>
+        <script>
+            lucide.createIcons();
+        </script>
+    </body>
+</html>
+

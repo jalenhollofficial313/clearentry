@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ClearEntry Journal</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="../Shared/auth-config.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+        <link rel="stylesheet" href="../DashboardRewrite/dashboard.css" />
+        <link rel="stylesheet" href="entries.css" />
+    </head>
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <a class="brand-title" href="../Home/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <p class="nav-label">Overview</p>
+                        <a class="nav-item" href="../DashboardRewrite/dashboard.html"
+                            >Dashboard</a
+                        >
+                        <a class="nav-item is-active" href="#">Journal</a>
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Daily</p>
+                        <a class="nav-item" href="../JournalRewrite/journal.html"
+                            >Notebook</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >Pre Execution</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PsychologyRewrite/psychology.html"
+                            >Psychology</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../TradeLoggingRewrite/tradelogging.html"
+                            >Trade Logging</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Analytics</p>
+                        <a class="nav-item" href="../AnalyticsRewrite/analytics.html"
+                            >Analytics</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../ConsistencyRewrite/consistency.html"
+                            >Consistency</a
+                        >
+                        <button class="nav-item nav-item-parent" type="button">
+                            My Reports
+                            <span class="nav-caret">▾</span>
+                        </button>
+                        <div class="nav-sub">
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=overview"
+                                >Analysis Overview</a
+                            >
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=smart"
+                                >Smart Analysis</a
+                            >
+                        </div>
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Account</p>
+                        <a class="nav-item" href="../ProfileRewrite/profile.html"
+                            >Profile</a
+                        >
+                        <a class="nav-item" href="../SupportRewrite/support.html"
+                            >Support</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../UpdateLogRewrite/updatelog.html"
+                            >Update Log</a
+                        >
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main">
+                <header class="topbar">
+                    <div class="breadcrumbs">
+                        <span class="crumb">Overview</span>
+                        <span class="crumb-sep">›</span>
+                        <span class="crumb is-current">Journal</span>
+                    </div>
+                    <div class="topbar-actions">
+                        <a
+                            class="btn btn-primary"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >+ Pre Execution</a
+                        >
+                        <button class="btn btn-ghost" id="theme-toggle">
+                            Dark mode
+                        </button>
+                        <div class="avatar">
+                            <div class="avatar-dot"></div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Journal</h1>
+                            <p class="subtle" id="entries-subtitle">—</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-ghost" id="clear-filters">
+                                Clear filters
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card filters-card">
+                        <div class="filters-grid">
+                            <div class="filter-group">
+                                <label class="filter-label" for="filter-type"
+                                    >Type</label
+                                >
+                                <select id="filter-type" class="filter-select">
+                                    <option value="all">All</option>
+                                    <option value="Options">Options</option>
+                                    <option value="Futures">Futures</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="filter-label" for="filter-result"
+                                    >Result</label
+                                >
+                                <select id="filter-result" class="filter-select">
+                                    <option value="all">All</option>
+                                    <option value="win">Wins</option>
+                                    <option value="loss">Losses</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="filter-label" for="filter-status"
+                                    >Status</label
+                                >
+                                <select id="filter-status" class="filter-select">
+                                    <option value="all">All</option>
+                                    <option value="open">Open</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="filter-label" for="filter-strategy"
+                                    >Strategy</label
+                                >
+                                <select
+                                    id="filter-strategy"
+                                    class="filter-select"
+                                >
+                                    <option value="all">All</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label class="filter-label" for="filter-emotion"
+                                    >Emotion</label
+                                >
+                                <select id="filter-emotion" class="filter-select">
+                                    <option value="all">All</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="entries-grid" id="entries-grid"></div>
+                    <div class="card empty-state" id="entries-empty" hidden>
+                        <p class="empty-title">No entries yet</p>
+                        <p class="empty-subtitle">
+                            Log a trade to start tracking your sessions here.
+                        </p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <template id="entry-template">
+            <div class="card entry-card">
+                <div class="entry-header">
+                    <div>
+                        <p class="entry-symbol">—</p>
+                        <p class="entry-meta">—</p>
+                    </div>
+                    <span class="chip entry-status">—</span>
+                </div>
+                <div class="entry-media" hidden>
+                    <img class="entry-img" alt="Trade chart" />
+                </div>
+                <div class="entry-body">
+                    <div class="entry-row">
+                        <div>
+                            <p class="entry-label">Strategy</p>
+                            <p class="entry-value entry-strategy">—</p>
+                        </div>
+                        <div>
+                            <p class="entry-label">Emotion</p>
+                            <p class="entry-value entry-emotion">—</p>
+                        </div>
+                    </div>
+                    <div class="entry-row">
+                        <div>
+                            <p class="entry-label">Entry date</p>
+                            <p class="entry-value entry-date">—</p>
+                        </div>
+                        <div>
+                            <p class="entry-label">P/L</p>
+                            <p class="entry-value entry-pl">—</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-footer">
+                    <button class="btn btn-ghost btn-sm entry-view">
+                        View/Edit
+                    </button>
+                    <button class="btn btn-primary btn-sm entry-close">
+                        Close
+                    </button>
+                    <button class="btn btn-ghost btn-sm entry-delete">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </template>
+
+        <script>
+            const toggleButton = document.getElementById("theme-toggle");
+            const setTheme = (mode) => {
+                document.body.classList.toggle("dark", mode === "dark");
+                toggleButton.textContent =
+                    mode === "dark" ? "Light mode" : "Dark mode";
+                localStorage.setItem("dashboardTheme", mode);
+            };
+
+            const storedTheme = localStorage.getItem("dashboardTheme") || "light";
+            setTheme(storedTheme);
+
+            toggleButton.addEventListener("click", () => {
+                const nextTheme = document.body.classList.contains("dark")
+                    ? "light"
+                    : "dark";
+                setTheme(nextTheme);
+            });
+        </script>
+        <script src="../Shared/reports-nav.js"></script>
+        <script src="../Shared/client-data-lite.js"></script>
+        <script src="../Shared/sidebar-icons.js"></script>
+        <script src="entries.js"></script>
+    </body>
+</html>

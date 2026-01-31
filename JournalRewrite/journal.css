@@ -1,0 +1,152 @@
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.note-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.note-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.note-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.note-date {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.note-preview {
+    margin: 0;
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.note-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    z-index: 50;
+}
+
+.note-modal[hidden] {
+    display: none;
+}
+
+.note-modal-card {
+    width: min(720px, 92vw);
+}
+
+.note-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.note-modal-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.note-modal-subtitle {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.note-modal-body {
+    display: grid;
+    gap: 12px;
+}
+
+.note-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #64748b;
+}
+
+.note-input,
+.note-textarea {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.note-textarea {
+    min-height: 220px;
+    resize: vertical;
+}
+
+.note-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.empty-state {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.empty-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.empty-subtitle {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+body.dark .note-title,
+body.dark .note-preview {
+    color: #ffffff;
+}
+
+body.dark .note-date,
+body.dark .note-modal-subtitle,
+body.dark .note-label,
+body.dark .empty-subtitle {
+    color: #8c98a4;
+}
+
+body.dark .note-input,
+body.dark .note-textarea {
+    background: #0f1317;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #ffffff;
+}
+
+body.dark .note-modal {
+    background: rgba(2, 6, 12, 0.7);
+}
+

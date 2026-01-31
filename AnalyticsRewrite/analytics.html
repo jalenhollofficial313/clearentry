@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ClearEntry Analytics</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="../Shared/auth-config.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+        <link rel="stylesheet" href="../DashboardRewrite/dashboard.css" />
+        <link rel="stylesheet" href="analytics.css" />
+    </head>
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <a class="brand-title" href="../Home/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <p class="nav-label">Overview</p>
+                        <a class="nav-item" href="../DashboardRewrite/dashboard.html"
+                            >Dashboard</a
+                        >
+                        <a class="nav-item" href="../EntriesRewrite/Entries.html"
+                            >Journal</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Daily</p>
+                        <a class="nav-item" href="../JournalRewrite/journal.html"
+                            >Notebook</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >Pre Execution</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PsychologyRewrite/psychology.html"
+                            >Psychology</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../TradeLoggingRewrite/tradelogging.html"
+                            >Trade Logging</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Analytics</p>
+                        <a
+                            class="nav-item is-active"
+                            href="../AnalyticsRewrite/analytics.html"
+                            >Analytics</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../ConsistencyRewrite/consistency.html"
+                            >Consistency</a
+                        >
+                        <button class="nav-item nav-item-parent" type="button">
+                            My Reports
+                            <span class="nav-caret">▾</span>
+                        </button>
+                        <div class="nav-sub">
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=overview"
+                                >Analysis Overview</a
+                            >
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=smart"
+                                >Smart Analysis</a
+                            >
+                        </div>
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Account</p>
+                        <a class="nav-item" href="../ProfileRewrite/profile.html"
+                            >Profile</a
+                        >
+                        <a class="nav-item" href="../SupportRewrite/support.html"
+                            >Support</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../UpdateLogRewrite/updatelog.html"
+                            >Update Log</a
+                        >
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main">
+                <header class="topbar">
+                    <div class="breadcrumbs">
+                        <span class="crumb">Daily</span>
+                        <span class="crumb-sep">›</span>
+                        <span class="crumb is-current">Analytics</span>
+                    </div>
+                    <div class="topbar-actions">
+                        <a
+                            class="btn btn-primary"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >+ Pre Execution</a
+                        >
+                        <button class="btn btn-ghost" id="theme-toggle">
+                            Dark mode
+                        </button>
+                        <div class="avatar">
+                            <div class="avatar-dot"></div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Analytics</h1>
+                            <p class="subtle" id="analytics-subtitle">—</p>
+                        </div>
+                        <div class="header-actions"></div>
+                    </div>
+
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Profit &amp; Loss Metrics</h2>
+                            <p>Baseline performance across all trades.</p>
+                        </div>
+                        <div class="stats-grid metrics-grid">
+                            <div class="card metric-card">
+                                <p class="metric-label">Net Profit</p>
+                                <p class="metric-value" id="net-profit">—</p>
+                                <p class="metric-helper">Total realized P/L</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Gross Profit</p>
+                                <p class="metric-value" id="gross-profit">—</p>
+                                <p class="metric-helper">Sum of winning trades</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Win Rate</p>
+                                <p class="metric-value" id="win-rate">—</p>
+                                <p class="metric-helper">Winning trades / total</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Average Win</p>
+                                <p class="metric-value" id="avg-win">—</p>
+                                <p class="metric-helper">Mean gain per win</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Average Loss</p>
+                                <p class="metric-value" id="avg-loss">—</p>
+                                <p class="metric-helper">Mean loss per loss</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Profit Factor</p>
+                                <p class="metric-value" id="profit-factor">—</p>
+                                <p class="metric-helper">Gross profit / gross loss</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Risk-Adjusted &amp; Quality Metrics</h2>
+                            <p>Consistency and risk-efficiency of performance.</p>
+                        </div>
+                        <div class="stats-grid metrics-grid">
+                            <div class="card metric-card">
+                                <p class="metric-label">Risk-Reward Ratio</p>
+                                <p class="metric-value" id="rr-ratio">—</p>
+                                <p class="metric-helper">Avg win / avg loss</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Sharpe Ratio</p>
+                                <p class="metric-value" id="sharpe-ratio">—</p>
+                                <p class="metric-helper">Return vs volatility</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Sortino Ratio</p>
+                                <p class="metric-value" id="sortino-ratio">—</p>
+                                <p class="metric-helper">Return vs downside risk</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Max Drawdown</p>
+                                <p class="metric-value" id="max-drawdown">—</p>
+                                <p class="metric-helper">Worst peak-to-valley</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Expected Value</p>
+                                <p class="metric-value" id="expected-value">—</p>
+                                <p class="metric-helper">Avg result per trade</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Expectation (100 trades)</p>
+                                <p class="metric-value" id="expectation-100">—</p>
+                                <p class="metric-helper">Projected over 100 trades</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Trade Activity</h2>
+                            <p>Volume and distribution of results.</p>
+                        </div>
+                        <div class="stats-grid metrics-grid">
+                            <div class="card metric-card">
+                                <p class="metric-label">Total Trades</p>
+                                <p class="metric-value" id="total-trades">—</p>
+                                <p class="metric-helper">Closed trades counted</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Wins</p>
+                                <p class="metric-value" id="wins">—</p>
+                                <p class="metric-helper">Trades with positive P/L</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Losses</p>
+                                <p class="metric-value" id="losses">—</p>
+                                <p class="metric-helper">Trades with negative P/L</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Average P/L</p>
+                                <p class="metric-value" id="avg-pl">—</p>
+                                <p class="metric-helper">Mean P/L per trade</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Best Trade</p>
+                                <p class="metric-value" id="best-trade">—</p>
+                                <p class="metric-helper">Largest single gain</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Worst Trade</p>
+                                <p class="metric-value" id="worst-trade">—</p>
+                                <p class="metric-helper">Largest single loss</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Performance Charts</h2>
+                            <p>Trend and distribution of results.</p>
+                        </div>
+                        <div class="charts-grid">
+                            <div class="card chart-card">
+                                <div class="chart-header">
+                                    <div>
+                                        <p class="metric-label">Equity Curve</p>
+                                        <p class="metric-helper">
+                                            Cumulative P/L over time
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="chart-body">
+                                    <canvas id="equity-chart"></canvas>
+                                </div>
+                            </div>
+                            <div class="card chart-card">
+                                <div class="chart-header">
+                                    <div>
+                                        <p class="metric-label">P/L Distribution</p>
+                                        <p class="metric-helper">
+                                            Wins vs losses by size
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="chart-body">
+                                    <canvas id="pl-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Monthly Calendar</h2>
+                            <p>Daily P/L overview for the current month.</p>
+                        </div>
+                        <div class="card calendar-card">
+                            <div class="card-header">
+                                <div class="card-title" id="analytics-calendar-title">
+                                    —
+                                </div>
+                                <div class="calendar-nav">
+                                    <button
+                                        class="btn btn-ghost btn-sm"
+                                        id="calendar-prev"
+                                    >
+                                        ‹
+                                    </button>
+                                    <button
+                                        class="btn btn-ghost btn-sm"
+                                        id="calendar-next"
+                                    >
+                                        ›
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="calendar-grid" id="analytics-calendar-grid"></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <script>
+            const toggleButton = document.getElementById("theme-toggle");
+            const setTheme = (mode) => {
+                document.body.classList.toggle("dark", mode === "dark");
+                toggleButton.textContent =
+                    mode === "dark" ? "Light mode" : "Dark mode";
+                localStorage.setItem("dashboardTheme", mode);
+            };
+
+            const storedTheme = localStorage.getItem("dashboardTheme") || "light";
+            setTheme(storedTheme);
+
+            toggleButton.addEventListener("click", () => {
+                const nextTheme = document.body.classList.contains("dark")
+                    ? "light"
+                    : "dark";
+                setTheme(nextTheme);
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../Shared/reports-nav.js"></script>
+        <script src="../Shared/client-data-lite.js"></script>
+        <script src="../Shared/sidebar-icons.js"></script>
+        <script src="analytics.js"></script>
+    </body>
+</html>
+

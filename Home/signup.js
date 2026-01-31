@@ -4,6 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const passwordInput = document.getElementById("password");
     const continuebutton = document.getElementById("continue-button");
     const FUNNEL_TRACK_ENDPOINT = "https://track-funnel-event-b52ovbio5q-uc.a.run.app";
+    const notify = (message, type = "error") => {
+        if (window.showNotification) {
+            window.showNotification(message, type);
+        } else {
+            console.warn(message);
+        }
+    };
 
     async function trackFunnelEvent(event, source) {
         try {
@@ -53,49 +60,55 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hasError) return;
 
 
-    // --- send to backend API (example) ---
     try {
-    // change this to your real endpoint
-        const response = await fetch("https://add-account-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password,
-            })
-        });
-
-        if (!response.ok) {
-            // handle server error
-            const errorData = await response.json().catch(() => ({}));
-            const msg =
-            errorData.message || "Something went wrong. Please try again.";
-            alert(msg);
+        if (!window.firebase || !firebase.auth) {
+            notify("Signup is not available right now. Please try again.", "error");
             return;
         }
 
-    // success
+        const userCredential = await firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password);
+
+        const response = await fetch(
+            "https://add-account-b52ovbio5q-uc.a.run.app",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password,
+                })
+            }
+        );
+
+        if (!response.ok) {
+            await userCredential.user.delete();
+            const errorData = await response.json().catch(() => ({}));
+            const msg =
+                errorData.message || "Something went wrong. Please try again.";
+            notify(msg, "error");
+            return;
+        }
+
         const data = await response.text().catch(() => ({}));
         console.log("Signup success:", data);
         if (data == "Invalid Email" || data == "Invalid Credentials") {
-            showFieldError(
-                passwordInput,
-                "Email already in use."
-            );
+            await userCredential.user.delete();
+            showFieldError(passwordInput, "Email already in use.");
         } else {
-            localStorage.setItem("firstsign", true)
-            localStorage.setItem("token", data)
+            localStorage.setItem("firstsign", true);
             trackFunnelEvent("signup_completed", "email_password");
-            window.location.href = "../Dashboard/dashboard.html"
+            window.location.href = "../DashboardRewrite/dashboard.html";
         }
 
     } catch (err) {
-            console.error("Network error:", err);
-            alert("Network error. Please check your connection and try again.");
-        }
+        console.error("Network error:", err);
+        notify("Network error. Please check your connection and try again.", "error");
+    }
     });
 
     function sleep(ms) {
@@ -150,35 +163,18 @@ document.addEventListener("DOMContentLoaded", () => {
   async function handleGoogleSignin() {
     try {
       if (!window.firebase || !firebase.auth) {
-        alert("Google sign-in is not available. Please try again.");
+        notify("Google sign-in is not available. Please try again.", "error");
         return;
       }
 
       const provider = new firebase.auth.GoogleAuthProvider();
       const result = await firebase.auth().signInWithPopup(provider);
-      const idToken = await result.user.getIdToken();
-
-      const apiResponse = await fetch("https://firebase-auth-login-b52ovbio5q-uc.a.run.app", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ idToken })
-      });
-
-      const token = await apiResponse.text().catch(() => "");
-      if (!apiResponse.ok || !token || token.includes("Error")) {
-        alert("Google sign-in failed. Please try again.");
-        return;
-      }
-
       localStorage.setItem("firstsign", true);
-      localStorage.setItem("token", token);
       trackFunnelEvent("signup_completed", "google");
-      window.location.href = "../Dashboard/dashboard.html";
+      window.location.href = "../DashboardRewrite/dashboard.html";
     } catch (error) {
       console.error("Google sign-in error:", error);
-      alert("Google sign-in failed. Please try again.");
+      notify("Google sign-in failed. Please try again.", "error");
     }
   }
 

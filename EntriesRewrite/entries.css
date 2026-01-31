@@ -1,0 +1,242 @@
+.filters-card {
+    margin-bottom: 18px;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-label {
+    font-size: 12px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.filter-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.entries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.entry-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 320px;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.entry-symbol {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.entry-meta {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.entry-media {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.entry-img {
+    display: block;
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.entry-body {
+    display: grid;
+    gap: 12px;
+}
+
+.entry-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.entry-label {
+    margin: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+.entry-value {
+    margin: 6px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+.entry-pl.positive {
+    color: #15803d;
+    font-weight: 600;
+}
+
+.entry-pl.negative {
+    color: #b91c1c;
+    font-weight: 600;
+}
+
+.entry-footer {
+    margin-top: auto;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.entry-status {
+    font-size: 11px;
+}
+
+.entry-status.status-open {
+    background: #dcfce7;
+    color: #15803d;
+    border-color: #bbf7d0;
+}
+
+.entry-status.status-closed {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.entry-status.entry-rank {
+    background: transparent;
+    border: 1px solid #e2e8f0;
+}
+
+.entry-status.entry-rank-Terrible {
+    color: #ff1744;
+    border-color: #ff1744;
+}
+
+.entry-status.entry-rank-Bad {
+    color: #ff6b35;
+    border-color: #ff6b35;
+}
+
+.entry-status.entry-rank-Mediocre {
+    color: #ffa726;
+    border-color: #ffa726;
+}
+
+.entry-status.entry-rank-Good {
+    color: #66bb6a;
+    border-color: #66bb6a;
+}
+
+.entry-status.entry-rank-Great {
+    color: #42a5f5;
+    border-color: #42a5f5;
+}
+
+.entry-status.entry-rank-Excellent {
+    color: #00ff99;
+    border-color: #00ff99;
+}
+
+body.dark .entry-value {
+    color: #f8fafc;
+}
+
+body.dark .entry-pl.positive {
+    color: #86efac;
+}
+
+body.dark .entry-pl.negative {
+    color: #fca5a5;
+}
+
+body.dark .entry-status.status-open {
+    background: rgba(34, 197, 94, 0.15);
+    color: #86efac;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+body.dark .entry-status.status-closed {
+    background: #0f1318;
+    color: #94a3b8;
+    border-color: #1f2937;
+}
+
+body.dark .entry-status.entry-rank {
+    border-color: #1f2937;
+}
+
+.empty-state {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.empty-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.empty-subtitle {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+body.dark .filter-select {
+    background: #0f1317;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #ffffff;
+}
+
+body.dark .entry-symbol,
+body.dark .entry-value {
+    color: #ffffff;
+}
+
+body.dark .entry-meta,
+body.dark .filter-label,
+body.dark .empty-subtitle {
+    color: #8c98a4;
+}
+
+body.dark .entry-media {
+    border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .entry-status.status-closed {
+    background: #191d23;
+    color: #8c98a4;
+    border-color: rgba(128, 128, 128, 0.25);
+}

@@ -4,11 +4,20 @@
 let currentResetEmail = '';
 let currentResetCode = '';
 let currentStep = 1;
+let autoCloseTimeout = null;
 
 const RESET_ENDPOINTS = {
     request: 'https://password-reset-request-b52ovbio5q-uc.a.run.app',
     verify: 'https://password-reset-verify-b52ovbio5q-uc.a.run.app',
     confirm: 'https://password-reset-confirm-b52ovbio5q-uc.a.run.app'
+};
+
+const notify = (message, type = "info") => {
+    if (window.showNotification) {
+        window.showNotification(message, type);
+    } else {
+        console.warn(message);
+    }
 };
 
 function openPasswordResetModal(email = '') {
@@ -23,10 +32,19 @@ function openPasswordResetModal(email = '') {
     currentStep = 1;
     
     // Reset all steps
-    document.getElementById('reset-step-1').style.display = 'block';
-    document.getElementById('reset-step-2').style.display = 'none';
-    document.getElementById('reset-step-3').style.display = 'none';
-    document.getElementById('reset-success').style.display = 'none';
+    const step1 = document.getElementById('reset-step-1');
+    const step2 = document.getElementById('reset-step-2');
+    const step3 = document.getElementById('reset-step-3');
+    const step4 = document.getElementById('reset-success');
+    if (step1) step1.style.display = 'block';
+    if (step2) step2.style.display = 'none';
+    if (step3) step3.style.display = 'none';
+    if (step4) step4.style.display = 'none';
+
+    if (autoCloseTimeout) {
+        clearTimeout(autoCloseTimeout);
+        autoCloseTimeout = null;
+    }
     
     // Clear errors
     hideError(1);
@@ -61,10 +79,14 @@ function closePasswordResetModal() {
 }
 
 function showStep(step) {
-    document.getElementById('reset-step-1').style.display = step === 1 ? 'block' : 'none';
-    document.getElementById('reset-step-2').style.display = step === 2 ? 'block' : 'none';
-    document.getElementById('reset-step-3').style.display = step === 3 ? 'block' : 'none';
-    document.getElementById('reset-success').style.display = step === 4 ? 'block' : 'none';
+    const step1 = document.getElementById('reset-step-1');
+    const step2 = document.getElementById('reset-step-2');
+    const step3 = document.getElementById('reset-step-3');
+    const step4 = document.getElementById('reset-success');
+    if (step1) step1.style.display = step === 1 ? 'block' : 'none';
+    if (step2) step2.style.display = step === 2 ? 'block' : 'none';
+    if (step3) step3.style.display = step === 3 ? 'block' : 'none';
+    if (step4) step4.style.display = step === 4 ? 'block' : 'none';
     currentStep = step;
     lucide.createIcons();
 }
@@ -175,12 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const result = await response.json();
                 
-                if (result.ok) {
-                    // Move to step 3
-                    showStep(3);
-                } else {
-                    showError(2, result.message || 'Invalid or expired code. Please try again.');
-                }
+            if (result.ok) {
+                // Show success once the reset email is sent
+                showStep(4);
+                autoCloseTimeout = setTimeout(() => {
+                    closePasswordResetModal();
+                }, 4500);
+            } else {
+                showError(2, result.message || 'Invalid or expired code. Please try again.');
+            }
             } catch (error) {
                 console.error('Error verifying code:', error);
                 showError(2, 'Network error. Please check your connection and try again.');
@@ -209,8 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
                 
                 if (result.ok) {
-                    // Show success message (you could add a toast notification here)
-                    alert('A new code has been sent to your email.');
+                    notify("A new code has been sent to your email.", "success");
                 } else {
                     showError(2, result.message || 'Failed to resend code. Please try again.');
                 }
@@ -219,61 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showError(2, 'Network error. Please check your connection and try again.');
             } finally {
                 setLoading('reset-resend-button', false);
-            }
-        });
-    }
-    
-    // Step 3: Confirm Password Reset
-    const confirmForm = document.getElementById('reset-confirm-form');
-    if (confirmForm) {
-        confirmForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            hideError(3);
-            
-            const newPasswordInput = document.getElementById('reset-new-password');
-            const confirmPasswordInput = document.getElementById('reset-confirm-password');
-            const newPassword = newPasswordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
-            
-            if (newPassword.length < 6) {
-                showError(3, 'Password must be at least 6 characters long.');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showError(3, 'Passwords do not match.');
-                return;
-            }
-            
-            setLoading('reset-confirm-button', true);
-            
-            try {
-                const response = await fetch(RESET_ENDPOINTS.confirm, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: currentResetEmail,
-                        code: currentResetCode,
-                        newPassword: newPassword,
-                        confirmPassword: confirmPassword
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.ok) {
-                    // Show success
-                    showStep(4);
-                } else {
-                    showError(3, result.message || 'Failed to reset password. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error confirming password reset:', error);
-                showError(3, 'Network error. Please check your connection and try again.');
-            } finally {
-                setLoading('reset-confirm-button', false);
             }
         });
     }

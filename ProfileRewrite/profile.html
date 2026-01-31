@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ClearEntry Profile</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="../Shared/auth-config.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+        <link rel="stylesheet" href="../DashboardRewrite/dashboard.css" />
+        <link rel="stylesheet" href="../Shared/notifications.css" />
+        <link rel="stylesheet" href="../Shared/password-reset-modal.css" />
+        <link rel="stylesheet" href="profile.css" />
+    </head>
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <a class="brand-title" href="../Home/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <p class="nav-label">Overview</p>
+                        <a class="nav-item" href="../DashboardRewrite/dashboard.html"
+                            >Dashboard</a
+                        >
+                        <a class="nav-item" href="../EntriesRewrite/Entries.html"
+                            >Journal</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Daily</p>
+                        <a class="nav-item" href="../JournalRewrite/journal.html"
+                            >Notebook</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >Pre Execution</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PsychologyRewrite/psychology.html"
+                            >Psychology</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../TradeLoggingRewrite/tradelogging.html"
+                            >Trade Logging</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Analytics</p>
+                        <a class="nav-item" href="../AnalyticsRewrite/analytics.html"
+                            >Analytics</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../ConsistencyRewrite/consistency.html"
+                            >Consistency</a
+                        >
+                        <button class="nav-item nav-item-parent" type="button">
+                            My Reports
+                            <span class="nav-caret">▾</span>
+                        </button>
+                        <div class="nav-sub">
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=overview"
+                                >Analysis Overview</a
+                            >
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=smart"
+                                >Smart Analysis</a
+                            >
+                        </div>
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Account</p>
+                        <a
+                            class="nav-item is-active"
+                            href="../ProfileRewrite/profile.html"
+                            >Profile</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../SupportRewrite/support.html"
+                            >Support</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../UpdateLogRewrite/updatelog.html"
+                            >Update Log</a
+                        >
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main">
+                <header class="topbar">
+                    <div class="breadcrumbs">
+                        <span class="crumb">Account</span>
+                        <span class="crumb-sep">›</span>
+                        <span class="crumb is-current">Profile</span>
+                    </div>
+                    <div class="topbar-actions">
+                        <button class="btn btn-ghost" id="theme-toggle">
+                            Dark mode
+                        </button>
+                        <button class="btn btn-ghost danger-button" id="logout-button">
+                            Log out
+                        </button>
+                        <div class="avatar">
+                            <div class="avatar-dot"></div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Profile</h1>
+                            <p class="subtle">
+                                Manage your account details and membership settings.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="profile-grid">
+                        <div class="card profile-summary">
+                            <div class="profile-avatar">
+                                <span>CE</span>
+                            </div>
+                            <div>
+                                <p id="NameTextH" class="profile-name">—</p>
+                                <p id="EmailTextH" class="profile-meta">—</p>
+                                <p id="MembershipTextH" class="profile-meta">—</p>
+                            </div>
+                        </div>
+
+                        <div class="card profile-form-card">
+                            <div class="profile-form">
+                                <div class="form-group">
+                                    <label class="form-label" for="NameText"
+                                        >Name</label
+                                    >
+                                    <input
+                                        id="NameText"
+                                        class="form-input"
+                                        placeholder="Enter name"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="EmailText"
+                                        >Email</label
+                                    >
+                                    <input
+                                        id="EmailText"
+                                        class="form-input"
+                                        placeholder="Enter email"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Membership</label>
+                                    <p id="MembershipText" class="form-input readonly">
+                                        —
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="BioText">Bio</label>
+                                    <textarea
+                                        id="BioText"
+                                        class="form-textarea"
+                                        placeholder="Enter a short bio"
+                                        rows="4"
+                                    ></textarea>
+                                </div>
+                                <div class="profile-actions">
+                                    <button class="btn btn-primary" id="SaveButton">
+                                        Save Changes
+                                    </button>
+                                    <button
+                                        class="btn btn-ghost"
+                                        id="reset-password-button"
+                                    >
+                                        Reset Password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        id="membership-cancel-section"
+                        class="card cancel-card"
+                        style="display: none;"
+                    >
+                        <h3>Cancel Membership</h3>
+                        <p class="subtle">
+                            Cancel your ClearEntry Pro subscription. Your access will
+                            continue until the end of your current billing period.
+                        </p>
+                        <button
+                            id="cancel-membership-button"
+                            class="btn btn-ghost danger-button"
+                        >
+                            Cancel Subscription
+                        </button>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div id="password-reset-modal" class="password-reset-modal" style="display: none;">
+            <div class="password-reset-modal-overlay"></div>
+            <div class="password-reset-modal-content">
+                <button class="password-reset-close" id="password-reset-close">
+                    ×
+                </button>
+
+                <div id="reset-step-1" class="reset-step">
+                    <h2 class="reset-title">Reset Password</h2>
+                    <p class="reset-description">
+                        Enter your email address and we'll send you a code to reset
+                        your password.
+                    </p>
+                    <form id="reset-request-form" class="reset-form">
+                        <div class="form-group">
+                            <label class="auth-text" for="reset-email"
+                                >Email address</label
+                            >
+                            <input
+                                class="auth-input"
+                                type="email"
+                                id="reset-email"
+                                name="email"
+                                placeholder="you@example.com"
+                                required
+                                readonly
+                            />
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit" id="reset-request-button" class="btn-primary">
+                                Get Code
+                            </button>
+                        </div>
+                    </form>
+                    <div id="reset-error-1" class="reset-error" style="display: none;"></div>
+                </div>
+
+                <div id="reset-step-2" class="reset-step" style="display: none;">
+                    <h2 class="reset-title">Enter Verification Code</h2>
+                    <p class="reset-description">
+                        We sent a 6-digit code to your email. Enter it below.
+                    </p>
+                    <form id="reset-verify-form" class="reset-form">
+                        <div class="form-group">
+                            <label class="auth-text" for="reset-code"
+                                >Verification Code</label
+                            >
+                            <input
+                                class="auth-input"
+                                type="text"
+                                id="reset-code"
+                                name="code"
+                                placeholder="000000"
+                                maxlength="6"
+                                pattern="[0-9]{6}"
+                                required
+                            />
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit" id="reset-verify-button" class="btn-primary">
+                                Verify Code
+                            </button>
+                            <button type="button" id="reset-resend-button" class="btn-secondary">
+                                Resend Code
+                            </button>
+                        </div>
+                    </form>
+                    <div id="reset-error-2" class="reset-error" style="display: none;"></div>
+                </div>
+
+                <div id="reset-step-3" class="reset-step" style="display: none;">
+                    <h2 class="reset-title">Set New Password</h2>
+                    <p class="reset-description">Enter your new password below.</p>
+                    <form id="reset-confirm-form" class="reset-form">
+                        <div class="form-group">
+                            <label class="auth-text" for="reset-new-password"
+                                >New Password</label
+                            >
+                            <input
+                                class="auth-input"
+                                type="password"
+                                id="reset-new-password"
+                                name="newPassword"
+                                placeholder="••••••••"
+                                minlength="6"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="auth-text" for="reset-confirm-password"
+                                >Confirm Password</label
+                            >
+                            <input
+                                class="auth-input"
+                                type="password"
+                                id="reset-confirm-password"
+                                name="confirmPassword"
+                                placeholder="••••••••"
+                                minlength="6"
+                                required
+                            />
+                        </div>
+                        <div class="form-footer">
+                            <button type="submit" id="reset-confirm-button" class="btn-primary">
+                                Reset Password
+                            </button>
+                        </div>
+                    </form>
+                    <div id="reset-error-3" class="reset-error" style="display: none;"></div>
+                </div>
+
+                <div id="reset-success" class="reset-success" style="display: none;">
+                    <div class="success-icon">✓</div>
+                    <h2 class="reset-title">Password Reset Successful!</h2>
+                    <p class="reset-description">
+                        Your password has been reset. You can now log in with your
+                        new password.
+                    </p>
+                    <button type="button" id="reset-close-success" class="btn-primary">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const toggleButton = document.getElementById("theme-toggle");
+            const setTheme = (mode) => {
+                document.body.classList.toggle("dark", mode === "dark");
+                toggleButton.textContent =
+                    mode === "dark" ? "Light mode" : "Dark mode";
+                localStorage.setItem("dashboardTheme", mode);
+            };
+
+            const storedTheme = localStorage.getItem("dashboardTheme") || "light";
+            setTheme(storedTheme);
+
+            toggleButton.addEventListener("click", () => {
+                const nextTheme = document.body.classList.contains("dark")
+                    ? "light"
+                    : "dark";
+                setTheme(nextTheme);
+            });
+
+        </script>
+        <script src="../Shared/notifications.js"></script>
+        <script src="../Shared/password-reset-modal.js"></script>
+        <script src="../Shared/reports-nav.js"></script>
+        <script src="../Shared/client-data-lite.js"></script>
+        <script src="../Shared/sidebar-icons.js"></script>
+        <script src="profile.js"></script>
+    </body>
+</html>
+

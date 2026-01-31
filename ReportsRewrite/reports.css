@@ -1,0 +1,396 @@
+.reports-page {
+    display: grid;
+    gap: 16px;
+}
+
+.reports-header {
+    align-items: center;
+}
+
+.reports-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pill-group {
+    display: flex;
+    gap: 6px;
+}
+
+.pill {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pill.is-active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+
+.nav-item-parent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nav-item-parent.is-active,
+.nav-item-parent:hover {
+    background: #f1f5f9;
+}
+
+.nav-caret {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.nav-sub {
+    display: grid;
+    gap: 4px;
+    padding: 6px 0 10px 8px;
+}
+
+.nav-sub.is-hidden {
+    display: none;
+}
+
+.nav-sub-item {
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 6px 10px;
+    font-size: 13px;
+    color: #64748b;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.nav-sub-item.is-active {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.overview-card {
+    display: grid;
+    gap: 16px;
+}
+
+.overview-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.overview-label {
+    margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+.overview-sub {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.overview-metrics {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.overview-metric {
+    display: grid;
+    gap: 4px;
+    text-align: right;
+}
+
+.overview-metric .metric-label {
+    font-size: 11px;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.overview-metric .metric-value {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.overview-panel {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    display: grid;
+    gap: 10px;
+}
+
+.panel-title {
+    margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+.panel-list {
+    display: grid;
+    gap: 6px;
+    font-size: 12px;
+    color: #475569;
+}
+
+.panel-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.panel-row strong {
+    color: #0f172a;
+}
+
+.insight-list {
+    margin: 0;
+    padding-left: 16px;
+    display: grid;
+    gap: 8px;
+    font-size: 12px;
+    color: #475569;
+}
+
+.smart-intro {
+    display: grid;
+    gap: 10px;
+}
+
+.frame-1-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.smart-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.analysis-loading-overlay {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    padding: 24px;
+}
+
+.analysis-loading-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.analysis-empty {
+    border: 1px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    display: grid;
+    gap: 10px;
+    text-align: center;
+    color: #64748b;
+}
+
+.analysis-content {
+    display: grid;
+    gap: 16px;
+}
+
+.analysis-hero-card {
+    display: grid;
+    gap: 12px;
+}
+
+.hero-headline {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.hero-oneliner {
+    margin: 0;
+    color: #64748b;
+}
+
+.hero-callout {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f8fafc;
+}
+
+.callout-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+}
+
+.callout-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.analysis-section {
+    display: grid;
+    gap: 10px;
+}
+
+.analysis-card {
+    display: grid;
+    gap: 8px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.top-issues-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+}
+
+.issue-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f8fafc;
+    display: grid;
+    gap: 10px;
+}
+
+.issue-header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.issue-number {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.issue-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.issue-evidence,
+.issue-fix,
+.issue-when,
+.issue-cost {
+    font-size: 12px;
+    color: #475569;
+}
+
+.issue-evidence ul {
+    margin: 6px 0 0;
+    padding-left: 16px;
+}
+
+.disclaimers-section {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    background: #f8fafc;
+}
+
+.disclaimers-content {
+    display: flex;
+    gap: 10px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+body.dark .nav-item-parent,
+body.dark .nav-item-parent:hover,
+body.dark .nav-sub-item.is-active {
+    background: #191d23;
+    color: #ffffff;
+}
+
+body.dark .nav-sub-item {
+    color: #8c98a4;
+}
+
+body.dark .overview-panel,
+body.dark .hero-callout,
+body.dark .issue-card,
+body.dark .disclaimers-section,
+body.dark .analysis-loading-overlay {
+    background: #14181f;
+    border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .panel-row strong,
+body.dark .hero-headline,
+body.dark .issue-title,
+body.dark .analysis-card,
+body.dark .analysis-hero-card {
+    color: #ffffff;
+}
+
+body.dark .panel-list,
+body.dark .insight-list,
+body.dark .hero-oneliner,
+body.dark .issue-evidence,
+body.dark .issue-fix,
+body.dark .issue-when,
+body.dark .issue-cost,
+body.dark .disclaimers-content,
+body.dark .overview-sub,
+body.dark .overview-label,
+body.dark .metric-label,
+body.dark .section-title {
+    color: #8c98a4;
+}
+

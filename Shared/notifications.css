@@ -1,0 +1,162 @@
+.ce-notify-container {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    gap: 10px;
+    z-index: 9999;
+    max-width: 360px;
+    width: calc(100% - 32px);
+}
+
+.ce-notify {
+    --ce-accent: #0f172a;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 13px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ce-notify.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ce-notify::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ce-accent);
+    margin-top: 6px;
+    flex: 0 0 auto;
+}
+
+.ce-notify-message {
+    flex: 1;
+    line-height: 1.35;
+}
+
+.ce-notify-close {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.ce-notify-error {
+    --ce-accent: #ef4444;
+}
+
+.ce-notify-warning {
+    --ce-accent: #f59e0b;
+}
+
+.ce-notify-success {
+    --ce-accent: #22c55e;
+}
+
+.ce-notify-info {
+    --ce-accent: #38bdf8;
+}
+
+.ce-notify-container.is-dark .ce-notify {
+    background: #14181f;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #f8fafc;
+    box-shadow: 0 8px 20px rgba(2, 6, 12, 0.4);
+}
+
+.ce-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 24px;
+}
+
+.ce-confirm {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    width: min(420px, 92vw);
+    display: grid;
+    gap: 12px;
+    color: #0f172a;
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.16);
+}
+
+.ce-confirm-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.ce-confirm-message {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.ce-confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.ce-confirm-btn {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.ce-confirm-btn-primary {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #ffffff;
+}
+
+.ce-confirm-overlay.is-dark .ce-confirm {
+    background: #14181f;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #ffffff;
+    box-shadow: 0 16px 32px rgba(2, 6, 12, 0.4);
+}
+
+.ce-confirm-overlay.is-dark .ce-confirm-message {
+    color: #8c98a4;
+}
+
+.ce-confirm-overlay.is-dark .ce-confirm-btn {
+    background: #0f1317;
+    border-color: rgba(128, 128, 128, 0.25);
+    color: #ffffff;
+}
+
+.ce-confirm-overlay.is-dark .ce-confirm-btn-primary {
+    background: #00ff99;
+    border-color: #00ff99;
+    color: #0b1b12;
+}
+

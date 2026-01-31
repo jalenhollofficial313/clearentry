@@ -1,0 +1,125 @@
+.profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.profile-summary {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.profile-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: #0f172a;
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.profile-meta {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.profile-form {
+    display: grid;
+    gap: 14px;
+}
+
+.form-group {
+    display: grid;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.form-input,
+.form-textarea {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: "Inter", sans-serif;
+    background: #ffffff;
+    color: #0f172a;
+}
+
+.form-input.readonly {
+    background: #f8fafc;
+}
+
+.form-textarea {
+    resize: vertical;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cancel-card h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+}
+
+.danger-button {
+    color: #ef4444;
+    border-color: #fecaca;
+}
+
+body.dark .profile-avatar {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+body.dark .profile-meta,
+body.dark .subtle {
+    color: #94a3b8;
+}
+
+body.dark .form-label,
+body.dark .profile-name {
+    color: #e2e8f0;
+}
+
+body.dark .form-input,
+body.dark .form-textarea {
+    background: #0f1318;
+    border-color: #1f2937;
+    color: #e2e8f0;
+}
+
+body.dark .form-input.readonly {
+    background: #101418;
+}
+
+body.dark .danger-button {
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+@media (max-width: 1000px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

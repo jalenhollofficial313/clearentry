@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>ClearEntry Support</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="../Shared/auth-config.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+        <link rel="stylesheet" href="../DashboardRewrite/dashboard.css" />
+        <link rel="stylesheet" href="support.css" />
+    </head>
+    <body>
+        <div class="app">
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <a class="brand-title" href="../Home/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <p class="nav-label">Overview</p>
+                        <a class="nav-item" href="../DashboardRewrite/dashboard.html"
+                            >Dashboard</a
+                        >
+                        <a class="nav-item" href="../EntriesRewrite/Entries.html"
+                            >Journal</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Daily</p>
+                        <a class="nav-item" href="../JournalRewrite/journal.html"
+                            >Notebook</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PreTradeRewrite/pretrade.html"
+                            >Pre Execution</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../PsychologyRewrite/psychology.html"
+                            >Psychology</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../TradeLoggingRewrite/tradelogging.html"
+                            >Trade Logging</a
+                        >
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Analytics</p>
+                        <a class="nav-item" href="../AnalyticsRewrite/analytics.html"
+                            >Analytics</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../ConsistencyRewrite/consistency.html"
+                            >Consistency</a
+                        >
+                        <button class="nav-item nav-item-parent" type="button">
+                            My Reports
+                            <span class="nav-caret">▾</span>
+                        </button>
+                        <div class="nav-sub">
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=overview"
+                                >Analysis Overview</a
+                            >
+                            <a
+                                class="nav-sub-item"
+                                href="../ReportsRewrite/reports.html?view=smart"
+                                >Smart Analysis</a
+                            >
+                        </div>
+                    </div>
+                    <div class="nav-section">
+                        <p class="nav-label">Account</p>
+                        <a
+                            class="nav-item"
+                            href="../ProfileRewrite/profile.html"
+                            >Profile</a
+                        >
+                        <a
+                            class="nav-item is-active"
+                            href="../SupportRewrite/support.html"
+                            >Support</a
+                        >
+                        <a
+                            class="nav-item"
+                            href="../UpdateLogRewrite/updatelog.html"
+                            >Update Log</a
+                        >
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="main">
+                <header class="topbar">
+                    <div class="breadcrumbs">
+                        <span class="crumb">Account</span>
+                        <span class="crumb-sep">›</span>
+                        <span class="crumb is-current">Support</span>
+                    </div>
+                    <div class="topbar-actions">
+                        <button class="btn btn-ghost" id="theme-toggle">
+                            Dark mode
+                        </button>
+                        <div class="avatar">
+                            <div class="avatar-dot"></div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="page">
+                    <div class="page-header">
+                        <div>
+                            <h1>Support</h1>
+                            <p class="subtle">
+                                Submit a request and our team will get back to you
+                                quickly.
+                            </p>
+                        </div>
+                        <div class="header-actions">
+                            <span class="chip chip-neutral"
+                                >24-48 hour response</span
+                            >
+                        </div>
+                    </div>
+
+                    <div class="support-layout">
+                        <div class="card support-card">
+                            <h2 class="support-title">Submit a Support Request</h2>
+                            <p class="support-description">
+                                Share as much detail as possible so we can help
+                                faster.
+                            </p>
+                            <form id="support-form" class="support-form">
+                                <div class="support-form-group">
+                                    <label class="support-form-label" for="support-email">
+                                        Email
+                                        <span class="required-asterisk">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="support-email"
+                                        name="email"
+                                        class="support-form-input"
+                                        placeholder="you@email.com"
+                                        required
+                                    />
+                                    <span class="support-error-message" id="email-error"></span>
+                                </div>
+
+                                <div class="support-form-group">
+                                    <label
+                                        class="support-form-label"
+                                        for="support-discord"
+                                    >
+                                        Discord Username (Optional)
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="support-discord"
+                                        name="discord"
+                                        class="support-form-input"
+                                        placeholder="username#1234"
+                                    />
+                                </div>
+
+                                <div class="support-form-group">
+                                    <label
+                                        class="support-form-label"
+                                        for="support-description"
+                                    >
+                                        Problem Description
+                                        <span class="required-asterisk">*</span>
+                                    </label>
+                                    <textarea
+                                        id="support-description"
+                                        name="description"
+                                        class="support-form-textarea"
+                                        placeholder="Describe the issue and any steps you've tried..."
+                                        rows="6"
+                                        required
+                                    ></textarea>
+                                    <span
+                                        class="support-error-message"
+                                        id="description-error"
+                                    ></span>
+                                </div>
+
+                                <div id="support-message" class="support-message"></div>
+
+                                <button
+                                    type="submit"
+                                    id="support-submit-button"
+                                    class="btn btn-primary support-submit-button"
+                                >
+                                    Submit Request
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="card support-tips">
+                            <h3>What helps us resolve it faster</h3>
+                            <ul>
+                                <li>Screenshot or error message if possible.</li>
+                                <li>Which page you were on.</li>
+                                <li>Browser or device details.</li>
+                                <li>Steps to reproduce the issue.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div class="mainframe-loading" style="display: none;">
+            <div id="load-frame" class="loading-frame">
+                <div class="loader"></div>
+                <p class="load-text">Sending Request...</p>
+            </div>
+            <div id="loaded-frame" class="loading-frame">
+                <div class="loader-success">✓</div>
+                <p class="load-text">Request Sent</p>
+            </div>
+        </div>
+
+        <script>
+            const toggleButton = document.getElementById("theme-toggle");
+            const setTheme = (mode) => {
+                document.body.classList.toggle("dark", mode === "dark");
+                toggleButton.textContent =
+                    mode === "dark" ? "Light mode" : "Dark mode";
+                localStorage.setItem("dashboardTheme", mode);
+            };
+
+            const storedTheme = localStorage.getItem("dashboardTheme") || "light";
+            setTheme(storedTheme);
+
+            toggleButton.addEventListener("click", () => {
+                const nextTheme = document.body.classList.contains("dark")
+                    ? "light"
+                    : "dark";
+                setTheme(nextTheme);
+            });
+
+        </script>
+        <script src="../Shared/reports-nav.js"></script>
+        <script src="../Shared/client-data-lite.js"></script>
+        <script src="../Shared/sidebar-icons.js"></script>
+        <script src="support.js"></script>
+    </body>
+</html>
+

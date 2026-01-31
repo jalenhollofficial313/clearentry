@@ -11,6 +11,7 @@
 
 
     <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="../Shared/notifications.css" rel="stylesheet" type="text/css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -156,54 +157,11 @@
                 
                 <div id="reset-error-2" class="reset-error" style="display: none;"></div>
             </div>
-            
-            <!-- Step 3: Reset Password -->
-            <div id="reset-step-3" class="reset-step" style="display: none;">
-                <h2 class="inter-text reset-title">Set New Password</h2>
-                <p class="inter-text reset-description">Enter your new password below.</p>
-                
-                <form id="reset-confirm-form" class="reset-form">
-                    <div class="form-group">
-                        <label class="inter-text auth-text" for="reset-new-password">New Password</label>
-                        <input
-                            class="auth-input inter-text"
-                            type="password"
-                            id="reset-new-password"
-                            name="newPassword"
-                            placeholder="••••••••"
-                            minlength="6"
-                            required
-                        />
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="inter-text auth-text" for="reset-confirm-password">Confirm Password</label>
-                        <input
-                            class="auth-input inter-text"
-                            type="password"
-                            id="reset-confirm-password"
-                            name="confirmPassword"
-                            placeholder="••••••••"
-                            minlength="6"
-                            required
-                        />
-                    </div>
-                    
-                    <div class="form-footer">
-                        <button type="submit" id="reset-confirm-button" class="btn-primary inter-text green-button">
-                            Reset Password
-                        </button>
-                    </div>
-                </form>
-                
-                <div id="reset-error-3" class="reset-error" style="display: none;"></div>
-            </div>
-            
             <!-- Success Message -->
             <div id="reset-success" class="reset-success" style="display: none;">
                 <i data-lucide="check-circle" class="success-icon"></i>
-                <h2 class="inter-text reset-title">Password Reset Successful!</h2>
-                <p class="inter-text reset-description">Your password has been reset. You can now log in with your new password.</p>
+                <h2 class="inter-text reset-title">Reset Email Sent</h2>
+                <p class="inter-text reset-description">We sent a password reset link to your email. Use the link to finish resetting your password.</p>
                 <button type="button" id="reset-close-success" class="btn-primary inter-text green-button">
                     Close
                 </button>
@@ -214,6 +172,7 @@
     <script src="../Shared/auth-config.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="../Shared/notifications.js"></script>
     <script src="login.js"></script>
     <script>
         lucide.createIcons();

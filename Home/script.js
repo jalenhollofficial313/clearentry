@@ -6,6 +6,13 @@ dashboardButton = document.getElementById("dashboard-button");
 dashboardButton2 = document.getElementById("dashboard-button2");
 upgradeButton = document.getElementById("upgrade-button");
 const FUNNEL_TRACK_ENDPOINT = "https://track-funnel-event-b52ovbio5q-uc.a.run.app";
+const notify = (message, type = "error") => {
+    if (window.showNotification) {
+        window.showNotification(message, type);
+    } else {
+        console.warn(message);
+    }
+};
 
 async function trackFunnelEvent(event, source, page) {
     try {
@@ -345,7 +352,7 @@ if (upgradeButton) {
 
             if (!trialResponse.ok || trialResult !== "Trial Used") {
                 console.error("Failed to start trial:", trialResult);
-                alert("Failed to start trial. Please try again.");
+                notify("Failed to start trial. Please try again.", "error");
                 upgradeButton.disabled = false;
                 upgradeButton.textContent = "Start Free Trial";
                 return;
@@ -369,13 +376,13 @@ if (upgradeButton) {
                 window.location.href = checkoutUrl;
             } else {
                 console.error("Failed to create checkout session:", checkoutUrl);
-                alert("Failed to start checkout. Please try again.");
+                notify("Failed to start checkout. Please try again.", "error");
                 upgradeButton.disabled = false;
                 upgradeButton.textContent = "Start Free Trial";
             }
         } catch (error) {
             console.error("Error creating checkout session:", error);
-            alert("An error occurred. Please try again.");
+            notify("An error occurred. Please try again.", "error");
             upgradeButton.disabled = false;
             upgradeButton.textContent = "Start Free Trial";
         }
