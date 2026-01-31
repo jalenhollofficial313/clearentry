@@ -266,14 +266,6 @@ const renderRecentTrades = (trades) => {
     });
 };
 
-const renderProcessScore = (analysis) => {
-    const processScore =
-        analysis?.processScore ??
-        analysis?.process_score ??
-        analysis?.process ??
-        null;
-    setText("process-score", processScore ? processScore.toString() : "—");
-};
 
 const renderDashboard = (account) => {
     const trades = getTradesArray(account?.trades || {});
@@ -286,7 +278,6 @@ const renderDashboard = (account) => {
     );
     renderCalendar(trades);
     renderRecentTrades(trades);
-    renderProcessScore(account?.analysis);
 };
 
 const getTrialDaysLeft = () => {
