@@ -147,7 +147,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="../Dashboard/vid1.mp4"
+                            data-src="../old frontend/Dashboard/vid1.mp4"
                         ></video>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="../Dashboard/vid2.mp4"
+                            data-src="../old frontend/Dashboard/vid2.mp4"
                         ></video>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="../Dashboard/vid3.mp4"
+                            data-src="../old frontend/Dashboard/vid3.mp4"
                         ></video>
                     </div>
                 </div>
@@ -216,7 +216,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="../Dashboard/vid4.mp4"
+                            data-src="../old frontend/Dashboard/vid4.mp4"
                         ></video>
                     </div>
                 </div>
@@ -239,7 +239,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="../Dashboard/vid5.mp4"
+                            data-src="../old frontend/Dashboard/vid5.mp4"
                         ></video>
                     </div>
                 </div>
@@ -357,6 +357,17 @@
 
             <main class="main">
                 <header class="topbar">
+                    <div class="mobile-nav">
+                        <button
+                            class="btn btn-ghost mobile-nav-toggle"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            Menu
+                            <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="mobile-nav-menu" id="mobile-nav-menu"></div>
+                    </div>
                     <div class="breadcrumbs">
                         <span class="crumb">Overview</span>
                         <span class="crumb-sep">›</span>
@@ -554,6 +565,7 @@
         <script src="../Shared/notifications.js"></script>
         <script src="../Shared/client-data-lite.js"></script>
         <script src="../Shared/sidebar-icons.js"></script>
+        <script src="../Shared/mobile-nav.js"></script>
         <script src="dashboard.js"></script>
     </body>
 </html>

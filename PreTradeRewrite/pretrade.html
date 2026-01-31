@@ -109,6 +109,17 @@
 
             <main class="main">
                 <header class="topbar" id="head-frame">
+                    <div class="mobile-nav">
+                        <button
+                            class="btn btn-ghost mobile-nav-toggle"
+                            type="button"
+                            aria-expanded="false"
+                        >
+                            Menu
+                            <i data-lucide="chevron-down"></i>
+                        </button>
+                        <div class="mobile-nav-menu" id="mobile-nav-menu"></div>
+                    </div>
                     <div class="breadcrumbs">
                         <span class="crumb">Daily</span>
                         <span class="crumb-sep">›</span>
@@ -906,6 +917,7 @@
         <script src="../Shared/reports-nav.js"></script>
         <script src="../Shared/client-data-lite.js"></script>
         <script src="../Shared/sidebar-icons.js"></script>
+        <script src="../Shared/mobile-nav.js"></script>
         <script src="../PreTrade/pretrade.js"></script>
         <script>
             lucide.createIcons();

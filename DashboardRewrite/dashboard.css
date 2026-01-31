@@ -131,6 +131,127 @@ body {
     font-weight: 600;
 }
 
+.mobile-nav {
+    display: none;
+    position: relative;
+}
+
+.mobile-nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mobile-nav-toggle i {
+    width: 16px;
+    height: 16px;
+}
+
+.mobile-nav-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 220px;
+    max-width: 320px;
+    max-height: 70vh;
+    overflow: auto;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0px 12px 30px rgba(15, 23, 42, 0.15);
+    display: none;
+    z-index: 50;
+}
+
+.mobile-nav-menu.is-open {
+    display: grid;
+    gap: 6px;
+}
+
+.mobile-nav-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    margin: 6px 0 2px;
+}
+
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: #334155;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.is-active {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.mobile-nav-sub {
+    padding-left: 18px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+body.dark .mobile-nav-menu {
+    background: #14181f;
+    border-color: rgba(128, 128, 128, 0.2);
+}
+
+body.dark .mobile-nav-link {
+    color: #cbd5f5;
+}
+
+body.dark .mobile-nav-link:hover,
+body.dark .mobile-nav-link.is-active {
+    background: #191d23;
+    color: #ffffff;
+}
+
+body.dark .mobile-nav-label {
+    color: #94a3b8;
+}
+
+@media (max-width: 1024px) {
+    .app {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .topbar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .breadcrumbs {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: block;
+    }
+
+    .topbar-actions {
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .topbar-actions #bar-icon {
+        display: none;
+    }
+}
+
 .main {
     display: flex;
     flex-direction: column;
