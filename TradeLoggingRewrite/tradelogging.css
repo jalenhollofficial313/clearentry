@@ -255,6 +255,12 @@
     font-size: 14px;
     background: #ffffff;
     font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: #0f172a;
+}
+
+.reflection-textarea::placeholder,
+.reflection-text-input::placeholder {
+    color: #94a3b8;
 }
 
 .entry-input2 {
@@ -428,6 +434,7 @@
     margin: 0;
     font-size: 16px;
     font-weight: 600;
+    color: #0f172a;
 }
 
 .modal-subtitle {
@@ -449,6 +456,7 @@
     padding: 8px 12px;
     cursor: pointer;
     font-size: 13px;
+    color: #0f172a;
 }
 
 .trade-ranking-option.selected,
@@ -481,6 +489,7 @@
     margin: 0 0 8px;
     font-size: 13px;
     font-weight: 600;
+    color: #0f172a;
 }
 
 .reflection-options {
@@ -539,11 +548,21 @@ body.dark .reflection-text-input {
     color: #ffffff;
 }
 
+body.dark .reflection-textarea::placeholder,
+body.dark .reflection-text-input::placeholder {
+    color: #8c98a4;
+}
+
 body.dark .dropdown-div,
 body.dark .modal-card,
 body.dark .settings-card {
     background: #14181f;
     border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .modal-title,
+body.dark .reflection-question-text {
+    color: #ffffff;
 }
 
 body.dark .badge-pill,
@@ -559,6 +578,11 @@ body.dark .trade-ranking-option,
 body.dark .reflection-option {
     background: #191d23;
     border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .trade-ranking-option,
+body.dark .reflection-option {
+    color: #e6e8eb;
 }
 
 body.dark .trade-ranking-option.selected,
