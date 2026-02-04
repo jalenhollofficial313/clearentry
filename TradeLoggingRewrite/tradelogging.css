@@ -451,6 +451,13 @@
     font-size: 13px;
 }
 
+.trade-ranking-option.selected,
+.reflection-option.selected {
+    border-color: #1f2937;
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
 .ai-loading-progress {
     width: 100%;
     height: 6px;
@@ -552,6 +559,13 @@ body.dark .trade-ranking-option,
 body.dark .reflection-option {
     background: #191d23;
     border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .trade-ranking-option.selected,
+body.dark .reflection-option.selected {
+    background: #0f1317;
+    border-color: #ffffff;
+    color: #ffffff;
 }
 
 body.dark .compliance-checkbox {

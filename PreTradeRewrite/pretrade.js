@@ -542,7 +542,7 @@ async function onEnterTrade() {
         await getClientData(); // Refresh local clientData variable
         
         // Redirect to trade logging with pre-trade session ID
-        window.location.href = `../TradeLogging/tradelogging.html?preTradeSessionId=${preTradeSessionId}`;
+        window.location.href = `../TradeLoggingRewrite/tradelogging.html?preTradeSessionId=${preTradeSessionId}`;
         
     } catch (error) {
         console.error("Error entering trade:", error);
