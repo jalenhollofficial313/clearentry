@@ -743,6 +743,10 @@
     transform: translateX(100px);
   }
 
+  .hero-subtitle {
+    max-width: 90%;
+  }
+
   .hero-card {
     width: 1150px;
 
