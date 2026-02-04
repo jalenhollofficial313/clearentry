@@ -5,6 +5,7 @@ signoutButton = document.getElementById("signout-button");
 dashboardButton = document.getElementById("dashboard-button");
 dashboardButton2 = document.getElementById("dashboard-button2");
 upgradeButton = document.getElementById("upgrade-button");
+window.location.href = "https://clear-entry.com"
 const FUNNEL_TRACK_ENDPOINT = "https://track-funnel-event-b52ovbio5q-uc.a.run.app";
 const notify = (message, type = "error") => {
     if (window.showNotification) {
