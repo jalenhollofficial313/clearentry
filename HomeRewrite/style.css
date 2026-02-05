@@ -386,7 +386,7 @@
 }
 
 .showcase-card.is-main {
-  transform: translateY(-14px) scale(1.75);
+  transform: translateY(-14px) scale(2.5);
   z-index: 2;
 }
 
