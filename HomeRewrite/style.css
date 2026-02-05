@@ -806,7 +806,7 @@
     }
 
     .showcase-card.is-main {
-      transform: translateY(-10px) scale(2.5);
+      transform: translateY(-10px) scale(3.5);
     }
   }
   
@@ -861,7 +861,7 @@
   }
 
   .showcase-card.is-main {
-    transform: translateY(-10px) scale(2.5);
+    transform: translateY(-10px) scale(3.5);
   }
 }
 
@@ -891,7 +891,7 @@
   }
 
   .showcase-card.is-main {
-    transform: translateY(-10px) scale(2.5);
+    transform: translateY(-10px) scale(3.5);
   }
   }
   
