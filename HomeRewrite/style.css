@@ -367,9 +367,9 @@
 
 .showcase-card {
   background: #0b0b0b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 5px;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
   transform: scale(1.6);
@@ -382,7 +382,7 @@
   width: 100%;
 
   display: block;
-  border-radius: 12px;
+  border-radius: 0;
 }
 
 .showcase-card.is-main {
