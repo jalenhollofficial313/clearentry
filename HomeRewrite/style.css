@@ -563,6 +563,12 @@
     gap: 14px;
   }
 
+  .pricing-card.highlight {
+    border-color: rgba(255, 255, 255, 0.24);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+    transform: translateY(-4px);
+  }
+
   .pricing-benefit {
     color: #d0d4da;
     font-size: 14px;

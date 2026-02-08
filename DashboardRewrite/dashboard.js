@@ -19,6 +19,20 @@ const safeNumber = (value) => {
     return Number.isFinite(numeric) ? numeric : 0;
 };
 
+const getTradePL = (trade) => {
+    if (!trade) return 0;
+    const entryPrice = trade.EntryPrice ?? trade.entryPrice;
+    const entryExit = trade.EntryExit ?? trade.entryExit;
+    if (entryPrice !== undefined && entryPrice !== "" && entryExit !== undefined && entryExit !== "") {
+        const entry = Number(entryPrice);
+        const exit = Number(entryExit);
+        if (Number.isFinite(entry) && Number.isFinite(exit)) {
+            return exit - entry;
+        }
+    }
+    return safeNumber(trade.PL);
+};
+
 let accountData = null;
 
 const notify = (message, type = "error") => {
@@ -63,6 +77,27 @@ const getTradesArray = (trades = {}) =>
         ...trade,
     }));
 
+const isDemoMode = () => window.CE_DEMO_MODE === true;
+
+const getTrialDaysLeftLocal = () => {
+    const trialStartedAt = accountData?.trialStartedAt;
+    if (!trialStartedAt) {
+        return null;
+    }
+    const elapsedSeconds = Math.max(0, Date.now() / 1000 - trialStartedAt);
+    const daysElapsed = Math.floor(elapsedSeconds / 86400);
+    return Math.max(0, 10 - daysElapsed);
+};
+
+const isTrialActiveLocal = () => {
+    if (accountData?.trialActive !== undefined) {
+        return accountData.trialActive;
+    }
+    const daysLeft = getTrialDaysLeftLocal();
+    const tradeCount = Number(accountData?.trialTradeCount || 0);
+    return Boolean(daysLeft && daysLeft > 0 && tradeCount < 10);
+};
+
 const setText = (id, value) => {
     const node = document.getElementById(id);
     if (node) {
@@ -91,7 +126,7 @@ const renderStats = (trades) => {
     let losses = 0;
 
     trades.forEach((trade) => {
-        const plValue = safeNumber(trade.PL);
+        const plValue = getTradePL(trade);
         totalPL += plValue;
         if (plValue > 0) {
             wins += 1;
@@ -171,7 +206,7 @@ const renderCalendar = (trades) => {
             tradeMap[day] = { count: 0, totalPL: 0 };
         }
         tradeMap[day].count += 1;
-        tradeMap[day].totalPL += safeNumber(trade.PL);
+        tradeMap[day].totalPL += getTradePL(trade);
     });
 
     const weekdayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -255,7 +290,7 @@ const renderRecentTrades = (trades) => {
         type.textContent = trade.direction || trade.type || "—";
 
         const pnl = document.createElement("span");
-        const plValue = safeNumber(trade.PL);
+        const plValue = getTradePL(trade);
         pnl.className = `trade-pnl ${plValue >= 0 ? "positive" : "negative"}`;
         pnl.textContent = formatSignedCurrency(plValue);
 
@@ -280,29 +315,12 @@ const renderDashboard = (account) => {
     renderRecentTrades(trades);
 };
 
-const getTrialDaysLeft = () => {
-    const trialStartedAt = accountData?.trialStartedAt;
-    if (!trialStartedAt) {
-        return null;
-    }
-    const elapsedSeconds = Math.max(0, Date.now() / 1000 - trialStartedAt);
-    const daysElapsed = Math.floor(elapsedSeconds / 86400);
-    return Math.max(0, 10 - daysElapsed);
-};
-
 const maybeShowTrialReminder = () => {
-    const trialStartedAt = accountData?.trialStartedAt;
-    const stripeSubscriptionId = accountData?.stripe_subscription_id;
-    const membership = accountData?.membership?.toLowerCase();
-    if (
-        !trialStartedAt ||
-        stripeSubscriptionId ||
-        (membership !== "pro" && membership !== "standard")
-    ) {
+    if (!isTrialActiveLocal()) {
         return;
     }
 
-    const daysLeft = getTrialDaysLeft();
+    const daysLeft = getTrialDaysLeftLocal();
     if (daysLeft === null || daysLeft > 3 || daysLeft <= 0) {
         return;
     }
@@ -349,53 +367,6 @@ const showTrialStartedNotification = () => {
     }
 };
 
-const startFreeTrial = async (button) => {
-    const token = await getAuthTokenSafe();
-    if (!token) {
-        window.location.href = "../Home/login.html";
-        return false;
-    }
-
-    const originalText = button ? button.textContent : "";
-    try {
-        if (button) {
-            button.disabled = true;
-            button.textContent = "Starting...";
-        }
-
-        const response = await fetch(
-            "https://start-free-trial-b52ovbio5q-uc.a.run.app",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token }),
-            }
-        );
-
-        const result = await response.text();
-        if (response.ok && result === "Success") {
-            await refreshAccountData();
-            checkAndShowSubscriptionGate();
-            maybeShowTrialReminder();
-            return true;
-        }
-
-        console.error("Failed to start trial:", result);
-        notify("Unable to start trial. Please try again.", "error");
-    } catch (error) {
-        console.error("Error starting trial:", error);
-        notify("An error occurred. Please try again.", "error");
-    } finally {
-        if (button) {
-            button.disabled = false;
-            button.textContent = originalText;
-        }
-    }
-    return false;
-};
-
 const startCheckout = async (button) => {
     const token = await getAuthTokenSafe();
     if (!token) {
@@ -409,6 +380,7 @@ const startCheckout = async (button) => {
             button.disabled = true;
             button.textContent = "Processing...";
         }
+        const plan = button?.dataset?.plan || "monthly";
 
         const response = await fetch(
             "https://create-checkout-session-b52ovbio5q-uc.a.run.app",
@@ -417,12 +389,16 @@ const startCheckout = async (button) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ token }),
+                body: JSON.stringify({ token, plan }),
             }
         );
 
         const checkoutUrl = await response.text();
-        if (response.ok && checkoutUrl) {
+        const isValidUrl =
+            typeof checkoutUrl === "string" &&
+            checkoutUrl.startsWith("https://");
+            console.log("hello")
+        if (response.ok && isValidUrl) {
             localStorage.setItem("pendingProCheckout", "true");
             window.location.href = checkoutUrl;
             return;
@@ -441,40 +417,20 @@ const startCheckout = async (button) => {
     }
 };
 
-const startTrialOrCheckout = async (button) => {
-    const trialUsed = Boolean(
-        accountData?.trialUsed || accountData?.trialStartedAt
-    );
-    if (!trialUsed) {
-        await startFreeTrial(button);
-        return;
-    }
-    await startCheckout(button);
-};
-
-const maybeStartAutoTrial = async () => {
-    const trialUsed = Boolean(
-        accountData?.trialUsed || accountData?.trialStartedAt
-    );
-    if (trialUsed) {
-        return;
-    }
-
-    const membership = accountData?.membership?.toLowerCase();
-    if (membership && membership !== "standard") {
-        return;
-    }
-
-    const started = await startFreeTrial();
-    if (started) {
-        showTrialStartedNotification();
-    }
-};
-
 const checkAndShowSubscriptionGate = () => {
     const gate = document.getElementById("subscription-gate");
     const main = document.querySelector(".main");
     const membership = accountData?.membership;
+    const demoMode = isDemoMode();
+    if (demoMode) {
+        if (gate) {
+            gate.style.display = "none";
+        }
+        if (main) {
+            main.style.display = "flex";
+        }
+        return true;
+    }
     if (!membership) {
         if (gate) {
             gate.style.display = "none";
@@ -488,8 +444,7 @@ const checkAndShowSubscriptionGate = () => {
     const normalized = membership.toLowerCase();
     const isStandard = normalized === "standard";
     const isPro = normalized === "pro";
-    const daysLeft = getTrialDaysLeft();
-    const hasActiveTrial = daysLeft !== null && daysLeft > 0;
+    const hasActiveTrial = isTrialActiveLocal();
 
     if (isStandard && !hasActiveTrial) {
         if (gate) {
@@ -501,7 +456,7 @@ const checkAndShowSubscriptionGate = () => {
         lucide.createIcons();
         const ctaButton = document.getElementById("subscription-gate-cta");
         if (ctaButton) {
-            ctaButton.onclick = () => startTrialOrCheckout(ctaButton);
+            ctaButton.onclick = () => startCheckout(ctaButton);
         }
         return false;
     }
@@ -716,7 +671,25 @@ const initDashboard = async () => {
     }
 
     renderDashboard(account);
-    await maybeStartAutoTrial();
+    const demoPill = document.getElementById("demo-pill");
+    const demoCard = document.getElementById("demo-insights-card");
+    const demoButton = document.getElementById("demo-start-trial");
+    if (isDemoMode()) {
+        if (demoPill) demoPill.style.display = "inline-flex";
+        if (demoCard) demoCard.style.display = "block";
+        if (demoButton) {
+            demoButton.addEventListener("click", () => {
+                if (window.startTrialCheckout) {
+                    window.startTrialCheckout(demoButton);
+                } else {
+                    startCheckout(demoButton);
+                }
+            });
+        }
+    } else {
+        if (demoPill) demoPill.style.display = "none";
+        if (demoCard) demoCard.style.display = "none";
+    }
     maybeShowTrialReminder();
     const walkthroughShown = maybeShowPostSignupWalkthrough();
     if (walkthroughShown) {

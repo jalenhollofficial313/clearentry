@@ -25,6 +25,20 @@ const safeNumber = (value) => {
     return Number.isFinite(numeric) ? numeric : 0;
 };
 
+const getTradePL = (trade) => {
+    if (!trade) return 0;
+    const entryPrice = trade.EntryPrice ?? trade.entryPrice;
+    const entryExit = trade.EntryExit ?? trade.entryExit;
+    if (entryPrice !== undefined && entryPrice !== "" && entryExit !== undefined && entryExit !== "") {
+        const entry = Number(entryPrice);
+        const exit = Number(entryExit);
+        if (Number.isFinite(entry) && Number.isFinite(exit)) {
+            return exit - entry;
+        }
+    }
+    return safeNumber(trade.PL);
+};
+
 const formatCurrency = (value) => {
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -111,7 +125,7 @@ const filterTrades = (trades) =>
         }
 
         if (filterResult.value !== "all") {
-            const pl = safeNumber(trade.PL);
+            const pl = getTradePL(trade);
             if (filterResult.value === "win" && pl <= 0) return false;
             if (filterResult.value === "loss" && pl >= 0) return false;
         }
@@ -201,7 +215,7 @@ const renderTrades = (trades) => {
             date.textContent = "—";
         }
 
-        const plValue = safeNumber(trade.PL);
+        const plValue = getTradePL(trade);
         pl.textContent = formatSignedCurrency(plValue);
         pl.classList.toggle("positive", plValue >= 0);
         pl.classList.toggle("negative", plValue < 0);

@@ -562,6 +562,48 @@ body.dark .negative {
     text-decoration: underline;
 }
 
+.demo-pill {
+    align-self: center;
+    background: rgba(15, 15, 15, 0.12);
+    border: 1px solid rgba(15, 15, 15, 0.2);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+body.dark .demo-pill {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #f6f6f6;
+}
+
+.demo-insights-card .demo-insights-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: grid;
+    gap: 10px;
+    color: rgba(15, 15, 15, 0.7);
+    font-size: 0.9rem;
+}
+
+body.dark .demo-insights-card .demo-insights-list {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.demo-insights-card .demo-insights-list li::before {
+    content: "•";
+    margin-right: 8px;
+    color: rgba(15, 15, 15, 0.6);
+}
+
+body.dark .demo-insights-card .demo-insights-list li::before {
+    color: rgba(255, 255, 255, 0.5);
+}
+
 .dashboard-notification {
     position: fixed;
     top: 90px;

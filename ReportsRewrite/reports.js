@@ -8,6 +8,20 @@ const safeNumber = (value) => {
     return Number.isFinite(numeric) ? numeric : 0;
 };
 
+const getTradePL = (trade) => {
+    if (!trade) return 0;
+    const entryPrice = trade.EntryPrice ?? trade.entryPrice;
+    const entryExit = trade.EntryExit ?? trade.entryExit;
+    if (entryPrice !== undefined && entryPrice !== "" && entryExit !== undefined && entryExit !== "") {
+        const entry = Number(entryPrice);
+        const exit = Number(entryExit);
+        if (Number.isFinite(entry) && Number.isFinite(exit)) {
+            return exit - entry;
+        }
+    }
+    return safeNumber(trade.PL);
+};
+
 const formatCurrency = (value) => {
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -62,7 +76,7 @@ const calculateMaxDrawdown = (trades) => {
     let maxDrawdown = 0;
 
     sorted.forEach((trade) => {
-        cumulative += safeNumber(trade.PL);
+        cumulative += getTradePL(trade);
         peak = Math.max(peak, cumulative);
         const drawdown = peak - cumulative;
         maxDrawdown = Math.max(maxDrawdown, drawdown);
@@ -79,7 +93,7 @@ const calculateStreaks = (trades) => {
     let currentLoss = 0;
 
     sorted.forEach((trade) => {
-        const pl = safeNumber(trade.PL);
+        const pl = getTradePL(trade);
         if (pl > 0) {
             currentWin += 1;
             currentLoss = 0;
@@ -149,7 +163,7 @@ const loadOverview = async () => {
         return;
     }
     const trades = getTradesArray(account?.trades || {});
-    const plValues = trades.map((trade) => safeNumber(trade.PL));
+    const plValues = trades.map((trade) => getTradePL(trade));
 
     const totalPL = plValues.reduce((sum, value) => sum + value, 0);
     const wins = plValues.filter((value) => value > 0);
@@ -174,7 +188,7 @@ const loadOverview = async () => {
         if (!trade.date) return;
         const date = new Date(trade.date * 1000);
         const key = date.toISOString().slice(0, 10);
-        dayMap.set(key, (dayMap.get(key) || 0) + safeNumber(trade.PL));
+        dayMap.set(key, (dayMap.get(key) || 0) + getTradePL(trade));
     });
     const tradingDays = dayMap.size;
     const tradesPerDay = tradingDays ? totalTrades / tradingDays : 0;

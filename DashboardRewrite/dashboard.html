@@ -31,10 +31,10 @@
             <div class="subscription-gate-content">
                 <i class="subscription-gate-icon" data-lucide="sparkles"></i>
                 <h2 class="subscription-gate-title inter-text">
-                    Start Your 10-Day Free Trial
+                    Start Your 10-Trade Trial
                 </h2>
                 <p class="subscription-gate-description inter-text">
-                    Full access for 10 days. No credit card required.
+                    Full access while you log your first 10 trades (10 days max). Trial starts when you add a card.
                 </p>
                 <ul class="subscription-gate-features">
                     <li class="subscription-gate-feature inter-text">
@@ -71,14 +71,14 @@
                         id="subscription-gate-cta"
                         class="subscription-gate-button green-button inter-text"
                     >
-                        Start Free Trial
+                        Add Card to Start Trial
                     </button>
                 </div>
                 <p class="subscription-gate-price inter-text">
-                    $12.99/month after trial • Cancel anytime
+                    $12.99/month or $109/year after trial • Cancel anytime
                 </p>
                 <p class="subscription-gate-subtext inter-text">
-                    No credit card required for the first 10 days.
+                    Your trial ends after 10 trades or 10 days, whichever comes first.
                 </p>
                 <a
                     href="../HomeRewrite/index.html"
@@ -96,7 +96,7 @@
                     <i data-lucide="alarm-clock"></i>
                 </div>
                 <p class="dashboard-notification-text inter-text">
-                    Your trial ends in 3 days. Add payment to continue uninterrupted access.
+                    Your trial is ending soon. Add payment to continue after 10 trades or 10 days.
                 </p>
                 <button
                     id="trial-notification-cta"
@@ -116,7 +116,7 @@
                     <i data-lucide="sparkles"></i>
                 </div>
                 <p class="dashboard-notification-text inter-text">
-                    Your free trial is active. You have full access for 10 days.
+                    Your trial is active. Full access for 10 trades (10 days max).
                 </p>
                 <button id="trial-started-close" class="dashboard-notification-close">
                     <i data-lucide="x"></i>
@@ -252,7 +252,7 @@
                         You are ready to trade with structure
                     </h2>
                     <p class="quick-tour-slide-copy inter-text">
-                        Your workspace is set up and your trial is active. Start logging trades and let ClearEntry keep you accountable.
+                        Your workspace is set up. Add a card to start your 10-trade trial and unlock full access.
                     </p>
                     <button id="post-signup-cta" class="walkthrough-pricing-button green-button inter-text">
                         Continue to Dashboard
@@ -394,6 +394,7 @@
                             <h1>Welcome, <span id="user-name">—</span>.</h1>
                             <p class="subtle" id="current-date">—</p>
                         </div>
+                        <span class="demo-pill" id="demo-pill" style="display: none;">Demo data</span>
                         <div class="header-actions"></div>
                     </div>
 
@@ -523,6 +524,24 @@
                                     >
                                 </div>
                                 <div class="trade-list" id="recent-trades"></div>
+                            </div>
+
+                            <div class="card demo-insights-card" id="demo-insights-card" style="display: none;">
+                                <div class="card-header">
+                                    <div>
+                                        <p class="card-title">Demo Insights</p>
+                                        <p class="card-subtitle">Example discipline patterns</p>
+                                    </div>
+                                    <span class="chip">Demo</span>
+                                </div>
+                                <ul class="demo-insights-list">
+                                    <li>Rule breaks spike after two consecutive losses.</li>
+                                    <li>Best returns come from A+ setups with full checklist compliance.</li>
+                                    <li>Overtrading appears in the last hour of your session.</li>
+                                </ul>
+                                <button class="btn btn-primary" id="demo-start-trial" data-demo-allow="true">
+                                    Start trial to unlock your insights
+                                </button>
                             </div>
 
                         </aside>

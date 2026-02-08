@@ -17,6 +17,20 @@ const safeNumber = (value) => {
     return Number.isFinite(numeric) ? numeric : 0;
 };
 
+const getTradePL = (trade) => {
+    if (!trade) return 0;
+    const entryPrice = trade.EntryPrice ?? trade.entryPrice;
+    const entryExit = trade.EntryExit ?? trade.entryExit;
+    if (entryPrice !== undefined && entryPrice !== "" && entryExit !== undefined && entryExit !== "") {
+        const entry = Number(entryPrice);
+        const exit = Number(entryExit);
+        if (Number.isFinite(entry) && Number.isFinite(exit)) {
+            return exit - entry;
+        }
+    }
+    return safeNumber(trade.PL);
+};
+
 const formatCurrency = (value) => {
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -71,7 +85,7 @@ const calculateMaxDrawdown = (trades) => {
     let maxDrawdown = 0;
 
     sorted.forEach((trade) => {
-        cumulative += safeNumber(trade.PL);
+        cumulative += getTradePL(trade);
         peak = Math.max(peak, cumulative);
         const drawdown = peak - cumulative;
         maxDrawdown = Math.max(maxDrawdown, drawdown);
@@ -104,7 +118,7 @@ const renderEquityCurve = (trades) => {
     const points = [];
     let cumulative = 0;
     sorted.forEach((trade) => {
-        cumulative += safeNumber(trade.PL);
+        cumulative += getTradePL(trade);
         points.push(cumulative);
     });
 
@@ -256,7 +270,7 @@ const renderCalendar = (trades) => {
         if (!tradeMap[day]) {
             tradeMap[day] = 0;
         }
-        tradeMap[day] += safeNumber(trade.PL);
+        tradeMap[day] += getTradePL(trade);
     });
 
     grid.innerHTML = "";
@@ -305,7 +319,7 @@ const loadAnalytics = async () => {
     const trades = getTradesArray(account?.trades || {});
     setText("analytics-subtitle", `${trades.length} trades`);
 
-    const plValues = trades.map((trade) => safeNumber(trade.PL));
+    const plValues = trades.map((trade) => getTradePL(trade));
     const totalPL = plValues.reduce((sum, value) => sum + value, 0);
     const wins = plValues.filter((value) => value > 0);
     const losses = plValues.filter((value) => value < 0);

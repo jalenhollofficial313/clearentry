@@ -53,7 +53,11 @@ async function log_Trade(token) {
             strategy: tradeEntry['strategy'],
             symbol: document.querySelector("#entry-SYMBOL").value,
             trade_notes: document.querySelector("#entry-notes").value,
-            PL: Number(document.querySelector("#entry-PL").value),
+            EntryPrice: Number(document.querySelector("#entry-PRICE").value),
+            EntryExit: Number(document.querySelector("#entry-EXIT").value),
+            PL: Number(document.querySelector("#entry-PRICE").value) && Number(document.querySelector("#entry-EXIT").value)
+                ? Number(document.querySelector("#entry-EXIT").value) - Number(document.querySelector("#entry-PRICE").value)
+                : Number(document.querySelector("#entry-PL")?.value || 0),
             img: tradeEntry['saved_img'],
             type: tradeEntry['type'],
             direction: tradeEntry['direction'],
@@ -161,6 +165,8 @@ function renderExtractedData(extracted) {
 
     const fields = [
         { key: "SYMBOL", label: "Symbol" },
+        { key: "EntryPrice", label: "Entry Price" },
+        { key: "EntryExit", label: "Exit Price" },
         { key: "PL", label: "P/L" },
         { key: "RR", label: "R:R" },
         { key: "IV", label: "IV" },
@@ -315,7 +321,10 @@ async function reloadPage() {
     }
 
     document.querySelector("#entry-SYMBOL").value = ""
-    document.querySelector("#entry-PL").value = ""
+    const entryPriceInput = document.querySelector("#entry-PRICE");
+    if (entryPriceInput) entryPriceInput.value = "";
+    const entryExitInput = document.querySelector("#entry-EXIT");
+    if (entryExitInput) entryExitInput.value = "";
     document.querySelector("#entry-notes").value = ""
 
     renderExtractedData(null);
@@ -381,7 +390,13 @@ async function reloadPage() {
                 stateText.innerHTML = trade['emotion'] || "State"
             }
             document.querySelector("#entry-SYMBOL").value = trade['symbol']
-            document.querySelector("#entry-PL").value = trade['PL']
+            const entryPriceInput = document.querySelector("#entry-PRICE");
+            if (entryPriceInput) entryPriceInput.value = trade['EntryPrice'] ?? ""
+            const entryExitInput = document.querySelector("#entry-EXIT");
+            if (entryExitInput) entryExitInput.value = trade['EntryExit'] ?? ""
+            if (document.querySelector("#entry-PL")) {
+                document.querySelector("#entry-PL").value = trade['PL']
+            }
             
             // Update continue button state (enabled for editing existing trades)
             updateContinueButtonState();
@@ -992,7 +1007,11 @@ async function saveTrade() {
             strategy: tradeEntry['strategy'],
             symbol: document.querySelector("#entry-SYMBOL").value,
             notes: document.querySelector("#entry-notes").value,
-            PL: Number(document.querySelector("#entry-PL").value),
+            EntryPrice: Number(document.querySelector("#entry-PRICE").value),
+            EntryExit: Number(document.querySelector("#entry-EXIT").value),
+            PL: Number(document.querySelector("#entry-PRICE").value) && Number(document.querySelector("#entry-EXIT").value)
+                ? Number(document.querySelector("#entry-EXIT").value) - Number(document.querySelector("#entry-PRICE").value)
+                : Number(document.querySelector("#entry-PL")?.value || 0),
             img: tradeEntry['saved_img'],
             type: tradeEntry['type'],
             direction: tradeEntry['direction'],
