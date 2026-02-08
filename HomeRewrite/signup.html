@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearEntry</title>
+    <link rel="icon" type="image/png" href="dashboard.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+
+    <link href="auth.css" rel="stylesheet" type="text/css">
+    <link href="../Shared/notifications.css" rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Vercel Web Analytics -->
+    <script defer src="/_vercel/insights/script.js"></script>
+
+<link href=../Shared/design-system.css rel=stylesheet type=text/css>
+</head>
+<body>
+    <div class="head-frame">
+        <a href="index.html" class="inter-text head-title">
+            ClearEntry
+        </a>
+        <div class="buttons-frame">
+
+        </div>
+    </div>
+    <div class="frame-1 signin-frame">
+        <div class="auth-frame">
+            <p class="auth-header inter-text">
+                Create Account
+            </p>
+            <p class="auth-description inter-text">
+                Create your free account
+            </p>
+            <p class="auth-subtext inter-text">
+                Trial starts when you add a card. Full access for 10 trades or 10 days.
+            </p>
+            <div class="auth-oauth">
+                <button id="google-signin-button" type="button" class="google-auth-button inter-text">
+                    Continue with Google
+                </button>
+                <div class="auth-divider inter-text">
+                    <span>or</span>
+                </div>
+            </div>
+            <form class="auth-form" action="#" method="post">
+
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="full-name">Full name</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="text"
+                        id="full-name"
+                        name="full-name"
+                        placeholder="Jane Trader"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="email">Email address</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="inter-text auth-text" for="password">Password</label>
+                    <input
+                        class="auth-input inter-text"
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        minlength="6"
+                        required
+                    />
+                </div>
+
+                <div class="form-footer">
+                    <button id="continue-button" type="submit" class="btn-primary inter-text green-button">Create Account</button>
+                    <p class="auth-legal inter-text">
+                        By continuing, you agree to the
+                        <a class="inter-text gradient-text alt-anchor" href="terms.html">Terms of Service</a>
+                        and
+                        <a class="inter-text gradient-text alt-anchor" href="privacy.html">Privacy Policy</a>.
+                    </p>
+                </div>
+            </form>
+
+            <p class="alt-action inter-text">
+                Already have an account?
+                <a class="inter-text gradient-text alt-anchor" href="login.html">Log in</a>
+            </p>
+        </div>
+    </div>
+    <script src="../Shared/auth-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="../Shared/notifications.js"></script>
+    <script src="signup.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1200,   
+            delay: 300,       
+            offset: 120,      
+
+            once: false,     
+            mirror: true,    
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

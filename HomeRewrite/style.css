@@ -900,4 +900,139 @@
     transform: translateY(-10px) scale(3.5);
   }
   }
+
+.resources-section,
+.blog-section,
+.legal-section,
+.article-section {
+  padding: 100px 0;
+}
+
+.resources-inner,
+.blog-inner,
+.legal-inner,
+.article-inner {
+  display: grid;
+  gap: 32px;
+}
+
+.resources-grid,
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.resource-card,
+.blog-card {
+  padding: 20px;
+  border-radius: 16px;
+  background: #0c0f14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  gap: 10px;
+  transition: transform 200ms ease, border-color 200ms ease;
+}
+
+.resource-card:hover,
+.blog-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.resource-tag,
+.blog-tag {
+  display: inline-flex;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #b6bcc5;
+}
+
+.blog-meta {
+  color: #98a0aa;
+  font-size: 12px;
+}
+
+.page-hero {
+  padding: 110px 0 60px;
+}
+
+.page-hero h1 {
+  font-size: clamp(34px, 5vw, 52px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.page-hero p {
+  color: #b6bcc5;
+  max-width: 720px;
+}
+
+.article-content,
+.legal-content {
+  display: grid;
+  gap: 18px;
+  max-width: 820px;
+}
+
+.article-content h2,
+.legal-content h2 {
+  margin-top: 14px;
+}
+
+.article-content h3,
+.legal-content h3 {
+  margin-top: 6px;
+  font-size: 18px;
+  color: #d8dbe0;
+}
+
+.article-content p,
+.legal-content p,
+.article-content li,
+.legal-content li {
+  color: #b6bcc5;
+}
+
+.article-content ul,
+.legal-content ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 18px;
+}
+
+.article-cta {
+  margin-top: 18px;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.legal-card {
+  background: #0c0f14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.legal-highlight {
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .resources-section,
+  .blog-section,
+  .legal-section,
+  .article-section {
+    padding: 80px 0;
+  }
+
+  .page-hero {
+    padding: 90px 0 40px;
+  }
+}
   
