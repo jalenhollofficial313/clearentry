@@ -13,17 +13,17 @@ const showcaseCaption = document.getElementById("showcase-caption");
 if (showcaseTrack && showcaseCaption) {
   const showcases = [
     {
-      src: "Analysis.png",
+      src: "/HomeRewrite/Analysis.png",
       alt: "Analysis view",
       caption: "Analysis · Performance Breakdown",
     },
     {
-      src: "dashboard.png",
+      src: "/HomeRewrite/dashboard.png",
       alt: "Dashboard view",
       caption: "Equity Tracker · Visual Growth",
     },
     {
-      src: "TradeLogging.png",
+      src: "/HomeRewrite/TradeLogging.png",
       alt: "Trade logging view",
       caption: "Trade Logging · Execution Review",
     },
@@ -75,8 +75,8 @@ if (showcaseTrack && showcaseCaption) {
   renderShowcase();
 }
 
-const START_TRIAL_SIGNUP_URL = "signup.html";
-const DASHBOARD_URL = "../DashboardRewrite/dashboard.html";
+const START_TRIAL_SIGNUP_URL = "/HomeRewrite/signup.html";
+const DASHBOARD_URL = "/DashboardRewrite/dashboard.html";
 const CHECKOUT_ENDPOINT =
   "https://create-checkout-session-b52ovbio5q-uc.a.run.app";
 
