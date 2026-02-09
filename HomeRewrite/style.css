@@ -159,7 +159,6 @@
 
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 100px;
   
     gap: 18px;
     position: relative;
@@ -199,7 +198,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 160px;
+    top: 240px;
   
     display: grid;
     place-items: center;
