@@ -329,10 +329,33 @@ async function getAccountData() {
         console.warn("No authenticated user for account data.");
         return null;
     }
-    const snapshot = await getAccountSnapshot(user);
+    let snapshot = await getAccountSnapshot(user);
     if (!snapshot) {
-        console.warn("No account data found for user.");
-        return null;
+        console.warn("No account data found for user. Attempting to create it...");
+        try {
+            const idToken = await user.getIdToken();
+            const response = await fetch(
+                "https://firebase-auth-login-b52ovbio5q-uc.a.run.app",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ idToken })
+                }
+            );
+            const payload = await response.text();
+            if (!response.ok || !payload || /missing|invalid|error/i.test(payload)) {
+                console.warn("Backend account creation failed:", payload);
+            }
+        } catch (error) {
+            console.warn("Backend account creation error:", error);
+        }
+        snapshot = await getAccountSnapshot(user);
+        if (!snapshot) {
+            console.warn("No account data found for user after retry.");
+            return null;
+        }
     }
     const account = snapshot.val();
     if (account && !account.uid) {
