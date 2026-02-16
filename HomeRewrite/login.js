@@ -4,12 +4,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const passwordInput = document.getElementById("password");
     const continuebutton = document.getElementById("continue-button");
     const LEGACY_LOGIN_CHECK_ENDPOINT = "https://legacy-login-check-b52ovbio5q-uc.a.run.app";
+    const FIREBASE_AUTH_LOGIN_ENDPOINT = "https://firebase-auth-login-b52ovbio5q-uc.a.run.app";
     const DASHBOARD_REDIRECT = "../DashboardRewrite/dashboard.html";
     const notify = (message, type = "error") => {
         if (window.showNotification) {
             window.showNotification(message, type);
         } else {
             console.warn(message);
+        }
+    };
+
+    const ensureBackendAccount = async (user) => {
+        if (!user) {
+            return false;
+        }
+        try {
+            const idToken = await user.getIdToken();
+            const response = await fetch(FIREBASE_AUTH_LOGIN_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ idToken })
+            });
+            const payload = await response.text();
+            if (!response.ok || !payload || /missing|invalid|error/i.test(payload)) {
+                throw new Error(payload || "Failed to create account.");
+            }
+            return true;
+        } catch (error) {
+            console.error("Failed to create account:", error);
+            notify("Google sign-in failed. Please try again.", "error");
+            try {
+                await firebase.auth().signOut();
+            } catch (signOutError) {
+                console.warn("Failed to sign out after error:", signOutError);
+            }
+            return false;
         }
     };
 
@@ -213,6 +244,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const provider = new firebase.auth.GoogleAuthProvider();
       const result = await firebase.auth().signInWithPopup(provider);
+      const accountReady = await ensureBackendAccount(result?.user);
+      if (!accountReady) {
+          return;
+      }
       localStorage.setItem("firstsign", true);
       window.location.href = DASHBOARD_REDIRECT;
     } catch (error) {
