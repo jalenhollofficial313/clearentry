@@ -110,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         await firebase.auth().signInWithEmailAndPassword(email, password);
-        localStorage.setItem("firstsign", true);
         window.location.href = DASHBOARD_REDIRECT;
     } catch (err) {
         console.error("Login error:", err);
@@ -248,7 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!accountReady) {
           return;
       }
-      localStorage.setItem("firstsign", true);
       window.location.href = DASHBOARD_REDIRECT;
     } catch (error) {
       console.error("Google sign-in error:", error);

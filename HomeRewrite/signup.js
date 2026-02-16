@@ -131,7 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
             await userCredential.user.delete();
             showFieldError(passwordInput, "Email already in use.");
         } else {
-            localStorage.setItem("firstsign", true);
             trackFunnelEvent("signup_completed", "email_password");
             window.location.href = "../DashboardRewrite/dashboard.html";
         }
@@ -204,7 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!accountReady) {
           return;
       }
-      localStorage.setItem("firstsign", true);
       trackFunnelEvent("signup_completed", "google");
       window.location.href = "../DashboardRewrite/dashboard.html";
     } catch (error) {
