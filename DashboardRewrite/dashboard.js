@@ -485,7 +485,6 @@ const waitForProMembershipSync = async () => {
 };
 
 const markPostSignupWalkthroughComplete = async () => {
-    localStorage.setItem("postSignupWalkthroughCompleted", "true");
     try {
         const token = await getAuthTokenSafe();
         if (!token) {
@@ -512,14 +511,10 @@ const maybeShowPostSignupWalkthrough = () => {
         return false;
     }
 
-    const isFirstTimeUser = accountData.isFirstTimeUser === true;
-    const cameFromSignup = localStorage.getItem("firstsign") === "true";
     const completedServer =
         accountData.postSignupWalkthroughCompleted === true;
-    const completedLocal =
-        localStorage.getItem("postSignupWalkthroughCompleted") === "true";
 
-    if ((isFirstTimeUser || cameFromSignup) && !completedServer && !completedLocal) {
+    if (!completedServer) {
         showPostSignupWalkthrough();
         return true;
     }
@@ -614,7 +609,6 @@ const showPostSignupWalkthrough = () => {
 
     const finishWalkthrough = async () => {
         await markPostSignupWalkthroughComplete();
-        localStorage.removeItem("firstsign");
         closeWalkthrough();
         checkAndShowSubscriptionGate();
     };
@@ -646,7 +640,6 @@ const showPostSignupWalkthrough = () => {
     if (closeButton) {
         closeButton.addEventListener("click", () => {
             markPostSignupWalkthroughComplete();
-            localStorage.removeItem("firstsign");
             closeWalkthrough();
             checkAndShowSubscriptionGate();
         });
