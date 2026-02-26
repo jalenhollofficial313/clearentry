@@ -1,8 +1,7 @@
 var clientData = window.clientData || null;
 const LEGACY_TOKEN_KEY = "token";
 const LOGIN_REDIRECT = "../HomeRewrite/login.html";
-const TRIAL_DAYS = 10;
-const TRIAL_TRADE_LIMIT = 10;
+const TRIAL_TRADE_LIMIT = 5;
 const DEMO_TRADES = [
     { id: "demo-1", symbol: "AAPL", direction: "Long", PL: 420, date: Math.floor(Date.now() / 1000) - 86400 * 2 },
     { id: "demo-2", symbol: "TSLA", direction: "Short", PL: -180, date: Math.floor(Date.now() / 1000) - 86400 * 3 },
@@ -20,18 +19,18 @@ const hasActiveSubscription = (account) =>
     Boolean(account?.stripe_subscription_id);
 
 const getTrialDaysLeft = (account) => {
+    if (account?.trialActive === false) return 0;
     const trialStartedAt = account?.trialStartedAt;
     if (!trialStartedAt) return null;
-    const elapsedSeconds = Math.max(0, Date.now() / 1000 - trialStartedAt);
-    const daysElapsed = Math.floor(elapsedSeconds / 86400);
-    return Math.max(0, TRIAL_DAYS - daysElapsed);
+    return account?.trialActive ? null : 0;
 };
 
 const isTrialActive = (account) => {
+    if (account?.trialActive !== undefined) {
+        return Boolean(account.trialActive);
+    }
     if (!account?.trialStartedAt) return false;
-    const daysLeft = getTrialDaysLeft(account);
     const tradeCount = Number(account?.trialTradeCount || 0);
-    if (daysLeft === null || daysLeft <= 0) return false;
     if (tradeCount >= TRIAL_TRADE_LIMIT) return false;
     return true;
 };
@@ -152,9 +151,8 @@ const startTrialCheckout = async (button, plan = "monthly") => {
         const isValidUrl =
             typeof checkoutUrl === "string" &&
             checkoutUrl.startsWith("https://");
-        console.log(checkoutUrl)
         if (response.ok && isValidUrl) {
-            localStorage.setItem("pendingProCheckout", "true");
+            sessionStorage.setItem("pendingProCheckout", "true");
             window.location.href = checkoutUrl;
             return;
         }
@@ -193,12 +191,12 @@ const applyDemoGate = (account) => {
         banner.innerHTML = `
             <div>
                 <strong>Demo mode</strong>
-                <span>Sample data only. Start your trial to unlock your own insights.</span>
+                <span>Sample data only. Start your subscription to unlock your own insights.</span>
             </div>
         `;
         const button = document.createElement("button");
         button.type = "button";
-        button.textContent = "Start trial";
+        button.textContent = "Start subscription";
         button.dataset.demoAllow = "true";
         button.addEventListener("click", () => startTrialCheckout(button));
         banner.appendChild(button);
@@ -207,7 +205,7 @@ const applyDemoGate = (account) => {
         const fab = document.createElement("button");
         fab.type = "button";
         fab.className = "demo-fab";
-        fab.textContent = "Start trial to unlock your own insights";
+        fab.textContent = "Start subscription to unlock your own insights";
         fab.dataset.demoAllow = "true";
         fab.addEventListener("click", () => startTrialCheckout(fab));
         document.body.appendChild(fab);
@@ -224,7 +222,7 @@ const applyDemoGate = (account) => {
                 event.preventDefault();
                 if (window.showNotification) {
                     window.showNotification(
-                        "Demo mode is read-only. Start a trial to unlock edits.",
+                        "Demo mode is read-only. Start a subscription to unlock edits.",
                         "error"
                     );
                 }
@@ -393,4 +391,3 @@ window.getAuthToken = getAuthToken;
 window.getAuthTokenSync = () => window.CE_AUTH_TOKEN || null;
 window.getAccountData = getAccountData;
 window.startTrialCheckout = startTrialCheckout;
-

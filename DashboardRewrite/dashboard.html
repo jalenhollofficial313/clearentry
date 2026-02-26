@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-    <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
+    <link rel="icon" type="image/png" href="../HomeRewrite/clearentrylogo.png" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>ClearEntry Dashboard</title>
@@ -30,13 +30,36 @@
 
         <div id="subscription-gate" class="subscription-gate" style="display: none;">
             <div class="subscription-gate-content">
+                <button id="subscription-gate-close" class="subscription-gate-close" type="button" aria-label="Close paywall">
+                    <i data-lucide="x"></i>
+                </button>
                 <i class="subscription-gate-icon" data-lucide="sparkles"></i>
                 <h2 class="subscription-gate-title inter-text">
-                    Start Your 10-Trade Trial
+                    You have logged 5 trades
                 </h2>
                 <p class="subscription-gate-description inter-text">
-                    Full access while you log your first 10 trades (10 days max). Trial starts when you add a card.
+                    You have logged 5 trades. Subscribe for $12.99/month to keep logging and unlock full analytics.
                 </p>
+                <div class="subscription-gate-preview">
+                    <p class="subscription-gate-preview-title inter-text">Session Time Breakdown Preview</p>
+                    <div class="subscription-gate-preview-blur">
+                        <div class="subscription-gate-preview-row">
+                            <span class="inter-text">Open</span>
+                            <div class="subscription-gate-preview-bar"><span style="width: 46%;"></span></div>
+                            <span class="inter-text">46%</span>
+                        </div>
+                        <div class="subscription-gate-preview-row">
+                            <span class="inter-text">Midday</span>
+                            <div class="subscription-gate-preview-bar"><span style="width: 31%;"></span></div>
+                            <span class="inter-text">31%</span>
+                        </div>
+                        <div class="subscription-gate-preview-row">
+                            <span class="inter-text">Close</span>
+                            <div class="subscription-gate-preview-bar"><span style="width: 23%;"></span></div>
+                            <span class="inter-text">23%</span>
+                        </div>
+                    </div>
+                </div>
                 <ul class="subscription-gate-features">
                     <li class="subscription-gate-feature inter-text">
                         <i class="feature-check-icon" data-lucide="circle-check"></i>
@@ -69,17 +92,25 @@
                 </ul>
                 <div class="subscription-gate-buttons">
                     <button
-                        id="subscription-gate-cta"
+                        id="subscription-gate-cta-monthly"
                         class="subscription-gate-button green-button inter-text"
+                        data-plan="monthly"
                     >
-                        Add Card to Start Trial
+                        Start Subscription ($12.99/mo)
+                    </button>
+                    <button
+                        id="subscription-gate-cta-annual"
+                        class="subscription-gate-button subscription-gate-button-secondary inter-text"
+                        data-plan="annual"
+                    >
+                        Start Subscription ($109/yr)
                     </button>
                 </div>
                 <p class="subscription-gate-price inter-text">
-                    $12.99/month or $109/year after trial • Cancel anytime
+                    Choose monthly or annual • Cancel anytime
                 </p>
                 <p class="subscription-gate-subtext inter-text">
-                    Your trial ends after 10 trades or 10 days, whichever comes first.
+                    Close this paywall to view sample analytics data while locked.
                 </p>
                 <a
                     href="../HomeRewrite/index.html"
@@ -97,13 +128,13 @@
                     <i data-lucide="alarm-clock"></i>
                 </div>
                 <p class="dashboard-notification-text inter-text">
-                    Your trial is ending soon. Add payment to continue after 10 trades or 10 days.
+                    You have 1 free trade left. Subscribe now to keep logging after trade #5.
                 </p>
                 <button
                     id="trial-notification-cta"
                     class="trial-notification-button inter-text"
                 >
-                    Add Payment
+                    Start Subscription
                 </button>
                 <button id="trial-notification-close" class="dashboard-notification-close">
                     <i data-lucide="x"></i>
@@ -117,7 +148,7 @@
                     <i data-lucide="sparkles"></i>
                 </div>
                 <p class="dashboard-notification-text inter-text">
-                    Your trial is active. Full access for 10 trades (10 days max).
+                    Free access is active. Log up to 5 trades before subscription is required.
                 </p>
                 <button id="trial-started-close" class="dashboard-notification-close">
                     <i data-lucide="x"></i>
@@ -148,7 +179,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="/DashboardRewrite/vid1.mp4"
+                            data-src="vid1.mp4"
                         ></video>
                     </div>
                 </div>
@@ -171,7 +202,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="/DashboardRewrite/vid2.mp4"
+                            data-src="vid2.mp4"
                         ></video>
                     </div>
                 </div>
@@ -194,7 +225,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="/DashboardRewrite/vid3.mp4"
+                            data-src="vid3.mp4"
                         ></video>
                     </div>
                 </div>
@@ -217,7 +248,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="/DashboardRewrite/vid4.mp4"
+                            data-src="vid4.mp4"
                         ></video>
                     </div>
                 </div>
@@ -240,7 +271,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="/DashboardRewrite/vid5.mp4"
+                            data-src="vid5.mp4"
                         ></video>
                     </div>
                 </div>
@@ -253,7 +284,7 @@
                         You are ready to trade with structure
                     </h2>
                     <p class="quick-tour-slide-copy inter-text">
-                        Your workspace is set up. Add a card to start your 10-trade trial and unlock full access.
+                        Your workspace is set up. You can log your first 5 trades free, then subscribe to continue.
                     </p>
                     <button id="post-signup-cta" class="walkthrough-pricing-button green-button inter-text">
                         Continue to Dashboard
@@ -542,7 +573,7 @@
                                     <li>Overtrading appears in the last hour of your session.</li>
                                 </ul>
                                 <button class="btn btn-primary" id="demo-start-trial" data-demo-allow="true">
-                                    Start trial to unlock your insights
+                                    Start subscription to unlock your insights
                                 </button>
                             </div>
 

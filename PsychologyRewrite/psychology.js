@@ -66,10 +66,15 @@ const NEGATIVE_KEYWORDS = [
 
 const CUSTOM_ACTIONS_KEY = "psychologyCustomActions";
 const ACTION_STATE_KEY = "psychologyActionState";
+const HIDDEN_DEFAULTS_KEY = "psychologyHiddenDefaults";
+
+const REMOVE_PSYCHOLOGY_ACTION_ENDPOINT =
+    "https://remove-psychology-action-b52ovbio5q-uc.a.run.app";
 
 let ratingChart = null;
 let mixChart = null;
 let cachedStats = null;
+let cachedServerActions = [];
 
 const setText = (id, value) => {
     const node = document.getElementById(id);
@@ -234,11 +239,71 @@ const saveActionState = (state) => {
     localStorage.setItem(ACTION_STATE_KEY, JSON.stringify(state));
 };
 
-const renderActions = () => {
+const loadHiddenDefaults = () => {
+    try {
+        return JSON.parse(localStorage.getItem(HIDDEN_DEFAULTS_KEY) || "[]");
+    } catch (error) {
+        return [];
+    }
+};
+
+const saveHiddenDefaults = (hidden) => {
+    localStorage.setItem(HIDDEN_DEFAULTS_KEY, JSON.stringify(hidden));
+};
+
+const normalizeServerActions = (actions = []) => {
+    return actions
+        .map((item) => {
+            if (!item) return null;
+            if (typeof item === "string") {
+                const text = item.trim();
+                if (!text) return null;
+                const slug = text
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/(^-|-$)/g, "")
+                    .slice(0, 40);
+                return { id: `server-${slug}`, text };
+            }
+            if (typeof item === "object") {
+                const text = (item.text || "").trim();
+                if (!text) return null;
+                return {
+                    id: item.id || `server-${Date.now()}`,
+                    text
+                };
+            }
+            return null;
+        })
+        .filter(Boolean);
+};
+
+const mergeActions = (actionGroups) => {
+    const merged = [];
+    const seen = new Set();
+    actionGroups.flat().forEach((action) => {
+        if (!action || !action.text) return;
+        const key = action.text.toLowerCase();
+        if (seen.has(key)) return;
+        seen.add(key);
+        merged.push(action);
+    });
+    return merged;
+};
+
+const renderActions = (serverActions = []) => {
     const list = document.getElementById("action-list");
     const customActions = loadCustomActions();
     const state = loadActionState();
-    const actions = [...DEFAULT_ACTIONS, ...customActions];
+    const hiddenDefaults = loadHiddenDefaults();
+    const visibleDefaults = DEFAULT_ACTIONS.filter(
+        (action) => !hiddenDefaults.includes(action.id)
+    );
+    const actions = mergeActions([
+        visibleDefaults,
+        serverActions,
+        customActions
+    ]);
 
     list.innerHTML = "";
     actions.forEach((action) => {
@@ -250,11 +315,7 @@ const renderActions = () => {
                 <input type="checkbox" ${checked ? "checked" : ""} />
                 <span>${action.text}</span>
             </label>
-            ${
-                action.id.startsWith("custom-")
-                    ? `<button class="action-remove" data-action="${action.id}">Remove</button>`
-                    : ""
-            }
+            <button class="action-remove" data-action="${action.id}">Remove</button>
         `;
         const checkbox = wrapper.querySelector("input");
         checkbox.addEventListener("change", () => {
@@ -263,14 +324,60 @@ const renderActions = () => {
         });
         const remove = wrapper.querySelector(".action-remove");
         if (remove) {
-            remove.addEventListener("click", () => {
-                const updated = customActions.filter(
-                    (item) => item.id !== action.id
-                );
-                saveCustomActions(updated);
+            remove.addEventListener("click", async () => {
+                // Custom actions: stored in localStorage only
+                if (action.id && action.id.startsWith("custom-")) {
+                    const updated = customActions.filter(
+                        (item) => item.id !== action.id
+                    );
+                    saveCustomActions(updated);
+                    delete state[action.id];
+                    saveActionState(state);
+                    renderActions(cachedServerActions);
+                    return;
+                }
+
+                // Server / AI actions: remove via backend then refresh
+                if (action.id && action.id.startsWith("server-")) {
+                    try {
+                        const token = await getToken();
+                        if (!token) {
+                            console.warn("No auth token for removing psychology action");
+                        } else {
+                            await fetch(REMOVE_PSYCHOLOGY_ACTION_ENDPOINT, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    token,
+                                    actionId: action.id,
+                                    actionText: action.text,
+                                }),
+                            });
+                        }
+                    } catch (error) {
+                        console.warn("Error removing psychology action", error);
+                    }
+
+                    cachedServerActions = cachedServerActions.filter(
+                        (item) =>
+                            item.id !== action.id &&
+                            item.text.toLowerCase() !== action.text.toLowerCase()
+                    );
+                    delete state[action.id];
+                    saveActionState(state);
+                    renderActions(cachedServerActions);
+                    return;
+                }
+
+                // Default actions: hide for this user only
+                const updatedHidden = loadHiddenDefaults();
+                if (!updatedHidden.includes(action.id)) {
+                    updatedHidden.push(action.id);
+                    saveHiddenDefaults(updatedHidden);
+                }
                 delete state[action.id];
                 saveActionState(state);
-                renderActions();
+                renderActions(cachedServerActions);
             });
         }
         list.appendChild(wrapper);
@@ -285,7 +392,7 @@ const handleAddAction = () => {
     customActions.push({ id: `custom-${Date.now()}`, text });
     saveCustomActions(customActions);
     input.value = "";
-    renderActions();
+    renderActions(cachedServerActions);
 };
 
 const computeEmotionStats = (trades) => {
@@ -619,9 +726,10 @@ const loadPsychology = async () => {
     const trades = getTradesArray(account?.trades || {});
     const strategies = extractStrategies(strategyContext);
     const rules = buildPsychologyRules(strategies);
+    cachedServerActions = normalizeServerActions(account?.psychologyActions || []);
 
     renderRules(rules);
-    renderActions();
+    renderActions(cachedServerActions);
 
     const stats = computeEmotionStats(trades);
     cachedStats = stats;

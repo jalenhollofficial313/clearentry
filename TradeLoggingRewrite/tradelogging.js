@@ -1,4 +1,5 @@
 const fileInput = document.querySelector("#tradeImageInput")
+const TRADE_ID_PATTERN = /^[a-f0-9]{16}$/i;
 
 const notify = (message, type = "error") => {
     if (window.showNotification) {
@@ -37,6 +38,87 @@ let tradeEntry = {
 };
 
 const getToken = () => window.getAuthTokenSync?.() || null;
+
+const isTradeId = (value) =>
+    typeof value === "string" && TRADE_ID_PATTERN.test(value.trim());
+
+const startSubscriptionCheckout = async (button) => {
+    if (window.startTrialCheckout) {
+        await window.startTrialCheckout(button, button?.dataset?.plan || "monthly");
+        return;
+    }
+
+    const token = getToken();
+    if (!token) {
+        window.location.href = "../HomeRewrite/login.html";
+        return;
+    }
+
+    const originalText = button?.textContent || "";
+    try {
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Processing...";
+        }
+        const response = await fetch(
+            "https://create-checkout-session-b52ovbio5q-uc.a.run.app",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    token,
+                    plan: button?.dataset?.plan || "monthly"
+                })
+            }
+        );
+        const checkoutUrl = await response.text();
+        const isValidUrl =
+            typeof checkoutUrl === "string" && checkoutUrl.startsWith("https://");
+        if (response.ok && isValidUrl) {
+            sessionStorage.setItem("pendingProCheckout", "true");
+            window.location.href = checkoutUrl;
+            return;
+        }
+        notify("Failed to start subscription checkout.", "error");
+    } catch (error) {
+        console.error("Checkout error:", error);
+        notify("Failed to start subscription checkout.", "error");
+    } finally {
+        if (button) {
+            button.disabled = false;
+            button.textContent = originalText;
+        }
+    }
+};
+
+const showTradeLimitPaywall = () => {
+    const modal = document.getElementById("trade-limit-paywall-modal");
+    if (!modal) {
+        window.location.href = "../DashboardRewrite/dashboard.html";
+        return;
+    }
+
+    const closeButton = document.getElementById("trade-limit-paywall-close");
+    const monthlyButton = document.getElementById("trade-limit-subscribe-monthly");
+    const annualButton = document.getElementById("trade-limit-subscribe-annual");
+
+    if (closeButton) {
+        closeButton.onclick = () => {
+            modal.style.display = "none";
+            window.location.href = "../DashboardRewrite/dashboard.html";
+        };
+    }
+
+    if (monthlyButton) {
+        monthlyButton.onclick = () => startSubscriptionCheckout(monthlyButton);
+    }
+    if (annualButton) {
+        annualButton.onclick = () => startSubscriptionCheckout(annualButton);
+    }
+
+    modal.style.display = "flex";
+    lucide.createIcons();
+};
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -1054,11 +1136,30 @@ document.querySelector("#continue-button").addEventListener("click", async funct
     client_server_debounce = true
     if (tradeEntry['id'] == "") {
         loadingFrame(1000, "Logging Entry...", "Entry Logged.")
-        const tradeId = await log_Trade(getToken())
+        const tradeResponse = await log_Trade(getToken())
         client_server_debounce = false        
-        
-        // Show ranking modal for new trade
-        if (tradeId && tradeId !== "Token Error") {
+
+        const tradeId = (tradeResponse || "").trim();
+        if (tradeId === "Subscription Required" || tradeId === "Trial Required") {
+            await sleep(300);
+            showTradeLimitPaywall();
+            return;
+        }
+
+        // Show ranking modal for new trade unless the account just crossed the free trade cap.
+        if (isTradeId(tradeId)) {
+            const refreshedAccount = window.getAccountData
+                ? await window.getAccountData()
+                : null;
+            const reachedFreeTradeLimit =
+                refreshedAccount &&
+                !refreshedAccount.stripe_subscription_id &&
+                refreshedAccount.trialActive === false;
+            if (reachedFreeTradeLimit) {
+                await sleep(300);
+                showTradeLimitPaywall();
+                return;
+            }
             await sleep(500)
             showRankingModal(tradeId)
         } else {
@@ -1393,31 +1494,164 @@ function hideAIAnalysisLoading() {
     modal.style.display = "none";
 }
 
-function showAIInsights(insightText) {
-    const modal = document.getElementById("ai-insights-modal");
-    const insightElement = document.getElementById("ai-insights-text");
-    
-    // Clear the element first
-    insightElement.textContent = "";
-    modal.style.display = "flex";
-    lucide.createIcons();
-    
-    // Animate text appearance (typewriter effect)
-    animateTextAppearance(insightElement, insightText);
+const PSYCHOLOGY_ACTION_ENDPOINT =
+    "https://add-psychology-action-b52ovbio5q-uc.a.run.app";
+
+function normalizeInsightPayload(payload) {
+    if (!payload) {
+        return {
+            psychologicalInsights: [],
+            tradeInsights: [],
+            didWell: [],
+            needsWork: [],
+            actionableAdvice: []
+        };
+    }
+
+    if (typeof payload === "string") {
+        return {
+            psychologicalInsights: [],
+            tradeInsights: [payload],
+            didWell: [],
+            needsWork: [],
+            actionableAdvice: []
+        };
+    }
+
+    if (payload.insight && typeof payload.insight === "string") {
+        return {
+            psychologicalInsights: [],
+            tradeInsights: [payload.insight],
+            didWell: [],
+            needsWork: [],
+            actionableAdvice: []
+        };
+    }
+
+    const normalizeList = (value) => {
+        if (Array.isArray(value)) {
+            return value.map((item) => item?.toString().trim()).filter(Boolean);
+        }
+        if (typeof value === "string" && value.trim()) {
+            return [value.trim()];
+        }
+        return [];
+    };
+
+    return {
+        psychologicalInsights: normalizeList(payload.psychologicalInsights),
+        tradeInsights: normalizeList(payload.tradeInsights),
+        didWell: normalizeList(payload.didWell),
+        needsWork: normalizeList(payload.needsWork),
+        actionableAdvice: normalizeList(payload.actionableAdvice)
+    };
 }
 
-// Function to animate text appearance (typewriter effect)
-async function animateTextAppearance(element, text) {
-    const speed = 20; // milliseconds per character
-    
-    for (let i = 0; i <= text.length; i++) {
-        const currentText = text.substring(0, i);
-        element.textContent = currentText;
-        
-        if (i < text.length) {
-            await sleep(speed);
-        }
+function renderInsightList(listId, emptyId, items) {
+    const list = document.getElementById(listId);
+    const empty = document.getElementById(emptyId);
+    if (!list || !empty) return;
+
+    list.innerHTML = "";
+    if (!items || !items.length) {
+        empty.style.display = "block";
+        return;
     }
+
+    empty.style.display = "none";
+    items.forEach((item) => {
+        const row = document.createElement("li");
+        row.textContent = item;
+        list.appendChild(row);
+    });
+}
+
+async function addPsychologyAction(actionText, button) {
+    if (!actionText) return;
+    if (button) {
+        button.disabled = true;
+        button.textContent = "Adding...";
+    }
+
+    try {
+        const response = await fetch(PSYCHOLOGY_ACTION_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: getToken(),
+                action: actionText,
+                source: "post-trade-reflection",
+                tradeId: currentTradeIdForReflection || null
+            })
+        });
+
+        const result = await response.json().catch(() => ({}));
+        if (response.ok && result?.added !== false) {
+            if (button) {
+                button.textContent = "Added";
+            }
+            return;
+        }
+
+        if (button) {
+            button.disabled = false;
+            button.textContent = "Add to psychology plan";
+        }
+        notify("Unable to add to psychology plan.", "error");
+    } catch (error) {
+        if (button) {
+            button.disabled = false;
+            button.textContent = "Add to psychology plan";
+        }
+        notify("Unable to add to psychology plan.", "error");
+    }
+}
+
+function renderActionableAdvice(items) {
+    const list = document.getElementById("ai-action-list");
+    const empty = document.getElementById("ai-action-empty");
+    if (!list || !empty) return;
+
+    list.innerHTML = "";
+    if (!items || !items.length) {
+        empty.style.display = "block";
+        return;
+    }
+
+    empty.style.display = "none";
+    items.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "ai-action-item";
+
+        const text = document.createElement("span");
+        text.className = "ai-action-text";
+        text.textContent = item;
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn btn-ghost btn-sm ai-action-button";
+        button.textContent = "Add to psychology plan";
+        button.addEventListener("click", () =>
+            addPsychologyAction(item, button)
+        );
+
+        row.appendChild(text);
+        row.appendChild(button);
+        list.appendChild(row);
+    });
+}
+
+function showAIInsights(payload) {
+    const modal = document.getElementById("ai-insights-modal");
+    modal.style.display = "flex";
+    lucide.createIcons();
+
+    const data = normalizeInsightPayload(payload);
+    renderInsightList("ai-psych-insights", "ai-psych-empty", data.psychologicalInsights);
+    renderInsightList("ai-trade-insights", "ai-trade-empty", data.tradeInsights);
+    renderInsightList("ai-good-insights", "ai-good-empty", data.didWell);
+    renderInsightList("ai-bad-insights", "ai-bad-empty", data.needsWork);
+    renderActionableAdvice(data.actionableAdvice);
 }
 
 function hideAIInsights() {
@@ -1444,13 +1678,13 @@ async function analyzeTradeReflection(tradeId) {
         
         const result = await response.json();
         
-        if (response.ok && result.insight) {
+        if (response.ok) {
             progressBar.style.width = "100%";
             stepText.textContent = "Complete!";
             await sleep(500);
             
             hideAIAnalysisLoading();
-            showAIInsights(result.insight);
+            showAIInsights(result);
         } else {
             throw new Error(result.error || "Analysis failed");
         }

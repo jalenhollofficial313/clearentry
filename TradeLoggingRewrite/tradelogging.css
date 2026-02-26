@@ -480,6 +480,87 @@
     background: #00ff99;
 }
 
+.ai-insights-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.ai-insights-icon {
+    width: 20px;
+    height: 20px;
+    color: #0f172a;
+}
+
+.ai-insights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.ai-insights-section {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    display: grid;
+    gap: 8px;
+}
+
+.ai-insights-title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.ai-insights-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.ai-insights-list li {
+    background: #eef2f7;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.ai-empty {
+    margin: 0;
+    font-size: 12px;
+    color: #94a3b8;
+    display: none;
+}
+
+.ai-action-list {
+    display: grid;
+    gap: 8px;
+}
+
+.ai-action-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #eef2f7;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.ai-action-text {
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.ai-action-button {
+    white-space: nowrap;
+}
+
 .reflection-form {
     display: grid;
     gap: 16px;
@@ -502,6 +583,88 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+}
+
+.subscription-lock-card {
+    position: relative;
+    width: min(620px, 92vw);
+    gap: 14px;
+}
+
+.subscription-lock-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.08);
+    color: #334155;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.subscription-lock-close i {
+    width: 16px;
+    height: 16px;
+}
+
+.subscription-lock-preview {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 12px;
+}
+
+.subscription-lock-preview-title {
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.subscription-lock-preview-blur {
+    display: grid;
+    gap: 8px;
+    filter: blur(2.4px);
+    user-select: none;
+    pointer-events: none;
+}
+
+.subscription-lock-preview-row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #0f172a;
+}
+
+.subscription-lock-preview-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.35);
+    overflow: hidden;
+}
+
+.subscription-lock-preview-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.subscription-lock-actions {
+    display: grid;
+    gap: 8px;
+}
+
+.subscription-lock-actions .btn {
+    justify-content: center;
 }
 
 body.dark .entry-title2,
@@ -565,6 +728,28 @@ body.dark .reflection-question-text {
     color: #ffffff;
 }
 
+body.dark .subscription-lock-close {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+}
+
+body.dark .subscription-lock-preview {
+    border-color: rgba(128, 128, 128, 0.25);
+    background: #0f1317;
+}
+
+body.dark .subscription-lock-preview-title {
+    color: #8c98a4;
+}
+
+body.dark .subscription-lock-preview-row {
+    color: #f1f5f9;
+}
+
+body.dark .subscription-lock-preview-bar {
+    background: rgba(148, 163, 184, 0.22);
+}
+
 body.dark .badge-pill,
 body.dark .compliance-list,
 body.dark .compliance-checkbox-item,
@@ -606,5 +791,32 @@ body.dark .loading-frame {
     background: #14181f;
     border-color: rgba(128, 128, 128, 0.25);
     color: #8c98a4;
+}
+
+body.dark .ai-insights-section {
+    background: #0f1317;
+    border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .ai-insights-title,
+body.dark .ai-insights-icon,
+body.dark .ai-action-text {
+    color: #ffffff;
+}
+
+body.dark .ai-insights-list li,
+body.dark .ai-action-item {
+    background: #191d23;
+    color: #e6e8eb;
+}
+
+body.dark .ai-empty {
+    color: #8c98a4;
+}
+
+@media (max-width: 860px) {
+    .ai-insights-grid {
+        grid-template-columns: 1fr;
+    }
 }
 

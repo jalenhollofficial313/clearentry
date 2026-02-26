@@ -450,7 +450,7 @@ body.dark .negative {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(19, 21, 26, 0.98);
+    background-color: rgba(235, 240, 248, 0.8);
     backdrop-filter: blur(10px);
     z-index: 10000;
     display: flex;
@@ -461,44 +461,114 @@ body.dark .negative {
 }
 
 .subscription-gate-content {
-    background-color: #191d23e7;
-    border: 2px solid rgba(128, 128, 128, 0.123);
-    box-shadow: 0px 5px 30px 5px rgba(0, 255, 153, 0.3);
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    box-shadow: 0px 20px 50px rgba(15, 23, 42, 0.18);
     border-radius: 20px;
-    padding: 50px 40px;
-    max-width: 600px;
+    padding: 44px 36px 34px;
+    max-width: 640px;
     width: 100%;
     text-align: center;
     box-sizing: border-box;
 }
 
+.subscription-gate-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.08);
+    color: #334155;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.subscription-gate-close i {
+    width: 16px;
+    height: 16px;
+}
+
 .subscription-gate-icon {
-    width: 80px;
-    height: 80px;
-    color: #00ff99;
-    margin: 0 auto 30px;
+    width: 56px;
+    height: 56px;
+    color: #15803d;
+    margin: 0 auto 18px;
     display: block;
 }
 
 .subscription-gate-title {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 700;
-    color: white;
-    margin: 0 0 20px 0;
+    color: #0f172a;
+    margin: 0 0 12px 0;
 }
 
 .subscription-gate-description {
     font-size: 16px;
     font-weight: 400;
-    color: #86909a;
-    margin: 0 0 30px 0;
+    color: #475569;
+    margin: 0 0 22px 0;
     line-height: 1.6;
+}
+
+.subscription-gate-preview {
+    margin-bottom: 22px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 14px;
+    padding: 12px;
+    background: #f8fafc;
+}
+
+.subscription-gate-preview-title {
+    margin: 0 0 8px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #64748b;
+}
+
+.subscription-gate-preview-blur {
+    display: grid;
+    gap: 8px;
+    filter: blur(2.4px);
+    user-select: none;
+    pointer-events: none;
+}
+
+.subscription-gate-preview-row {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    color: #0f172a;
+    font-size: 12px;
+}
+
+.subscription-gate-preview-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.35);
+    overflow: hidden;
+}
+
+.subscription-gate-preview-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
 }
 
 .subscription-gate-features {
     list-style: none;
     padding: 0;
-    margin: 0 0 35px 0;
+    margin: 0 0 20px 0;
     text-align: left;
 }
 
@@ -506,7 +576,7 @@ body.dark .negative {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: white;
+    color: #0f172a;
     font-size: 15px;
     margin-bottom: 12px;
 }
@@ -514,36 +584,43 @@ body.dark .negative {
 .feature-check-icon {
     width: 20px;
     height: 20px;
-    color: #00ff99;
+    color: #16a34a;
     flex-shrink: 0;
 }
 
 .subscription-gate-buttons {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    display: grid;
+    gap: 10px;
 }
 
 .subscription-gate-button {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    padding: 14px 40px;
+    padding: 13px 16px;
     border-radius: 12px;
     border: none;
     cursor: pointer;
-    transition: 250ms;
+    transition: 200ms;
     width: 100%;
-    max-width: 400px;
+    max-width: none;
+}
+
+.subscription-gate-button-secondary {
+    background: #e2e8f0;
+    color: #0f172a;
 }
 
 .subscription-gate-price {
     font-size: 14px;
-    color: #86909a;
+    color: #64748b;
     margin: 0;
 }
 
 .subscription-gate-subtext {
     font-size: 12px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.55);
+    color: #64748b;
     margin: 8px 0 0 0;
     text-align: center;
 }
@@ -552,14 +629,87 @@ body.dark .negative {
     display: inline-block;
     margin-top: 12px;
     font-size: 14px;
-    color: #86909a;
+    color: #64748b;
     text-decoration: none;
     transition: color 200ms ease, text-decoration-color 200ms ease;
 }
 
 .subscription-gate-link:hover {
-    color: #ffffff;
+    color: #0f172a;
     text-decoration: underline;
+}
+
+body.dark .subscription-gate {
+    background-color: rgba(19, 21, 26, 0.98);
+}
+
+body.dark .subscription-gate-content {
+    background-color: #191d23e7;
+    border: 2px solid rgba(128, 128, 128, 0.123);
+    box-shadow: 0px 5px 30px 5px rgba(0, 255, 153, 0.3);
+}
+
+body.dark .subscription-gate-close {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+}
+
+body.dark .subscription-gate-icon {
+    color: #00ff99;
+}
+
+body.dark .subscription-gate-title {
+    color: #ffffff;
+}
+
+body.dark .subscription-gate-description {
+    color: #86909a;
+}
+
+body.dark .subscription-gate-feature {
+    color: #ffffff;
+}
+
+body.dark .feature-check-icon {
+    color: #00ff99;
+}
+
+body.dark .subscription-gate-preview {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: #111418;
+}
+
+body.dark .subscription-gate-preview-title {
+    color: #94a3b8;
+}
+
+body.dark .subscription-gate-preview-row {
+    color: #e2e8f0;
+}
+
+body.dark .subscription-gate-preview-bar {
+    background: rgba(148, 163, 184, 0.22);
+}
+
+body.dark .subscription-gate-button-secondary {
+    background: #2b3441;
+    color: #f8fafc;
+}
+
+body.dark .subscription-gate-price {
+    color: #86909a;
+}
+
+body.dark .subscription-gate-subtext {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+body.dark .subscription-gate-link {
+    color: #86909a;
+}
+
+body.dark .subscription-gate-link:hover {
+    color: #ffffff;
 }
 
 .demo-pill {
@@ -765,7 +915,7 @@ body.dark .demo-insights-card .demo-insights-list li::before {
     }
 
     .subscription-gate-content {
-        padding: 36px 24px;
+        padding: 40px 20px 24px;
     }
 
     .subscription-gate-title {
@@ -778,6 +928,11 @@ body.dark .demo-insights-card .demo-insights-list li::before {
 
     .subscription-gate-feature {
         font-size: 14px;
+    }
+
+    .subscription-gate-preview-row {
+        grid-template-columns: 56px 1fr auto;
+        gap: 8px;
     }
 }
 

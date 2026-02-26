@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+    <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>ClearEntry Trade Logging</title>
@@ -147,6 +148,7 @@
 
             <main class="main">
                 <header class="topbar" id="head-frame">
+    <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
                     <div class="mobile-nav">
                         <button
                             class="btn btn-ghost mobile-nav-toggle"
@@ -534,6 +536,46 @@
             </div>
         </div>
 
+        <div id="trade-limit-paywall-modal" class="modal subscription-lock-modal">
+            <div class="modal-card subscription-lock-card">
+                <button id="trade-limit-paywall-close" class="subscription-lock-close" type="button" aria-label="Close paywall">
+                    <i data-lucide="x"></i>
+                </button>
+                <p class="modal-title">You have logged 5 trades</p>
+                <p class="modal-subtitle">
+                    You have logged 5 trades. Subscribe for $12.99/month to keep logging and unlock full analytics.
+                </p>
+                <div class="subscription-lock-preview">
+                    <p class="subscription-lock-preview-title">Session Time Breakdown Preview</p>
+                    <div class="subscription-lock-preview-blur">
+                        <div class="subscription-lock-preview-row">
+                            <span>Open</span>
+                            <div class="subscription-lock-preview-bar"><span style="width: 46%;"></span></div>
+                            <span>46%</span>
+                        </div>
+                        <div class="subscription-lock-preview-row">
+                            <span>Midday</span>
+                            <div class="subscription-lock-preview-bar"><span style="width: 31%;"></span></div>
+                            <span>31%</span>
+                        </div>
+                        <div class="subscription-lock-preview-row">
+                            <span>Close</span>
+                            <div class="subscription-lock-preview-bar"><span style="width: 23%;"></span></div>
+                            <span>23%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="subscription-lock-actions">
+                    <button id="trade-limit-subscribe-monthly" class="btn btn-primary" data-plan="monthly">
+                        Start Subscription ($12.99/mo)
+                    </button>
+                    <button id="trade-limit-subscribe-annual" class="btn btn-ghost" data-plan="annual">
+                        Start Subscription ($109/yr)
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div id="ai-analysis-loading-modal" class="modal ai-analysis-loading-modal">
             <div class="modal-card">
                 <div class="ai-loading-spinner">
@@ -553,12 +595,55 @@
         </div>
 
         <div id="ai-insights-modal" class="modal ai-insights-modal">
-            <div class="modal-card">
+            <div class="modal-card wide">
                 <div class="ai-insights-header">
                     <i class="ai-insights-icon" data-lucide="brain"></i>
-                    <p class="modal-title">Trade Insight</p>
+                    <div>
+                        <p class="modal-title">Post-Trade Insights</p>
+                        <p class="modal-subtitle">
+                            Psychology, execution, and next-step guidance.
+                        </p>
+                    </div>
                 </div>
-                <p class="modal-subtitle" id="ai-insights-text"></p>
+                <div class="ai-insights-grid">
+                    <div class="ai-insights-section">
+                        <p class="ai-insights-title">Psychological insights</p>
+                        <ul class="ai-insights-list" id="ai-psych-insights"></ul>
+                        <p class="ai-empty" id="ai-psych-empty">
+                            No psychology insights yet.
+                        </p>
+                    </div>
+                    <div class="ai-insights-section">
+                        <p class="ai-insights-title">Trade execution insights</p>
+                        <ul class="ai-insights-list" id="ai-trade-insights"></ul>
+                        <p class="ai-empty" id="ai-trade-empty">
+                            No execution insights yet.
+                        </p>
+                    </div>
+                </div>
+                <div class="ai-insights-grid two">
+                    <div class="ai-insights-section">
+                        <p class="ai-insights-title">What you did well</p>
+                        <ul class="ai-insights-list" id="ai-good-insights"></ul>
+                        <p class="ai-empty" id="ai-good-empty">
+                            No positives captured yet.
+                        </p>
+                    </div>
+                    <div class="ai-insights-section">
+                        <p class="ai-insights-title">What hurt performance</p>
+                        <ul class="ai-insights-list" id="ai-bad-insights"></ul>
+                        <p class="ai-empty" id="ai-bad-empty">
+                            No negatives captured yet.
+                        </p>
+                    </div>
+                </div>
+                <div class="ai-insights-section">
+                    <p class="ai-insights-title">Actionable advice</p>
+                    <div class="ai-action-list" id="ai-action-list"></div>
+                    <p class="ai-empty" id="ai-action-empty">
+                        No actionable advice generated.
+                    </p>
+                </div>
                 <button id="ai-insights-close" class="btn btn-primary">
                     Got it
                 </button>
@@ -757,4 +842,8 @@
         </script>
     </body>
 </html>
+
+
+
+
 

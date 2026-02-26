@@ -34,6 +34,7 @@ const getTradePL = (trade) => {
 };
 
 let accountData = null;
+const SUBSCRIPTION_GATE_DISMISSED_KEY = "ceSubscriptionGateDismissed";
 
 const notify = (message, type = "error") => {
     if (window.showNotification) {
@@ -79,23 +80,23 @@ const getTradesArray = (trades = {}) =>
 
 const isDemoMode = () => window.CE_DEMO_MODE === true;
 
-const getTrialDaysLeftLocal = () => {
-    const trialStartedAt = accountData?.trialStartedAt;
-    if (!trialStartedAt) {
-        return null;
+const getTrialTradesRemainingLocal = () => {
+    if (accountData?.trialTradesRemaining !== undefined) {
+        return Number(accountData.trialTradesRemaining);
     }
-    const elapsedSeconds = Math.max(0, Date.now() / 1000 - trialStartedAt);
-    const daysElapsed = Math.floor(elapsedSeconds / 86400);
-    return Math.max(0, 10 - daysElapsed);
+    const tradeCount = Number(accountData?.trialTradeCount || 0);
+    return Math.max(0, 5 - tradeCount);
 };
 
 const isTrialActiveLocal = () => {
     if (accountData?.trialActive !== undefined) {
         return accountData.trialActive;
     }
-    const daysLeft = getTrialDaysLeftLocal();
+    if (!accountData?.trialStartedAt) {
+        return false;
+    }
     const tradeCount = Number(accountData?.trialTradeCount || 0);
-    return Boolean(daysLeft && daysLeft > 0 && tradeCount < 10);
+    return tradeCount < 5;
 };
 
 const setText = (id, value) => {
@@ -320,18 +321,23 @@ const maybeShowTrialReminder = () => {
         return;
     }
 
-    const daysLeft = getTrialDaysLeftLocal();
-    if (daysLeft === null || daysLeft > 3 || daysLeft <= 0) {
+    const tradesRemaining = getTrialTradesRemainingLocal();
+    if (tradesRemaining !== 1) {
         return;
     }
 
     const notification = document.getElementById("trial-notification");
     const closeButton = document.getElementById("trial-notification-close");
     const ctaButton = document.getElementById("trial-notification-cta");
+    const textNode = notification?.querySelector(".dashboard-notification-text");
     if (!notification) {
         return;
     }
 
+    if (textNode) {
+        textNode.textContent =
+            "You have 1 free trade left. Subscribe now to keep logging after trade #5.";
+    }
     notification.style.display = "block";
     if (ctaButton) {
         ctaButton.onclick = () => startCheckout(ctaButton);
@@ -397,9 +403,8 @@ const startCheckout = async (button) => {
         const isValidUrl =
             typeof checkoutUrl === "string" &&
             checkoutUrl.startsWith("https://");
-            console.log("hello")
         if (response.ok && isValidUrl) {
-            localStorage.setItem("pendingProCheckout", "true");
+            sessionStorage.setItem("pendingProCheckout", "true");
             window.location.href = checkoutUrl;
             return;
         }
@@ -420,54 +425,51 @@ const startCheckout = async (button) => {
 const checkAndShowSubscriptionGate = () => {
     const gate = document.getElementById("subscription-gate");
     const main = document.querySelector(".main");
-    const membership = accountData?.membership;
-    const demoMode = isDemoMode();
-    if (demoMode) {
-        if (gate) {
-            gate.style.display = "none";
-        }
-        if (main) {
-            main.style.display = "flex";
-        }
-        return true;
-    }
-    if (!membership) {
-        if (gate) {
-            gate.style.display = "none";
-        }
-        if (main) {
-            main.style.display = "flex";
-        }
+    if (!gate || !main) {
         return true;
     }
 
-    const normalized = membership.toLowerCase();
-    const isStandard = normalized === "standard";
-    const isPro = normalized === "pro";
-    const hasActiveTrial = isTrialActiveLocal();
+    const membership = (accountData?.membership || "").toLowerCase();
+    const hasSubscription =
+        membership === "pro" || Boolean(accountData?.stripe_subscription_id);
+    const requiresSubscription = isDemoMode() || !hasSubscription && !isTrialActiveLocal();
 
-    if (isStandard && !hasActiveTrial) {
-        if (gate) {
-            gate.style.display = "flex";
-        }
-        if (main) {
-            main.style.display = "none";
-        }
-        lucide.createIcons();
-        const ctaButton = document.getElementById("subscription-gate-cta");
-        if (ctaButton) {
-            ctaButton.onclick = () => startCheckout(ctaButton);
-        }
-        return false;
-    }
-
-    if (gate) {
+    if (!requiresSubscription) {
+        sessionStorage.removeItem(SUBSCRIPTION_GATE_DISMISSED_KEY);
         gate.style.display = "none";
-    }
-    if (main) {
         main.style.display = "flex";
+        return true;
     }
-    return true;
+
+    if (sessionStorage.getItem(SUBSCRIPTION_GATE_DISMISSED_KEY) === "true") {
+        gate.style.display = "none";
+        main.style.display = "flex";
+        return true;
+    }
+
+    gate.style.display = "flex";
+    main.style.display = "none";
+    lucide.createIcons();
+
+    const monthlyButton = document.getElementById("subscription-gate-cta-monthly");
+    const annualButton = document.getElementById("subscription-gate-cta-annual");
+    const closeButton = document.getElementById("subscription-gate-close");
+
+    if (monthlyButton) {
+        monthlyButton.onclick = () => startCheckout(monthlyButton);
+    }
+    if (annualButton) {
+        annualButton.onclick = () => startCheckout(annualButton);
+    }
+    if (closeButton) {
+        closeButton.onclick = () => {
+            sessionStorage.setItem(SUBSCRIPTION_GATE_DISMISSED_KEY, "true");
+            gate.style.display = "none";
+            main.style.display = "flex";
+        };
+    }
+
+    return false;
 };
 
 const waitForProMembershipSync = async () => {
@@ -475,7 +477,7 @@ const waitForProMembershipSync = async () => {
     for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
         const membership = accountData?.membership?.toLowerCase();
         if (membership === "pro") {
-            localStorage.removeItem("pendingProCheckout");
+            sessionStorage.removeItem("pendingProCheckout");
             return true;
         }
         await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -654,11 +656,12 @@ const initDashboard = async () => {
         return;
     }
 
-    if (localStorage.getItem("pendingProCheckout") === "true") {
+    if (sessionStorage.getItem("pendingProCheckout") === "true") {
         setLoaderVisible(true, "Finalizing your subscription...");
         const synced = await waitForProMembershipSync();
         setLoaderVisible(false);
         if (!synced) {
+            sessionStorage.removeItem("pendingProCheckout");
             return;
         }
     }
@@ -695,4 +698,3 @@ const initDashboard = async () => {
 };
 
 initDashboard();
-
