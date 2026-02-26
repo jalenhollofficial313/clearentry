@@ -50,7 +50,7 @@ const startSubscriptionCheckout = async (button) => {
 
     const token = getToken();
     if (!token) {
-        window.location.href = "../HomeRewrite/login.html";
+        window.location.href = "/login";
         return;
     }
 

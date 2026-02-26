@@ -4,24 +4,24 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClearEntry</title>
-    <link rel="icon" type="image/png" href="clearentrylogo.png">
+    <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link href="auth.css" rel="stylesheet" type="text/css">
-    <link href="../Shared/notifications.css" rel="stylesheet" type="text/css">
+    <link href="/HomeRewrite/auth.css" rel="stylesheet" type="text/css">
+    <link href="/Shared/notifications.css" rel="stylesheet" type="text/css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Vercel Web Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
 
-<link href="../Shared/design-system.css" rel="stylesheet" type="text/css">
+<link href="/Shared/design-system.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="head-frame">
-        <a href="index.html" class="inter-text head-title">
+        <a href="/" class="inter-text head-title">
             ClearEntry
         </a>
         <div class="buttons-frame">
@@ -78,7 +78,7 @@
 
             <p class="alt-action inter-text">
                 Don't have an account?
-                <a class="inter-text gradient-text alt-anchor" href="signup.html">Sign Up</a>
+                <a class="inter-text gradient-text alt-anchor" href="/signup">Sign Up</a>
             </p>
             <p class="alt-action inter-text" style="margin-top: 15px;">
                 <a href="#" id="forgot-password-link" class="inter-text gradient-text alt-anchor">Forgot password?</a>
@@ -87,8 +87,8 @@
     </div>
     
     <!-- Password Reset Modal -->
-    <link href="../Shared/password-reset-modal.css" rel="stylesheet" type="text/css">
-    <script src="../Shared/password-reset-modal.js"></script>
+    <link href="/Shared/password-reset-modal.css" rel="stylesheet" type="text/css">
+    <script src="/Shared/password-reset-modal.js"></script>
     <div id="password-reset-modal" class="password-reset-modal" style="display: none;">
         <div class="password-reset-modal-overlay"></div>
         <div class="password-reset-modal-content">
@@ -168,11 +168,11 @@
         </div>
     </div>
     
-    <script src="../Shared/auth-config.js"></script>
+    <script src="/Shared/auth-config.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <script src="../Shared/notifications.js"></script>
-    <script src="login.js"></script>
+    <script src="/Shared/notifications.js"></script>
+    <script src="/HomeRewrite/login.js"></script>
     <script>
         lucide.createIcons();
     </script>

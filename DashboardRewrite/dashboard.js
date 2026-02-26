@@ -376,7 +376,7 @@ const showTrialStartedNotification = () => {
 const startCheckout = async (button) => {
     const token = await getAuthTokenSafe();
     if (!token) {
-        window.location.href = "../HomeRewrite/login.html";
+        window.location.href = "/login";
         return;
     }
 

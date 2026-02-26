@@ -75,7 +75,7 @@ if (showcaseTrack && showcaseCaption) {
   renderShowcase();
 }
 
-const START_TRIAL_SIGNUP_URL = "/HomeRewrite/signup.html";
+const START_TRIAL_SIGNUP_URL = "/signup";
 const DASHBOARD_URL = "/DashboardRewrite/dashboard.html";
 const CHECKOUT_ENDPOINT =
   "https://create-checkout-session-b52ovbio5q-uc.a.run.app";

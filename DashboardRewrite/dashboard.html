@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-    <link rel="icon" type="image/png" href="../HomeRewrite/clearentrylogo.png" />
+    <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>ClearEntry Dashboard</title>
@@ -12,13 +12,13 @@
             rel="stylesheet"
         />
         <script src="https://unpkg.com/lucide@latest"></script>
-        <script src="../Shared/auth-config.js"></script>
+        <script src="/Shared/auth-config.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-        <link rel="stylesheet" href="dashboard.css" />
-        <link rel="stylesheet" href="onboarding.css" />
-        <link rel="stylesheet" href="../Shared/notifications.css" />
+        <link rel="stylesheet" href="/DashboardRewrite/dashboard.css" />
+        <link rel="stylesheet" href="/DashboardRewrite/onboarding.css" />
+        <link rel="stylesheet" href="/Shared/notifications.css" />
     </head>
     <body>
         <div id="dashboard-full-loader" class="dashboard-full-loader" style="display: none;">
@@ -113,7 +113,7 @@
                     Close this paywall to view sample analytics data while locked.
                 </p>
                 <a
-                    href="../HomeRewrite/index.html"
+                    href="/"
                     id="subscription-gate-home"
                     class="subscription-gate-link inter-text"
                 >
@@ -179,7 +179,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="vid1.mp4"
+                            data-src="/DashboardRewrite/vid1.mp4"
                         ></video>
                     </div>
                 </div>
@@ -202,7 +202,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="vid2.mp4"
+                            data-src="/DashboardRewrite/vid2.mp4"
                         ></video>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="vid3.mp4"
+                            data-src="/DashboardRewrite/vid3.mp4"
                         ></video>
                     </div>
                 </div>
@@ -248,7 +248,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="vid4.mp4"
+                            data-src="/DashboardRewrite/vid4.mp4"
                         ></video>
                     </div>
                 </div>
@@ -271,7 +271,7 @@
                             playsinline
                             loop
                             preload="metadata"
-                            data-src="vid5.mp4"
+                            data-src="/DashboardRewrite/vid5.mp4"
                         ></video>
                     </div>
                 </div>
@@ -312,45 +312,45 @@
         <div class="app">
             <aside class="sidebar">
                 <div class="sidebar-brand">
-                    <a class="brand-title" href="../HomeRewrite/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                    <a class="brand-title" href="/" style="color: inherit; text-decoration: none;">ClearEntry</a>
                 </div>
                 <nav class="sidebar-nav">
                     <div class="nav-section">
                         <p class="nav-label">Overview</p>
                         <a class="nav-item is-active" href="#">Dashboard</a>
-                        <a class="nav-item" href="../EntriesRewrite/Entries.html"
+                        <a class="nav-item" href="/EntriesRewrite/Entries.html"
                             >Journal</a
                         >
                     </div>
                     <div class="nav-section">
                         <p class="nav-label">Daily</p>
-                        <a class="nav-item" href="../JournalRewrite/journal.html"
+                        <a class="nav-item" href="/JournalRewrite/journal.html"
                             >Notebook</a
                         >
                         <a
                             class="nav-item"
-                            href="../PreTradeRewrite/pretrade.html"
+                            href="/PreTradeRewrite/pretrade.html"
                             >Pre Execution</a
                         >
                         <a
                             class="nav-item"
-                            href="../PsychologyRewrite/psychology.html"
+                            href="/PsychologyRewrite/psychology.html"
                             >Psychology</a
                         >
                         <a
                             class="nav-item"
-                            href="../TradeLoggingRewrite/tradelogging.html"
+                            href="/TradeLoggingRewrite/tradelogging.html"
                             >Trade Logging</a
                         >
                     </div>
                     <div class="nav-section">
                         <p class="nav-label">Analytics</p>
-                        <a class="nav-item" href="../AnalyticsRewrite/analytics.html"
+                        <a class="nav-item" href="/AnalyticsRewrite/analytics.html"
                             >Analytics</a
                         >
                         <a
                             class="nav-item"
-                            href="../ConsistencyRewrite/consistency.html"
+                            href="/ConsistencyRewrite/consistency.html"
                             >Consistency</a
                         >
                         <button class="nav-item nav-item-parent" type="button">
@@ -360,27 +360,27 @@
                         <div class="nav-sub">
                             <a
                                 class="nav-sub-item"
-                                href="../ReportsRewrite/reports.html?view=overview"
+                                href="/ReportsRewrite/reports.html?view=overview"
                                 >Analysis Overview</a
                             >
                             <a
                                 class="nav-sub-item"
-                                href="../ReportsRewrite/reports.html?view=smart"
+                                href="/ReportsRewrite/reports.html?view=smart"
                                 >Smart Analysis</a
                             >
                         </div>
                     </div>
                     <div class="nav-section">
                         <p class="nav-label">Account</p>
-                        <a class="nav-item" href="../ProfileRewrite/profile.html"
+                        <a class="nav-item" href="/ProfileRewrite/profile.html"
                             >Profile</a
                         >
-                        <a class="nav-item" href="../SupportRewrite/support.html"
+                        <a class="nav-item" href="/SupportRewrite/support.html"
                             >Support</a
                         >
                         <a
                             class="nav-item"
-                            href="../UpdateLogRewrite/updatelog.html"
+                            href="/UpdateLogRewrite/updatelog.html"
                             >Update Log</a
                         >
                     </div>
@@ -409,7 +409,7 @@
                     <div class="topbar-actions">
                         <a
                             class="btn btn-primary"
-                            href="../PreTradeRewrite/pretrade.html"
+                            href="/PreTradeRewrite/pretrade.html"
                             >+ Pre Execution</a
                         >
                         <button class="btn btn-ghost" id="theme-toggle">
@@ -552,7 +552,7 @@
                                             —
                                         </p>
                                     </div>
-                                    <a class="link" href="../Entries/entries.html"
+                                    <a class="link" href="/EntriesRewrite/Entries.html"
                                         >View all</a
                                     >
                                 </div>
@@ -601,12 +601,12 @@
                 setTheme(nextTheme);
             });
         </script>
-        <script src="../Shared/reports-nav.js"></script>
-        <script src="../Shared/notifications.js"></script>
-        <script src="../Shared/client-data-lite.js"></script>
-        <script src="../Shared/sidebar-icons.js"></script>
-        <script src="../Shared/mobile-nav.js"></script>
-        <script src="dashboard.js"></script>
+        <script src="/Shared/reports-nav.js"></script>
+        <script src="/Shared/notifications.js"></script>
+        <script src="/Shared/client-data-lite.js"></script>
+        <script src="/Shared/sidebar-icons.js"></script>
+        <script src="/Shared/mobile-nav.js"></script>
+        <script src="/DashboardRewrite/dashboard.js"></script>
     </body>
 </html>
 

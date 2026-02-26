@@ -1,5 +1,27 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/HomeRewrite/index.html" }
+    { "source": "/", "destination": "/HomeRewrite/index.html" },
+    { "source": "/index.html", "destination": "/HomeRewrite/index.html" },
+    { "source": "/login", "destination": "/HomeRewrite/login.html" },
+    { "source": "/login.html", "destination": "/HomeRewrite/login.html" },
+    { "source": "/signup", "destination": "/HomeRewrite/signup.html" },
+    { "source": "/signup.html", "destination": "/HomeRewrite/signup.html" },
+    { "source": "/blog", "destination": "/HomeRewrite/blog.html" },
+    { "source": "/blog.html", "destination": "/HomeRewrite/blog.html" },
+    { "source": "/privacy", "destination": "/HomeRewrite/privacy.html" },
+    { "source": "/privacy.html", "destination": "/HomeRewrite/privacy.html" },
+    { "source": "/terms", "destination": "/HomeRewrite/terms.html" },
+    { "source": "/terms.html", "destination": "/HomeRewrite/terms.html" },
+    { "source": "/blog-trading-journal", "destination": "/HomeRewrite/blog-trading-journal.html" },
+    { "source": "/blog-trading-journal.html", "destination": "/HomeRewrite/blog-trading-journal.html" },
+    { "source": "/blog-revenge-trading", "destination": "/HomeRewrite/blog-revenge-trading.html" },
+    { "source": "/blog-revenge-trading.html", "destination": "/HomeRewrite/blog-revenge-trading.html" },
+    { "source": "/blog-trading-psychology-tips", "destination": "/HomeRewrite/blog-trading-psychology-tips.html" },
+    { "source": "/blog-trading-psychology-tips.html", "destination": "/HomeRewrite/blog-trading-psychology-tips.html" },
+    { "source": "/blog-emotional-control-day-traders", "destination": "/HomeRewrite/blog-emotional-control-day-traders.html" },
+    { "source": "/blog-emotional-control-day-traders.html", "destination": "/HomeRewrite/blog-emotional-control-day-traders.html" },
+    { "source": "/blog-best-journaling-practices", "destination": "/HomeRewrite/blog-best-journaling-practices.html" },
+    { "source": "/blog-best-journaling-practices.html", "destination": "/HomeRewrite/blog-best-journaling-practices.html" },
+    { "source": "/dashboard", "destination": "/DashboardRewrite/dashboard.html" }
   ]
 }

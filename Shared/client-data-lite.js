@@ -1,6 +1,6 @@
 var clientData = window.clientData || null;
 const LEGACY_TOKEN_KEY = "token";
-const LOGIN_REDIRECT = "../HomeRewrite/login.html";
+const LOGIN_REDIRECT = "/login";
 const TRIAL_TRADE_LIMIT = 5;
 const DEMO_TRADES = [
     { id: "demo-1", symbol: "AAPL", direction: "Long", PL: 420, date: Math.floor(Date.now() / 1000) - 86400 * 2 },
@@ -267,7 +267,7 @@ const enforceLegacyTokenLogout = async () => {
     } catch (error) {
         console.warn("Failed to sign out legacy session", error);
     }
-    if (!window.location.pathname.includes("/HomeRewrite/login.html")) {
+    if (!window.location.pathname.includes("/login")) {
         window.location.href = LOGIN_REDIRECT;
     }
     return true;
