@@ -15,17 +15,17 @@ if (showcaseTrack && showcaseCaption) {
     {
       src: "/HomeRewrite/Analysis.png",
       alt: "Analysis view",
-      caption: "Analysis · Performance Breakdown",
+      caption: "Analysis - Performance Breakdown",
     },
     {
       src: "/HomeRewrite/dashboard.png",
       alt: "Dashboard view",
-      caption: "Equity Tracker · Visual Growth",
+      caption: "Equity Tracker - Visual Growth",
     },
     {
       src: "/HomeRewrite/TradeLogging.png",
       alt: "Trade logging view",
-      caption: "Trade Logging · Execution Review",
+      caption: "Trade Logging - Execution Review",
     },
   ];
 
@@ -73,6 +73,83 @@ if (showcaseTrack && showcaseCaption) {
   });
 
   renderShowcase();
+}
+
+const faqList = document.getElementById("faq-list");
+
+if (faqList) {
+  faqList.querySelectorAll(".faq-question").forEach((question) => {
+    question.addEventListener("click", () => {
+      const item = question.closest(".faq-item");
+      const answer = item?.querySelector(".faq-answer");
+      const currentlyExpanded = question.getAttribute("aria-expanded") === "true";
+
+      faqList.querySelectorAll(".faq-question").forEach((otherQuestion) => {
+        otherQuestion.setAttribute("aria-expanded", "false");
+        const otherAnswer = otherQuestion.closest(".faq-item")?.querySelector(".faq-answer");
+        if (otherAnswer) {
+          otherAnswer.style.maxHeight = "0px";
+        }
+      });
+
+      if (!currentlyExpanded) {
+        question.setAttribute("aria-expanded", "true");
+        if (answer) {
+          answer.style.maxHeight = `${answer.scrollHeight}px`;
+        }
+      }
+    });
+  });
+}
+
+const exitIntentModal = document.getElementById("exit-intent-modal");
+const supportsExitIntent =
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+  window.innerWidth >= 900;
+
+const openExitIntentModal = () => {
+  if (!exitIntentModal) return;
+  exitIntentModal.classList.add("active");
+  exitIntentModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+};
+
+const closeExitIntentModal = () => {
+  if (!exitIntentModal) return;
+  exitIntentModal.classList.remove("active");
+  exitIntentModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+};
+
+if (exitIntentModal) {
+  exitIntentModal.querySelectorAll("[data-exit-close='true']").forEach((node) => {
+    node.addEventListener("click", closeExitIntentModal);
+  });
+}
+
+if (exitIntentModal && supportsExitIntent) {
+  const exitStorageKey = "clearentry-exit-intent-shown";
+  const alreadyShown = sessionStorage.getItem(exitStorageKey) === "true";
+
+  if (!alreadyShown) {
+    const handleMouseLeave = (event) => {
+      const leavingWindow = !event.relatedTarget && !event.toElement;
+      const closeToTop = event.clientY <= 8;
+      if (!leavingWindow || !closeToTop) return;
+
+      sessionStorage.setItem(exitStorageKey, "true");
+      openExitIntentModal();
+      document.removeEventListener("mouseout", handleMouseLeave);
+    };
+
+    document.addEventListener("mouseout", handleMouseLeave);
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && exitIntentModal.classList.contains("active")) {
+      closeExitIntentModal();
+    }
+  });
 }
 
 const START_TRIAL_SIGNUP_URL = "/signup";
