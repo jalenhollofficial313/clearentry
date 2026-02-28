@@ -138,6 +138,13 @@
     gap: 12px;
 }
 
+.strategy-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
 .card-description {
     margin: 6px 0 0;
     font-size: 12px;
@@ -394,6 +401,55 @@
     overflow-y: auto;
 }
 
+.strategy-picker-content {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px;
+    width: min(560px, 92vw);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.strategy-picker-description {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.strategy-picker-list {
+    display: grid;
+    gap: 10px;
+}
+
+.strategy-picker-item {
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.strategy-picker-item:hover {
+    border-color: #0f172a;
+}
+
+.strategy-picker-item-name {
+    margin: 0 0 3px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.strategy-picker-item-meta {
+    margin: 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
 .strategy-modal-header {
     display: flex;
     justify-content: space-between;
@@ -542,6 +598,7 @@ body.dark .pretrade-textarea,
 body.dark .session-label,
 body.dark .time-display,
 body.dark .strategy-modal-content,
+body.dark .strategy-picker-content,
 body.dark .criteria-item,
 body.dark .strategy-summary-content {
     background: #14181f;
@@ -556,8 +613,19 @@ body.dark .checklist-item-helper,
 body.dark .cta-status,
 body.dark .strategy-hint,
 body.dark .checkbox-label,
-body.dark .loader-text {
+body.dark .loader-text,
+body.dark .strategy-picker-description,
+body.dark .strategy-picker-item-meta {
     color: #8c98a4;
+}
+
+body.dark .strategy-picker-item {
+    background: #0f1317;
+    border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .strategy-picker-item-name {
+    color: #ffffff;
 }
 
 body.dark .direction-btn {

@@ -192,6 +192,10 @@
     .entry-grid {
         grid-template-columns: 1fr;
     }
+
+    .strategy-day-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 .flexbox-div {
@@ -289,6 +293,81 @@
     letter-spacing: 0.06em;
     cursor: pointer;
     padding: 0;
+}
+
+.strategy-actions-row {
+    margin-top: 8px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.strategy-picker-list {
+    display: grid;
+    gap: 8px;
+}
+
+.strategy-picker-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    padding: 10px 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.strategy-picker-item-title {
+    margin: 0 0 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.strategy-picker-item-meta {
+    margin: 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.strategy-editor-card {
+    max-height: 88vh;
+    overflow-y: auto;
+}
+
+.strategy-editor-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.strategy-editor-field {
+    display: grid;
+    gap: 6px;
+}
+
+.strategy-editor-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.strategy-inline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 110px;
+    gap: 8px;
+}
+
+.strategy-day-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    font-size: 12px;
+    color: #475569;
+}
+
+.strategy-day-grid label,
+.strategy-inline-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .badge-pill {
@@ -675,7 +754,10 @@ body.dark .upload-img {
 body.dark .entry-description,
 body.dark .upload-description,
 body.dark .modal-subtitle,
-body.dark .compliance-checkbox-item {
+body.dark .compliance-checkbox-item,
+body.dark .strategy-picker-item-meta,
+body.dark .strategy-day-grid,
+body.dark .strategy-editor-field label {
     color: #8c98a4;
 }
 
@@ -684,9 +766,14 @@ body.dark .inline-button {
 }
 
 body.dark .img-frame,
-body.dark .section-block {
+body.dark .section-block,
+body.dark .strategy-picker-item {
     background: #0f1317;
     border-color: rgba(128, 128, 128, 0.25);
+}
+
+body.dark .strategy-picker-item-title {
+    color: #ffffff;
 }
 
 body.dark .extracted-item {

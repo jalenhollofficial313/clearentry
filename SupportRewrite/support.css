@@ -50,6 +50,17 @@
     resize: vertical;
 }
 
+.support-file-input {
+    padding: 8px;
+    background: #f8fafc;
+}
+
+.support-file-name {
+    margin: 0;
+    font-size: 11px;
+    color: #64748b;
+}
+
 .support-error-message {
     color: #ef4444;
     font-size: 11px;
@@ -152,7 +163,8 @@
 
 body.dark .support-description,
 body.dark .support-tips ul,
-body.dark .load-text {
+body.dark .load-text,
+body.dark .support-file-name {
     color: #94a3b8;
 }
 

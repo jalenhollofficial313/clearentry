@@ -2,17 +2,29 @@ const supportForm = document.getElementById("support-form");
 const emailInput = document.getElementById("support-email");
 const discordInput = document.getElementById("support-discord");
 const descriptionInput = document.getElementById("support-description");
+const screenshotInput = document.getElementById("support-screenshot");
+const screenshotName = document.getElementById("screenshot-name");
 const submitButton = document.getElementById("support-submit-button");
 const supportMessage = document.getElementById("support-message");
 const emailError = document.getElementById("email-error");
 const descriptionError = document.getElementById("description-error");
+const screenshotError = document.getElementById("screenshot-error");
 const loadFrame = document.getElementById("load-frame");
 const loadedFrame = document.getElementById("loaded-frame");
 const mainframeLoading = document.querySelector(".mainframe-loading");
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const allowedImageTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+const maxScreenshotBytes = 8 * 1024 * 1024;
 
 const validateEmail = (email) => emailRegex.test(email);
+const fileToDataUrl = (file) =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
 
 const showError = (element, message) => {
     element.textContent = message;
@@ -64,7 +76,7 @@ async function submitSupportRequest(formData) {
         throw new Error("Please log in to submit a support request.");
     }
     const response = await fetch(
-        "https://support-request-b52ovbio5q-uc.a.run.app",
+        "https://us-central1-clearentry-5353e.cloudfunctions.net/support_request",
         {
             method: "POST",
             headers: {
@@ -75,6 +87,7 @@ async function submitSupportRequest(formData) {
                 email: formData.email,
                 discord: formData.discord || "N/A",
                 description: formData.description,
+                screenshot: formData.screenshot || null,
             }),
         }
     );
@@ -90,11 +103,13 @@ supportForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearError(emailError);
     clearError(descriptionError);
+    clearError(screenshotError);
     hideMessage();
 
     const email = emailInput.value.trim();
     const discord = discordInput.value.trim();
     const description = descriptionInput.value.trim();
+    const screenshotFile = screenshotInput.files[0] || null;
 
     let isValid = true;
     if (!email) {
@@ -112,6 +127,18 @@ supportForm.addEventListener("submit", async (event) => {
         showError(descriptionError, "Please provide more details (at least 10 characters)");
         isValid = false;
     }
+    if (screenshotFile) {
+        if (!allowedImageTypes.includes(screenshotFile.type)) {
+            showError(
+                screenshotError,
+                "Please upload PNG, JPG, or WEBP screenshot files."
+            );
+            isValid = false;
+        } else if (screenshotFile.size > maxScreenshotBytes) {
+            showError(screenshotError, "Screenshot must be 8MB or less.");
+            isValid = false;
+        }
+    }
 
     if (!isValid) {
         return;
@@ -119,10 +146,21 @@ supportForm.addEventListener("submit", async (event) => {
 
     setLoading(true);
     try {
+        let screenshotPayload = null;
+        if (screenshotFile) {
+            const dataUrl = await fileToDataUrl(screenshotFile);
+            screenshotPayload = {
+                name: screenshotFile.name,
+                type: screenshotFile.type,
+                dataUrl,
+            };
+        }
+
         const result = await submitSupportRequest({
             email,
             discord,
             description,
+            screenshot: screenshotPayload,
         });
         if (result.success) {
             setSuccess();
@@ -131,6 +169,7 @@ supportForm.addEventListener("submit", async (event) => {
                 "success"
             );
             supportForm.reset();
+            screenshotName.textContent = "No file selected";
             setTimeout(() => {
                 hideMessage();
             }, 5000);
@@ -162,6 +201,26 @@ descriptionInput.addEventListener("input", () => {
         showError(descriptionError, "Please provide more details (at least 10 characters)");
     } else {
         clearError(descriptionError);
+    }
+});
+
+screenshotInput.addEventListener("change", () => {
+    clearError(screenshotError);
+    const file = screenshotInput.files[0];
+    if (!file) {
+        screenshotName.textContent = "No file selected";
+        return;
+    }
+
+    screenshotName.textContent = file.name;
+
+    if (!allowedImageTypes.includes(file.type)) {
+        showError(screenshotError, "Please upload PNG, JPG, or WEBP screenshot files.");
+        return;
+    }
+
+    if (file.size > maxScreenshotBytes) {
+        showError(screenshotError, "Screenshot must be 8MB or less.");
     }
 });
 

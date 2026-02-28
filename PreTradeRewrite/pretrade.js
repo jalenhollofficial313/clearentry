@@ -23,6 +23,96 @@ const notify = (message, type = "error") => {
         console.warn(message);
     }
 };
+const getBrowserTimezone = () =>
+    Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+
+function getEmptyStrategyTemplate() {
+    return {
+        name: "",
+        description: "",
+        entryRules: { criteria: [] },
+        riskRules: {
+            maxRiskPerTrade: { amount: "", type: "%" },
+            stopLossRequired: "",
+            maxTradesPerDay: "",
+            maxDailyLoss: { amount: "", type: "%" }
+        },
+        timeRules: {
+            tradingHours: { start: "", end: "" },
+            timezone: getBrowserTimezone(),
+            daysOfWeek: [],
+            newsRestrictions: false,
+            newsNotes: ""
+        },
+        psychologicalRules: {
+            avoidEmotions: [],
+            avoidConditions: [],
+            customConditions: [],
+            notes: ""
+        },
+        customRules: []
+    };
+}
+
+function normalizeStrategyForEdit(strategy) {
+    const normalized = getEmptyStrategyTemplate();
+    if (!strategy || typeof strategy !== "object") {
+        return normalized;
+    }
+
+    normalized.name = strategy.name || "";
+    normalized.description = strategy.description || "";
+    normalized.entryRules.criteria = Array.isArray(strategy.entryRules?.criteria)
+        ? [...strategy.entryRules.criteria]
+        : [];
+    normalized.riskRules.maxRiskPerTrade.amount =
+        strategy.riskRules?.maxRiskPerTrade?.amount ?? "";
+    normalized.riskRules.maxRiskPerTrade.type =
+        strategy.riskRules?.maxRiskPerTrade?.type || "%";
+    normalized.riskRules.stopLossRequired =
+        strategy.riskRules?.stopLossRequired || "";
+    normalized.riskRules.maxTradesPerDay =
+        strategy.riskRules?.maxTradesPerDay ?? "";
+    normalized.riskRules.maxDailyLoss.amount =
+        strategy.riskRules?.maxDailyLoss?.amount ?? "";
+    normalized.riskRules.maxDailyLoss.type =
+        strategy.riskRules?.maxDailyLoss?.type || "%";
+    normalized.timeRules.tradingHours.start =
+        strategy.timeRules?.tradingHours?.start || "";
+    normalized.timeRules.tradingHours.end =
+        strategy.timeRules?.tradingHours?.end || "";
+    normalized.timeRules.timezone =
+        strategy.timeRules?.timezone || getBrowserTimezone();
+    normalized.timeRules.daysOfWeek = Array.isArray(strategy.timeRules?.daysOfWeek)
+        ? [...strategy.timeRules.daysOfWeek]
+        : [];
+    normalized.timeRules.newsRestrictions = Boolean(
+        strategy.timeRules?.newsRestrictions
+    );
+    normalized.timeRules.newsNotes = strategy.timeRules?.newsNotes || "";
+    normalized.psychologicalRules.avoidEmotions = Array.isArray(
+        strategy.psychologicalRules?.avoidEmotions
+    )
+        ? [...strategy.psychologicalRules.avoidEmotions]
+        : [];
+    normalized.psychologicalRules.avoidConditions = Array.isArray(
+        strategy.psychologicalRules?.avoidConditions
+    )
+        ? [...strategy.psychologicalRules.avoidConditions]
+        : [];
+    normalized.psychologicalRules.customConditions = Array.isArray(
+        strategy.psychologicalRules?.customConditions
+    )
+        ? [...strategy.psychologicalRules.customConditions]
+        : [];
+    normalized.psychologicalRules.notes =
+        strategy.psychologicalRules?.notes || "";
+    normalized.customRules = Array.isArray(strategy.customRules)
+        ? [...strategy.customRules]
+        : [];
+
+    return normalized;
+}
 
 // Initialize page
 async function pretradeINIT() {
@@ -84,6 +174,7 @@ async function getPreTradeContext(token) {
 // Populate strategy dropdown
 function populateStrategies(strategies) {
     const select = document.getElementById("strategy-select");
+    const selectedValue = select.value;
     select.innerHTML = '<option value="">-- Select Strategy --</option>';
     
     if (!strategies || Object.keys(strategies).length === 0) {
@@ -91,12 +182,20 @@ function populateStrategies(strategies) {
         return;
     }
     
-    for (const [id, strategy] of Object.entries(strategies)) {
+    for (const [id, rawStrategy] of Object.entries(strategies)) {
+        const strategy =
+            typeof rawStrategy === "object"
+                ? rawStrategy
+                : { name: String(rawStrategy || "Unnamed"), type: "Strategy" };
         const option = document.createElement("option");
         option.value = id;
         option.textContent = `${strategy.name || "Unnamed"} (${strategy.type || "N/A"})`;
         option.dataset.strategy = JSON.stringify(strategy);
         select.appendChild(option);
+    }
+
+    if (selectedValue && select.querySelector(`option[value="${selectedValue}"]`)) {
+        select.value = selectedValue;
     }
 }
 
@@ -149,6 +248,26 @@ function setupEventListeners() {
     
     // Symbol input
     document.getElementById("symbol-input").addEventListener("input", validateForm);
+
+    const editStrategyBtn = document.getElementById("edit-strategy-btn");
+    if (editStrategyBtn) {
+        editStrategyBtn.addEventListener("click", openStrategyPickerModal);
+    }
+
+    const editStrategyLink = document.getElementById("edit-strategy-link");
+    if (editStrategyLink) {
+        editStrategyLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            if (preTradeState.selectedStrategy?.id) {
+                openStrategyModal({
+                    id: preTradeState.selectedStrategy.id,
+                    strategy: preTradeState.selectedStrategy
+                });
+            } else {
+                openStrategyPickerModal();
+            }
+        });
+    }
 }
 
 // Handle strategy selection
@@ -180,6 +299,46 @@ async function onStrategySelect(e) {
     }
     
     validateForm();
+}
+
+function getContextStrategies() {
+    return preTradeState.context?.strategies || {};
+}
+
+function openStrategyPickerModal() {
+    const strategies = getContextStrategies();
+    const pickerList = document.getElementById("strategy-picker-list");
+    pickerList.innerHTML = "";
+
+    const strategyEntries = Object.entries(strategies);
+    if (!strategyEntries.length) {
+        pickerList.innerHTML =
+            '<p class="strategy-picker-description">No saved strategies found.</p>';
+    } else {
+        strategyEntries.forEach(([id, rawStrategy]) => {
+            const strategy =
+                typeof rawStrategy === "object" ? rawStrategy : { name: String(rawStrategy || "Unnamed") };
+            const item = document.createElement("button");
+            item.type = "button";
+            item.className = "strategy-picker-item";
+            item.innerHTML = `
+                <p class="strategy-picker-item-name">${strategy.name || "Unnamed Strategy"}</p>
+                <p class="strategy-picker-item-meta">${strategy.type || "Strategy"}${strategy.timeRules?.timezone ? ` | ${strategy.timeRules.timezone}` : ""}</p>
+            `;
+            item.addEventListener("click", () => {
+                closeStrategyPickerModal();
+                openStrategyModal({ id, strategy });
+            });
+            pickerList.appendChild(item);
+        });
+    }
+
+    document.getElementById("strategy-picker-modal").style.display = "flex";
+    lucide.createIcons();
+}
+
+function closeStrategyPickerModal() {
+    document.getElementById("strategy-picker-modal").style.display = "none";
 }
 
     // Display strategy rules
@@ -302,7 +461,8 @@ async function generateChecklist() {
                 token,
                 strategyId: preTradeState.selectedStrategy.id,
                 symbol: symbol || "",
-                direction: selectedDirection
+                direction: selectedDirection,
+                timezone: getBrowserTimezone()
             })
         });
         
@@ -598,36 +758,26 @@ function showError(message) {
 let strategyModalState = {
     currentStep: 1,
     totalSteps: 7,
-    strategy: {
-        name: "",
-        description: "",
-        entryRules: {
-            criteria: []
-        },
-        riskRules: {
-            maxRiskPerTrade: { amount: "", type: "%" },
-            stopLossRequired: "",
-            maxTradesPerDay: "",
-            maxDailyLoss: { amount: "", type: "%" }
-        },
-        timeRules: {
-            tradingHours: { start: "", end: "" },
-            daysOfWeek: [],
-            newsRestrictions: false,
-            newsNotes: ""
-        },
-        psychologicalRules: {
-            avoidEmotions: [],
-            avoidConditions: [],
-            customConditions: [],
-            notes: ""
-        },
-        customRules: []
-    }
+    isEditing: false,
+    editingStrategyId: null,
+    strategy: getEmptyStrategyTemplate()
 };
 
 // Strategy Modal Functions
-function openStrategyModal() {
+function openStrategyModal(editPayload = null) {
+    if (editPayload && editPayload.strategy) {
+        strategyModalState.isEditing = true;
+        strategyModalState.editingStrategyId = editPayload.id;
+        strategyModalState.strategy = normalizeStrategyForEdit(editPayload.strategy);
+        hydrateStrategyModalForm();
+        document.querySelector(".strategy-modal-title").textContent = "Edit Strategy";
+        document.getElementById("strategy-modal-save").textContent = "Save Changes";
+    } else {
+        resetStrategyModal();
+        document.querySelector(".strategy-modal-title").textContent = "Create New Strategy";
+        document.getElementById("strategy-modal-save").textContent = "Save Strategy";
+    }
+
     document.getElementById("strategy-modal").style.display = "flex";
     strategyModalState.currentStep = 1;
     showStrategyStep(1);
@@ -641,37 +791,61 @@ function closeStrategyModal() {
 
 function resetStrategyModal() {
     strategyModalState.currentStep = 1;
-    strategyModalState.strategy = {
-        name: "",
-        description: "",
-        entryRules: { criteria: [] },
-        riskRules: { maxRiskPerTrade: { amount: "", type: "%" }, stopLossRequired: "", maxTradesPerDay: "", maxDailyLoss: { amount: "", type: "%" } },
-        timeRules: { tradingHours: { start: "", end: "" }, daysOfWeek: [], newsRestrictions: false, newsNotes: "" },
-        psychologicalRules: { avoidEmotions: [], avoidConditions: [], customConditions: [], notes: "" },
-        customRules: []
-    };
-    
-    // Reset all form fields
-    document.getElementById("modal-strategy-name").value = "";
-    document.getElementById("modal-strategy-description").value = "";
-    document.getElementById("modal-max-risk-amount").value = "";
-    document.getElementById("modal-stop-loss-required").value = "";
-    document.getElementById("modal-max-trades-day").value = "";
-    document.getElementById("modal-max-daily-loss-amount").value = "";
-    document.getElementById("modal-trading-start").value = "";
-    document.getElementById("modal-trading-end").value = "";
-    Array.from(document.querySelectorAll('input[name="modal-trading-days"]')).forEach(cb => cb.checked = true);
-    document.getElementById("modal-news-restrictions").checked = false;
-    document.getElementById("modal-news-notes").value = "";
-    Array.from(document.querySelectorAll('input[name="modal-avoid-emotions"]')).forEach(cb => cb.checked = false);
-    Array.from(document.querySelectorAll('input[name="modal-avoid-conditions"]')).forEach(cb => cb.checked = false);
-    document.getElementById("modal-psych-notes").value = "";
+    strategyModalState.isEditing = false;
+    strategyModalState.editingStrategyId = null;
+    strategyModalState.strategy = getEmptyStrategyTemplate();
+    hydrateStrategyModalForm();
+}
+
+function hydrateStrategyModalForm() {
+    const strategy = strategyModalState.strategy || getEmptyStrategyTemplate();
+
+    document.getElementById("modal-strategy-name").value = strategy.name || "";
+    document.getElementById("modal-strategy-description").value =
+        strategy.description || "";
+    document.getElementById("modal-max-risk-amount").value =
+        strategy.riskRules.maxRiskPerTrade.amount ?? "";
+    document.getElementById("modal-max-risk-type").value =
+        strategy.riskRules.maxRiskPerTrade.type || "%";
+    document.getElementById("modal-stop-loss-required").value =
+        strategy.riskRules.stopLossRequired || "";
+    document.getElementById("modal-max-trades-day").value =
+        strategy.riskRules.maxTradesPerDay ?? "";
+    document.getElementById("modal-max-daily-loss-amount").value =
+        strategy.riskRules.maxDailyLoss.amount ?? "";
+    document.getElementById("modal-max-daily-loss-type").value =
+        strategy.riskRules.maxDailyLoss.type || "%";
+    document.getElementById("modal-trading-start").value =
+        strategy.timeRules.tradingHours.start || "";
+    document.getElementById("modal-trading-end").value =
+        strategy.timeRules.tradingHours.end || "";
+    Array.from(document.querySelectorAll('input[name="modal-trading-days"]')).forEach(
+        (cb) => {
+            cb.checked =
+                strategy.timeRules.daysOfWeek.length === 0
+                    ? true
+                    : strategy.timeRules.daysOfWeek.includes(cb.value);
+        }
+    );
+    document.getElementById("modal-news-restrictions").checked = Boolean(
+        strategy.timeRules.newsRestrictions
+    );
+    document.getElementById("modal-news-notes").value =
+        strategy.timeRules.newsNotes || "";
+    Array.from(document.querySelectorAll('input[name="modal-avoid-emotions"]')).forEach(
+        (cb) => {
+            cb.checked = strategy.psychologicalRules.avoidEmotions.includes(cb.value);
+        }
+    );
+    Array.from(document.querySelectorAll('input[name="modal-avoid-conditions"]')).forEach(
+        (cb) => {
+            cb.checked = strategy.psychologicalRules.avoidConditions.includes(cb.value);
+        }
+    );
+    document.getElementById("modal-psych-notes").value =
+        strategy.psychologicalRules.notes || "";
     document.getElementById("modal-confirmation-checkbox").checked = false;
-    
-    // Reset dynamic lists
-    strategyModalState.strategy.entryRules.criteria = [];
-    strategyModalState.strategy.psychologicalRules.customConditions = [];
-    strategyModalState.strategy.customRules = [];
+
     renderModalEntryCriteriaList();
     renderModalCustomConditionsList();
     renderModalCustomRulesList();
@@ -785,6 +959,8 @@ function saveStrategyStepData(step) {
                 start: document.getElementById("modal-trading-start").value,
                 end: document.getElementById("modal-trading-end").value
             };
+            strategyModalState.strategy.timeRules.timezone =
+                getBrowserTimezone();
             strategyModalState.strategy.timeRules.daysOfWeek = Array.from(document.querySelectorAll('input[name="modal-trading-days"]:checked')).map(cb => cb.value);
             strategyModalState.strategy.timeRules.newsRestrictions = document.getElementById("modal-news-restrictions").checked;
             strategyModalState.strategy.timeRules.newsNotes = document.getElementById("modal-news-notes").value.trim();
@@ -825,6 +1001,7 @@ function buildStrategySummary() {
         <div class="strategy-summary-section">
             <h4 class="strategy-summary-title inter-text">Trading Time Rules</h4>
             ${s.timeRules.tradingHours.start || s.timeRules.tradingHours.end ? `<p class="strategy-summary-item inter-text"><strong>Trading Hours:</strong> ${s.timeRules.tradingHours.start || "Not set"} - ${s.timeRules.tradingHours.end || "Not set"}</p>` : '<p class="strategy-summary-item inter-text">Not set (optional)</p>'}
+            ${s.timeRules.timezone ? `<p class="strategy-summary-item inter-text"><strong>Timezone:</strong> ${s.timeRules.timezone}</p>` : ""}
             ${s.timeRules.daysOfWeek.length > 0 ? `<p class="strategy-summary-item inter-text"><strong>Days:</strong> ${s.timeRules.daysOfWeek.join(", ")}</p>` : ''}
             ${s.timeRules.newsRestrictions ? `<p class="strategy-summary-item inter-text"><strong>News Restrictions:</strong> Yes</p>` : ''}
             ${s.timeRules.newsNotes ? `<p class="strategy-summary-item inter-text"><strong>News Notes:</strong> ${s.timeRules.newsNotes}</p>` : ''}
@@ -849,7 +1026,7 @@ function buildStrategySummary() {
 
 async function saveStrategyToBackend() {
     // Save current step data
-    saveStrategyStepData(7);
+    saveStrategyStepData(6);
     
     const token = await getToken();
     if (!token) {
@@ -858,16 +1035,30 @@ async function saveStrategyToBackend() {
     }
     
     try {
-        const response = await fetch("https://us-central1-clearentry-5353e.cloudfunctions.net/saveStrategy", {
+        const endpoint = strategyModalState.isEditing
+            ? "updateStrategy"
+            : "saveStrategy";
+        const payload = {
+            token,
+            strategy: strategyModalState.strategy,
+            timezone: getBrowserTimezone()
+        };
+        if (strategyModalState.isEditing && strategyModalState.editingStrategyId) {
+            payload.strategyId = strategyModalState.editingStrategyId;
+        }
+
+        const response = await fetch(`https://us-central1-clearentry-5353e.cloudfunctions.net/${endpoint}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                token,
-                strategy: strategyModalState.strategy
-            })
+            body: JSON.stringify(payload)
         });
         
-        const result = await response.json();
+        let result = null;
+        try {
+            result = await response.json();
+        } catch (_error) {
+            result = null;
+        }
         
         if (response.ok && result.strategyId) {
             // Update clientData
@@ -880,7 +1071,12 @@ async function saveStrategyToBackend() {
             // Reload page to refresh all data
             location.reload();
         } else {
-            notify(`Error saving strategy: ${result}`, "error");
+            notify(
+                `Error saving strategy: ${
+                    result?.error || result?.message || "Unexpected response"
+                }`,
+                "error"
+            );
         }
     } catch (error) {
         console.error("Error saving strategy:", error);
@@ -898,6 +1094,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeModalBtn = document.getElementById("close-strategy-modal");
     if (closeModalBtn) {
         closeModalBtn.addEventListener("click", closeStrategyModal);
+    }
+
+    const closePickerBtn = document.getElementById("close-strategy-picker-modal");
+    if (closePickerBtn) {
+        closePickerBtn.addEventListener("click", closeStrategyPickerModal);
     }
     
     const cancelBtn = document.getElementById("strategy-modal-cancel");
@@ -940,6 +1141,15 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.addEventListener("click", (e) => {
             if (e.target === modal) {
                 closeStrategyModal();
+            }
+        });
+    }
+
+    const pickerModal = document.getElementById("strategy-picker-modal");
+    if (pickerModal) {
+        pickerModal.addEventListener("click", (e) => {
+            if (e.target === pickerModal) {
+                closeStrategyPickerModal();
             }
         });
     }
@@ -1052,4 +1262,3 @@ function removeModalCustomRule(index) {
     strategyModalState.strategy.customRules.splice(index, 1);
     renderModalCustomRulesList();
 }
-

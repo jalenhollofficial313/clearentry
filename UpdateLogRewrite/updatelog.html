@@ -153,12 +153,39 @@
                         </div>
                         <div class="header-actions">
                             <span class="chip chip-neutral"
-                                >Updated February 8, 2026</span
+                                >Updated February 28, 2026</span
                             >
                         </div>
                     </div>
 
                     <div class="update-log-list">
+                        <div class="card updlog_frame">
+                            <p class="updlog_title">Update Log #12</p>
+                            <p class="updlog_date">Saturday, February 28th, 2026</p>
+                            <p class="updlog_infoTitle">Strategy Editing</p>
+                            <p class="updlog_info">
+                                &bull; Added strategy editing entry points in both Pre Execution and Trade Logging <br />
+                                &bull; New strategy picker flow lets users choose exactly which strategy to edit <br />
+                                &bull; Backend now supports direct strategy updates with validation via a new update endpoint <br />
+                            </p>
+                            <p class="updlog_infoTitle">Trading Hours Timezone Fix</p>
+                            <p class="updlog_info">
+                                &bull; Fixed trading-hours validation using UTC instead of user/strategy timezone <br />
+                                &bull; Strategy time rules now store timezone and checklist validation reads local strategy time <br />
+                                &bull; Trading-hours warnings now show timezone context for clearer pre-trade decisions <br />
+                            </p>
+                            <p class="updlog_infoTitle">Support Screenshot Uploads</p>
+                            <p class="updlog_info">
+                                &bull; Support form now accepts optional screenshot uploads (PNG/JPG/WEBP) <br />
+                                &bull; Screenshots are uploaded through backend storage handling and linked in support webhook payloads <br />
+                                &bull; Added frontend file validation and improved submit feedback for upload errors <br />
+                            </p>
+                            <p class="updlog_infoTitle">In Progress</p>
+                            <p class="updlog_info">
+                                &bull; Multiple simultaneous trades support is queued pending final requirement clarification <br />
+                            </p>
+                        </div>
+
                         <div class="card updlog_frame">
                             <p class="updlog_title">Update Log #11</p>
                             <p class="updlog_date">Sunday, February 8th, 2026</p>

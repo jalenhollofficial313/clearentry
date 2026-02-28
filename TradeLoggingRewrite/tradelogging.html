@@ -384,6 +384,15 @@
                                         id="strategy-dropdown"
                                         class="dropdown-div"
                                     ></div>
+                                    <div class="strategy-actions-row">
+                                        <button
+                                            id="strategy-edit-button"
+                                            type="button"
+                                            class="btn btn-ghost btn-sm"
+                                        >
+                                            Edit Strategy
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -542,6 +551,137 @@
                 <button id="trade-ranking-save" class="btn btn-primary">
                     Save
                 </button>
+            </div>
+        </div>
+
+        <div id="strategy-picker-modal" class="modal">
+            <div class="modal-card">
+                <p class="modal-title">Choose a strategy to edit</p>
+                <p class="modal-subtitle">
+                    Select one strategy to open its full rule set.
+                </p>
+                <div id="strategy-picker-list" class="strategy-picker-list"></div>
+                <div class="reflection-buttons">
+                    <button id="strategy-picker-close" class="btn btn-ghost">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="strategy-editor-modal" class="modal">
+            <div class="modal-card wide strategy-editor-card">
+                <p class="modal-title">Edit Strategy</p>
+                <div class="strategy-editor-grid">
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-name">Name</label>
+                        <input id="strategy-editor-name" class="entry-input2" type="text" />
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-description">Description</label>
+                        <textarea id="strategy-editor-description" class="entry-textarea"></textarea>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-entry">Entry Criteria (one per line)</label>
+                        <textarea id="strategy-editor-entry" class="entry-textarea"></textarea>
+                    </div>
+                    <div class="entry-grid">
+                        <div class="strategy-editor-field">
+                            <label for="strategy-editor-max-risk">Max Risk Per Trade</label>
+                            <div class="strategy-inline">
+                                <input id="strategy-editor-max-risk" class="entry-input2" type="number" min="0" />
+                                <select id="strategy-editor-max-risk-type" class="entry-input2">
+                                    <option value="%">%</option>
+                                    <option value="$">$</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="strategy-editor-field">
+                            <label for="strategy-editor-stop-loss">Stop Loss Required</label>
+                            <select id="strategy-editor-stop-loss" class="entry-input2">
+                                <option value="">Select</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="entry-grid">
+                        <div class="strategy-editor-field">
+                            <label for="strategy-editor-max-trades">Max Trades Per Day</label>
+                            <input id="strategy-editor-max-trades" class="entry-input2" type="number" min="1" />
+                        </div>
+                        <div class="strategy-editor-field">
+                            <label for="strategy-editor-max-daily-loss">Max Daily Loss</label>
+                            <div class="strategy-inline">
+                                <input id="strategy-editor-max-daily-loss" class="entry-input2" type="number" min="0" />
+                                <select id="strategy-editor-max-daily-loss-type" class="entry-input2">
+                                    <option value="%">%</option>
+                                    <option value="$">$</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="entry-grid">
+                        <div class="strategy-editor-field">
+                            <label for="strategy-editor-start-time">Trading Start</label>
+                            <input id="strategy-editor-start-time" class="entry-input2" type="time" />
+                        </div>
+                        <div class="strategy-editor-field">
+                            <label for="strategy-editor-end-time">Trading End</label>
+                            <input id="strategy-editor-end-time" class="entry-input2" type="time" />
+                        </div>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-timezone">Timezone</label>
+                        <input id="strategy-editor-timezone" class="entry-input2" type="text" readonly />
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label>Trading Days</label>
+                        <div class="strategy-day-grid">
+                            <label><input type="checkbox" name="strategy-editor-days" value="Monday" /> Mon</label>
+                            <label><input type="checkbox" name="strategy-editor-days" value="Tuesday" /> Tue</label>
+                            <label><input type="checkbox" name="strategy-editor-days" value="Wednesday" /> Wed</label>
+                            <label><input type="checkbox" name="strategy-editor-days" value="Thursday" /> Thu</label>
+                            <label><input type="checkbox" name="strategy-editor-days" value="Friday" /> Fri</label>
+                            <label><input type="checkbox" name="strategy-editor-days" value="Saturday" /> Sat</label>
+                            <label><input type="checkbox" name="strategy-editor-days" value="Sunday" /> Sun</label>
+                        </div>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label class="strategy-inline-checkbox">
+                            <input id="strategy-editor-news-restrictions" type="checkbox" />
+                            News restrictions apply
+                        </label>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-news-notes">News Notes</label>
+                        <textarea id="strategy-editor-news-notes" class="entry-textarea"></textarea>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-avoid-emotions">Emotions to Avoid (one per line)</label>
+                        <textarea id="strategy-editor-avoid-emotions" class="entry-textarea"></textarea>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-avoid-conditions">Conditions to Avoid (one per line)</label>
+                        <textarea id="strategy-editor-avoid-conditions" class="entry-textarea"></textarea>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-custom-conditions">Custom Conditions (one per line)</label>
+                        <textarea id="strategy-editor-custom-conditions" class="entry-textarea"></textarea>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-psych-notes">Psych Notes</label>
+                        <textarea id="strategy-editor-psych-notes" class="entry-textarea"></textarea>
+                    </div>
+                    <div class="strategy-editor-field">
+                        <label for="strategy-editor-custom-rules">Custom Rules (one per line)</label>
+                        <textarea id="strategy-editor-custom-rules" class="entry-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="reflection-buttons">
+                    <button id="strategy-editor-save" class="btn btn-primary">Save Changes</button>
+                    <button id="strategy-editor-cancel" class="btn btn-ghost">Cancel</button>
+                </div>
             </div>
         </div>
 

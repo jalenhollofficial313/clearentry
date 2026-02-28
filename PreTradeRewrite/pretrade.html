@@ -231,12 +231,22 @@
                                         trade
                                     </p>
                                 </div>
-                                <button
-                                    id="add-strategy-btn"
-                                    class="pretrade-button-secondary"
-                                >
-                                    + Add Strategy
-                                </button>
+                                <div class="strategy-card-actions">
+                                    <button
+                                        id="edit-strategy-btn"
+                                        class="pretrade-button-secondary"
+                                        type="button"
+                                    >
+                                        Edit Strategy
+                                    </button>
+                                    <button
+                                        id="add-strategy-btn"
+                                        class="pretrade-button-secondary"
+                                        type="button"
+                                    >
+                                        + Add Strategy
+                                    </button>
+                                </div>
                             </div>
                             <select id="strategy-select" class="pretrade-select">
                                 <option value="">-- Select Strategy --</option>
@@ -392,6 +402,25 @@
                     </div>
                 </section>
             </main>
+        </div>
+
+        <div id="strategy-picker-modal" class="strategy-modal" style="display: none;">
+            <div class="strategy-picker-content">
+                <div class="strategy-modal-header">
+                    <h2 class="strategy-modal-title">Choose a Strategy to Edit</h2>
+                    <button
+                        id="close-strategy-picker-modal"
+                        class="close-modal-btn"
+                        type="button"
+                    >
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <p class="strategy-picker-description">
+                    Select a strategy to open all of its rules for editing.
+                </p>
+                <div id="strategy-picker-list" class="strategy-picker-list"></div>
+            </div>
         </div>
 
         <div id="strategy-modal" class="strategy-modal" style="display: none;">

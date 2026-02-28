@@ -15,6 +15,9 @@ let linkedPreTradeSessionId = null
 let linkedPreTradeSession = null
 let recentPreTrades = []
 let ruleComplianceData = null
+let strategyLookupById = {}
+let selectedStrategyId = null
+let editingStrategyId = null
 let tradeEntry = {
     id: "",
     emotion: "",
@@ -41,6 +44,97 @@ const getToken = () => window.getAuthTokenSync?.() || null;
 
 const isTradeId = (value) =>
     typeof value === "string" && TRADE_ID_PATTERN.test(value.trim());
+const getBrowserTimezone = () =>
+    Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+
+const parseLines = (value) =>
+    String(value || "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+function getEmptyStrategy() {
+    return {
+        name: "",
+        type: "",
+        description: "",
+        entryRules: { criteria: [] },
+        riskRules: {
+            maxRiskPerTrade: { amount: "", type: "%" },
+            stopLossRequired: "",
+            maxTradesPerDay: "",
+            maxDailyLoss: { amount: "", type: "%" }
+        },
+        timeRules: {
+            tradingHours: { start: "", end: "" },
+            timezone: getBrowserTimezone(),
+            daysOfWeek: [],
+            newsRestrictions: false,
+            newsNotes: ""
+        },
+        psychologicalRules: {
+            avoidEmotions: [],
+            avoidConditions: [],
+            customConditions: [],
+            notes: ""
+        },
+        customRules: []
+    };
+}
+
+function normalizeStrategy(rawStrategy) {
+    const base = getEmptyStrategy();
+    if (!rawStrategy || typeof rawStrategy !== "object") {
+        return base;
+    }
+    base.name = rawStrategy.name || "";
+    base.type = rawStrategy.type || "";
+    base.description = rawStrategy.description || "";
+    base.entryRules.criteria = Array.isArray(rawStrategy.entryRules?.criteria)
+        ? [...rawStrategy.entryRules.criteria]
+        : [];
+    base.riskRules.maxRiskPerTrade.amount =
+        rawStrategy.riskRules?.maxRiskPerTrade?.amount ?? "";
+    base.riskRules.maxRiskPerTrade.type =
+        rawStrategy.riskRules?.maxRiskPerTrade?.type || "%";
+    base.riskRules.stopLossRequired = rawStrategy.riskRules?.stopLossRequired || "";
+    base.riskRules.maxTradesPerDay = rawStrategy.riskRules?.maxTradesPerDay ?? "";
+    base.riskRules.maxDailyLoss.amount =
+        rawStrategy.riskRules?.maxDailyLoss?.amount ?? "";
+    base.riskRules.maxDailyLoss.type =
+        rawStrategy.riskRules?.maxDailyLoss?.type || "%";
+    base.timeRules.tradingHours.start =
+        rawStrategy.timeRules?.tradingHours?.start || "";
+    base.timeRules.tradingHours.end =
+        rawStrategy.timeRules?.tradingHours?.end || "";
+    base.timeRules.timezone =
+        rawStrategy.timeRules?.timezone || getBrowserTimezone();
+    base.timeRules.daysOfWeek = Array.isArray(rawStrategy.timeRules?.daysOfWeek)
+        ? [...rawStrategy.timeRules.daysOfWeek]
+        : [];
+    base.timeRules.newsRestrictions = Boolean(rawStrategy.timeRules?.newsRestrictions);
+    base.timeRules.newsNotes = rawStrategy.timeRules?.newsNotes || "";
+    base.psychologicalRules.avoidEmotions = Array.isArray(
+        rawStrategy.psychologicalRules?.avoidEmotions
+    )
+        ? [...rawStrategy.psychologicalRules.avoidEmotions]
+        : [];
+    base.psychologicalRules.avoidConditions = Array.isArray(
+        rawStrategy.psychologicalRules?.avoidConditions
+    )
+        ? [...rawStrategy.psychologicalRules.avoidConditions]
+        : [];
+    base.psychologicalRules.customConditions = Array.isArray(
+        rawStrategy.psychologicalRules?.customConditions
+    )
+        ? [...rawStrategy.psychologicalRules.customConditions]
+        : [];
+    base.psychologicalRules.notes = rawStrategy.psychologicalRules?.notes || "";
+    base.customRules = Array.isArray(rawStrategy.customRules)
+        ? [...rawStrategy.customRules]
+        : [];
+    return base;
+}
 
 const startSubscriptionCheckout = async (button) => {
     if (window.startTrialCheckout) {
@@ -592,6 +686,7 @@ async function populateStrategiesDropdown() {
         
         const context = await response.json();
         const strategies = context.strategies || {};
+        strategyLookupById = {};
         const strategyDropdown = document.getElementById("strategy-dropdown");
         
         if (!strategyDropdown) return;
@@ -608,7 +703,13 @@ async function populateStrategiesDropdown() {
             return;
         }
         
-        for (const [id, strategy] of Object.entries(strategies)) {
+        for (const [id, rawStrategy] of Object.entries(strategies)) {
+            const strategy =
+                typeof rawStrategy === "object"
+                    ? normalizeStrategy(rawStrategy)
+                    : normalizeStrategy({ name: String(rawStrategy || "Unnamed") });
+            strategyLookupById[id] = strategy;
+
             const button = document.createElement("button");
             button.innerHTML = `${strategy.name || "Unnamed"} (${strategy.type || "N/A"})`;
             button.classList.add("dropdown-item");
@@ -618,6 +719,7 @@ async function populateStrategiesDropdown() {
                 const strategyName = strategy.name || "Unnamed";
                 document.getElementById("strategy-text").textContent = strategyName;
                 tradeEntry['strategy'] = [strategyName];
+                selectedStrategyId = id;
                 strategyDropdown.style.display = "none";
             });
             
@@ -671,6 +773,232 @@ function setupTradeDropdownListeners() {
                 directionDropdown.style.display = "none";
             }
         });
+    }
+}
+
+function openStrategyPickerModal() {
+    const modal = document.getElementById("strategy-picker-modal");
+    const list = document.getElementById("strategy-picker-list");
+    if (!modal || !list) return;
+
+    list.innerHTML = "";
+    const entries = Object.entries(strategyLookupById || {});
+    if (!entries.length) {
+        list.innerHTML =
+            '<p class="modal-subtitle">No strategies available yet.</p>';
+    } else {
+        entries.forEach(([id, strategy]) => {
+            const item = document.createElement("button");
+            item.type = "button";
+            item.className = "strategy-picker-item";
+            item.innerHTML = `
+                <p class="strategy-picker-item-title">${strategy.name || "Unnamed Strategy"}</p>
+                <p class="strategy-picker-item-meta">${strategy.type || "Strategy"}${strategy.timeRules?.timezone ? ` | ${strategy.timeRules.timezone}` : ""}</p>
+            `;
+            item.addEventListener("click", () => {
+                closeStrategyPickerModal();
+                openStrategyEditorModal(id);
+            });
+            list.appendChild(item);
+        });
+    }
+
+    modal.style.display = "flex";
+}
+
+function closeStrategyPickerModal() {
+    const modal = document.getElementById("strategy-picker-modal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+function fillStrategyEditorForm(strategy) {
+    document.getElementById("strategy-editor-name").value = strategy.name || "";
+    document.getElementById("strategy-editor-description").value =
+        strategy.description || "";
+    document.getElementById("strategy-editor-entry").value =
+        (strategy.entryRules?.criteria || []).join("\n");
+    document.getElementById("strategy-editor-max-risk").value =
+        strategy.riskRules?.maxRiskPerTrade?.amount ?? "";
+    document.getElementById("strategy-editor-max-risk-type").value =
+        strategy.riskRules?.maxRiskPerTrade?.type || "%";
+    document.getElementById("strategy-editor-stop-loss").value =
+        strategy.riskRules?.stopLossRequired || "";
+    document.getElementById("strategy-editor-max-trades").value =
+        strategy.riskRules?.maxTradesPerDay ?? "";
+    document.getElementById("strategy-editor-max-daily-loss").value =
+        strategy.riskRules?.maxDailyLoss?.amount ?? "";
+    document.getElementById("strategy-editor-max-daily-loss-type").value =
+        strategy.riskRules?.maxDailyLoss?.type || "%";
+    document.getElementById("strategy-editor-start-time").value =
+        strategy.timeRules?.tradingHours?.start || "";
+    document.getElementById("strategy-editor-end-time").value =
+        strategy.timeRules?.tradingHours?.end || "";
+    document.getElementById("strategy-editor-timezone").value =
+        strategy.timeRules?.timezone || getBrowserTimezone();
+    const selectedDays = strategy.timeRules?.daysOfWeek || [];
+    document
+        .querySelectorAll('input[name="strategy-editor-days"]')
+        .forEach((checkbox) => {
+            checkbox.checked =
+                selectedDays.length === 0
+                    ? ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].includes(
+                          checkbox.value
+                      )
+                    : selectedDays.includes(checkbox.value);
+        });
+    document.getElementById("strategy-editor-news-restrictions").checked =
+        Boolean(strategy.timeRules?.newsRestrictions);
+    document.getElementById("strategy-editor-news-notes").value =
+        strategy.timeRules?.newsNotes || "";
+    document.getElementById("strategy-editor-avoid-emotions").value = (
+        strategy.psychologicalRules?.avoidEmotions || []
+    ).join("\n");
+    document.getElementById("strategy-editor-avoid-conditions").value = (
+        strategy.psychologicalRules?.avoidConditions || []
+    ).join("\n");
+    document.getElementById("strategy-editor-custom-conditions").value = (
+        strategy.psychologicalRules?.customConditions || []
+    ).join("\n");
+    document.getElementById("strategy-editor-psych-notes").value =
+        strategy.psychologicalRules?.notes || "";
+    document.getElementById("strategy-editor-custom-rules").value = (
+        strategy.customRules || []
+    ).join("\n");
+}
+
+function buildStrategyFromEditorForm(existing) {
+    const strategy = normalizeStrategy(existing);
+    strategy.name = document.getElementById("strategy-editor-name").value.trim();
+    strategy.description = document
+        .getElementById("strategy-editor-description")
+        .value.trim();
+    strategy.entryRules.criteria = parseLines(
+        document.getElementById("strategy-editor-entry").value
+    );
+    strategy.riskRules.maxRiskPerTrade.amount = document
+        .getElementById("strategy-editor-max-risk")
+        .value.trim();
+    strategy.riskRules.maxRiskPerTrade.type = document.getElementById(
+        "strategy-editor-max-risk-type"
+    ).value;
+    strategy.riskRules.stopLossRequired = document.getElementById(
+        "strategy-editor-stop-loss"
+    ).value;
+    strategy.riskRules.maxTradesPerDay = document
+        .getElementById("strategy-editor-max-trades")
+        .value.trim();
+    strategy.riskRules.maxDailyLoss.amount = document
+        .getElementById("strategy-editor-max-daily-loss")
+        .value.trim();
+    strategy.riskRules.maxDailyLoss.type = document.getElementById(
+        "strategy-editor-max-daily-loss-type"
+    ).value;
+    strategy.timeRules.tradingHours.start = document
+        .getElementById("strategy-editor-start-time")
+        .value;
+    strategy.timeRules.tradingHours.end = document
+        .getElementById("strategy-editor-end-time")
+        .value;
+    strategy.timeRules.timezone = getBrowserTimezone();
+    strategy.timeRules.daysOfWeek = Array.from(
+        document.querySelectorAll('input[name="strategy-editor-days"]:checked')
+    ).map((checkbox) => checkbox.value);
+    strategy.timeRules.newsRestrictions = document.getElementById(
+        "strategy-editor-news-restrictions"
+    ).checked;
+    strategy.timeRules.newsNotes = document
+        .getElementById("strategy-editor-news-notes")
+        .value.trim();
+    strategy.psychologicalRules.avoidEmotions = parseLines(
+        document.getElementById("strategy-editor-avoid-emotions").value
+    );
+    strategy.psychologicalRules.avoidConditions = parseLines(
+        document.getElementById("strategy-editor-avoid-conditions").value
+    );
+    strategy.psychologicalRules.customConditions = parseLines(
+        document.getElementById("strategy-editor-custom-conditions").value
+    );
+    strategy.psychologicalRules.notes = document
+        .getElementById("strategy-editor-psych-notes")
+        .value.trim();
+    strategy.customRules = parseLines(
+        document.getElementById("strategy-editor-custom-rules").value
+    );
+    return strategy;
+}
+
+function openStrategyEditorModal(strategyId) {
+    const strategy = strategyLookupById[strategyId];
+    if (!strategy) {
+        notify("Strategy not found.", "warning");
+        return;
+    }
+    editingStrategyId = strategyId;
+    fillStrategyEditorForm(normalizeStrategy(strategy));
+    document.getElementById("strategy-editor-timezone").value = getBrowserTimezone();
+    document.getElementById("strategy-editor-modal").style.display = "flex";
+}
+
+function closeStrategyEditorModal() {
+    editingStrategyId = null;
+    document.getElementById("strategy-editor-modal").style.display = "none";
+}
+
+async function saveEditedStrategy() {
+    if (!editingStrategyId) {
+        notify("No strategy selected for editing.", "warning");
+        return;
+    }
+
+    const existing = strategyLookupById[editingStrategyId];
+    const strategy = buildStrategyFromEditorForm(existing);
+    if (!strategy.name) {
+        notify("Strategy name is required.", "warning");
+        return;
+    }
+
+    const saveButton = document.getElementById("strategy-editor-save");
+    const originalText = saveButton.textContent;
+    saveButton.disabled = true;
+    saveButton.textContent = "Saving...";
+
+    try {
+        const response = await fetch(
+            "https://us-central1-clearentry-5353e.cloudfunctions.net/updateStrategy",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    token: getToken(),
+                    strategyId: editingStrategyId,
+                    strategy,
+                    timezone: getBrowserTimezone()
+                })
+            }
+        );
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.strategyId) {
+            throw new Error(result.error || result.message || "Failed to update strategy");
+        }
+
+        strategyLookupById[editingStrategyId] = strategy;
+        if (selectedStrategyId === editingStrategyId) {
+            document.getElementById("strategy-text").textContent =
+                strategy.name || "Unnamed Strategy";
+            tradeEntry["strategy"] = [strategy.name || "Unnamed Strategy"];
+        }
+
+        await populateStrategiesDropdown();
+        closeStrategyEditorModal();
+        notify("Strategy updated successfully.", "success");
+    } catch (error) {
+        console.error("Error updating strategy:", error);
+        notify(error.message || "Failed to update strategy.", "error");
+    } finally {
+        saveButton.disabled = false;
+        saveButton.textContent = originalText;
     }
 }
 
@@ -1898,6 +2226,7 @@ function autoFillFromPreTrade() {
     // Auto-fill strategy
     if (linkedPreTradeSession.strategyId) {
         tradeEntry['strategy'] = [linkedPreTradeSession.strategyName || "Unnamed Strategy"];
+        selectedStrategyId = linkedPreTradeSession.strategyId;
         if (strategyText && linkedPreTradeSession.strategyName) {
             strategyText.textContent = linkedPreTradeSession.strategyName;
         }
@@ -1931,6 +2260,7 @@ function resetFieldsAfterUnlink() {
     tradeEntry['type'] = "";
     tradeEntry['direction'] = "";
     tradeEntry['strategy'] = [];
+    selectedStrategyId = null;
 }
 
 // Update Continue button state based on pre-trade session
@@ -2100,6 +2430,49 @@ document.addEventListener("DOMContentLoaded", async () => {
     const unlinkButton = document.getElementById("unlink-pretrade-btn");
     if (unlinkButton) {
         unlinkButton.addEventListener("click", unlinkPreTrade);
+    }
+
+    const strategyEditButton = document.getElementById("strategy-edit-button");
+    if (strategyEditButton) {
+        strategyEditButton.addEventListener("click", async () => {
+            if (!Object.keys(strategyLookupById).length) {
+                await populateStrategiesDropdown();
+            }
+            openStrategyPickerModal();
+        });
+    }
+
+    const strategyPickerClose = document.getElementById("strategy-picker-close");
+    if (strategyPickerClose) {
+        strategyPickerClose.addEventListener("click", closeStrategyPickerModal);
+    }
+
+    const strategyEditorCancel = document.getElementById("strategy-editor-cancel");
+    if (strategyEditorCancel) {
+        strategyEditorCancel.addEventListener("click", closeStrategyEditorModal);
+    }
+
+    const strategyEditorSave = document.getElementById("strategy-editor-save");
+    if (strategyEditorSave) {
+        strategyEditorSave.addEventListener("click", saveEditedStrategy);
+    }
+
+    const strategyPickerModal = document.getElementById("strategy-picker-modal");
+    if (strategyPickerModal) {
+        strategyPickerModal.addEventListener("click", (event) => {
+            if (event.target === strategyPickerModal) {
+                closeStrategyPickerModal();
+            }
+        });
+    }
+
+    const strategyEditorModal = document.getElementById("strategy-editor-modal");
+    if (strategyEditorModal) {
+        strategyEditorModal.addEventListener("click", (event) => {
+            if (event.target === strategyEditorModal) {
+                closeStrategyEditorModal();
+            }
+        });
     }
     
     document.querySelector("#head-frame").addEventListener('click', function(event) {
