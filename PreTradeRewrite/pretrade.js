@@ -14,6 +14,8 @@ let preTradeState = {
 };
 
 let selectedDirection = null;
+let onboardingNeedsStrategy = false;
+
 const getToken = async () =>
     window.getAuthToken ? await window.getAuthToken() : null;
 const notify = (message, type = "error") => {
@@ -23,8 +25,92 @@ const notify = (message, type = "error") => {
         console.warn(message);
     }
 };
+
 const getBrowserTimezone = () =>
     Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+
+function ensurePreTradeDemoUI(account) {
+    if (hasPaidAccess(account)) return;
+    document.body.classList.add("demo-mode");
+
+    if (!document.getElementById("demo-mode-local-style")) {
+        const style = document.createElement("style");
+        style.id = "demo-mode-local-style";
+        style.textContent = `
+            body.demo-mode .demo-readonly,
+            body.demo-mode [data-demo-locked="true"] {
+                cursor: not-allowed !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    if (!document.querySelector(".demo-banner")) {
+        const banner = document.createElement("div");
+        banner.className = "demo-banner";
+        banner.innerHTML = `
+            <div>
+                <strong>Demo mode</strong>
+                <span>Sample data only. Claim founding member access to unlock your own insights.</span>
+            </div>
+        `;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Claim founding access";
+        button.dataset.demoAllow = "true";
+        button.addEventListener("click", () => {
+            if (window.startTrialCheckout) {
+                window.startTrialCheckout(button);
+            }
+        });
+        banner.appendChild(button);
+        document.body.prepend(banner);
+    }
+
+    if (!document.querySelector(".demo-fab")) {
+        const fab = document.createElement("button");
+        fab.type = "button";
+        fab.className = "demo-fab";
+        fab.textContent = "Claim founding access to unlock your own insights";
+        fab.dataset.demoAllow = "true";
+        fab.addEventListener("click", () => {
+            if (window.startTrialCheckout) {
+                window.startTrialCheckout(fab);
+            }
+        });
+        document.body.appendChild(fab);
+    }
+
+    const isAllowedControl = (node) => {
+        if (!node) return false;
+        if (node.dataset?.demoAllow === "true") return true;
+        if (node.id === "theme-toggle" || node.id === "logout-button") return true;
+        if (
+            node.id === "subscription-gate-close" ||
+            node.id === "trade-limit-paywall-close"
+        ) {
+            return true;
+        }
+        if (node.classList?.contains("subscription-gate-close")) return true;
+        if (node.classList?.contains("subscription-lock-close")) return true;
+        if (node.classList?.contains("mobile-nav-toggle")) return true;
+        if (node.classList?.contains("nav-item-parent")) return true;
+        return false;
+    };
+
+    const controls = document.querySelectorAll("input, select, textarea, button");
+    controls.forEach((node) => {
+        if (isAllowedControl(node)) return;
+        node.classList.add("demo-readonly");
+        node.setAttribute("data-demo-locked", "true");
+        if ("disabled" in node) node.disabled = true;
+        if (node.tagName === "INPUT" || node.tagName === "TEXTAREA") {
+            node.readOnly = true;
+        }
+    });
+}
+
+const isOnboardingLockActive = () => onboardingNeedsStrategy;
 
 function getEmptyStrategyTemplate() {
     return {
@@ -124,13 +210,19 @@ async function pretradeINIT() {
         await getClientData();
         const token = await getToken();
         if (!token) {
-            window.location.href = "../Home/index.html";
+            window.location.href = "/HomeRewrite/index.html";
             return;
         }
 
         // Fetch pre-trade context
         const context = await getPreTradeContext(token);
         preTradeState.context = context;
+        const account = window.clientData?.result || {};
+        ensurePreTradeDemoUI(account);
+        const isFirstTimeUser = Boolean(account?.isFirstTimeUser);
+        onboardingNeedsStrategy =
+            hasPaidAccess(account) &&
+            (isFirstTimeUser || Object.keys(context?.strategies || {}).length === 0);
         
         // Populate strategies
         populateStrategies(context.strategies);
@@ -144,6 +236,10 @@ async function pretradeINIT() {
         
         // Setup event listeners
         setupEventListeners();
+
+        if (isOnboardingLockActive()) {
+            enforceMandatoryOnboarding();
+        }
         
     } catch (error) {
         console.error("Error initializing pre-trade:", error);
@@ -268,6 +364,49 @@ function setupEventListeners() {
             }
         });
     }
+}
+
+function enforceMandatoryOnboarding() {
+    const blocker = (event) => {
+        const allowIds = new Set([
+            "add-strategy-btn",
+            "strategy-modal-next",
+            "strategy-modal-back",
+            "strategy-modal-save"
+        ]);
+        const target = event.target;
+        if (target && allowIds.has(target.id)) {
+            return;
+        }
+        if (target && target.closest && target.closest("#strategy-modal")) {
+            return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        notify("Create your first strategy to continue.", "warning");
+    };
+
+    document.querySelectorAll(".sidebar a, .sidebar button, .topbar a").forEach((node) => {
+        node.addEventListener("click", blocker);
+    });
+
+    openStrategyModal();
+
+    const closeModalBtn = document.getElementById("close-strategy-modal");
+    const cancelBtn = document.getElementById("strategy-modal-cancel");
+    if (closeModalBtn) closeModalBtn.style.display = "none";
+    if (cancelBtn) cancelBtn.style.display = "none";
+}
+
+function showOnboardingCompleteModal() {
+    const modal = document.getElementById("onboarding-complete-modal");
+    const continueButton = document.getElementById("onboarding-complete-continue");
+    if (!modal || !continueButton) return;
+
+    modal.style.display = "flex";
+    continueButton.onclick = () => {
+        window.location.href = "/TradeLoggingRewrite/tradelogging.html";
+    };
 }
 
 // Handle strategy selection
@@ -689,12 +828,17 @@ async function onEnterTrade() {
                 } : null
             })
         });
-        
+
+        const sessionRaw = await sessionResponse.text();
+        if (sessionRaw === "Founding Member Required") {
+            window.location.href = "/DashboardRewrite/dashboard.html";
+            return;
+        }
         if (!sessionResponse.ok) {
             throw new Error("Failed to create pre-trade session");
         }
-        
-        const sessionData = await sessionResponse.json();
+
+        const sessionData = JSON.parse(sessionRaw || "{}");
         const preTradeSessionId = sessionData.sessionId;
         
         // Update clientData to include the new pre-trade session
@@ -702,7 +846,7 @@ async function onEnterTrade() {
         await getClientData(); // Refresh local clientData variable
         
         // Redirect to trade logging with pre-trade session ID
-        window.location.href = `../TradeLoggingRewrite/tradelogging.html?preTradeSessionId=${preTradeSessionId}`;
+        window.location.href = `/TradeLoggingRewrite/tradelogging.html?preTradeSessionId=${preTradeSessionId}`;
         
     } catch (error) {
         console.error("Error entering trade:", error);
@@ -1067,7 +1211,13 @@ async function saveStrategyToBackend() {
             
             // Close modal
             closeStrategyModal();
-            
+
+            if (isOnboardingLockActive()) {
+                onboardingNeedsStrategy = false;
+                showOnboardingCompleteModal();
+                return;
+            }
+
             // Reload page to refresh all data
             location.reload();
         } else {
@@ -1093,7 +1243,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const closeModalBtn = document.getElementById("close-strategy-modal");
     if (closeModalBtn) {
-        closeModalBtn.addEventListener("click", closeStrategyModal);
+        closeModalBtn.addEventListener("click", () => {
+            if (isOnboardingLockActive()) return;
+            closeStrategyModal();
+        });
     }
 
     const closePickerBtn = document.getElementById("close-strategy-picker-modal");
@@ -1103,7 +1256,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const cancelBtn = document.getElementById("strategy-modal-cancel");
     if (cancelBtn) {
-        cancelBtn.addEventListener("click", closeStrategyModal);
+        cancelBtn.addEventListener("click", () => {
+            if (isOnboardingLockActive()) return;
+            closeStrategyModal();
+        });
     }
     
     const backBtn = document.getElementById("strategy-modal-back");
@@ -1140,6 +1296,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (modal) {
         modal.addEventListener("click", (e) => {
             if (e.target === modal) {
+                if (isOnboardingLockActive()) return;
                 closeStrategyModal();
             }
         });

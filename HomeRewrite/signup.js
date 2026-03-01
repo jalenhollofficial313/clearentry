@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showFieldError(passwordInput, "Email already in use.");
         } else {
             trackFunnelEvent("signup_completed", "email_password");
-            window.location.href = "../DashboardRewrite/dashboard.html";
+            window.location.href = "/DashboardRewrite/dashboard.html";
         }
 
     } catch (err) {
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
       }
       trackFunnelEvent("signup_completed", "google");
-      window.location.href = "../DashboardRewrite/dashboard.html";
+      window.location.href = "/DashboardRewrite/dashboard.html";
     } catch (error) {
       console.error("Google sign-in error:", error);
       notify("Google sign-in failed. Please try again.", "error");

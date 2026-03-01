@@ -46,6 +46,53 @@ const isTradeId = (value) =>
     typeof value === "string" && TRADE_ID_PATTERN.test(value.trim());
 const getBrowserTimezone = () =>
     Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+const isTradeLoggingDemoAccount = (account) =>
+    Boolean(account?.demoData) || !hasPaidAccess(account);
+
+function ensureTradeLoggingDemoUI(account) {
+    if (!isTradeLoggingDemoAccount(account)) return;
+    document.body.classList.add("demo-mode");
+
+    if (!document.getElementById("demo-mode-local-style")) {
+        const style = document.createElement("style");
+        style.id = "demo-mode-local-style";
+        style.textContent = `
+            body.demo-mode .demo-readonly,
+            body.demo-mode [data-demo-locked="true"] {
+                cursor: not-allowed !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    if (!document.querySelector(".demo-banner")) {
+        const banner = document.createElement("div");
+        banner.className = "demo-banner";
+        banner.innerHTML = `
+            <div>
+                <strong>Demo mode</strong>
+                <span>Sample data only. Claim founding member access to unlock your own insights.</span>
+            </div>
+        `;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Claim founding access";
+        button.dataset.demoAllow = "true";
+        button.addEventListener("click", () => showTradeLimitPaywall());
+        banner.appendChild(button);
+        document.body.prepend(banner);
+    }
+
+    if (!document.querySelector(".demo-fab")) {
+        const fab = document.createElement("button");
+        fab.type = "button";
+        fab.className = "demo-fab";
+        fab.textContent = "Claim founding access to unlock your own insights";
+        fab.dataset.demoAllow = "true";
+        fab.addEventListener("click", () => showTradeLimitPaywall());
+        document.body.appendChild(fab);
+    }
+}
 
 const parseLines = (value) =>
     String(value || "")
@@ -138,13 +185,13 @@ function normalizeStrategy(rawStrategy) {
 
 const startSubscriptionCheckout = async (button) => {
     if (window.startTrialCheckout) {
-        await window.startTrialCheckout(button, button?.dataset?.plan || "monthly");
+        await window.startTrialCheckout(button);
         return;
     }
 
     const token = getToken();
     if (!token) {
-        window.location.href = "/login";
+        window.location.href = "/HomeRewrite/login.html";
         return;
     }
 
@@ -161,7 +208,7 @@ const startSubscriptionCheckout = async (button) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     token,
-                    plan: button?.dataset?.plan || "monthly"
+                    offer: "founding_member_beta"
                 })
             }
         );
@@ -173,10 +220,10 @@ const startSubscriptionCheckout = async (button) => {
             window.location.href = checkoutUrl;
             return;
         }
-        notify("Failed to start subscription checkout.", "error");
+        notify("Failed to start founding member checkout.", "error");
     } catch (error) {
         console.error("Checkout error:", error);
-        notify("Failed to start subscription checkout.", "error");
+        notify("Failed to start founding member checkout.", "error");
     } finally {
         if (button) {
             button.disabled = false;
@@ -188,31 +235,110 @@ const startSubscriptionCheckout = async (button) => {
 const showTradeLimitPaywall = () => {
     const modal = document.getElementById("trade-limit-paywall-modal");
     if (!modal) {
-        window.location.href = "../DashboardRewrite/dashboard.html";
+        window.location.href = "/DashboardRewrite/dashboard.html";
         return;
     }
 
     const closeButton = document.getElementById("trade-limit-paywall-close");
-    const monthlyButton = document.getElementById("trade-limit-subscribe-monthly");
-    const annualButton = document.getElementById("trade-limit-subscribe-annual");
+    const claimButton = document.getElementById("trade-limit-claim-founding");
 
     if (closeButton) {
         closeButton.onclick = () => {
             modal.style.display = "none";
-            window.location.href = "../DashboardRewrite/dashboard.html";
         };
     }
 
-    if (monthlyButton) {
-        monthlyButton.onclick = () => startSubscriptionCheckout(monthlyButton);
-    }
-    if (annualButton) {
-        annualButton.onclick = () => startSubscriptionCheckout(annualButton);
+    if (claimButton) {
+        claimButton.onclick = () => startSubscriptionCheckout(claimButton);
     }
 
     modal.style.display = "flex";
     lucide.createIcons();
 };
+
+function applyTradeLoggingDemoMode(account) {
+    if (!isTradeLoggingDemoAccount(account)) return;
+    ensureTradeLoggingDemoUI(account);
+
+    const pageHeader = document.querySelector(".page-header");
+    if (pageHeader && !document.getElementById("tradelogging-demo-note")) {
+        const note = document.createElement("p");
+        note.id = "tradelogging-demo-note";
+        note.className = "subtle";
+        note.textContent =
+            "Demo mode: example trade data is shown. Claim founding member access to unlock real trade logging.";
+        pageHeader.appendChild(note);
+    }
+
+    const demoTrades = Object.values(account?.trades || {});
+    const sample = demoTrades.length
+        ? demoTrades[Math.floor(Math.random() * demoTrades.length)]
+        : null;
+
+    if (sample) {
+        const setValue = (selector, value) => {
+            const node = document.querySelector(selector);
+            if (!node) return;
+            node.value = value === undefined || value === null ? "" : String(value);
+        };
+
+        setValue("#entry-SYMBOL", sample.symbol);
+        setValue("#entry-PRICE", sample.EntryPrice);
+        setValue("#entry-EXIT", sample.EntryExit);
+        setValue("#entry-RR", sample.RR);
+        setValue("#entry-notes", sample.trade_notes || sample.notes || "");
+
+        if (sample.type) {
+            tradeEntry.type = sample.type;
+            const typeNode = document.querySelector("#entry-type");
+            if (typeNode) typeNode.value = sample.type;
+        }
+        if (sample.direction) {
+            tradeEntry.direction = sample.direction;
+            const directionNode = document.querySelector("#entry-direction");
+            if (directionNode) directionNode.value = sample.direction;
+        }
+
+        if (typeof renderExtractedData === "function") {
+            renderExtractedData({
+                SYMBOL: sample.symbol || "",
+                EntryPrice: sample.EntryPrice ?? "",
+                EntryExit: sample.EntryExit ?? "",
+                PL: sample.PL ?? "",
+                RR: sample.RR ?? "",
+            });
+        }
+    }
+
+    // Keep page visible but block write actions in demo mode.
+    const lockSelectors = [
+        "#img_Input",
+        "#tradeImageInput",
+        "#emotion-add",
+        "#strategy-add",
+    ];
+    lockSelectors.forEach((selector) => {
+        const node = document.querySelector(selector);
+        if (!node) return;
+        node.classList.add("demo-readonly");
+        node.setAttribute("aria-disabled", "true");
+        if ("disabled" in node) node.disabled = true;
+    });
+
+    const continueBtn = document.getElementById("continue-button");
+    if (continueBtn && continueBtn.parentNode) {
+        const lockedButton = continueBtn.cloneNode(true);
+        lockedButton.textContent = "Claim founding access to unlock logging";
+        lockedButton.classList.add("demo-readonly");
+        lockedButton.setAttribute("data-demo-locked", "true");
+        lockedButton.style.cursor = "not-allowed";
+        continueBtn.parentNode.replaceChild(lockedButton, continueBtn);
+        lockedButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            showTradeLimitPaywall();
+        });
+    }
+}
 
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -1468,7 +1594,7 @@ document.querySelector("#continue-button").addEventListener("click", async funct
         client_server_debounce = false        
 
         const tradeId = (tradeResponse || "").trim();
-        if (tradeId === "Subscription Required" || tradeId === "Trial Required") {
+        if (tradeId === "Subscription Required" || tradeId === "Trial Required" || tradeId === "Founding Member Required") {
             await sleep(300);
             showTradeLimitPaywall();
             return;
@@ -1481,8 +1607,7 @@ document.querySelector("#continue-button").addEventListener("click", async funct
                 : null;
             const reachedFreeTradeLimit =
                 refreshedAccount &&
-                !refreshedAccount.stripe_subscription_id &&
-                refreshedAccount.trialActive === false;
+                !hasPaidAccess(refreshedAccount);
             if (reachedFreeTradeLimit) {
                 await sleep(300);
                 showTradeLimitPaywall();
@@ -2343,11 +2468,11 @@ function displayRuleCompliance(compliance) {
     if (compliance.status === "rule-following") {
         badge.style.backgroundColor = "rgba(0, 255, 153, 0.2)";
         badge.style.color = "#00ff99";
-        badge.textContent = "✓ Rule-Following";
+        badge.textContent = "âœ“ Rule-Following";
     } else if (compliance.status === "rule-breaking") {
         badge.style.backgroundColor = "rgba(255, 23, 68, 0.2)";
         badge.style.color = "#ff1744";
-        badge.textContent = "⚠ Rule-Breaking";
+        badge.textContent = "âš  Rule-Breaking";
     } else {
         badge.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
         badge.style.color = "#86909a";
@@ -2403,6 +2528,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     await sleep(100)
 
     console.log(clientData.result)
+    const currentAccount = clientData?.result || {};
+    if (isTradeLoggingDemoAccount(currentAccount)) {
+        applyTradeLoggingDemoMode(currentAccount);
+    }
     
     reloadPage()
     loadDropDowns()

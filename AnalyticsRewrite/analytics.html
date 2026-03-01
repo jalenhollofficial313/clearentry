@@ -13,6 +13,13 @@
     <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ClearEntry is a prop firm trading journal and trading discipline tool focused on execution improvement. This execution trading journal tracks your execution, emotions, and rule compliance across every trade so you can finally see exactly what's holding you back and fix it." />
+    <meta property="og:title" content="ClearEntry, Trading Journal for Prop Firm Traders." />
+    <meta property="og:description" content="ClearEntry tracks your execution, emotions, and rule compliance across every trade so you can finally see exactly what's holding you back and fix it." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://clear-entry.com/HomeRewrite/dashboard.png" />
+    <meta property="og:url" content="https://clear-entry.com/AnalyticsRewrite/analytics.html" />
+    <link rel="canonical" href="https://clear-entry.com/AnalyticsRewrite/analytics.html" />
         <title>ClearEntry Analytics</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,7 +39,7 @@
         <div class="app">
             <aside class="sidebar">
                 <div class="sidebar-brand">
-                    <a class="brand-title" href="/" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                    <a class="brand-title" href="/HomeRewrite/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
                 </div>
                 <nav class="sidebar-nav">
                     <div class="nav-section">
@@ -79,7 +86,7 @@
                         >
                         <button class="nav-item nav-item-parent" type="button">
                             My Reports
-                            <span class="nav-caret">▾</span>
+                            <span class="nav-caret">&#9662;</span>
                         </button>
                         <div class="nav-sub">
                             <a
@@ -127,7 +134,7 @@
                     </div>
                     <div class="breadcrumbs">
                         <span class="crumb">Daily</span>
-                        <span class="crumb-sep">›</span>
+                        <span class="crumb-sep">&rsaquo;</span>
                         <span class="crumb is-current">Analytics</span>
                     </div>
                     <div class="topbar-actions">
@@ -149,7 +156,7 @@
                     <div class="page-header">
                         <div>
                             <h1>Analytics</h1>
-                            <p class="subtle" id="analytics-subtitle">—</p>
+                            <p class="subtle" id="analytics-subtitle">â€”</p>
                         </div>
                         <div class="header-actions"></div>
                     </div>
@@ -162,32 +169,32 @@
                         <div class="stats-grid metrics-grid">
                             <div class="card metric-card">
                                 <p class="metric-label">Net Profit</p>
-                                <p class="metric-value" id="net-profit">—</p>
+                                <p class="metric-value" id="net-profit">â€”</p>
                                 <p class="metric-helper">Total realized P/L</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Gross Profit</p>
-                                <p class="metric-value" id="gross-profit">—</p>
+                                <p class="metric-value" id="gross-profit">â€”</p>
                                 <p class="metric-helper">Sum of winning trades</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Win Rate</p>
-                                <p class="metric-value" id="win-rate">—</p>
+                                <p class="metric-value" id="win-rate">â€”</p>
                                 <p class="metric-helper">Winning trades / total</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Average Win</p>
-                                <p class="metric-value" id="avg-win">—</p>
+                                <p class="metric-value" id="avg-win">â€”</p>
                                 <p class="metric-helper">Mean gain per win</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Average Loss</p>
-                                <p class="metric-value" id="avg-loss">—</p>
+                                <p class="metric-value" id="avg-loss">â€”</p>
                                 <p class="metric-helper">Mean loss per loss</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Profit Factor</p>
-                                <p class="metric-value" id="profit-factor">—</p>
+                                <p class="metric-value" id="profit-factor">â€”</p>
                                 <p class="metric-helper">Gross profit / gross loss</p>
                             </div>
                         </div>
@@ -201,32 +208,32 @@
                         <div class="stats-grid metrics-grid">
                             <div class="card metric-card">
                                 <p class="metric-label">Risk-Reward Ratio</p>
-                                <p class="metric-value" id="rr-ratio">—</p>
+                                <p class="metric-value" id="rr-ratio">â€”</p>
                                 <p class="metric-helper">Avg win / avg loss</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Sharpe Ratio</p>
-                                <p class="metric-value" id="sharpe-ratio">—</p>
+                                <p class="metric-value" id="sharpe-ratio">â€”</p>
                                 <p class="metric-helper">Return vs volatility</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Sortino Ratio</p>
-                                <p class="metric-value" id="sortino-ratio">—</p>
+                                <p class="metric-value" id="sortino-ratio">â€”</p>
                                 <p class="metric-helper">Return vs downside risk</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Max Drawdown</p>
-                                <p class="metric-value" id="max-drawdown">—</p>
+                                <p class="metric-value" id="max-drawdown">â€”</p>
                                 <p class="metric-helper">Worst peak-to-valley</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Expected Value</p>
-                                <p class="metric-value" id="expected-value">—</p>
+                                <p class="metric-value" id="expected-value">â€”</p>
                                 <p class="metric-helper">Avg result per trade</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Expectation (100 trades)</p>
-                                <p class="metric-value" id="expectation-100">—</p>
+                                <p class="metric-value" id="expectation-100">â€”</p>
                                 <p class="metric-helper">Projected over 100 trades</p>
                             </div>
                         </div>
@@ -240,32 +247,32 @@
                         <div class="stats-grid metrics-grid">
                             <div class="card metric-card">
                                 <p class="metric-label">Total Trades</p>
-                                <p class="metric-value" id="total-trades">—</p>
+                                <p class="metric-value" id="total-trades">â€”</p>
                                 <p class="metric-helper">Closed trades counted</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Wins</p>
-                                <p class="metric-value" id="wins">—</p>
+                                <p class="metric-value" id="wins">â€”</p>
                                 <p class="metric-helper">Trades with positive P/L</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Losses</p>
-                                <p class="metric-value" id="losses">—</p>
+                                <p class="metric-value" id="losses">â€”</p>
                                 <p class="metric-helper">Trades with negative P/L</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Average P/L</p>
-                                <p class="metric-value" id="avg-pl">—</p>
+                                <p class="metric-value" id="avg-pl">â€”</p>
                                 <p class="metric-helper">Mean P/L per trade</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Best Trade</p>
-                                <p class="metric-value" id="best-trade">—</p>
+                                <p class="metric-value" id="best-trade">â€”</p>
                                 <p class="metric-helper">Largest single gain</p>
                             </div>
                             <div class="card metric-card">
                                 <p class="metric-label">Worst Trade</p>
-                                <p class="metric-value" id="worst-trade">—</p>
+                                <p class="metric-value" id="worst-trade">â€”</p>
                                 <p class="metric-helper">Largest single loss</p>
                             </div>
                         </div>
@@ -314,20 +321,20 @@
                         <div class="card calendar-card">
                             <div class="card-header">
                                 <div class="card-title" id="analytics-calendar-title">
-                                    —
+                                    â€”
                                 </div>
                                 <div class="calendar-nav">
                                     <button
                                         class="btn btn-ghost btn-sm"
                                         id="calendar-prev"
                                     >
-                                        ‹
+                                        â€¹
                                     </button>
                                     <button
                                         class="btn btn-ghost btn-sm"
                                         id="calendar-next"
                                     >
-                                        ›
+                                        â€º
                                     </button>
                                 </div>
                             </div>

@@ -27,9 +27,12 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script defer src="/_vercel/analytics/script.js"></script>
   </head>
   <body>
+    <div class="beta-banner" id="beta-banner" role="region" aria-label="Beta announcement">
+      <p>ClearEntry Beta is live. 50 founding member spots at $8. Locks in your lifetime discount.</p>
+      <button type="button" id="beta-banner-close" aria-label="Dismiss beta announcement">&times;</button>
+    </div>
     <header class="site-header">
       <div class="container header-inner">
         <div class="brand">
@@ -39,14 +42,14 @@
         <nav class="main-nav">
           <a href="#product">Product</a>
           <a href="#about">About</a>
-          <a href="/blog">Blog</a>
+          <a href="/HomeRewrite/blog.html">Blog</a>
           <a href="#demo">Demo</a>
           <a href="#pricing">Pricing</a>
           <a href="#contact">Contact</a>
         </nav>
         <div class="header-actions">
-          <a href="/login" class="ghost-link">Log in</a>
-          <a href="/signup" class="cta-button">Start Free</a>
+          <a href="/HomeRewrite/login.html" class="ghost-link">Log in</a>
+          <a href="/HomeRewrite/signup.html" class="cta-button">Join Beta for $8.</a>
         </div>
         <button class="mobile-toggle" id="mobile-toggle" aria-label="Open menu">
           <span></span>
@@ -57,13 +60,13 @@
       <div class="mobile-menu" id="mobile-menu">
         <a href="#product">Product</a>
         <a href="#about">About</a>
-        <a href="/blog">Blog</a>
+        <a href="/HomeRewrite/blog.html">Blog</a>
         <a href="#demo">Demo</a>
         <a href="#pricing">Pricing</a>
         <a href="#contact">Contact</a>
         <div class="mobile-actions">
-          <a href="/login">Log in</a>
-          <a href="/signup" class="cta-button">Start Free</a>
+          <a href="/HomeRewrite/login.html">Log in</a>
+          <a href="/HomeRewrite/signup.html" class="cta-button">Join Beta for $8.</a>
         </div>
       </div>
     </header>
@@ -72,13 +75,13 @@
       <section class="hero">
         <div class="container hero-inner">
           <div class="hero-copy">
-            <h1>See the patterns killing your trades. Fix them before they cost you more.</h1>
+            <h1>ClearEntry is the trading journal and execution workspace for deliberate, repeatable growth.</h1>
             <p class="hero-subtitle">
               ClearEntry tracks your execution, emotions, and rule compliance across every trade so you can finally see exactly what's holding you back and fix it.
             </p>
             <p class="hero-note">Supporting over 100+ traders.</p>
             <div class="hero-actions">
-              <a class="cta-button" href="/signup">Start Free</a>
+              <a class="cta-button" href="/HomeRewrite/signup.html">Join Beta for $8.</a>
               <a class="ghost-pill" href="#demo">See It In Action - Live Demo</a>
             </div>
           </div>
@@ -89,6 +92,9 @@
                 <img
                   src="/HomeRewrite/dashboard.png"
                   alt="ClearEntry dashboard preview"
+                  loading="eager"
+                  decoding="async"
+                  fetchpriority="high"
                 />
               </div>
             </div>
@@ -105,56 +111,98 @@
           <div class="testimonials-marquee" aria-label="Trader testimonials">
             <div class="testimonials-track">
               <article class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"I didn't realize I was revenge trading three times a week until ClearEntry showed me the pattern. Fixed it in two weeks."</p>
                 <span>@trader_mike93</span>
               </article>
               <article class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"Finally stopped tweaking my strategy. The analytics proved my execution was the problem, not my setup."</p>
                 <span>@apex_grinder</span>
               </article>
               <article class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"The pre-trade checklist alone is worth it. Forces me to slow down before every entry."</p>
                 <span>@nq_scalper</span>
               </article>
               <article class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"Went from blowing accounts to my first funded payout. The psychology tracking changed everything."</p>
                 <span>@propfirm_paul</span>
               </article>
               <article class="testimonial-card">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"Every other journal just showed me charts. This one tells me exactly what to fix."</p>
                 <span>@futures_focused</span>
               </article>
               <article class="testimonial-card" aria-hidden="true">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"I didn't realize I was revenge trading three times a week until ClearEntry showed me the pattern. Fixed it in two weeks."</p>
                 <span>@trader_mike93</span>
               </article>
               <article class="testimonial-card" aria-hidden="true">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"Finally stopped tweaking my strategy. The analytics proved my execution was the problem, not my setup."</p>
                 <span>@apex_grinder</span>
               </article>
               <article class="testimonial-card" aria-hidden="true">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"The pre-trade checklist alone is worth it. Forces me to slow down before every entry."</p>
                 <span>@nq_scalper</span>
               </article>
               <article class="testimonial-card" aria-hidden="true">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"Went from blowing accounts to my first funded payout. The psychology tracking changed everything."</p>
                 <span>@propfirm_paul</span>
               </article>
               <article class="testimonial-card" aria-hidden="true">
-                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-stars">â˜…â˜…â˜…â˜…â˜…</div>
                 <p>"Every other journal just showed me charts. This one tells me exactly what to fix."</p>
                 <span>@futures_focused</span>
               </article>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="showcase-section" id="product">
+        <div class="container showcase-inner">
+          <div class="showcase-copy">
+            <p class="eyebrow">Product</p>
+            <h2>See the ClearEntry dashboard in action.</h2>
+            <p>
+              A real view of the workspace traders use to validate rules, log
+              trades, and review performance.
+            </p>
+          </div>
+          <div class="showcase-track" id="showcase-track">
+            <button
+              class="showcase-arrow"
+              data-dir="prev"
+              aria-label="Previous screen"
+            >
+              &lsaquo;
+            </button>
+            <div class="showcase-card is-muted" data-slot="prev">
+              <img src="/HomeRewrite/Analysis.png" alt="Analysis view" loading="lazy" decoding="async" />
+            </div>
+            <div class="showcase-card is-main" data-slot="main">
+              <img src="/HomeRewrite/dashboard.png" alt="Dashboard view" loading="lazy" decoding="async" />
+            </div>
+            <div class="showcase-card is-muted" data-slot="next">
+              <img
+                src="/HomeRewrite/TradeLogging.png"
+                alt="Trade logging view"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <button class="showcase-arrow" data-dir="next" aria-label="Next screen">
+              &rsaquo;
+            </button>
+          </div>
+          <div class="showcase-caption" id="showcase-caption">
+            Equity Tracker - Visual Growth
           </div>
         </div>
       </section>
@@ -219,46 +267,6 @@
                 <li>Intervenes before, during, and after every trade</li>
               </ul>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="showcase-section" id="product">
-        <div class="container showcase-inner">
-          <div class="showcase-copy">
-            <p class="eyebrow">Product</p>
-            <h2>See the ClearEntry dashboard in action.</h2>
-            <p>
-              A real view of the workspace traders use to validate rules, log
-              trades, and review performance.
-            </p>
-          </div>
-          <div class="showcase-track" id="showcase-track">
-            <button
-              class="showcase-arrow"
-              data-dir="prev"
-              aria-label="Previous screen"
-            >
-              &lsaquo;
-            </button>
-            <div class="showcase-card is-muted" data-slot="prev">
-              <img src="/HomeRewrite/Analysis.png" alt="Analysis view" />
-            </div>
-            <div class="showcase-card is-main" data-slot="main">
-              <img src="/HomeRewrite/dashboard.png" alt="Dashboard view" />
-            </div>
-            <div class="showcase-card is-muted" data-slot="next">
-              <img
-                src="/HomeRewrite/TradeLogging.png"
-                alt="Trade logging view"
-              />
-            </div>
-            <button class="showcase-arrow" data-dir="next" aria-label="Next screen">
-              &rsaquo;
-            </button>
-          </div>
-          <div class="showcase-caption" id="showcase-caption">
-            Equity Tracker - Visual Growth
           </div>
         </div>
       </section>
@@ -355,67 +363,37 @@
         <div class="container pricing-inner">
           <div class="pricing-copy">
             <p class="eyebrow">Pricing</p>
-            <h2>Unlock the full ClearEntry system</h2>
-            <p>No card required. Log your first 5 trades free.</p>
+            <h2>Founding member beta access</h2>
+            <p>Limited beta spots are open now for early members.</p>
           </div>
           <div class="pricing-grid">
             <div class="pricing-card">
-              <div class="pricing-badge">Popular</div>
-              <h3>ClearEntry Pro</h3>
+              <div class="pricing-badge">BETA - LIMITED SPOTS</div>
+              <h3>Founding Member Access</h3>
               <div class="pricing-price">
-                <span class="pricing-amount">$12</span>
-                <span class="pricing-period">/month</span>
+                <span class="pricing-amount">$8</span>
+                <span class="pricing-period">one time, then $9.60/month after beta</span>
               </div>
+              <p class="pricing-spots">47 of 50 founding member spots remaining</p>
               <p class="pricing-benefit">
-                Invest $12/mo and see rule-breaking costs turn into measurable wins.
+                Claim your founding member spot before full pricing.
               </p>
               <ul class="pricing-features">
-                <li>Trade journaling</li>
-                <li>Pre-trade checklist and rule validation</li>
-                <li>Rule-breaking warnings and accountability</li>
-                <li>AI screenshot analysis and compliance detection</li>
-                <li>Rule-following analytics and discipline correlation</li>
-                <li>Trade logging linked to pre-trade</li>
-                <li>Cross-device web app support</li>
+                <li>Full access to ClearEntry during beta</li>
+                <li>Lifetime 20% discount locked in forever</li>
+                <li>Priority founder support</li>
+                <li>Direct roadmap input</li>
+                <li>First access to all new features</li>
+                <li>Browser extension access when it ships</li>
+                <li>Psychology coaching page when it ships</li>
               </ul>
               <a
-                class="cta-button js-start-trial"
-                href="/signup"
-                data-start-trial="true"
-                data-plan="monthly"
+                class="cta-button"
+                href="/HomeRewrite/signup.html"
               >
-                Start Free
+                Claim Your Spot for $8
               </a>
-              <p class="pricing-trust">Cancel anytime. No contracts.</p>
-            </div>
-            <div class="pricing-card highlight">
-              <div class="pricing-badge">Best value</div>
-              <h3>ClearEntry Pro (Annual)</h3>
-              <div class="pricing-price">
-                <span class="pricing-amount">$109</span>
-                <span class="pricing-period">/year</span>
-              </div>
-              <p class="pricing-benefit">
-                Save over 30% compared to monthly and stay consistent all year.
-              </p>
-              <ul class="pricing-features">
-                <li>Everything in monthly</li>
-                <li>Full access to discipline tracking</li>
-                <li>Rule-break cost analysis</li>
-                <li>Emotional pattern detection</li>
-                <li>Consistency streak tracking</li>
-                <li>Priority roadmap updates</li>
-                <li>Annual savings locked in</li>
-              </ul>
-              <a
-                class="cta-button js-start-trial"
-                href="/signup"
-                data-start-trial="true"
-                data-plan="annual"
-              >
-                Start Free
-              </a>
-              <p class="pricing-trust">Cancel anytime. No contracts.</p>
+              <p class="pricing-trust">Beta ends when browser extension and psychology page ship. 30 days notice before billing changes. Cancel anytime.</p>
             </div>
           </div>
         </div>
@@ -487,7 +465,7 @@
             </p>
           </div>
           <div class="resources-grid">
-            <a class="resource-card" href="/blog-trading-journal">
+            <a class="resource-card" href="/HomeRewrite/blog-trading-journal.html">
               <span class="resource-tag">Guide</span>
               <h3>What is a trading journal and how to use it</h3>
               <p>
@@ -495,28 +473,28 @@
                 improve performance.
               </p>
             </a>
-            <a class="resource-card" href="/blog-revenge-trading">
+            <a class="resource-card" href="/HomeRewrite/blog-revenge-trading.html">
               <span class="resource-tag">Discipline</span>
               <h3>How to stop revenge trading: 10 proven methods</h3>
               <p>
                 Reduce emotional spirals with practical, rule-first routines.
               </p>
             </a>
-            <a class="resource-card" href="/blog-trading-psychology-tips">
+            <a class="resource-card" href="/HomeRewrite/blog-trading-psychology-tips.html">
               <span class="resource-tag">Psychology</span>
               <h3>Trading psychology tips for consistent profits</h3>
               <p>
                 Replace impulsive trades with measurable consistency signals.
               </p>
             </a>
-            <a class="resource-card" href="/blog-emotional-control-day-traders">
+            <a class="resource-card" href="/HomeRewrite/blog-emotional-control-day-traders.html">
               <span class="resource-tag">Emotions</span>
               <h3>Emotional control for day traders</h3>
               <p>
                 Identify triggers, manage stress, and protect execution quality.
               </p>
             </a>
-            <a class="resource-card" href="/blog-best-journaling-practices">
+            <a class="resource-card" href="/HomeRewrite/blog-best-journaling-practices.html">
               <span class="resource-tag">Performance</span>
               <h3>Best trade journaling practices for performance</h3>
               <p>
@@ -531,7 +509,7 @@
         <div class="container cta-inner">
           <h2>Trade with a system you can trust.</h2>
           <div class="cta-actions">
-            <a class="cta-button" href="/signup">Start Free</a>
+            <a class="cta-button" href="/HomeRewrite/signup.html">Join Beta for $8.</a>
             <a class="ghost-link" href="#contact">Contact</a>
           </div>
         </div>
@@ -558,16 +536,16 @@
           </div>
           <div>
             <h4>Company</h4>
-            <a href="/blog">Blog</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
+            <a href="/HomeRewrite/blog.html">Blog</a>
+            <a href="/HomeRewrite/privacy.html">Privacy</a>
+            <a href="/HomeRewrite/terms.html">Terms</a>
             <a href="#contact">Contact</a>
           </div>
           <div>
             <h4>Resources</h4>
-            <a href="/blog-trading-journal">Trading journal guide</a>
-            <a href="/blog-revenge-trading">Stop revenge trading</a>
-            <a href="/blog-best-journaling-practices">Journaling practices</a>
+            <a href="/HomeRewrite/blog-trading-journal.html">Trading journal guide</a>
+            <a href="/HomeRewrite/blog-revenge-trading.html">Stop revenge trading</a>
+            <a href="/HomeRewrite/blog-best-journaling-practices.html">Journaling practices</a>
           </div>
         </div>
       </div>
@@ -578,7 +556,7 @@
       <div class="exit-intent-content">
         <button class="exit-intent-close" type="button" aria-label="Close popup" data-exit-close="true">&times;</button>
         <h3 id="exit-intent-title">Before you go, log your first trade free. No card needed.</h3>
-        <a class="cta-button" href="/signup">Start Free</a>
+        <a class="cta-button" href="/HomeRewrite/signup.html">Join Beta for $8.</a>
       </div>
     </div>
 
@@ -589,3 +567,4 @@
     <script src="/HomeRewrite/script.js"></script>
   </body>
 </html>
+

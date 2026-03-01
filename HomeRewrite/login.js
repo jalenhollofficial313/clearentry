@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const continuebutton = document.getElementById("continue-button");
     const LEGACY_LOGIN_CHECK_ENDPOINT = "https://legacy-login-check-b52ovbio5q-uc.a.run.app";
     const FIREBASE_AUTH_LOGIN_ENDPOINT = "https://firebase-auth-login-b52ovbio5q-uc.a.run.app";
-    const DASHBOARD_REDIRECT = "../DashboardRewrite/dashboard.html";
+    const DASHBOARD_REDIRECT = "/DashboardRewrite/dashboard.html";
     const notify = (message, type = "error") => {
         if (window.showNotification) {
             window.showNotification(message, type);

@@ -13,6 +13,13 @@
     <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ClearEntry is a prop firm trading journal and trading discipline tool focused on execution improvement. This execution trading journal tracks your execution, emotions, and rule compliance across every trade so you can finally see exactly what's holding you back and fix it." />
+    <meta property="og:title" content="ClearEntry, Trading Journal for Prop Firm Traders." />
+    <meta property="og:description" content="ClearEntry tracks your execution, emotions, and rule compliance across every trade so you can finally see exactly what's holding you back and fix it." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://clear-entry.com/HomeRewrite/dashboard.png" />
+    <meta property="og:url" content="https://clear-entry.com/PreTradeRewrite/pretrade.html" />
+    <link rel="canonical" href="https://clear-entry.com/PreTradeRewrite/pretrade.html" />
         <title>ClearEntry Pre Execution</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -40,7 +47,7 @@
         <div class="app">
             <aside class="sidebar" id="sidebar">
                 <div class="sidebar-brand">
-                    <a class="brand-title" href="/" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                    <a class="brand-title" href="/HomeRewrite/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
                 </div>
                 <nav class="sidebar-nav">
                     <div class="nav-section">
@@ -85,7 +92,7 @@
                         >
                         <button class="nav-item nav-item-parent" type="button">
                             My Reports
-                            <span class="nav-caret">▾</span>
+                            <span class="nav-caret">&#9662;</span>
                         </button>
                         <div class="nav-sub">
                             <a
@@ -133,7 +140,7 @@
                     </div>
                     <div class="breadcrumbs">
                         <span class="crumb">Daily</span>
-                        <span class="crumb-sep">›</span>
+                        <span class="crumb-sep">&rsaquo;</span>
                         <span class="crumb is-current">Pre Execution</span>
                     </div>
                     <div class="topbar-actions">
@@ -934,6 +941,20 @@
             </div>
         </div>
 
+        <div id="onboarding-complete-modal" class="strategy-modal" style="display: none;">
+            <div class="strategy-picker-content onboarding-complete-content">
+                <h2 class="strategy-modal-title">Now let's log your first trade.</h2>
+                <p class="strategy-picker-description">
+                    Your strategy is saved. Continue to Trade Logging to record your first trade.
+                </p>
+                <div class="onboarding-complete-actions">
+                    <button id="onboarding-complete-continue" class="btn btn-primary" type="button">
+                        Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <script>
             const toggleButton = document.getElementById("theme-toggle");
             const setTheme = (mode) => {
@@ -964,6 +985,7 @@
         </script>
     </body>
 </html>
+
 
 
 

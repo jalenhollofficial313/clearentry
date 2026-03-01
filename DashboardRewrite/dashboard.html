@@ -13,6 +13,13 @@
     <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ClearEntry is a prop firm trading journal and trading discipline tool focused on execution improvement. This execution trading journal tracks your execution, emotions, and rule compliance across every trade so you can finally see exactly what's holding you back and fix it." />
+    <meta property="og:title" content="ClearEntry, Trading Journal for Prop Firm Traders." />
+    <meta property="og:description" content="ClearEntry tracks your execution, emotions, and rule compliance across every trade so you can finally see exactly what's holding you back and fix it." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://clear-entry.com/HomeRewrite/dashboard.png" />
+    <meta property="og:url" content="https://clear-entry.com/DashboardRewrite/dashboard.html" />
+    <link rel="canonical" href="https://clear-entry.com/DashboardRewrite/dashboard.html" />
         <title>ClearEntry Dashboard</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,7 +43,6 @@
                 <p class="loader-text inter-text">Loading your workspace...</p>
             </div>
         </div>
-
         <div id="subscription-gate" class="subscription-gate" style="display: none;">
             <div class="subscription-gate-content">
                 <button id="subscription-gate-close" class="subscription-gate-close" type="button" aria-label="Close paywall">
@@ -44,10 +50,10 @@
                 </button>
                 <i class="subscription-gate-icon" data-lucide="sparkles"></i>
                 <h2 class="subscription-gate-title inter-text">
-                    You have logged 5 trades
+                    You're in. Now claim your founding member access.
                 </h2>
                 <p class="subscription-gate-description inter-text">
-                    You have logged 5 trades. Subscribe for $12.99/month to keep logging and unlock full analytics.
+                    ClearEntry is in beta. Join the small group of founding members building the future of trading discipline. Pay $8 once and lock in your lifetime discount before full pricing hits.
                 </p>
                 <div class="subscription-gate-preview">
                     <p class="subscription-gate-preview-title inter-text">Session Time Breakdown Preview</p>
@@ -72,96 +78,45 @@
                 <ul class="subscription-gate-features">
                     <li class="subscription-gate-feature inter-text">
                         <i class="feature-check-icon" data-lucide="circle-check"></i>
-                        Strategy + rule onboarding
+                        Lifetime 20% discount
                     </li>
                     <li class="subscription-gate-feature inter-text">
                         <i class="feature-check-icon" data-lucide="circle-check"></i>
-                        Pre-trade checklist & rule validation
+                        Priority support direct from the founder
                     </li>
                     <li class="subscription-gate-feature inter-text">
                         <i class="feature-check-icon" data-lucide="circle-check"></i>
-                        Rule-breaking warnings and accountability
+                        Founding member status permanently on your account
                     </li>
                     <li class="subscription-gate-feature inter-text">
                         <i class="feature-check-icon" data-lucide="circle-check"></i>
-                        AI screenshot analysis + rule compliance detection
+                        Direct input on the product roadmap
                     </li>
                     <li class="subscription-gate-feature inter-text">
                         <i class="feature-check-icon" data-lucide="circle-check"></i>
-                        Rule-following analytics (discipline correlation)
-                    </li>
-                    <li class="subscription-gate-feature inter-text">
-                        <i class="feature-check-icon" data-lucide="circle-check"></i>
-                        Trade logging linked to pre-trade
-                    </li>
-                    <li class="subscription-gate-feature inter-text">
-                        <i class="feature-check-icon" data-lucide="circle-check"></i>
-                        Cross-device web app support (desktop/mobile/tablet)
+                        First access to browser extension and psychology page the moment they ship
                     </li>
                 </ul>
+                <p class="subscription-gate-price inter-text">$8 one time payment</p>
+                <p class="subscription-gate-subtext inter-text">Limited spots remaining...</p>
                 <div class="subscription-gate-buttons">
                     <button
-                        id="subscription-gate-cta-monthly"
+                        id="subscription-gate-cta-founding"
                         class="subscription-gate-button green-button inter-text"
-                        data-plan="monthly"
                     >
-                        Start Subscription ($12.99/mo)
-                    </button>
-                    <button
-                        id="subscription-gate-cta-annual"
-                        class="subscription-gate-button subscription-gate-button-secondary inter-text"
-                        data-plan="annual"
-                    >
-                        Start Subscription ($109/yr)
+                        Claim Founding Member Access
                     </button>
                 </div>
-                <p class="subscription-gate-price inter-text">
-                    Choose monthly or annual • Cancel anytime
-                </p>
                 <p class="subscription-gate-subtext inter-text">
-                    Close this paywall to view sample analytics data while locked.
+                    ClearEntry is currently in beta. After beta ends billing automatically moves to $9.60/month. You will receive 30 days notice before any billing changes. Cancel anytime, no contracts.
                 </p>
                 <a
-                    href="/"
+                    href="/HomeRewrite/index.html"
                     id="subscription-gate-home"
                     class="subscription-gate-link inter-text"
                 >
                     Go to Home
                 </a>
-            </div>
-        </div>
-
-        <div id="trial-notification" class="dashboard-notification" style="display: none;">
-            <div class="dashboard-notification-content trial-notification-content">
-                <div class="dashboard-notification-icon">
-                    <i data-lucide="alarm-clock"></i>
-                </div>
-                <p class="dashboard-notification-text inter-text">
-                    You have 1 free trade left. Subscribe now to keep logging after trade #5.
-                </p>
-                <button
-                    id="trial-notification-cta"
-                    class="trial-notification-button inter-text"
-                >
-                    Start Subscription
-                </button>
-                <button id="trial-notification-close" class="dashboard-notification-close">
-                    <i data-lucide="x"></i>
-                </button>
-            </div>
-        </div>
-
-        <div id="trial-started-notification" class="dashboard-notification" style="display: none;">
-            <div class="dashboard-notification-content trial-notification-content">
-                <div class="dashboard-notification-icon">
-                    <i data-lucide="sparkles"></i>
-                </div>
-                <p class="dashboard-notification-text inter-text">
-                    Free access is active. Log up to 5 trades before subscription is required.
-                </p>
-                <button id="trial-started-close" class="dashboard-notification-close">
-                    <i data-lucide="x"></i>
-                </button>
             </div>
         </div>
 
@@ -293,7 +248,7 @@
                         You are ready to trade with structure
                     </h2>
                     <p class="quick-tour-slide-copy inter-text">
-                        Your workspace is set up. You can log your first 5 trades free, then subscribe to continue.
+                        Your workspace is set up. Define your strategy and start building execution discipline.
                     </p>
                     <button id="post-signup-cta" class="walkthrough-pricing-button green-button inter-text">
                         Continue to Dashboard
@@ -321,7 +276,7 @@
         <div class="app">
             <aside class="sidebar">
                 <div class="sidebar-brand">
-                    <a class="brand-title" href="/" style="color: inherit; text-decoration: none;">ClearEntry</a>
+                    <a class="brand-title" href="/HomeRewrite/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
                 </div>
                 <nav class="sidebar-nav">
                     <div class="nav-section">
@@ -364,7 +319,7 @@
                         >
                         <button class="nav-item nav-item-parent" type="button">
                             My Reports
-                            <span class="nav-caret">▾</span>
+                            <span class="nav-caret">&#9662;</span>
                         </button>
                         <div class="nav-sub">
                             <a
@@ -412,7 +367,7 @@
                     </div>
                     <div class="breadcrumbs">
                         <span class="crumb">Overview</span>
-                        <span class="crumb-sep">›</span>
+                        <span class="crumb-sep">&rsaquo;</span>
                         <span class="crumb is-current">Dashboard</span>
                     </div>
                     <div class="topbar-actions">
@@ -433,8 +388,8 @@
                 <section class="page">
                     <div class="page-header">
                         <div>
-                            <h1>Welcome, <span id="user-name">—</span>.</h1>
-                            <p class="subtle" id="current-date">—</p>
+                            <h1>Welcome, <span id="user-name">â€”</span>.</h1>
+                            <p class="subtle" id="current-date">â€”</p>
                         </div>
                         <span class="demo-pill" id="demo-pill" style="display: none;">Demo data</span>
                         <div class="header-actions"></div>
@@ -447,7 +402,7 @@
                                     <p class="stat-title">Net Return</p>
                                     <p class="stat-subtitle">Total Profit</p>
                                 </div>
-                                <div class="stat-value" id="net-return">—</div>
+                                <div class="stat-value" id="net-return">â€”</div>
                                 <div class="stat-foot">
                                     <span class="chip chip-positive"
                                         >+19.94%</span
@@ -459,11 +414,11 @@
                                 <div class="stat-header">
                                     <p class="stat-title">Winrate</p>
                                     <p class="stat-subtitle" id="winrate-subtitle">
-                                        —
+                                        â€”
                                     </p>
                                 </div>
                                 <div class="stat-row">
-                                    <div class="stat-value" id="winrate">—</div>
+                                    <div class="stat-value" id="winrate">â€”</div>
                                     <div class="donut" id="winrate-donut"></div>
                                 </div>
                             </div>
@@ -474,7 +429,7 @@
                                 </div>
                                 <div class="stat-row">
                                     <div class="stat-value" id="avg-win-loss">
-                                        —
+                                        â€”
                                     </div>
                                     <div class="pill-stack">
                                         <span class="pill">W</span>
@@ -489,7 +444,7 @@
                                 </div>
                                 <div class="stat-row">
                                     <div class="stat-value" id="profit-factor">
-                                        —
+                                        â€”
                                     </div>
                                     <div class="gauge" id="profit-gauge"></div>
                                 </div>
@@ -500,8 +455,8 @@
                             <div class="card calendar-card">
                                 <div class="card-header">
                                     <div class="card-title" id="calendar-title">
-                                        —
-                                        <span class="calendar-nav">‹ ›</span>
+                                        â€”
+                                        <span class="calendar-nav">&lsaquo; &rsaquo;</span>
                                     </div>
                                     <button class="btn btn-ghost btn-sm">
                                         Add to report
@@ -558,7 +513,7 @@
                                     <div>
                                         <p class="card-title">Recent Trades</p>
                                         <p class="card-subtitle" id="recent-trades-subtitle">
-                                            —
+                                            â€”
                                         </p>
                                     </div>
                                     <a class="link" href="/EntriesRewrite/Entries.html"
@@ -582,7 +537,7 @@
                                     <li>Overtrading appears in the last hour of your session.</li>
                                 </ul>
                                 <button class="btn btn-primary" id="demo-start-trial" data-demo-allow="true">
-                                    Start subscription to unlock your insights
+                                    Claim founding access to unlock your insights
                                 </button>
                             </div>
 
@@ -618,6 +573,10 @@
         <script src="/DashboardRewrite/dashboard.js"></script>
     </body>
 </html>
+
+
+
+
 
 
 

@@ -413,6 +413,17 @@
     overflow-y: auto;
 }
 
+.onboarding-complete-content {
+    width: min(460px, 92vw);
+    text-align: center;
+}
+
+.onboarding-complete-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
 .strategy-picker-description {
     margin: 0;
     font-size: 13px;

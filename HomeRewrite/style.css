@@ -38,6 +38,32 @@
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
+
+  .beta-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #00b872;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .beta-banner p {
+    margin: 0;
+  }
+
+  .beta-banner button {
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+  }
   
   .header-inner {
     display: flex;
@@ -757,6 +783,13 @@
     font-size: 14px;
   }
 
+  .pricing-spots {
+    color: var(--accent-green);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
   .pricing-badge {
     display: inline-block;
     padding: 4px 10px;
@@ -998,6 +1031,11 @@
 
   .mobile-menu {
     align-items: center;
+  }
+
+  .beta-banner {
+    padding: 9px 12px;
+    font-size: 12px;
   }
 
   .mobile-menu a {

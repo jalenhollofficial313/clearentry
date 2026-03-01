@@ -9,6 +9,8 @@ html, body {
     margin: 0;
     min-height: 100%;
     height: auto;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -1350,6 +1352,8 @@ a {
     padding-top: 24px;
     padding-bottom: 36px;
     overflow: visible;
+    width: 100%;
+    max-width: 100%;
 }
 
 .auth-frame {
@@ -1371,6 +1375,7 @@ a {
     border: 1px solid rgba(128, 128, 128, 0.123);
     box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.432);
     transition: 200ms;
+    overflow: visible;
 }
 
 @media (min-height: 840px) {

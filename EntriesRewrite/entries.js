@@ -180,8 +180,8 @@ const renderTrades = (trades) => {
         const closeButton = card.querySelector(".entry-close");
         const deleteButton = card.querySelector(".entry-delete");
 
-        symbol.textContent = trade.symbol || "—";
-        meta.textContent = trade.direction || trade.type || "—";
+        symbol.textContent = trade.symbol || "â€”";
+        meta.textContent = trade.direction || trade.type || "â€”";
 
         const isOpen = trade.open === true || trade.open === "true";
         const rank = trade.Rank && !isOpen ? trade.Rank : null;
@@ -205,14 +205,14 @@ const renderTrades = (trades) => {
         }
 
         const strategyText = resolveTradeStrategies(trade.strategy).join(", ");
-        strategy.textContent = strategyText || "—";
-        emotion.textContent = trade.emotion || "—";
+        strategy.textContent = strategyText || "â€”";
+        emotion.textContent = trade.emotion || "â€”";
         if (trade.date) {
             date.textContent = convertUnixToMonthDayYear(
                 Math.floor(safeNumber(trade.date))
             );
         } else {
-            date.textContent = "—";
+            date.textContent = "â€”";
         }
 
         const plValue = getTradePL(trade);
@@ -233,7 +233,7 @@ const renderTrades = (trades) => {
 
         viewButton.addEventListener("click", () => {
             localStorage.setItem("tradeView", trade.id);
-            window.location.href = "../TradeLoggingRewrite/tradelogging.html";
+            window.location.href = "/TradeLoggingRewrite/tradelogging.html";
         });
 
         closeButton.addEventListener("click", async () => {

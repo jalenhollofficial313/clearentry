@@ -36,6 +36,7 @@ const getTradePL = (trade) => {
 let accountData = null;
 const SUBSCRIPTION_GATE_DISMISSED_KEY = "ceSubscriptionGateDismissed";
 
+
 const notify = (message, type = "error") => {
     if (window.showNotification) {
         window.showNotification(message, type);
@@ -62,16 +63,6 @@ const setMainVisibility = (isVisible) => {
     }
 };
 
-const setLoaderVisible = (isVisible, text = "Loading your workspace...") => {
-    const loader = document.getElementById("dashboard-full-loader");
-    if (!loader) return;
-    const loaderText = loader.querySelector(".loader-text");
-    if (loaderText) {
-        loaderText.textContent = text;
-    }
-    loader.style.display = isVisible ? "flex" : "none";
-};
-
 const getTradesArray = (trades = {}) =>
     Object.entries(trades).map(([id, trade]) => ({
         id,
@@ -79,25 +70,6 @@ const getTradesArray = (trades = {}) =>
     }));
 
 const isDemoMode = () => window.CE_DEMO_MODE === true;
-
-const getTrialTradesRemainingLocal = () => {
-    if (accountData?.trialTradesRemaining !== undefined) {
-        return Number(accountData.trialTradesRemaining);
-    }
-    const tradeCount = Number(accountData?.trialTradeCount || 0);
-    return Math.max(0, 5 - tradeCount);
-};
-
-const isTrialActiveLocal = () => {
-    if (accountData?.trialActive !== undefined) {
-        return accountData.trialActive;
-    }
-    if (!accountData?.trialStartedAt) {
-        return false;
-    }
-    const tradeCount = Number(accountData?.trialTradeCount || 0);
-    return tradeCount < 5;
-};
 
 const setText = (id, value) => {
     const node = document.getElementById(id);
@@ -148,17 +120,17 @@ const renderStats = (trades) => {
     setText("winrate", `${winrate}%`);
     setText(
         "winrate-subtitle",
-        totalTrades ? `${wins}/${totalTrades} trades` : "—"
+        totalTrades ? `${wins}/${totalTrades} trades` : "â€”"
     );
     setText(
         "avg-win-loss",
         wins || losses
             ? `${formatCurrency(avgWin)} / ${formatCurrency(avgLoss)}`
-            : "—"
+            : "â€”"
     );
     setText(
         "profit-factor",
-        profitFactor ? profitFactor.toFixed(2) : "—"
+        profitFactor ? profitFactor.toFixed(2) : "â€”"
     );
 
     const donut = document.getElementById("winrate-donut");
@@ -284,11 +256,11 @@ const renderRecentTrades = (trades) => {
         row.className = "trade-row";
 
         const symbol = document.createElement("span");
-        symbol.textContent = trade.symbol || "—";
+        symbol.textContent = trade.symbol || "â€”";
 
         const type = document.createElement("span");
         type.className = "trade-type";
-        type.textContent = trade.direction || trade.type || "—";
+        type.textContent = trade.direction || trade.type || "â€”";
 
         const pnl = document.createElement("span");
         const plValue = getTradePL(trade);
@@ -310,73 +282,16 @@ const renderDashboard = (account) => {
     const { wins, totalTrades } = renderStats(trades);
     setText(
         "recent-trades-subtitle",
-        totalTrades ? `${wins}/${totalTrades} wins` : "—"
+        totalTrades ? `${wins}/${totalTrades} wins` : "â€”"
     );
     renderCalendar(trades);
     renderRecentTrades(trades);
 };
 
-const maybeShowTrialReminder = () => {
-    if (!isTrialActiveLocal()) {
-        return;
-    }
-
-    const tradesRemaining = getTrialTradesRemainingLocal();
-    if (tradesRemaining !== 1) {
-        return;
-    }
-
-    const notification = document.getElementById("trial-notification");
-    const closeButton = document.getElementById("trial-notification-close");
-    const ctaButton = document.getElementById("trial-notification-cta");
-    const textNode = notification?.querySelector(".dashboard-notification-text");
-    if (!notification) {
-        return;
-    }
-
-    if (textNode) {
-        textNode.textContent =
-            "You have 1 free trade left. Subscribe now to keep logging after trade #5.";
-    }
-    notification.style.display = "block";
-    if (ctaButton) {
-        ctaButton.onclick = () => startCheckout(ctaButton);
-    }
-    if (closeButton) {
-        closeButton.onclick = () => {
-            notification.classList.add("hide");
-            setTimeout(() => {
-                notification.style.display = "none";
-                notification.classList.remove("hide");
-            }, 300);
-        };
-    }
-};
-
-const showTrialStartedNotification = () => {
-    const notification = document.getElementById("trial-started-notification");
-    const closeButton = document.getElementById("trial-started-close");
-    if (!notification) {
-        return;
-    }
-
-    notification.style.display = "block";
-    lucide.createIcons();
-    if (closeButton) {
-        closeButton.onclick = () => {
-            notification.classList.add("hide");
-            setTimeout(() => {
-                notification.style.display = "none";
-                notification.classList.remove("hide");
-            }, 300);
-        };
-    }
-};
-
 const startCheckout = async (button) => {
     const token = await getAuthTokenSafe();
     if (!token) {
-        window.location.href = "/login";
+        window.location.href = "/HomeRewrite/login.html";
         return;
     }
 
@@ -386,8 +301,6 @@ const startCheckout = async (button) => {
             button.disabled = true;
             button.textContent = "Processing...";
         }
-        const plan = button?.dataset?.plan || "monthly";
-
         const response = await fetch(
             "https://create-checkout-session-b52ovbio5q-uc.a.run.app",
             {
@@ -395,7 +308,10 @@ const startCheckout = async (button) => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ token, plan }),
+                body: JSON.stringify({
+                    token,
+                    offer: "founding_member_beta"
+                }),
             }
         );
 
@@ -404,7 +320,6 @@ const startCheckout = async (button) => {
             typeof checkoutUrl === "string" &&
             checkoutUrl.startsWith("https://");
         if (response.ok && isValidUrl) {
-            sessionStorage.setItem("pendingProCheckout", "true");
             window.location.href = checkoutUrl;
             return;
         }
@@ -429,10 +344,8 @@ const checkAndShowSubscriptionGate = () => {
         return true;
     }
 
-    const membership = (accountData?.membership || "").toLowerCase();
-    const hasSubscription =
-        membership === "pro" || Boolean(accountData?.stripe_subscription_id);
-    const requiresSubscription = isDemoMode() || !hasSubscription && !isTrialActiveLocal();
+    const hasSubscription = hasPaidAccess(accountData);
+    const requiresSubscription = isDemoMode() || !hasSubscription;
 
     if (!requiresSubscription) {
         sessionStorage.removeItem(SUBSCRIPTION_GATE_DISMISSED_KEY);
@@ -451,15 +364,11 @@ const checkAndShowSubscriptionGate = () => {
     main.style.display = "none";
     lucide.createIcons();
 
-    const monthlyButton = document.getElementById("subscription-gate-cta-monthly");
-    const annualButton = document.getElementById("subscription-gate-cta-annual");
+    const foundingButton = document.getElementById("subscription-gate-cta-founding");
     const closeButton = document.getElementById("subscription-gate-close");
 
-    if (monthlyButton) {
-        monthlyButton.onclick = () => startCheckout(monthlyButton);
-    }
-    if (annualButton) {
-        annualButton.onclick = () => startCheckout(annualButton);
+    if (foundingButton) {
+        foundingButton.onclick = () => startCheckout(foundingButton);
     }
     if (closeButton) {
         closeButton.onclick = () => {
@@ -469,20 +378,6 @@ const checkAndShowSubscriptionGate = () => {
         };
     }
 
-    return false;
-};
-
-const waitForProMembershipSync = async () => {
-    const maxAttempts = 45;
-    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
-        const membership = accountData?.membership?.toLowerCase();
-        if (membership === "pro") {
-            sessionStorage.removeItem("pendingProCheckout");
-            return true;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        await refreshAccountData();
-    }
     return false;
 };
 
@@ -650,20 +545,11 @@ const showPostSignupWalkthrough = () => {
 
 const initDashboard = async () => {
     setMainVisibility(false);
+    sessionStorage.removeItem("pendingProCheckout");
     const account = await refreshAccountData();
     if (!account) {
         console.error("No account data available for dashboard.");
         return;
-    }
-
-    if (sessionStorage.getItem("pendingProCheckout") === "true") {
-        setLoaderVisible(true, "Finalizing your subscription...");
-        const synced = await waitForProMembershipSync();
-        setLoaderVisible(false);
-        if (!synced) {
-            sessionStorage.removeItem("pendingProCheckout");
-            return;
-        }
     }
 
     renderDashboard(account);
@@ -686,7 +572,6 @@ const initDashboard = async () => {
         if (demoPill) demoPill.style.display = "none";
         if (demoCard) demoCard.style.display = "none";
     }
-    maybeShowTrialReminder();
     const walkthroughShown = maybeShowPostSignupWalkthrough();
     if (walkthroughShown) {
         return;
