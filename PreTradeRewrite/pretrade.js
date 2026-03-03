@@ -87,12 +87,17 @@ function ensurePreTradeDemoUI(account) {
         if (node.id === "theme-toggle" || node.id === "logout-button") return true;
         if (
             node.id === "subscription-gate-close" ||
+            node.id === "subscription-gate-cta-founding" ||
+            node.id === "subscription-gate-home" ||
             node.id === "trade-limit-paywall-close"
         ) {
             return true;
         }
+        if (typeof node.closest === "function" && node.closest("#subscription-gate")) return true;
         if (node.classList?.contains("subscription-gate-close")) return true;
         if (node.classList?.contains("subscription-lock-close")) return true;
+        if (node.classList?.contains("subscription-gate-button")) return true;
+        if (node.classList?.contains("subscription-gate-link")) return true;
         if (node.classList?.contains("mobile-nav-toggle")) return true;
         if (node.classList?.contains("nav-item-parent")) return true;
         return false;
