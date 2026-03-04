@@ -60,9 +60,32 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!fb?.auth) {
             return;
         }
-        fb.auth().onAuthStateChanged((user) => {
-            if (user) {
-                window.location.href = DASHBOARD_REDIRECT;
+        fb.auth().onAuthStateChanged(async (user) => {
+            if (!user) return;
+            // Only redirect if the user actually has backend account data.
+            // A bare Firebase auth session with no DB record means signup was
+            // incomplete — keep them on the login page instead of dumping them
+            // on the dashboard with no data.
+            try {
+                const db = fb.database();
+                const uidSnap = await db.ref(`accountsByUid/${user.uid}`).once("value");
+                if (uidSnap.exists()) {
+                    window.location.href = DASHBOARD_REDIRECT;
+                    return;
+                }
+                if (user.email) {
+                    const emailKey = user.email.replace(/\./g, ",");
+                    const emailSnap = await db.ref(`accounts/${emailKey}`).once("value");
+                    if (emailSnap.exists()) {
+                        window.location.href = DASHBOARD_REDIRECT;
+                        return;
+                    }
+                }
+                // Firebase session exists but no DB record — sign them out so
+                // they don't get silently bounced to a blank dashboard.
+                await fb.auth().signOut();
+            } catch (err) {
+                console.warn("Auth redirect check failed:", err);
             }
         });
     };

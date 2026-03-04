@@ -548,7 +548,7 @@ const initDashboard = async () => {
     sessionStorage.removeItem("pendingProCheckout");
     const account = await refreshAccountData();
     if (!account) {
-        console.error("No account data available for dashboard.");
+        window.location.href = "/HomeRewrite/login.html";
         return;
     }
 
