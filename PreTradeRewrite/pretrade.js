@@ -224,6 +224,15 @@ async function pretradeINIT() {
         preTradeState.context = context;
         const account = window.clientData?.result || {};
         ensurePreTradeDemoUI(account);
+        if (!hasPaidAccess(account)) {
+            // Register paywall trigger for the shared 30-second demo timer.
+            window.CE_SHOW_PAYWALL = () => {
+                if (window.startTrialCheckout) {
+                    const btn = document.querySelector(".demo-fab") || document.body;
+                    window.startTrialCheckout(btn);
+                }
+            };
+        }
         const isFirstTimeUser = Boolean(account?.isFirstTimeUser);
         onboardingNeedsStrategy =
             hasPaidAccess(account) &&

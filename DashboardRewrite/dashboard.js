@@ -408,6 +408,12 @@ const maybeShowPostSignupWalkthrough = () => {
         return false;
     }
 
+    // Walkthrough is reserved for users who have paid — demo users go straight
+    // to the dashboard with demo data and hit the 30-second paywall instead.
+    if (!hasPaidAccess(accountData)) {
+        return false;
+    }
+
     const completedServer =
         accountData.postSignupWalkthroughCompleted === true;
 
@@ -551,6 +557,12 @@ const initDashboard = async () => {
         window.location.href = "/HomeRewrite/login.html";
         return;
     }
+
+    // Register the paywall trigger so the shared 30-second demo timer can fire it.
+    window.CE_SHOW_PAYWALL = () => {
+        if (sessionStorage.getItem(SUBSCRIPTION_GATE_DISMISSED_KEY) === "true") return;
+        checkAndShowSubscriptionGate();
+    };
 
     renderDashboard(account);
     const demoPill = document.getElementById("demo-pill");

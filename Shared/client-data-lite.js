@@ -323,6 +323,15 @@ const applyDemoGate = (account) => {
          * created by page scripts after initial load.
          */
         lockControls();
+
+        // After 30 seconds on any demo page, auto-show the paywall.
+        // Each page registers window.CE_SHOW_PAYWALL; fall back to checkout.
+        setTimeout(() => {
+            if (!window.CE_DEMO_MODE) return;
+            if (typeof window.CE_SHOW_PAYWALL === "function") {
+                window.CE_SHOW_PAYWALL();
+            }
+        }, 30000);
     };
 
     if (document.readyState === "loading") {
@@ -503,3 +512,4 @@ window.getAuthToken = getAuthToken;
 window.getAuthTokenSync = () => window.CE_AUTH_TOKEN || null;
 window.getAccountData = getAccountData;
 window.startTrialCheckout = startTrialCheckout;
+window.hasPaidAccess = hasPaidAccess;

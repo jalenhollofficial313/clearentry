@@ -2531,6 +2531,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const currentAccount = clientData?.result || {};
     if (isTradeLoggingDemoAccount(currentAccount)) {
         applyTradeLoggingDemoMode(currentAccount);
+        // Register paywall trigger for the shared 30-second demo timer.
+        window.CE_SHOW_PAYWALL = () => showTradeLimitPaywall();
     }
     
     reloadPage()
