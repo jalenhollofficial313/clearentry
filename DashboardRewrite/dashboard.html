@@ -38,6 +38,26 @@
         <link rel="stylesheet" href="/Shared/notifications.css" />
     </head>
     <body>
+        <div id="demo-welcome-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:10000; align-items:center; justify-content:center;">
+            <div style="background:#141414; border:1px solid #2a2a2a; border-radius:16px; padding:40px 36px; max-width:420px; width:90%; text-align:center;">
+                <div style="width:44px; height:44px; background:rgba(255,255,255,0.06); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+                    <i data-lucide="eye" style="width:20px; height:20px; color:#aaa;"></i>
+                </div>
+                <h2 style="font-size:1.2rem; font-weight:700; color:#fff; margin:0 0 12px; font-family:'Inter',sans-serif;">You're viewing demo data</h2>
+                <p style="font-size:0.9rem; color:#999; line-height:1.6; margin:0 0 28px; font-family:'Inter',sans-serif;">
+                    Everything you see here is sample data to give you a feel for ClearEntry.
+                    No real trades have been logged yet. To unlock your own insights and start logging real trades, you'll need to claim founding member access.
+                </p>
+                <button
+                    id="demo-welcome-continue"
+                    data-demo-allow="true"
+                    style="width:100%; padding:13px; background:#00c37a; border:none; border-radius:10px; color:#000; font-weight:700; font-size:0.95rem; cursor:pointer; font-family:'Inter',sans-serif;"
+                >
+                    Got it, show me the demo
+                </button>
+            </div>
+        </div>
+
         <div id="dashboard-full-loader" class="dashboard-full-loader" style="display: none;">
             <div class="loader-content">
                 <i class="loader-spinner" data-lucide="loader"></i>

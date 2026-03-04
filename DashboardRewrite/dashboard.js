@@ -564,6 +564,23 @@ const initDashboard = async () => {
         checkAndShowSubscriptionGate();
     };
 
+    // Show a one-time demo welcome disclaimer for non-paying users.
+    if (isDemoMode()) {
+        const DEMO_WELCOME_KEY = "ce-demo-welcome-seen";
+        const overlay = document.getElementById("demo-welcome-overlay");
+        const continueBtn = document.getElementById("demo-welcome-continue");
+        if (overlay && !sessionStorage.getItem(DEMO_WELCOME_KEY)) {
+            overlay.style.display = "flex";
+            lucide.createIcons();
+            if (continueBtn) {
+                continueBtn.addEventListener("click", () => {
+                    sessionStorage.setItem(DEMO_WELCOME_KEY, "true");
+                    overlay.style.display = "none";
+                });
+            }
+        }
+    }
+
     renderDashboard(account);
     const demoPill = document.getElementById("demo-pill");
     const demoCard = document.getElementById("demo-insights-card");
