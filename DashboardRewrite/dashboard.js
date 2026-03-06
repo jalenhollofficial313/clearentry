@@ -606,7 +606,10 @@ const initDashboard = async () => {
         return;
     }
 
-    if (checkAndShowSubscriptionGate()) {
+    if (isDemoMode()) {
+        // Demo users see the dashboard immediately — paywall fires after 20s via CE_SHOW_PAYWALL.
+        setMainVisibility(true);
+    } else if (checkAndShowSubscriptionGate()) {
         setMainVisibility(true);
     }
 };
