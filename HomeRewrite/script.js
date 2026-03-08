@@ -2,9 +2,14 @@ const toggle = document.getElementById("mobile-toggle");
 const menu = document.getElementById("mobile-menu");
 
 if (toggle && menu) {
-  toggle.addEventListener("click", () => {
-    menu.classList.toggle("active");
-  });
+
+    document.getElementById("site-header").addEventListener("click", function(event) {
+        if (event.target.closest('#mobile-toggle')) {
+            menu.classList.toggle("active");
+        }
+});
+
+
 }
 
 const betaBanner = document.getElementById("beta-banner");

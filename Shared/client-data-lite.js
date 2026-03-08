@@ -201,12 +201,12 @@ const applyDemoGate = (account) => {
         banner.innerHTML = `
             <div>
                 <strong>Demo mode</strong>
-                <span>Sample data only. Claim founding member access to unlock your own insights.</span>
+                <span>Sample data only. Claim founding member access to unlock your own insights for a $8.00 one time payment</span>
             </div>
         `;
         const button = document.createElement("button");
         button.type = "button";
-        button.textContent = "Claim founding access";
+        button.textContent = "Claim founding access, $8.00";
         button.dataset.demoAllow = "true";
         button.addEventListener("click", () => startTrialCheckout(button));
         banner.appendChild(button);
@@ -215,7 +215,7 @@ const applyDemoGate = (account) => {
         const fab = document.createElement("button");
         fab.type = "button";
         fab.className = "demo-fab";
-        fab.textContent = "Claim founding access to unlock your own insights";
+        fab.textContent = "Claim founding access to unlock your own insights, one time $8.00 payment.";
         fab.dataset.demoAllow = "true";
         fab.addEventListener("click", () => startTrialCheckout(fab));
         document.body.appendChild(fab);
@@ -331,7 +331,7 @@ const applyDemoGate = (account) => {
             if (typeof window.CE_SHOW_PAYWALL === "function") {
                 window.CE_SHOW_PAYWALL();
             }
-        }, 20000);
+        }, 10000);
     };
 
     if (document.readyState === "loading") {
