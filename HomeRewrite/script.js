@@ -7,9 +7,7 @@ if (toggle && menu) {
         if (event.target.closest('#mobile-toggle')) {
             menu.classList.toggle("active");
         }
-});
-
-
+    });
 }
 
 const betaBanner = document.getElementById("beta-banner");
