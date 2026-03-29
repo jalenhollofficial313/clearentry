@@ -15,7 +15,7 @@
         return params.get("view") || hashView || "";
     };
 
-    document.addEventListener("DOMContentLoaded", () => {
+    const initNav = () => {
         document.querySelectorAll(".nav-item-parent").forEach((button) => {
             const sub = button.nextElementSibling;
             if (!sub || !sub.classList.contains("nav-sub")) return;
@@ -25,6 +25,12 @@
         });
 
         setActiveSubNav(resolveView());
-    });
+    };
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initNav);
+    } else {
+        initNav();
+    }
 })();
 

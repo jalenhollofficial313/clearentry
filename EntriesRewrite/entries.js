@@ -180,8 +180,8 @@ const renderTrades = (trades) => {
         const closeButton = card.querySelector(".entry-close");
         const deleteButton = card.querySelector(".entry-delete");
 
-        symbol.textContent = trade.symbol || "â€”";
-        meta.textContent = trade.direction || trade.type || "â€”";
+        symbol.textContent = trade.symbol || "-";
+        meta.textContent = trade.direction || trade.type || "-";
 
         const isOpen = trade.open === true || trade.open === "true";
         const rank = trade.Rank && !isOpen ? trade.Rank : null;
@@ -205,14 +205,15 @@ const renderTrades = (trades) => {
         }
 
         const strategyText = resolveTradeStrategies(trade.strategy).join(", ");
-        strategy.textContent = strategyText || "â€”";
-        emotion.textContent = trade.emotion || "â€”";
+        strategy.textContent = strategyText || "-";
+        const emotionVal = trade.postTradeReflection?.emotionAfterTrade || trade.emotion || "“”";
+        emotion.textContent = emotionVal || "—";
         if (trade.date) {
             date.textContent = convertUnixToMonthDayYear(
                 Math.floor(safeNumber(trade.date))
             );
         } else {
-            date.textContent = "â€”";
+            date.textContent = "—";
         }
 
         const plValue = getTradePL(trade);

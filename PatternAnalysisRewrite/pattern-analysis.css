@@ -1,0 +1,37 @@
+.pa-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 80px 20px;
+    color: var(--text-muted, #888);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.pa-overall-card {
+    padding: 20px 24px;
+}
+
+.pa-overall-text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #374151;
+}
+
+body.dark .pa-overall-text {
+    color: #cbd5e1;
+}
+
+.pa-insight {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #64748b;
+}
+
+body.dark .pa-insight {
+    color: #64748b;
+}

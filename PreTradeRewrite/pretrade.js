@@ -219,10 +219,9 @@ async function pretradeINIT() {
             return;
         }
 
-        // Fetch pre-trade context
-        const context = await getPreTradeContext(token);
-        preTradeState.context = context;
         const account = window.clientData?.result || {};
+        const context = { strategies: account.strategies || {} };
+        preTradeState.context = context;
         ensurePreTradeDemoUI(account);
         if (!hasPaidAccess(account)) {
             // Register paywall trigger for the shared 30-second demo timer.
@@ -236,8 +235,8 @@ async function pretradeINIT() {
         const isFirstTimeUser = Boolean(account?.isFirstTimeUser);
         onboardingNeedsStrategy =
             hasPaidAccess(account) &&
-            (isFirstTimeUser || Object.keys(context?.strategies || {}).length === 0);
-        
+            (isFirstTimeUser || Object.keys(context.strategies).length === 0);
+
         // Populate strategies
         populateStrategies(context.strategies);
         
@@ -264,21 +263,6 @@ async function pretradeINIT() {
     }
     
     lucide.createIcons();
-}
-
-// Fetch pre-trade context from backend
-async function getPreTradeContext(token) {
-    const response = await fetch("https://us-central1-clearentry-5353e.cloudfunctions.net/getPreTradeContext", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token })
-    });
-    
-    if (!response.ok) {
-        throw new Error("Failed to fetch pre-trade context");
-    }
-    
-    return await response.json();
 }
 
 // Populate strategy dropdown

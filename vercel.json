@@ -45,6 +45,8 @@
     { "source": "/support", "destination": "/SupportRewrite/support.html" },
     { "source": "/support.html", "destination": "/SupportRewrite/support.html" },
     { "source": "/updatelog", "destination": "/UpdateLogRewrite/updatelog.html" },
-    { "source": "/updatelog.html", "destination": "/UpdateLogRewrite/updatelog.html" }
+    { "source": "/updatelog.html", "destination": "/UpdateLogRewrite/updatelog.html" },
+    { "source": "/pattern-analysis", "destination": "/PatternAnalysisRewrite/pattern-analysis.html" },
+    { "source": "/pattern-analysis.html", "destination": "/PatternAnalysisRewrite/pattern-analysis.html" }
   ]
 }

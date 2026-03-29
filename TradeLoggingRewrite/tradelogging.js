@@ -1,5 +1,5 @@
 const fileInput = document.querySelector("#tradeImageInput")
-const TRADE_ID_PATTERN = /^[a-f0-9]{16}$/i;
+const TRADE_ID_PATTERN = /^[a-f0-9]{32}$/i;
 
 const notify = (message, type = "error") => {
     if (window.showNotification) {
@@ -11,10 +11,6 @@ const notify = (message, type = "error") => {
 
 let debounce = false
 let tradeLogged = false
-let linkedPreTradeSessionId = null
-let linkedPreTradeSession = null
-let recentPreTrades = []
-let ruleComplianceData = null
 let strategyLookupById = {}
 let selectedStrategyId = null
 let editingStrategyId = null
@@ -370,10 +366,6 @@ async function log_Trade(token) {
             Vega: Number(document.querySelector("#entry-Vega").value),
             Rho: Number(document.querySelector("#entry-Rho").value),
             IV: Number(document.querySelector("#entry-IV").value),
-            preTradeSessionId: linkedPreTradeSessionId || "",
-            ruleComplianceStatus: ruleComplianceData?.ruleCompliance?.status || "unknown",
-            ruleComplianceNotes: getCheckedComplianceReasons().join("; ") || "",
-            ruleComplianceSignals: ruleComplianceData?.ruleCompliance?.signals || null
         })
     });
 
@@ -388,27 +380,12 @@ async function analyzeIMG(token, img) {
         body: JSON.stringify({
             token: token,
             img: img,
-            preTradeSessionId: linkedPreTradeSessionId || null
         })
     });
 
     data = await response.json()
     console.log(data)
     
-    // Handle new response format with rule compliance
-    if (data.extracted && data.ruleCompliance) {
-        ruleComplianceData = data
-        displayRuleCompliance(data.ruleCompliance)
-        
-        // Extract data from nested structure
-        const extracted = data.extracted
-        return {
-            ...extracted,
-            saved_img: data.saved_img
-        }
-    }
-    
-    // Fallback for old format
     return data
 }
 
@@ -796,22 +773,7 @@ function populateDirectionDropdown() {
 // Fetch and populate strategies dropdown
 async function populateStrategiesDropdown() {
     try {
-        const token = getToken();
-        if (!token) return;
-        
-        const response = await fetch("https://us-central1-clearentry-5353e.cloudfunctions.net/getPreTradeContext", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token })
-        });
-        
-        if (!response.ok) {
-            console.error("Failed to fetch strategies");
-            return;
-        }
-        
-        const context = await response.json();
-        const strategies = context.strategies || {};
+        const strategies = clientData?.result?.strategies || {};
         strategyLookupById = {};
         const strategyDropdown = document.getElementById("strategy-dropdown");
         
@@ -1593,6 +1555,7 @@ document.querySelector("#continue-button").addEventListener("click", async funct
         const tradeResponse = await log_Trade(getToken())
         client_server_debounce = false        
 
+        console.log(tradeResponse)
         const tradeId = (tradeResponse || "").trim();
         if (tradeId === "Subscription Required" || tradeId === "Trial Required" || tradeId === "Founding Member Required") {
             await sleep(300);
@@ -1617,7 +1580,6 @@ document.querySelector("#continue-button").addEventListener("click", async funct
             showRankingModal(tradeId)
         } else {
             await sleep(500)
-            window.location.href = window.location.href.split("?")[0];
         }
     } else {
         loadingFrame(1000, "Updating Entry...", "Entry Updated.")
@@ -1725,50 +1687,14 @@ function resetReflectionModal() {
     document.getElementById("what-went-well-poorly").value = "";
 }
 
-// Save ranking button handler
-document.getElementById("trade-ranking-save").addEventListener("click", async function() {
+// Save ranking button handler — rank is stored locally and submitted with the reflection
+document.getElementById("trade-ranking-save").addEventListener("click", function() {
     if (!selectedRank || !currentTradeIdForRanking) {
+        notify("Please select a rank before continuing.", "warning");
         return;
     }
-    
-    // Disable button and show loading
-    this.disabled = true;
-    client_server_debounce = true;
-    loadingFrame(1000, "Saving Rank...", "Rank Saved.");
-    
-    try {
-        const response = await fetch("https://trade-ranking-b52ovbio5q-uc.a.run.app", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                token: getToken(),
-                tradeId: currentTradeIdForRanking,
-                rank: selectedRank
-            })
-        });
-
-        console.log(currentTradeIdForRanking)
-        
-        const result = await response.text();
-        
-        if (response.ok && result !== "Error") {
-            client_server_debounce = false;
-            await sleep(500);
-            hideRankingModal();
-            // Show reflection modal after ranking is saved
-            await showReflectionModal(currentTradeIdForRanking);
-        } else {
-            client_server_debounce = false;
-            this.disabled = false;
-            console.error("Failed to save rank:", result);
-            notify("Failed to save rank. Please try again.", "error");
-        }
-    } catch (error) {
-        client_server_debounce = false;
-        this.disabled = false;
-        console.error("Error saving rank:", error);
-        notify("An error occurred. Please try again.", "error");
-    }
+    hideRankingModal();
+    showReflectionModal(currentTradeIdForRanking);
 });
 
 // Reflection Modal Event Handlers
@@ -1858,6 +1784,7 @@ document.getElementById("reflection-save").addEventListener("click", async funct
             body: JSON.stringify({
                 token: getToken(),
                 tradeId: currentTradeIdForReflection,
+                rank: selectedRank || null,
                 reflection: {
                     strategyRulesFollowed: reflectionData.strategyRulesFollowed,
                     primaryEntryReason: reflectionData.primaryEntryReason,
@@ -2113,13 +2040,13 @@ function hideAIInsights() {
 }
 
 async function analyzeTradeReflection(tradeId) {
+    _aiAnalysisAborted = false;
     const stepText = document.getElementById("ai-loading-step");
     const progressBar = document.getElementById("ai-loading-progress-bar");
-    console.log(tradeId)
     try {
         stepText.textContent = "Connecting to AI...";
         progressBar.style.width = "90%";
-        
+
         const response = await fetch("https://analyze-post-trade-reflection-b52ovbio5q-uc.a.run.app", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -2128,24 +2055,37 @@ async function analyzeTradeReflection(tradeId) {
                 tradeId: tradeId
             })
         });
-        
+
+        if (_aiAnalysisAborted) return;
         const result = await response.json();
-        
+
         if (response.ok) {
+            if (_aiAnalysisAborted) return;
             progressBar.style.width = "100%";
             stepText.textContent = "Complete!";
             await sleep(500);
-            
+            if (_aiAnalysisAborted) return;
             hideAIAnalysisLoading();
             showAIInsights(result);
         } else {
             throw new Error(result.error || "Analysis failed");
         }
     } catch (error) {
+        if (_aiAnalysisAborted) return;
         console.error("Error in AI analysis:", error);
         throw error;
     }
 }
+
+// AI loading skip/close button
+let _aiAnalysisAborted = false;
+document.getElementById("ai-loading-close").addEventListener("click", async function() {
+    _aiAnalysisAborted = true;
+    hideAIAnalysisLoading();
+    await updateClientData();
+    await sleep(100);
+    window.location.href = window.location.href.split("?")[0];
+});
 
 // AI Insights close button handler
 document.getElementById("ai-insights-close").addEventListener("click", async function() {
@@ -2155,370 +2095,7 @@ document.getElementById("ai-insights-close").addEventListener("click", async fun
     window.location.href = window.location.href.split("?")[0];
 });
 
-// Fetch recent pre-trades from clientData
-function fetchRecentPreTrades() {
-    try {
-        if (!clientData || !clientData.result) return;
-        
-        const preTradeSessions = clientData.result.preTradeSessions || {};
-        const strategies = clientData.result.strategies || {};
-        const trades = clientData.result.trades || {};
-        
-        // Get list of preTradeSessionIds already linked to trades
-        const linkedSessionIds = new Set();
-        for (let tradeId in trades) {
-            const preTradeId = trades[tradeId]?.preTradeSessionId;
-            if (preTradeId) {
-                linkedSessionIds.add(preTradeId);
-            }
-        }
-        
-        // Get recent sessions (last 12 hours, not linked)
-        const currentTime = Date.now() / 1000; // Convert to seconds
-        const twelveHoursAgo = currentTime - (12 * 3600);
-        
-        recentPreTrades = [];
-        for (let sessionId in preTradeSessions) {
-            const session = preTradeSessions[sessionId];
-            const createdAt = session.createdAt || 0;
-            
-            // Only include sessions from last 12 hours and not already linked
-            if (createdAt >= twelveHoursAgo && !linkedSessionIds.has(sessionId)) {
-                // Get strategy name
-                const strategyId = session.strategyId || '';
-                let strategyName = 'Unknown Strategy';
-                if (strategyId && strategies[strategyId]) {
-                    strategyName = strategies[strategyId].name || 'Unnamed Strategy';
-                }
-                
-                // Format time
-                const timeStr = new Date(createdAt * 1000).toLocaleTimeString('en-US', { 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    hour12: true 
-                });
-                
-                recentPreTrades.push({
-                    id: sessionId,
-                    createdAt: createdAt,
-                    time: timeStr,
-                    symbol: session.symbol || '',
-                    direction: session.direction || '',
-                    type: session.type || '',
-                    strategyId: strategyId,
-                    strategyName: strategyName,
-                    proceededWithViolations: session.proceededWithViolations || false,
-                    emotionalState: session.emotionalState || ''
-                });
-            }
-        }
-        
-        // Sort by createdAt (newest first)
-        recentPreTrades.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-        
-        populatePreTradeDropdown();
-    } catch (error) {
-        console.error("Error fetching recent pre-trades:", error);
-    }
-}
 
-// Populate pre-trade dropdown
-function populatePreTradeDropdown() {
-    const dropdown = document.getElementById("pretrade-dropdown");
-    dropdown.innerHTML = "";
-    
-    if (recentPreTrades.length === 0) {
-        const item = document.createElement("button");
-        item.className = "dropdown-item inter-text";
-        item.innerHTML = "No recent pre-trades available";
-        item.disabled = true;
-        dropdown.appendChild(item);
-        return;
-    }
-    
-    recentPreTrades.forEach(session => {
-        const item = document.createElement("button");
-        item.className = "dropdown-item inter-text";
-        const warningBadge = session.proceededWithViolations 
-            ? '<span style="margin-left: 8px; padding: 2px 6px; background-color: rgba(255, 167, 38, 0.2); color: #ffa726; border-radius: 4px; font-size: 10px; font-weight: 600;">Warnings</span>' 
-            : '';
-        item.innerHTML = `${session.time} - ${session.symbol} ${session.type || ""} ${session.direction || ""} (${session.strategyName})${warningBadge}`;
-        item.addEventListener("click", () => {
-            linkPreTradeSession(session.id);
-            document.getElementById("pretrade-dropdown").style.display = "none";
-        });
-        dropdown.appendChild(item);
-    });
-}
-
-// Link a pre-trade session
-function linkPreTradeSession(sessionId) {
-    try {
-        let session = recentPreTrades.find(s => s.id === sessionId);
-        console.log(session)
-        if (!session && clientData && clientData.result) {
-            // Try to get from clientData if not in recent list
-            const preTradeSessions = clientData.result.preTradeSessions || {};
-            const strategies = clientData.result.strategies || {};
-            const rawSession = preTradeSessions[sessionId];
-            
-            if (rawSession) {
-                // Format session like recentPreTrades items
-                const strategyId = rawSession.strategyId || '';
-                let strategyName = 'Unknown Strategy';
-                if (strategyId && strategies[strategyId]) {
-                    strategyName = strategies[strategyId].name || 'Unnamed Strategy';
-                }
-                
-                const timeStr = new Date((rawSession.createdAt || 0) * 1000).toLocaleTimeString('en-US', { 
-                    hour: '2-digit', 
-                    minute: '2-digit',
-                    hour12: true 
-                });
-                
-                session = {
-                    id: sessionId,
-                    createdAt: rawSession.createdAt || 0,
-                    time: timeStr,
-                    symbol: rawSession.symbol || '',
-                    direction: rawSession.direction || '',
-                    type: rawSession.type || '',
-                    strategyId: strategyId,
-                    strategyName: strategyName,
-                    proceededWithViolations: rawSession.proceededWithViolations || false,
-                    emotionalState: rawSession.emotionalState || ''
-                };
-            }
-        }
-        
-        if (session) {
-            linkedPreTradeSession = session;
-            linkedPreTradeSessionId = sessionId;
-            autoFillFromPreTrade();
-            updatePreTradeUI();
-            updateContinueButtonState(); // Enable continue button
-        } else {
-            console.error("Pre-trade session not found:", sessionId);
-        }
-    } catch (error) {
-        console.error("Error linking pre-trade session:", error);
-    }
-}
-
-// Auto-fill fields from PreTradeSession
-function autoFillFromPreTrade() {
-    if (!linkedPreTradeSession) return;
-    
-    const symbolInput = document.querySelector("#entry-SYMBOL");
-    const typeText = document.getElementById("type-text");
-    const directionText = document.getElementById("direction-text");
-    const strategyText = document.getElementById("strategy-text");
-    const optionsDataSection = document.getElementById("options-data");
-    
-    // Auto-fill symbol (read-only when linked)
-    if (linkedPreTradeSession.symbol) {
-        symbolInput.value = linkedPreTradeSession.symbol;
-        symbolInput.readOnly = true;
-        symbolInput.style.backgroundColor = "#16181d";
-        symbolInput.style.cursor = "not-allowed";
-    }
-    
-    // Auto-fill type
-    if (linkedPreTradeSession.type) {
-        tradeEntry['type'] = linkedPreTradeSession.type;
-        if (typeText) {
-            typeText.textContent = linkedPreTradeSession.type;
-        }
-        
-        // Show options data if type is Options
-        if (optionsDataSection) {
-            if (linkedPreTradeSession.type === "Options") {
-                optionsDataSection.style.display = "block";
-            } else {
-                optionsDataSection.style.display = "none";
-            }
-        }
-    }
-    
-    // Auto-fill direction
-    if (linkedPreTradeSession.direction) {
-        tradeEntry['direction'] = linkedPreTradeSession.direction;
-        if (directionText) {
-            directionText.textContent = linkedPreTradeSession.direction;
-        }
-    }
-    
-    // Auto-fill strategy
-    if (linkedPreTradeSession.strategyId) {
-        tradeEntry['strategy'] = [linkedPreTradeSession.strategyName || "Unnamed Strategy"];
-        selectedStrategyId = linkedPreTradeSession.strategyId;
-        if (strategyText && linkedPreTradeSession.strategyName) {
-            strategyText.textContent = linkedPreTradeSession.strategyName;
-        }
-    }
-    
-    // Note: Mental state is NOT auto-filled - user selects post-trade mental state
-}
-
-// Reset fields when unlinked
-function resetFieldsAfterUnlink() {
-    const symbolInput = document.querySelector("#entry-SYMBOL");
-    const typeText = document.getElementById("type-text");
-    const directionText = document.getElementById("direction-text");
-    const strategyText = document.getElementById("strategy-text");
-    const optionsDataSection = document.getElementById("options-data");
-    
-    if (symbolInput) {
-        symbolInput.readOnly = false;
-        symbolInput.style.backgroundColor = "";
-        symbolInput.style.cursor = "";
-        symbolInput.value = "";
-    }
-    
-    if (typeText) typeText.textContent = "Select Type";
-    if (directionText) directionText.textContent = "Select Direction";
-    if (strategyText) strategyText.textContent = "Select Strategy";
-    
-    if (optionsDataSection) optionsDataSection.style.display = "none";
-    
-    // Reset tradeEntry
-    tradeEntry['type'] = "";
-    tradeEntry['direction'] = "";
-    tradeEntry['strategy'] = [];
-    selectedStrategyId = null;
-}
-
-// Update Continue button state based on pre-trade session
-function updateContinueButtonState() {
-    const continueButton = document.getElementById("continue-button");
-    if (!continueButton) return;
-    
-    // Always enabled (pre-trade linking is optional)
-    continueButton.disabled = false;
-    continueButton.style.opacity = "1";
-    continueButton.style.cursor = "pointer";
-}
-
-// Update Pre-Trade UI
-function updatePreTradeUI() {
-    const unlinkButton = document.getElementById("unlink-pretrade-btn");
-    
-    if (linkedPreTradeSessionId && linkedPreTradeSession) {
-        // Show unlink button
-        if (unlinkButton) unlinkButton.style.display = "block";
-        
-        // Update dropdown button text
-        const timeStr = linkedPreTradeSession.time || new Date(linkedPreTradeSession.createdAt * 1000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        const pretradeText = document.getElementById("pretrade-text");
-        if (pretradeText) {
-            pretradeText.innerHTML = `${timeStr} - ${linkedPreTradeSession.symbol || ""} ${linkedPreTradeSession.direction || ""}`;
-        }
-    } else {
-        // Hide unlink button when not linked
-        if (unlinkButton) unlinkButton.style.display = "none";
-        
-        const pretradeText = document.getElementById("pretrade-text");
-        if (pretradeText) {
-            pretradeText.textContent = "Select a Pre-Trade";
-        }
-    }
-    
-    // Update continue button state
-    updateContinueButtonState();
-}
-
-// Unlink pre-trade
-function unlinkPreTrade() {
-    linkedPreTradeSessionId = null;
-    linkedPreTradeSession = null;
-    resetFieldsAfterUnlink();
-    updatePreTradeUI();
-    updateContinueButtonState(); // Disable continue button if no pre-trade
-    
-    // Clear rule compliance display
-    const complianceSection = document.getElementById("rule-compliance-section");
-    if (complianceSection) complianceSection.style.display = "none";
-    ruleComplianceData = null;
-}
-
-// Get checked compliance reasons
-function getCheckedComplianceReasons() {
-    const checkboxes = document.querySelectorAll(".compliance-checkbox:checked");
-    const checkedReasons = [];
-    checkboxes.forEach(checkbox => {
-        checkedReasons.push(checkbox.getAttribute("data-reason"));
-    });
-    return checkedReasons;
-}
-
-// Display rule compliance with checkboxes
-function displayRuleCompliance(compliance) {
-    const section = document.getElementById("rule-compliance-section");
-    const badge = document.getElementById("compliance-badge");
-    const reasons = document.getElementById("compliance-reasons");
-    
-    if (!compliance || compliance.status === "unknown") {
-        if (section) section.style.display = "none";
-        return;
-    }
-    
-    if (section) section.style.display = "block";
-    
-    // Set badge color and text
-    if (compliance.status === "rule-following") {
-        badge.style.backgroundColor = "rgba(0, 255, 153, 0.2)";
-        badge.style.color = "#00ff99";
-        badge.textContent = "âœ“ Rule-Following";
-    } else if (compliance.status === "rule-breaking") {
-        badge.style.backgroundColor = "rgba(255, 23, 68, 0.2)";
-        badge.style.color = "#ff1744";
-        badge.textContent = "âš  Rule-Breaking";
-    } else {
-        badge.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
-        badge.style.color = "#86909a";
-        badge.textContent = "? Unknown";
-    }
-    
-    // Display reasons as checkboxes (checked by default)
-    if (compliance.reasons && compliance.reasons.length > 0) {
-        reasons.innerHTML = "<p class='inter-text' style='color: #86909a; font-size: 13px; margin-top: 15px; margin-bottom: 10px; font-weight: 500;'>AI Identified Issues (uncheck if incorrect):</p>";
-        
-        compliance.reasons.forEach((reason, index) => {
-            const checkboxId = `compliance-reason-${index}`;
-            const checkboxContainer = document.createElement("div");
-            checkboxContainer.className = "compliance-checkbox-item";
-            
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = checkboxId;
-            checkbox.checked = true; // Start checked by default
-            checkbox.className = "compliance-checkbox";
-            checkbox.setAttribute("data-reason", reason);
-            
-            const label = document.createElement("label");
-            label.htmlFor = checkboxId;
-            label.className = "inter-text";
-            label.textContent = reason;
-            
-            checkboxContainer.appendChild(checkbox);
-            checkboxContainer.appendChild(label);
-            reasons.appendChild(checkboxContainer);
-        });
-    } else {
-        reasons.innerHTML = "";
-    }
-}
-
-// Handle URL parameters on page load
-function handleURLParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const preTradeSessionId = urlParams.get('preTradeSessionId');
-    
-    if (preTradeSessionId) {
-        // Auto-link the pre-trade session from URL
-        linkPreTradeSession(preTradeSessionId);
-    }
-}
 
 document.addEventListener("DOMContentLoaded", async () => {
     if (window.getAuthToken) {
@@ -2537,31 +2114,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     reloadPage()
     loadDropDowns()
-
-    updatePreTradeUI();
-    
-    // Fetch recent pre-trades from clientData, then handle URL params
-    fetchRecentPreTrades();
-    handleURLParams();
-    
-    // Pre-trade dropdown button
-    const pretradeDropdownButton = document.getElementById("pretrade-dropdown-button");
-    if (pretradeDropdownButton) {
-        pretradeDropdownButton.addEventListener("click", function() {
-            const dropdown = document.getElementById("pretrade-dropdown");
-            if (dropdown.style.display == "block") {
-                dropdown.style.display = "none";
-            } else {
-                dropdown.style.display = "block";
-            }
-        });
-    }
-    
-    // Unlink pre-trade button
-    const unlinkButton = document.getElementById("unlink-pretrade-btn");
-    if (unlinkButton) {
-        unlinkButton.addEventListener("click", unlinkPreTrade);
-    }
 
     const strategyEditButton = document.getElementById("strategy-edit-button");
     if (strategyEditButton) {

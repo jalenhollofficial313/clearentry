@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VSTC5FD5WG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VSTC5FD5WG');
+</script>
+    <link rel="icon" type="image/png" href="/HomeRewrite/clearentrylogo.png" />
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ClearEntry — Pattern Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/Shared/auth-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="/DashboardRewrite/dashboard.css" />
+    <link rel="stylesheet" href="/AnalyticsRewrite/analytics.css" />
+    <link rel="stylesheet" href="/PatternAnalysisRewrite/pattern-analysis.css" />
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <a class="brand-title" href="/HomeRewrite/index.html" style="color: inherit; text-decoration: none;">ClearEntry</a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <p class="nav-label">Overview</p>
+                    <a class="nav-item " href="/DashboardRewrite/dashboard.html">Dashboard</a>
+                    <a class="nav-item " href="/EntriesRewrite/Entries.html">Journal</a>
+                    <a class="nav-item " href="/TradeLoggingRewrite/tradelogging.html">Trade Logging</a>
+                </div>
+                <div class="nav-section">
+                    <p class="nav-label">Insights</p>
+                    <a class="nav-item is-active" href="/PatternAnalysisRewrite/pattern-analysis.html">Pattern Analysis</a>
+                    <button class="nav-item nav-item-parent " type="button">
+                        Advanced
+                        <span class="nav-caret">&#9662;</span>
+                    </button>
+                    <div class="nav-sub">
+                        <a class="nav-sub-item " href="/AnalyticsRewrite/analytics.html">Analytics</a>
+                        <a class="nav-sub-item " href="/ConsistencyRewrite/consistency.html">Consistency</a>
+                        <a class="nav-sub-item " href="/ReportsRewrite/reports.html?view=overview">Analysis Overview</a>
+                        <a class="nav-sub-item " href="/ReportsRewrite/reports.html?view=smart">Smart Analysis</a>
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <p class="nav-label">Misc</p>
+                    <a class="nav-item " href="/JournalRewrite/journal.html">Notebook</a>
+                    <a class="nav-item " href="/PsychologyRewrite/psychology.html">Psychology</a>
+                    <a class="nav-item " href="/PreTradeRewrite/pretrade.html">Pre Execution</a>
+                </div>
+                <div class="nav-section">
+                    <p class="nav-label">Account</p>
+                    <a class="nav-item " href="/ProfileRewrite/profile.html">Profile</a>
+                    <a class="nav-item " href="/SupportRewrite/support.html">Support</a>
+                    <a class="nav-item " href="/UpdateLogRewrite/updatelog.html">Update Log</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="mobile-nav">
+                    <button class="btn btn-ghost mobile-nav-toggle" type="button" aria-expanded="false">
+                        Menu <i data-lucide="chevron-down"></i>
+                    </button>
+                    <div class="mobile-nav-menu" id="mobile-nav-menu"></div>
+                </div>
+                <div class="breadcrumbs">
+                    <span class="crumb">Insights</span>
+                    <span class="crumb-sep">&rsaquo;</span>
+                    <span class="crumb is-current">Pattern Analysis</span>
+                </div>
+                <div class="topbar-actions">
+                    <a class="btn btn-primary" href="/PreTradeRewrite/pretrade.html">+ Pre Execution</a>
+                    <button class="btn btn-ghost" id="theme-toggle">Dark mode</button>
+                    <div class="avatar"><div class="avatar-dot"></div></div>
+                </div>
+            </header>
+
+            <section class="page">
+                <div class="page-header">
+                    <div>
+                        <h1>Pattern Analysis</h1>
+                        <p class="subtle" id="pa-subtitle">—</p>
+                    </div>
+                </div>
+
+                <div id="pa-no-data" class="pa-empty-state" style="display:none;">
+                    <p>Log at least 5 trades to unlock your pattern insights.</p>
+                </div>
+
+                <div id="pa-content">
+
+                    <!-- Overall Analysis -->
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Overall Analysis</h2>
+                            <p>What your trading data says about you.</p>
+                        </div>
+                        <div class="card pa-overall-card">
+                            <p id="pa-overall" class="pa-overall-text">—</p>
+                        </div>
+                    </div>
+
+                    <!-- Timing -->
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Timing Patterns</h2>
+                            <p>When you trade best and worst.</p>
+                        </div>
+                        <div class="stats-grid metrics-grid">
+                            <div class="card metric-card">
+                                <p class="metric-label">Best Trading Day</p>
+                                <p class="metric-value positive" id="pa-best-day-val">—</p>
+                                <p class="metric-helper" id="pa-best-day-sub">—</p>
+                                <p class="pa-insight" id="pa-best-day-insight">—</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Worst Trading Day</p>
+                                <p class="metric-value negative" id="pa-worst-day-val">—</p>
+                                <p class="metric-helper" id="pa-worst-day-sub">—</p>
+                                <p class="pa-insight" id="pa-worst-day-insight">—</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Highest Win Rate Day</p>
+                                <p class="metric-value positive" id="pa-winrate-day-val">—</p>
+                                <p class="metric-helper" id="pa-winrate-day-sub">—</p>
+                                <p class="pa-insight" id="pa-winrate-day-insight">—</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Setup -->
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Setup Patterns</h2>
+                            <p>What types of trades are working for you.</p>
+                        </div>
+                        <div class="stats-grid metrics-grid">
+                            <div class="card metric-card" id="pa-type-card">
+                                <p class="metric-label">Best Trade Type</p>
+                                <p class="metric-value" id="pa-best-type-val">—</p>
+                                <p class="metric-helper" id="pa-best-type-sub">—</p>
+                                <p class="pa-insight" id="pa-best-type-insight">—</p>
+                            </div>
+                            <div class="card metric-card" id="pa-dir-card">
+                                <p class="metric-label">Best Direction</p>
+                                <p class="metric-value" id="pa-best-dir-val">—</p>
+                                <p class="metric-helper" id="pa-best-dir-sub">—</p>
+                                <p class="pa-insight" id="pa-best-dir-insight">—</p>
+                            </div>
+                            <div class="card metric-card" id="pa-strategy-card">
+                                <p class="metric-label">Best Strategy</p>
+                                <p class="metric-value" id="pa-best-strategy-val">—</p>
+                                <p class="metric-helper" id="pa-best-strategy-sub">—</p>
+                                <p class="pa-insight" id="pa-best-strategy-insight">—</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mental Edge -->
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h2>Mental Edge</h2>
+                            <p>How your mindset correlates with results.</p>
+                        </div>
+                        <div class="stats-grid metrics-grid">
+                            <div class="card metric-card" id="pa-state-card">
+                                <p class="metric-label">Best Mental State</p>
+                                <p class="metric-value positive" id="pa-best-state-val">—</p>
+                                <p class="metric-helper" id="pa-best-state-sub">—</p>
+                                <p class="pa-insight" id="pa-best-state-insight">—</p>
+                            </div>
+                            <div class="card metric-card" id="pa-wstate-card">
+                                <p class="metric-label">Watch-Out State</p>
+                                <p class="metric-value negative" id="pa-worst-state-val">—</p>
+                                <p class="metric-helper" id="pa-worst-state-sub">—</p>
+                                <p class="pa-insight" id="pa-worst-state-insight">—</p>
+                            </div>
+                            <div class="card metric-card">
+                                <p class="metric-label">Reward-to-Risk Edge</p>
+                                <p class="metric-value" id="pa-rr-val">—</p>
+                                <p class="metric-helper" id="pa-rr-sub">—</p>
+                                <p class="pa-insight" id="pa-rr-insight">—</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById("theme-toggle");
+        const setTheme = (mode) => {
+            document.body.classList.toggle("dark", mode === "dark");
+            toggleButton.textContent = mode === "dark" ? "Light mode" : "Dark mode";
+            localStorage.setItem("dashboardTheme", mode);
+        };
+        const storedTheme = localStorage.getItem("dashboardTheme") || "light";
+        setTheme(storedTheme);
+        toggleButton.addEventListener("click", () => {
+            setTheme(document.body.classList.contains("dark") ? "light" : "dark");
+        });
+    </script>
+    <script src="/Shared/reports-nav.js"></script>
+    <script src="/Shared/client-data-lite.js"></script>
+    <script src="/Shared/sidebar-icons.js"></script>
+    <script src="/Shared/mobile-nav.js"></script>
+    <script src="/PatternAnalysisRewrite/pattern-analysis.js"></script>
+</body>
+</html>
